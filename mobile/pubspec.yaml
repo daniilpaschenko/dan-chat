@@ -1,0 +1,38 @@
+name: dan_chat
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  bloc: ^9.2.1
+  flutter_bloc: ^9.1.1
+  go_router: ^17.3.0
+  dio: ^5.10.0
+  socket_io_client: ^3.1.6
+  get_it: ^9.2.1
+  flutter_secure_storage: ^10.3.1
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+  image_picker: ^1.2.3
+  cached_network_image: ^3.4.1
+  hive_ce: ^2.19.3
+  hive_ce_flutter: ^2.3.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.5.4
+  freezed: ^2.5.2
+  json_serializable: ^6.8.0
+  hive_ce_generator: ^1.9.2
+  
+flutter:
+  uses-material-design: true
