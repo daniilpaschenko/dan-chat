@@ -1,4 +1,4 @@
-const rateLimit = required('express-rate-limit');
+const rateLimit = require('express-rate-limit');
 
 // для login, защита от брутфорса пароля
 const loginLimiter = rateLimit({
