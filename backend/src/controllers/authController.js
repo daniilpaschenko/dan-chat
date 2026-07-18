@@ -23,6 +23,17 @@ function toPublicUser(user) {
     };
 }
 
+// создаёт новую refresh-сессию в БД и возвращает сырой токен
+async function issueRefreshToken(userId) {
+    const rawToken = generateRefreshToken();
+    await RefreshToken.create({
+        tokenHash: hashToken(rawToken),
+        userId,
+        expiresAt: getRefreshExpiryDate(),
+    });
+    return rawToken;
+}
+
 exports.register = async (req, res) => {
     try {
         const { error, value } = registerSchema.validate(req.body);
