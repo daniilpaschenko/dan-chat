@@ -1,21 +1,15 @@
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { registerSchema, loginSchema } = require('../validators/authValidator');
+const {
+    signAccessToken,
+    generateRefreshToken,
+    hashToken,
+    getRefreshExpiryDate,
+} = require('../utils/tokenUtils');
+
 
 const SALT_ROUNDS = 12; // для bcrypt hashing
-const JWT_SECRET = process.env.JWT_SECRET;
-const JWT_EXPIRES_IN = '7d';
-
-function signToken(user) {
-    return jwt.sign(
-        // поле _id автоматически генерируется MongoDB,
-        // поэтому мы используем его как уникальный идентификатор пользователя
-        { sub: user._id.toString(), username: user.username },
-        JWT_SECRET,
-        { expiresIn: JWT_EXPIRES_IN }
-    );
-}
 
 // преобразует объект пользователя в формат, который можно безопасно отправлять клиенту
 // (без пароля и других чувствительных данных)
@@ -53,10 +47,12 @@ exports.register = async (req, res) => {
             username,
         });
 
-        const token = signToken(user);
+        const accessToken = signAccessToken(user);
+        const refreshToken = await issueRefreshToken(user._id);
 
         return res.status(201).json({
-            token,
+            accessToken,
+            refreshToken,
             user: toPublicUser(user),
         });
     } catch (err) {
@@ -91,10 +87,12 @@ exports.login = async (req, res) => {
         user.lastSeen = new Date();
         await user.save();
 
-        const token = signToken(user);
+        const accessToken = signAccessToken(user);
+        const refreshToken = await issueRefreshToken(user._id);
 
         return res.status(200).json({
-            token,
+            accessToken,
+            refreshToken,
             user: toPublicUser(user),
         });
     } catch (err) {
