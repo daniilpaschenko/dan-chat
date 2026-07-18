@@ -175,3 +175,29 @@ exports.refresh = async (req, res) => {
         return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
     }
 }
+
+exports.logout = async (req, res) => {
+    try {
+        const { refreshToken: rawToken } = req.body;
+        if (!rawToken) {
+            return res.status(400).json({ message: 'Refresh token отсутствует' });
+        }
+
+        const tokenHash = hashToken(rawToken);
+
+        // просто отзываем этот конкретный токен, если он есть и ещё не отозван
+        // findOneAndUpdate — не бросает ошибку, если ничего не нашлось, просто вернёт null
+        await RefreshToken.findOneAndUpdate(
+            { tokenHash, revoked: false },
+            { revoked: true }
+        );
+
+        // отвечаем 200 в любом случае, даже если токен не нашёлся в базе
+        // (например, юзер уже разлогинен, или токен истёк) 
+        // т.к. с точки зрения клиента результат один и тот же: "ты вышел из системы"
+        return res.status(200).json({ message: 'Вы вышли из системы' });
+    } catch (err) {
+        console.error('logout error:', err);
+        return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
+    }
+};
