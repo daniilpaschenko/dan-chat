@@ -1,0 +1,188 @@
+### Переменные окружения
+@baseUrl = http://localhost:3000
+@contentType = application/json
+
+### 1. Регистрация нового пользователя
+POST {{baseUrl}}/api/auth/register
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example.com",
+  "password": "12345678",
+  "username": "testuser"
+}
+
+### 2. Повторная регистрация тем же email — должна вернуть 409
+POST {{baseUrl}}/api/auth/register
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example.com",
+  "password": "12345678",
+  "username": "testuser2"
+}
+
+### 3. Регистрация с невалидным email — должна вернуть 400 (Joi)
+POST {{baseUrl}}/api/auth/register
+Content-Type: {{contentType}}
+
+{
+  "email": "not-an-email",
+  "password": "12345678",
+  "username": "testuser"
+}
+
+### 4. Регистрация с коротким паролем — должна вернуть 400 (Joi)
+POST {{baseUrl}}/api/auth/register
+Content-Type: {{contentType}}
+
+{
+  "email": "another@example.com",
+  "password": "123",
+  "username": "testuser"
+}
+
+### 5. Логин с верными данными — должен вернуть 200, accessToken и refreshToken
+# @name login
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example.com",
+  "password": "12345678"
+}
+
+### 6. Логин с неверным паролем — должен вернуть 401
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example.com",
+  "password": "wrongpassword"
+}
+
+### 7. Логин с несуществующим email — должен вернуть 401
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "nobody@example.com",
+  "password": "12345678"
+}
+
+### 8. Проверка защищённого роута с accessToken из запроса №5
+GET {{baseUrl}}/api/users/me
+Authorization: Bearer {{login.response.body.accessToken}}
+
+### 9. Проверка защищённого роута БЕЗ токена — должен вернуть 401
+GET {{baseUrl}}/api/users/me
+
+### 10. Проверка защищённого роута с мусорным токеном — должен вернуть 401
+GET {{baseUrl}}/api/users/me
+Authorization: Bearer this.is.garbage
+
+### ===================== REFRESH TOKEN =====================
+
+### 11. Refresh с валидным refreshToken из запроса №5 — должен вернуть 200, НОВЫЙ accessToken и НОВЫЙ refreshToken
+# @name refresh1
+POST {{baseUrl}}/api/auth/refresh
+Content-Type: {{contentType}}
+
+{
+  "refreshToken": "{{login.response.body.refreshToken}}"
+}
+
+### 12. Проверка защищённого роута с новым accessToken из refresh — должен вернуть 200
+GET {{baseUrl}}/api/users/me
+Authorization: Bearer {{refresh1.response.body.accessToken}}
+
+### 13. ПОВТОРНОЕ использование СТАРОГО refreshToken (из запроса №5, уже "сожжённого" в №11)
+### Это симуляция кражи токена — должен вернуть 401 с сообщением про reuse detection
+POST {{baseUrl}}/api/auth/refresh
+Content-Type: {{contentType}}
+
+{
+  "refreshToken": "{{login.response.body.refreshToken}}"
+}
+
+### 14. После сработавшего reuse detection — даже НОВЫЙ токен из refresh1 должен быть отозван
+### (потому что updateMany отозвал ВСЕ токены юзера, включая тот, что мы получили в №11)
+### Должен вернуть 401 "Обнаружено повторное использование..." (т.к. stored.revoked уже true)
+POST {{baseUrl}}/api/auth/refresh
+Content-Type: {{contentType}}
+
+{
+  "refreshToken": "{{refresh1.response.body.refreshToken}}"
+}
+
+### 15. Refresh с несуществующим/поддельным токеном — должен вернуть 401 "Невалидный refresh token"
+POST {{baseUrl}}/api/auth/refresh
+Content-Type: {{contentType}}
+
+{
+  "refreshToken": "this-is-a-completely-fake-token-that-never-existed"
+}
+
+### 16. Refresh без refreshToken в теле — должен вернуть 401 "Refresh token отсутствует"
+POST {{baseUrl}}/api/auth/refresh
+Content-Type: {{contentType}}
+
+{}
+
+### ===================== Повторный чистый цикл после инцидента =====================
+
+### 17. Логин заново (после того как все токены юзера отозваны в п.13) — должен пройти нормально
+# @name login2
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example.com",
+  "password": "12345678"
+}
+
+### 18. Refresh новым токеном из login2 — должен нормально отработать (чистый цикл, без reuse)
+POST {{baseUrl}}/api/auth/refresh
+Content-Type: {{contentType}}
+
+{
+  "refreshToken": "{{login2.response.body.refreshToken}}"
+}
+
+### ===================== LOGOUT =====================
+
+### 19. Логин заново, чтобы получить чистую пару токенов для теста logout
+# @name loginForLogout
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example.com",
+  "password": "12345678"
+}
+
+### 20. Logout с валидным refreshToken — должен вернуть 200
+POST {{baseUrl}}/api/auth/logout
+Content-Type: {{contentType}}
+
+{
+  "refreshToken": "{{loginForLogout.response.body.refreshToken}}"
+}
+
+### 21. Попытка refresh уже отозванным (через logout) токеном — должен вернуть 401 (reuse detection сработает)
+POST {{baseUrl}}/api/auth/refresh
+Content-Type: {{contentType}}
+
+### 22. Повторный logout ТЕМ ЖЕ токеном (уже отозван) — всё равно должен вернуть 200 (идемпотентность)
+POST {{baseUrl}}/api/auth/logout
+Content-Type: {{contentType}}
+
+{
+  "refreshToken": "{{loginForLogout.response.body.refreshToken}}"
+}
+
+### 23. Logout без refreshToken в теле — должен вернуть 400
+POST {{baseUrl}}/api/auth/logout
+Content-Type: {{contentType}}
+
+{}
