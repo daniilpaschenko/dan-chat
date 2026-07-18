@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const refreshTokenSchema = new mongoose.Schema({
-    token: { 
+    tokenHash: { 
         type: String,
         required: true,
         unique: true
@@ -14,6 +14,14 @@ const refreshTokenSchema = new mongoose.Schema({
     expiresAt: {
         type: Date, 
         required: true 
+    },
+    revoked: { // отозван ли токен (при ротации/logout)
+        type: Boolean,
+        default: false 
+    },
+    replacedByHash: {
+        type: String,
+        default: null // хэш токена, которым заменён (для трекинга цепочки)
     },
     createdAt: { 
         type: Date, 
