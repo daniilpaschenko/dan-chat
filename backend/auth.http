@@ -148,3 +148,41 @@ Content-Type: {{contentType}}
 {
   "refreshToken": "{{login2.response.body.refreshToken}}"
 }
+
+### ===================== LOGOUT =====================
+
+### 19. Логин заново, чтобы получить чистую пару токенов для теста logout
+# @name loginForLogout
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example.com",
+  "password": "12345678"
+}
+
+### 20. Logout с валидным refreshToken — должен вернуть 200
+POST {{baseUrl}}/api/auth/logout
+Content-Type: {{contentType}}
+
+{
+  "refreshToken": "{{loginForLogout.response.body.refreshToken}}"
+}
+
+### 21. Попытка refresh уже отозванным (через logout) токеном — должен вернуть 401 (reuse detection сработает)
+POST {{baseUrl}}/api/auth/refresh
+Content-Type: {{contentType}}
+
+### 22. Повторный logout ТЕМ ЖЕ токеном (уже отозван) — всё равно должен вернуть 200 (идемпотентность)
+POST {{baseUrl}}/api/auth/logout
+Content-Type: {{contentType}}
+
+{
+  "refreshToken": "{{loginForLogout.response.body.refreshToken}}"
+}
+
+### 23. Logout без refreshToken в теле — должен вернуть 400
+POST {{baseUrl}}/api/auth/logout
+Content-Type: {{contentType}}
+
+{}
