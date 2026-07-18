@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const RefreshToken = require('../models/RefreshToken');
 const { registerSchema, loginSchema } = require('../validators/authValidator');
 const {
     signAccessToken,
