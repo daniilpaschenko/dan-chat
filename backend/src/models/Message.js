@@ -59,7 +59,17 @@ const messageSchema = new Schema(
             default: false,
         },
     },
-    { timestamps: true }
+    {
+        timestamps: true,
+        toJSON: {
+            transform: (doc, ret) => {
+                ret.id = ret._id.toString();
+                delete ret._id;
+                delete ret.__v;
+                return ret;
+            },
+        },
+    }
 );
 
 // главный индекс под историю чата: выборка по комнате + сортировка по дате
