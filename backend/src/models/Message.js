@@ -63,8 +63,10 @@ const messageSchema = new Schema(
 );
 
 // главный индекс под историю чата: выборка по комнате + сортировка по дате
-// используется для пагинации (createdAt < cursor, limit N)
 messageSchema.index({ room: 1, createdAt: -1 });
+
+// курсорная пагинация у нас идёт по _id: room + _id < cursor
+messageSchema.index({ room: 1, _id: -1 });
 
 // на случай выборки "мои сообщения"
 messageSchema.index({ sender: 1 });
