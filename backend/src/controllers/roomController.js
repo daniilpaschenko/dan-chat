@@ -76,13 +76,13 @@ exports.getMyRooms = async (req, res) => {
         const rooms = await Room.find({ 'participants.user': myId })
             .populate('participants.user', 'username avatarUrl status lastSeen') // 4 нужные поля
             .sort({ updatedAt: -1 }) // чат с недавней активностью будет первым
-            .lean(); // вернуть plain js-объекты
 
         // unreadCount у нас Map<userId, count> — отдаём фронту только счётчик текущего юзера
-        const formatted = rooms.map((room) => ({
-            ...room, // берём все поля
-            unreadCount: room.unreadCount?.[myId] || 0, // возвращаем число непрочитанных сообщений для нашего пользователя
-        }));
+        const formatted = rooms.map((room) => {
+            const json = room.toJSON();
+            json.unreadCount = room.unreadCount.get(myId) || 0;
+            return json;
+        });
 
         return res.json(formatted);
     } catch (err) {
