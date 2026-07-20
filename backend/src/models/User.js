@@ -32,6 +32,18 @@ const userSchema = new Schema({
         type: Date,
         default: Date.now,
     },
-}, { timestamps: true });
+}, {
+    timestamps: true, 
+    toJSON: {
+        transform: (doc, ret) => {
+            ret.id = ret._id.toString();
+            delete ret._id;
+            delete ret.__v;
+            delete ret.passwordHash; // удаляем passwordHash
+            return ret;
+        },
+    },
+}
+);
 
 module.exports = mongoose.model("User", userSchema);
