@@ -87,7 +87,17 @@ const roomSchema = new Schema(
             default: {},
         },
     },
-    { timestamps: true } // чтобы фильтровать чаты по приходящим сообщениям
+    {
+        timestamps: true, // чтобы фильтровать чаты по приходящим сообщениям
+        toJSON: {
+            transform: (doc, ret) => {
+                ret.id = ret._id.toString();
+                delete ret._id;
+                delete ret.__v;
+                return ret;
+            },
+        },
+    }
 );
 
 // быстрый поиск "мои комнаты"
