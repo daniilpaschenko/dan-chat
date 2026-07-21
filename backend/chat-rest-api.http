@@ -1,0 +1,325 @@
+### 
+@baseUrl = http://localhost:3000/api
+
+### 
+@testPassword = Passw0rd!123
+
+
+############################################
+# 1. регистрация двух юзеров
+############################################
+
+# @name registerAlice
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "alice@test.com",
+  "password": "{{testPassword}}",
+  "username": "alice"
+}
+
+###
+
+# @name registerBob
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "bob@test.com",
+  "password": "{{testPassword}}",
+  "username": "bob"
+}
+
+###
+
+@aliceId = {{registerAlice.response.body.$.user.id}}
+@bobId = {{registerBob.response.body.$.user.id}}
+
+
+############################################
+# 2. логин (если юзеры уже были зарегены раньше)
+############################################
+
+# @name loginAlice
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "alice@test.com",
+  "password": "{{testPassword}}"
+}
+
+###
+
+# @name loginBob
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "bob@test.com",
+  "password": "{{testPassword}}"
+}
+
+###
+
+@token1 = {{loginAlice.response.body.$.accessToken}}
+@token2 = {{loginBob.response.body.$.accessToken}}
+@aliceId = {{loginAlice.response.body.$.user.id}}
+@bobId = {{loginBob.response.body.$.user.id}}
+
+
+############################################
+# 3. direct-комната между alice и bob
+############################################
+
+# @name createDirectRoom
+POST {{baseUrl}}/rooms
+Content-Type: application/json
+Authorization: Bearer {{token1}}
+
+{
+  "type": "direct",
+  "participantIds": ["{{bobId}}"]
+}
+
+###
+
+@roomId = {{createDirectRoom.response.body.$.id}}
+
+### проверка дедупликации
+POST {{baseUrl}}/rooms
+Content-Type: application/json
+Authorization: Bearer {{token1}}
+
+{
+  "type": "direct",
+  "participantIds": ["{{bobId}}"]
+}
+
+###
+
+### список комнат alice
+GET {{baseUrl}}/rooms
+Authorization: Bearer {{token1}}
+
+###
+
+### список комнат bob — комната должна быть видна и ему
+GET {{baseUrl}}/rooms
+Authorization: Bearer {{token2}}
+
+###
+
+### одна комната по id
+GET {{baseUrl}}/rooms/{{roomId}}
+Authorization: Bearer {{token1}}
+
+
+############################################
+# 4. Сообщения — наполнение истории
+############################################
+
+### alice -> bob, сообщение 1
+POST {{baseUrl}}/rooms/{{roomId}}/messages
+Content-Type: application/json
+Authorization: Bearer {{token1}}
+
+{ "text": "привет, bob! сообщение 1" }
+
+###
+
+### bob -> alice, сообщение 2
+POST {{baseUrl}}/rooms/{{roomId}}/messages
+Content-Type: application/json
+Authorization: Bearer {{token2}}
+
+{ "text": "привет, alice! сообщение 2" }
+
+###
+
+### alice, сообщение 3
+POST {{baseUrl}}/rooms/{{roomId}}/messages
+Content-Type: application/json
+Authorization: Bearer {{token1}}
+
+{ "text": "сообщение 3" }
+
+###
+
+### bob, сообщение 4
+POST {{baseUrl}}/rooms/{{roomId}}/messages
+Content-Type: application/json
+Authorization: Bearer {{token2}}
+
+{ "text": "сообщение 4" }
+
+###
+
+### alice, сообщение 5
+POST {{baseUrl}}/rooms/{{roomId}}/messages
+Content-Type: application/json
+Authorization: Bearer {{token1}}
+
+{ "text": "сообщение 5" }
+
+
+############################################
+# 5. пагинация истории
+############################################
+
+# @name page1
+GET {{baseUrl}}/rooms/{{roomId}}/messages?limit=2
+Authorization: Bearer {{token1}}
+
+###
+
+@cursor = {{page1.response.body.$.nextCursor}}
+
+### если hasMore=true в предыдущем ответе — тяни следующую страницу так:
+GET {{baseUrl}}/rooms/{{roomId}}/messages?limit=2&before={{cursor}}
+Authorization: Bearer {{token1}}
+
+
+############################################
+# 6. unread / read
+############################################
+
+### у bob должен быть unreadCount > 0 в GET /rooms (он не читал последние сообщения alice)
+GET {{baseUrl}}/rooms
+Authorization: Bearer {{token2}}
+
+###
+
+### bob открыл чат -> обнуляем
+POST {{baseUrl}}/rooms/{{roomId}}/read
+Authorization: Bearer {{token2}}
+
+###
+
+### проверяем что unreadCount теперь 0
+GET {{baseUrl}}/rooms
+Authorization: Bearer {{token2}}
+
+
+############################################
+# 7. группа + права участников
+############################################
+
+# @name createGroup
+POST {{baseUrl}}/rooms
+Content-Type: application/json
+Authorization: Bearer {{token1}}
+
+{
+  "type": "group",
+  "name": "Тестовая группа",
+  "participantIds": ["{{bobId}}"]
+}
+
+###
+
+@groupId = {{createGroup.response.body.$.id}}
+
+### bob (role: member) пытается добавить кого-то — жди 403
+POST {{baseUrl}}/rooms/{{groupId}}/participants
+Content-Type: application/json
+Authorization: Bearer {{token2}}
+
+{ "userId": "{{aliceId}}" }
+
+###
+
+### alice (role: owner) выгоняет bob — жди 200
+DELETE {{baseUrl}}/rooms/{{groupId}}/participants/{{bobId}}
+Authorization: Bearer {{token1}}
+
+
+
+############################################
+# 8. аватарка — загрузка в Cloudinary
+############################################
+
+### 8.1 happy path — alice загружает аватар
+# @name uploadAvatar
+POST {{baseUrl}}/users/me/avatar
+Authorization: Bearer {{token1}}
+Content-Type: multipart/form-data; boundary=----boundary123
+
+------boundary123
+Content-Disposition: form-data; name="avatar"; filename="test-avatar.jpg"
+Content-Type: image/jpeg
+
+< ./test-avatar.jpg
+------boundary123--
+
+###
+
+### проверка: avatarUrl должен быть ссылкой на res.cloudinary.com
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{token1}}
+
+###
+
+### 8.2 повторная загрузка — старый файл должен удалиться из Cloudinary
+# @name uploadAvatarAgain
+POST {{baseUrl}}/users/me/avatar
+Authorization: Bearer {{token1}}
+Content-Type: multipart/form-data; boundary=----boundary123
+
+------boundary123
+Content-Disposition: form-data; name="avatar"; filename="test-avatar.jpg"
+Content-Type: image/jpeg
+
+< ./test-avatar.jpg
+------boundary123--
+
+###
+
+### 8.3 без файла — жди 400 "Файл не был загружен"
+POST {{baseUrl}}/users/me/avatar
+Authorization: Bearer {{token1}}
+Content-Type: multipart/form-data; boundary=----boundary123
+
+------boundary123--
+
+###
+
+### 8.4 неверный тип файла (.txt) — жди 400 из fileFilter
+POST {{baseUrl}}/users/me/avatar
+Authorization: Bearer {{token1}}
+Content-Type: multipart/form-data; boundary=----boundary123
+
+------boundary123
+Content-Disposition: form-data; name="avatar"; filename="test-file.txt"
+Content-Type: text/plain
+
+< ./test-file.txt
+------boundary123--
+
+###
+
+### 8.5 файл больше 5МБ — жди 400 LIMIT_FILE_SIZE
+POST {{baseUrl}}/users/me/avatar
+Authorization: Bearer {{token1}}
+Content-Type: multipart/form-data; boundary=----boundary123
+
+------boundary123
+Content-Disposition: form-data; name="avatar"; filename="test-avatar-big.jpg"
+Content-Type: image/jpeg
+
+< ./test-avatar-big.jpg
+------boundary123--
+
+###
+
+### 8.6 без токена — жди 401
+POST {{baseUrl}}/users/me/avatar
+Content-Type: multipart/form-data; boundary=----boundary123
+
+------boundary123
+Content-Disposition: form-data; name="avatar"; filename="test-avatar.jpg"
+Content-Type: image/jpeg
+
+< ./test-avatar.jpg
+------boundary123--
