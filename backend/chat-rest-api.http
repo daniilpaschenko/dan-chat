@@ -233,3 +233,93 @@ Authorization: Bearer {{token2}}
 ### alice (role: owner) выгоняет bob — жди 200
 DELETE {{baseUrl}}/rooms/{{groupId}}/participants/{{bobId}}
 Authorization: Bearer {{token1}}
+
+
+
+############################################
+# 8. аватарка — загрузка в Cloudinary
+############################################
+
+### 8.1 happy path — alice загружает аватар
+# @name uploadAvatar
+POST {{baseUrl}}/users/me/avatar
+Authorization: Bearer {{token1}}
+Content-Type: multipart/form-data; boundary=----boundary123
+
+------boundary123
+Content-Disposition: form-data; name="avatar"; filename="test-avatar.jpg"
+Content-Type: image/jpeg
+
+< ./test-avatar.jpg
+------boundary123--
+
+###
+
+### проверка: avatarUrl должен быть ссылкой на res.cloudinary.com
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{token1}}
+
+###
+
+### 8.2 повторная загрузка — старый файл должен удалиться из Cloudinary
+# @name uploadAvatarAgain
+POST {{baseUrl}}/users/me/avatar
+Authorization: Bearer {{token1}}
+Content-Type: multipart/form-data; boundary=----boundary123
+
+------boundary123
+Content-Disposition: form-data; name="avatar"; filename="test-avatar.jpg"
+Content-Type: image/jpeg
+
+< ./test-avatar.jpg
+------boundary123--
+
+###
+
+### 8.3 без файла — жди 400 "Файл не был загружен"
+POST {{baseUrl}}/users/me/avatar
+Authorization: Bearer {{token1}}
+Content-Type: multipart/form-data; boundary=----boundary123
+
+------boundary123--
+
+###
+
+### 8.4 неверный тип файла (.txt) — жди 400 из fileFilter
+POST {{baseUrl}}/users/me/avatar
+Authorization: Bearer {{token1}}
+Content-Type: multipart/form-data; boundary=----boundary123
+
+------boundary123
+Content-Disposition: form-data; name="avatar"; filename="test-file.txt"
+Content-Type: text/plain
+
+< ./test-file.txt
+------boundary123--
+
+###
+
+### 8.5 файл больше 5МБ — жди 400 LIMIT_FILE_SIZE
+POST {{baseUrl}}/users/me/avatar
+Authorization: Bearer {{token1}}
+Content-Type: multipart/form-data; boundary=----boundary123
+
+------boundary123
+Content-Disposition: form-data; name="avatar"; filename="test-avatar-big.jpg"
+Content-Type: image/jpeg
+
+< ./test-avatar-big.jpg
+------boundary123--
+
+###
+
+### 8.6 без токена — жди 401
+POST {{baseUrl}}/users/me/avatar
+Content-Type: multipart/form-data; boundary=----boundary123
+
+------boundary123
+Content-Disposition: form-data; name="avatar"; filename="test-avatar.jpg"
+Content-Type: image/jpeg
+
+< ./test-avatar.jpg
+------boundary123--
