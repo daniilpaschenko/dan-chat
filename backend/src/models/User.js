@@ -23,6 +23,10 @@ const userSchema = new Schema({
         type: String,
         default: null,
     },
+    avatarPublicId: { // для удаления старой аватарки
+        type: String,
+        default: null,
+    },
     status: {
         type: String,
         enum: ["online", "offline"],
