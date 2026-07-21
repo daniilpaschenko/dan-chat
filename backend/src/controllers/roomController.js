@@ -59,6 +59,8 @@ exports.createRoom = async (req, res) => {
             participants,
             createdBy: myId,
         });
+        // populate чтобы сделать однообразное поведения для удобства на фронтенде
+        await room.populate('participants.user', 'username avatarUrl status lastSeen');
 
         return res.status(201).json(room);
     } catch (err) {
@@ -168,6 +170,8 @@ exports.addParticipant = async (req, res) => {
 
         room.participants.push({ user: userId, role: 'member' });
         await room.save();
+        // populate чтобы сделать однообразное поведения для удобства на фронтенде
+        await room.populate('participants.user', 'username avatarUrl status lastSeen');
 
         return res.json(room);
     } catch (err) {
@@ -208,6 +212,9 @@ exports.removeParticipant = async (req, res) => {
         }
 
         await room.save();
+        // populate чтобы сделать однообразное поведения для удобства на фронтенде
+        await room.populate('participants.user', 'username avatarUrl status lastSeen');
+        
         return res.json(room);
     } catch (err) {
         console.error('removeParticipant error:', err);
