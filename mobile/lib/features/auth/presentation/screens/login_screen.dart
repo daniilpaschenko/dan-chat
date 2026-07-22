@@ -68,7 +68,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ElevatedButton(
                     // TODO: заменить на реальный вызов AuthBloc
                     onPressed: () async {
-                      await getIt<AuthStateNotifier>().logIn('fake-dev-token');
+                      await getIt<AuthStateNotifier>().logIn(
+                        accessToken: 'fake-dev-access-token',
+                        refreshToken: 'fake-dev-refresh-token',
+                      );
                       if (context.mounted) context.go(RoutePaths.chatList);
                     },
                     child: const Text('Войти'),
