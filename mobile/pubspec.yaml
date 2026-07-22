@@ -24,6 +24,7 @@ dependencies:
   cached_network_image: ^3.4.1
   hive_ce: ^2.19.3
   hive_ce_flutter: ^2.3.4
+  dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:
