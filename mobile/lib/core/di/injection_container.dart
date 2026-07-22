@@ -21,15 +21,19 @@ Future<void> setupDependencies() async {
   );
   getIt.registerLazySingleton<HiveService>(() => HiveService());
 
-  // core/network 
-  getIt.registerLazySingleton<Dio>(
-    () => DioClient(getIt<SecureStorageService>()).build(),
-  );
-
   // core/navigation 
   getIt.registerLazySingleton<AuthStateNotifier>(
     () => AuthStateNotifier(getIt<SecureStorageService>()),
   );
+
+  // core/network 
+  getIt.registerLazySingleton<Dio>(
+    () => DioClient(
+      getIt<SecureStorageService>(),
+      onAuthFailure: () => getIt<AuthStateNotifier>().logOut(),
+    ).build(),
+  );
+
   getIt.registerLazySingleton<GoRouter>(
     () => AppRouter(getIt<AuthStateNotifier>()).build(),
   );
