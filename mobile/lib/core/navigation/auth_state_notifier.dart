@@ -16,21 +16,28 @@ class AuthStateNotifier extends ChangeNotifier {
 
   /// вызывается один раз при старте приложения
   Future<void> init() async {
-    final token = await _secureStorageService.getToken();
+    final token = await _secureStorageService.getAccessToken();
     _isAuthenticated = token != null;
     _isInitialized = true;
     notifyListeners();
   }
 
-  /// временный метод для проверки redirect-логики на голом UI
-  Future<void> logIn(String token) async {
-    await _secureStorageService.saveToken(token);
+  /// вызывается после успешного login/register,
+  /// когда с бэка пришли оба токена
+  Future<void> logIn({
+    required String accessToken,
+    required String refreshToken,
+  }) async {
+    await _secureStorageService.saveTokens(
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+    );
     _isAuthenticated = true;
     notifyListeners();
   }
 
   Future<void> logOut() async {
-    await _secureStorageService.deleteToken();
+    await _secureStorageService.deleteTokens();
     _isAuthenticated = false;
     notifyListeners();
   }
