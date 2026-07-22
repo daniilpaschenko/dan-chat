@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import '../storage/secure_storage_service.dart';
 import 'api_constants.dart';
+import '../../features/auth/data/models/auth_response.dart';
 
 /// собирает готовый dio с baseUrl и interceptor'ом,
 /// который подставляет access token и делает refresh при 401
@@ -96,13 +97,12 @@ class DioClient {
         data: {'refreshToken': refreshToken},
       );
 
-      final newAccessToken = response.data['accessToken'] as String;
-      final newRefreshToken = response.data['refreshToken'] as String;
+      final refreshResponse = RefreshResponse.fromJson(response.data);
 
       // бэкенд ротирует refresh token — старый становится невалидным сразу после использования, поэтому сохраняем оба
       await _secureStorageService.saveTokens(
-        accessToken: newAccessToken,
-        refreshToken: newRefreshToken,
+        accessToken: refreshResponse.accessToken,
+        refreshToken: refreshResponse.refreshToken,
       );
 
       for (final waiter in _refreshWaiters) {
