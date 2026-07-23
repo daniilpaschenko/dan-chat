@@ -93,7 +93,7 @@ class DioClient {
       }
 
       final response = await _refreshDio.post(
-        '/api/auth/refresh',
+        '/auth/refresh',
         data: {'refreshToken': refreshToken},
       );
 
