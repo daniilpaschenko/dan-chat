@@ -9,10 +9,18 @@ import '../network/dio_client.dart';
 import '../storage/hive_service.dart';
 import '../storage/secure_storage_service.dart';
 
+import '../../features/auth/data/datasources/auth_remote_datasource.dart';
+import '../../features/auth/data/repositories/auth_repository.dart';
+import '../../features/auth/domain/interfaces/i_auth_repository.dart';
+import '../../features/auth/domain/usecases/login_usecase.dart';
+import '../../features/auth/domain/usecases/register_usecase.dart';
+import '../../features/auth/domain/usecases/logout_usecase.dart';
+import '../../features/auth/presentation/blocs/auth_bloc.dart';
+
 final GetIt getIt = GetIt.instance;
 
 Future<void> setupDependencies() async {
-  // core/storage 
+  // core/storage
   getIt.registerLazySingleton<FlutterSecureStorage>(
     () => const FlutterSecureStorage(),
   );
@@ -21,12 +29,13 @@ Future<void> setupDependencies() async {
   );
   getIt.registerLazySingleton<HiveService>(() => HiveService());
 
-  // core/navigation 
+  // core/navigation
+  // регистрируем раньше Dio, т.к. DioClient дергает logOut() при провале refresh
   getIt.registerLazySingleton<AuthStateNotifier>(
     () => AuthStateNotifier(getIt<SecureStorageService>()),
   );
 
-  // core/network 
+  // core/network
   getIt.registerLazySingleton<Dio>(
     () => DioClient(
       getIt<SecureStorageService>(),
@@ -38,6 +47,38 @@ Future<void> setupDependencies() async {
     () => AppRouter(getIt<AuthStateNotifier>()).build(),
   );
 
-  // добавятся registerLazySingleton для
-  // AuthRemoteDataSource, AuthRepository, UseCase и т.д.
+  // features/auth/data
+  getIt.registerLazySingleton<AuthRemoteDatasource>(
+    () => AuthRemoteDatasource(getIt<Dio>()),
+  );
+  getIt.registerLazySingleton<IAuthRepository>(
+    () => AuthRepository(
+      getIt<AuthRemoteDatasource>(),
+      getIt<SecureStorageService>(),
+    ),
+  );
+
+  // features/auth/domain
+  getIt.registerLazySingleton<LoginUseCase>(
+    () => LoginUseCase(getIt<IAuthRepository>()),
+  );
+  getIt.registerLazySingleton<RegisterUseCase>(
+    () => RegisterUseCase(getIt<IAuthRepository>()),
+  );
+  getIt.registerLazySingleton<LogoutUseCase>(
+    () => LogoutUseCase(getIt<IAuthRepository>()),
+  );
+
+  // features/auth/presentation
+  // bloc регистрируем как factory потому что
+  // каждый экран, должен получать свежий инстанс со стейтом Initial
+  // а не переиспользовать старый после logout
+  getIt.registerFactory<AuthBloc>(
+    () => AuthBloc(
+      loginUseCase: getIt<LoginUseCase>(),
+      registerUseCase: getIt<RegisterUseCase>(),
+      logoutUseCase: getIt<LogoutUseCase>(),
+      authStateNotifier: getIt<AuthStateNotifier>(),
+    ),
+  );
 }
