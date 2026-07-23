@@ -94,9 +94,6 @@ class _RegisterViewState extends State<_RegisterView> {
         );
       },
       child: Scaffold(
-        appBar: AppBar(
-          leading: BackButton(onPressed: () => context.go(RoutePaths.login)),
-        ),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -109,8 +106,10 @@ class _RegisterViewState extends State<_RegisterView> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      Icon(Icons.chat_bubble_rounded, size: titleSize * 2.2, color: AppColors.primary),
+                      SizedBox(height: smallGap),
                       Text(
-                        'Регистрация',
+                        'DAN',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: titleSize,
@@ -153,6 +152,14 @@ class _RegisterViewState extends State<_RegisterView> {
                                 : const Text('Зарегистрироваться'),
                           );
                         },
+                      ),
+                      SizedBox(height: smallGap),
+                      TextButton(
+                        onPressed: () => context.go(RoutePaths.login),
+                        child: const Text(
+                          'Уже есть аккаунт? Войти',
+                          style: TextStyle(color: AppColors.textSecondary),
+                        ),
                       ),
                     ],
                   ),
