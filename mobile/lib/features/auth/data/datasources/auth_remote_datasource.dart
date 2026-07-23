@@ -13,7 +13,7 @@ class AuthRemoteDatasource {
         required String username,
     }) async {
         final response = await _dio.post(
-            '/api/auth/register',
+            '/auth/register',
             data: {'email': email, 'password': password, 'username': username},
         );
         return AuthResponse.fromJson(response.data);
@@ -25,7 +25,7 @@ class AuthRemoteDatasource {
         required String password,
     }) async {
         final response = await _dio.post(
-            '/api/auth/login',
+            '/auth/login',
             data: {'email': email, 'password': password},
         );
         return AuthResponse.fromJson(response.data);
@@ -33,6 +33,6 @@ class AuthRemoteDatasource {
 
     // выход
     Future<void> logout({required String refreshToken}) async {
-        await _dio.post('/api/auth/logout', data: {'refreshToken': refreshToken});
+        await _dio.post('/auth/logout', data: {'refreshToken': refreshToken});
     }
 }
