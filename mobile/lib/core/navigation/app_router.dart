@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../widgets/placeholder_screen.dart';
+import '../widgets/splash_screen.dart';
 import 'auth_state_notifier.dart';
 import 'route_paths.dart';
 
@@ -12,12 +13,26 @@ class AppRouter {
 
   GoRouter build() {
     return GoRouter(
-      initialLocation: RoutePaths.login,
+      initialLocation: RoutePaths.splash,
       refreshListenable: _authStateNotifier,
       redirect: (context, state) {
+        final isInitialized = _authStateNotifier.isInitialized;
         final isAuthenticated = _authStateNotifier.isAuthenticated;
+        final isSplashRoute = state.matchedLocation == RoutePaths.splash;
         final isAuthRoute = state.matchedLocation == RoutePaths.login ||
             state.matchedLocation == RoutePaths.register;
+
+        // пока init() ещё не завершился (идёт чтение токена из secure storage) —
+        // держим юзера на splash и никуда не редиректим, чтобы не было мигания
+        // login -> chatList при холодном старте с валидным токеном
+        if (!isInitialized) {
+          return isSplashRoute ? null : RoutePaths.splash;
+        }
+
+        // init() завершился
+        if (isSplashRoute) {
+          return isAuthenticated ? RoutePaths.chatList : RoutePaths.login;
+        }
 
         if (!isAuthenticated && !isAuthRoute) {
           return RoutePaths.login;
@@ -25,9 +40,14 @@ class AppRouter {
         if (isAuthenticated && isAuthRoute) {
           return RoutePaths.chatList;
         }
+
         return null;
       },
       routes: [
+        GoRoute(
+          path: RoutePaths.splash,
+          builder: (context, state) => const SplashScreen(),
+        ),
         GoRoute(
           path: RoutePaths.login,
           builder: (context, state) => const LoginScreen(),
