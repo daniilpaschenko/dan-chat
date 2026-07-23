@@ -33,6 +33,8 @@ class _RegisterViewState extends State<_RegisterView> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  bool _isPasswordVisible = false;
+
   @override
   void dispose() {
     _usernameController.dispose();
@@ -133,9 +135,25 @@ class _RegisterViewState extends State<_RegisterView> {
                       SizedBox(height: smallGap),
                       TextFormField(
                         controller: _passwordController,
-                        obscureText: true,
+                        obscureText: !_isPasswordVisible,
                         validator: _validatePassword,
-                        decoration: const InputDecoration(hintText: 'Пароль'),
+                        decoration: InputDecoration(
+                          hintText: 'Пароль',
+                          suffixIcon: IconButton(
+                            icon: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 200),
+                              child: Icon(
+                                _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                key: ValueKey(_isPasswordVisible),
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                            onPressed: () {setState(() {
+                              _isPasswordVisible = !_isPasswordVisible;
+                              });
+                            },
+                          )
+                        ),
                       ),
                       SizedBox(height: formGap),
                       BlocBuilder<AuthBloc, AuthState>(
