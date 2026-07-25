@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/errors/failures.dart';
+import '../../../../core/errors/failure_mapper.dart';
 import '../../../../core/navigation/auth_state_notifier.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/logout_usecase.dart';
@@ -101,14 +102,5 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   // failure превращается в текст для UI
-  String _mapFailureToMessage(Failure failure) {
-    return failure.when(
-      invalidCredentials: () => 'Неверный email или пароль',
-      emailAlreadyInUse: () => 'Пользователь с таким email уже существует',
-      validation: (message) => message,
-      network: () => 'Проверьте подключение к интернету',
-      sessionExpired: () => 'Сессия истекла, войдите заново',
-      unexpected: (message) => 'Что-то пошло не так, попробуйте позже',
-    );
-  }
+  String _mapFailureToMessage(Failure failure) => defaultFailureMessage(failure);
 }
