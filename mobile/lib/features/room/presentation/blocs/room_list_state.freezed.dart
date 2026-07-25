@@ -22,6 +22,7 @@ mixin _$RoomListState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(List<RoomListItem> rooms) loaded,
+    required TResult Function(List<RoomListItem> rooms) refreshing,
     required TResult Function(String message) failure,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -29,6 +30,7 @@ mixin _$RoomListState {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(List<RoomListItem> rooms)? loaded,
+    TResult? Function(List<RoomListItem> rooms)? refreshing,
     TResult? Function(String message)? failure,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -36,6 +38,7 @@ mixin _$RoomListState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<RoomListItem> rooms)? loaded,
+    TResult Function(List<RoomListItem> rooms)? refreshing,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -44,6 +47,7 @@ mixin _$RoomListState {
     required TResult Function(RoomListInitial value) initial,
     required TResult Function(RoomListLoading value) loading,
     required TResult Function(RoomListLoaded value) loaded,
+    required TResult Function(RoomListRefreshing value) refreshing,
     required TResult Function(RoomListFailure value) failure,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -51,6 +55,7 @@ mixin _$RoomListState {
     TResult? Function(RoomListInitial value)? initial,
     TResult? Function(RoomListLoading value)? loading,
     TResult? Function(RoomListLoaded value)? loaded,
+    TResult? Function(RoomListRefreshing value)? refreshing,
     TResult? Function(RoomListFailure value)? failure,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -58,6 +63,7 @@ mixin _$RoomListState {
     TResult Function(RoomListInitial value)? initial,
     TResult Function(RoomListLoading value)? loading,
     TResult Function(RoomListLoaded value)? loaded,
+    TResult Function(RoomListRefreshing value)? refreshing,
     TResult Function(RoomListFailure value)? failure,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -131,6 +137,7 @@ class _$RoomListInitialImpl implements RoomListInitial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(List<RoomListItem> rooms) loaded,
+    required TResult Function(List<RoomListItem> rooms) refreshing,
     required TResult Function(String message) failure,
   }) {
     return initial();
@@ -142,6 +149,7 @@ class _$RoomListInitialImpl implements RoomListInitial {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(List<RoomListItem> rooms)? loaded,
+    TResult? Function(List<RoomListItem> rooms)? refreshing,
     TResult? Function(String message)? failure,
   }) {
     return initial?.call();
@@ -153,6 +161,7 @@ class _$RoomListInitialImpl implements RoomListInitial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<RoomListItem> rooms)? loaded,
+    TResult Function(List<RoomListItem> rooms)? refreshing,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -168,6 +177,7 @@ class _$RoomListInitialImpl implements RoomListInitial {
     required TResult Function(RoomListInitial value) initial,
     required TResult Function(RoomListLoading value) loading,
     required TResult Function(RoomListLoaded value) loaded,
+    required TResult Function(RoomListRefreshing value) refreshing,
     required TResult Function(RoomListFailure value) failure,
   }) {
     return initial(this);
@@ -179,6 +189,7 @@ class _$RoomListInitialImpl implements RoomListInitial {
     TResult? Function(RoomListInitial value)? initial,
     TResult? Function(RoomListLoading value)? loading,
     TResult? Function(RoomListLoaded value)? loaded,
+    TResult? Function(RoomListRefreshing value)? refreshing,
     TResult? Function(RoomListFailure value)? failure,
   }) {
     return initial?.call(this);
@@ -190,6 +201,7 @@ class _$RoomListInitialImpl implements RoomListInitial {
     TResult Function(RoomListInitial value)? initial,
     TResult Function(RoomListLoading value)? loading,
     TResult Function(RoomListLoaded value)? loaded,
+    TResult Function(RoomListRefreshing value)? refreshing,
     TResult Function(RoomListFailure value)? failure,
     required TResult orElse(),
   }) {
@@ -250,6 +262,7 @@ class _$RoomListLoadingImpl implements RoomListLoading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(List<RoomListItem> rooms) loaded,
+    required TResult Function(List<RoomListItem> rooms) refreshing,
     required TResult Function(String message) failure,
   }) {
     return loading();
@@ -261,6 +274,7 @@ class _$RoomListLoadingImpl implements RoomListLoading {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(List<RoomListItem> rooms)? loaded,
+    TResult? Function(List<RoomListItem> rooms)? refreshing,
     TResult? Function(String message)? failure,
   }) {
     return loading?.call();
@@ -272,6 +286,7 @@ class _$RoomListLoadingImpl implements RoomListLoading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<RoomListItem> rooms)? loaded,
+    TResult Function(List<RoomListItem> rooms)? refreshing,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -287,6 +302,7 @@ class _$RoomListLoadingImpl implements RoomListLoading {
     required TResult Function(RoomListInitial value) initial,
     required TResult Function(RoomListLoading value) loading,
     required TResult Function(RoomListLoaded value) loaded,
+    required TResult Function(RoomListRefreshing value) refreshing,
     required TResult Function(RoomListFailure value) failure,
   }) {
     return loading(this);
@@ -298,6 +314,7 @@ class _$RoomListLoadingImpl implements RoomListLoading {
     TResult? Function(RoomListInitial value)? initial,
     TResult? Function(RoomListLoading value)? loading,
     TResult? Function(RoomListLoaded value)? loaded,
+    TResult? Function(RoomListRefreshing value)? refreshing,
     TResult? Function(RoomListFailure value)? failure,
   }) {
     return loading?.call(this);
@@ -309,6 +326,7 @@ class _$RoomListLoadingImpl implements RoomListLoading {
     TResult Function(RoomListInitial value)? initial,
     TResult Function(RoomListLoading value)? loading,
     TResult Function(RoomListLoaded value)? loaded,
+    TResult Function(RoomListRefreshing value)? refreshing,
     TResult Function(RoomListFailure value)? failure,
     required TResult orElse(),
   }) {
@@ -405,6 +423,7 @@ class _$RoomListLoadedImpl implements RoomListLoaded {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(List<RoomListItem> rooms) loaded,
+    required TResult Function(List<RoomListItem> rooms) refreshing,
     required TResult Function(String message) failure,
   }) {
     return loaded(rooms);
@@ -416,6 +435,7 @@ class _$RoomListLoadedImpl implements RoomListLoaded {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(List<RoomListItem> rooms)? loaded,
+    TResult? Function(List<RoomListItem> rooms)? refreshing,
     TResult? Function(String message)? failure,
   }) {
     return loaded?.call(rooms);
@@ -427,6 +447,7 @@ class _$RoomListLoadedImpl implements RoomListLoaded {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<RoomListItem> rooms)? loaded,
+    TResult Function(List<RoomListItem> rooms)? refreshing,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -442,6 +463,7 @@ class _$RoomListLoadedImpl implements RoomListLoaded {
     required TResult Function(RoomListInitial value) initial,
     required TResult Function(RoomListLoading value) loading,
     required TResult Function(RoomListLoaded value) loaded,
+    required TResult Function(RoomListRefreshing value) refreshing,
     required TResult Function(RoomListFailure value) failure,
   }) {
     return loaded(this);
@@ -453,6 +475,7 @@ class _$RoomListLoadedImpl implements RoomListLoaded {
     TResult? Function(RoomListInitial value)? initial,
     TResult? Function(RoomListLoading value)? loading,
     TResult? Function(RoomListLoaded value)? loaded,
+    TResult? Function(RoomListRefreshing value)? refreshing,
     TResult? Function(RoomListFailure value)? failure,
   }) {
     return loaded?.call(this);
@@ -464,6 +487,7 @@ class _$RoomListLoadedImpl implements RoomListLoaded {
     TResult Function(RoomListInitial value)? initial,
     TResult Function(RoomListLoading value)? loading,
     TResult Function(RoomListLoaded value)? loaded,
+    TResult Function(RoomListRefreshing value)? refreshing,
     TResult Function(RoomListFailure value)? failure,
     required TResult orElse(),
   }) {
@@ -484,6 +508,177 @@ abstract class RoomListLoaded implements RoomListState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RoomListLoadedImplCopyWith<_$RoomListLoadedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RoomListRefreshingImplCopyWith<$Res> {
+  factory _$$RoomListRefreshingImplCopyWith(
+    _$RoomListRefreshingImpl value,
+    $Res Function(_$RoomListRefreshingImpl) then,
+  ) = __$$RoomListRefreshingImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<RoomListItem> rooms});
+}
+
+/// @nodoc
+class __$$RoomListRefreshingImplCopyWithImpl<$Res>
+    extends _$RoomListStateCopyWithImpl<$Res, _$RoomListRefreshingImpl>
+    implements _$$RoomListRefreshingImplCopyWith<$Res> {
+  __$$RoomListRefreshingImplCopyWithImpl(
+    _$RoomListRefreshingImpl _value,
+    $Res Function(_$RoomListRefreshingImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of RoomListState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? rooms = null}) {
+    return _then(
+      _$RoomListRefreshingImpl(
+        null == rooms
+            ? _value._rooms
+            : rooms // ignore: cast_nullable_to_non_nullable
+                  as List<RoomListItem>,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$RoomListRefreshingImpl implements RoomListRefreshing {
+  const _$RoomListRefreshingImpl(final List<RoomListItem> rooms)
+    : _rooms = rooms;
+
+  final List<RoomListItem> _rooms;
+  @override
+  List<RoomListItem> get rooms {
+    if (_rooms is EqualUnmodifiableListView) return _rooms;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_rooms);
+  }
+
+  @override
+  String toString() {
+    return 'RoomListState.refreshing(rooms: $rooms)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RoomListRefreshingImpl &&
+            const DeepCollectionEquality().equals(other._rooms, _rooms));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_rooms));
+
+  /// Create a copy of RoomListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RoomListRefreshingImplCopyWith<_$RoomListRefreshingImpl> get copyWith =>
+      __$$RoomListRefreshingImplCopyWithImpl<_$RoomListRefreshingImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<RoomListItem> rooms) loaded,
+    required TResult Function(List<RoomListItem> rooms) refreshing,
+    required TResult Function(String message) failure,
+  }) {
+    return refreshing(rooms);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<RoomListItem> rooms)? loaded,
+    TResult? Function(List<RoomListItem> rooms)? refreshing,
+    TResult? Function(String message)? failure,
+  }) {
+    return refreshing?.call(rooms);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<RoomListItem> rooms)? loaded,
+    TResult Function(List<RoomListItem> rooms)? refreshing,
+    TResult Function(String message)? failure,
+    required TResult orElse(),
+  }) {
+    if (refreshing != null) {
+      return refreshing(rooms);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RoomListInitial value) initial,
+    required TResult Function(RoomListLoading value) loading,
+    required TResult Function(RoomListLoaded value) loaded,
+    required TResult Function(RoomListRefreshing value) refreshing,
+    required TResult Function(RoomListFailure value) failure,
+  }) {
+    return refreshing(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RoomListInitial value)? initial,
+    TResult? Function(RoomListLoading value)? loading,
+    TResult? Function(RoomListLoaded value)? loaded,
+    TResult? Function(RoomListRefreshing value)? refreshing,
+    TResult? Function(RoomListFailure value)? failure,
+  }) {
+    return refreshing?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RoomListInitial value)? initial,
+    TResult Function(RoomListLoading value)? loading,
+    TResult Function(RoomListLoaded value)? loaded,
+    TResult Function(RoomListRefreshing value)? refreshing,
+    TResult Function(RoomListFailure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (refreshing != null) {
+      return refreshing(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class RoomListRefreshing implements RoomListState {
+  const factory RoomListRefreshing(final List<RoomListItem> rooms) =
+      _$RoomListRefreshingImpl;
+
+  List<RoomListItem> get rooms;
+
+  /// Create a copy of RoomListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RoomListRefreshingImplCopyWith<_$RoomListRefreshingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -563,6 +758,7 @@ class _$RoomListFailureImpl implements RoomListFailure {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(List<RoomListItem> rooms) loaded,
+    required TResult Function(List<RoomListItem> rooms) refreshing,
     required TResult Function(String message) failure,
   }) {
     return failure(message);
@@ -574,6 +770,7 @@ class _$RoomListFailureImpl implements RoomListFailure {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(List<RoomListItem> rooms)? loaded,
+    TResult? Function(List<RoomListItem> rooms)? refreshing,
     TResult? Function(String message)? failure,
   }) {
     return failure?.call(message);
@@ -585,6 +782,7 @@ class _$RoomListFailureImpl implements RoomListFailure {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<RoomListItem> rooms)? loaded,
+    TResult Function(List<RoomListItem> rooms)? refreshing,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -600,6 +798,7 @@ class _$RoomListFailureImpl implements RoomListFailure {
     required TResult Function(RoomListInitial value) initial,
     required TResult Function(RoomListLoading value) loading,
     required TResult Function(RoomListLoaded value) loaded,
+    required TResult Function(RoomListRefreshing value) refreshing,
     required TResult Function(RoomListFailure value) failure,
   }) {
     return failure(this);
@@ -611,6 +810,7 @@ class _$RoomListFailureImpl implements RoomListFailure {
     TResult? Function(RoomListInitial value)? initial,
     TResult? Function(RoomListLoading value)? loading,
     TResult? Function(RoomListLoaded value)? loaded,
+    TResult? Function(RoomListRefreshing value)? refreshing,
     TResult? Function(RoomListFailure value)? failure,
   }) {
     return failure?.call(this);
@@ -622,6 +822,7 @@ class _$RoomListFailureImpl implements RoomListFailure {
     TResult Function(RoomListInitial value)? initial,
     TResult Function(RoomListLoading value)? loading,
     TResult Function(RoomListLoaded value)? loaded,
+    TResult Function(RoomListRefreshing value)? refreshing,
     TResult Function(RoomListFailure value)? failure,
     required TResult orElse(),
   }) {

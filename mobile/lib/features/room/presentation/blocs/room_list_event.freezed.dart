@@ -20,32 +20,38 @@ mixin _$RoomListEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadRequested,
+    required TResult Function() refreshRequested,
     required TResult Function(String roomId) roomOpened,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadRequested,
+    TResult? Function()? refreshRequested,
     TResult? Function(String roomId)? roomOpened,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadRequested,
+    TResult Function()? refreshRequested,
     TResult Function(String roomId)? roomOpened,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoadRequested value) loadRequested,
+    required TResult Function(RefreshRequested value) refreshRequested,
     required TResult Function(RoomOpened value) roomOpened,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadRequested value)? loadRequested,
+    TResult? Function(RefreshRequested value)? refreshRequested,
     TResult? Function(RoomOpened value)? roomOpened,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadRequested value)? loadRequested,
+    TResult Function(RefreshRequested value)? refreshRequested,
     TResult Function(RoomOpened value)? roomOpened,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -117,6 +123,7 @@ class _$LoadRequestedImpl implements LoadRequested {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadRequested,
+    required TResult Function() refreshRequested,
     required TResult Function(String roomId) roomOpened,
   }) {
     return loadRequested();
@@ -126,6 +133,7 @@ class _$LoadRequestedImpl implements LoadRequested {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadRequested,
+    TResult? Function()? refreshRequested,
     TResult? Function(String roomId)? roomOpened,
   }) {
     return loadRequested?.call();
@@ -135,6 +143,7 @@ class _$LoadRequestedImpl implements LoadRequested {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadRequested,
+    TResult Function()? refreshRequested,
     TResult Function(String roomId)? roomOpened,
     required TResult orElse(),
   }) {
@@ -148,6 +157,7 @@ class _$LoadRequestedImpl implements LoadRequested {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoadRequested value) loadRequested,
+    required TResult Function(RefreshRequested value) refreshRequested,
     required TResult Function(RoomOpened value) roomOpened,
   }) {
     return loadRequested(this);
@@ -157,6 +167,7 @@ class _$LoadRequestedImpl implements LoadRequested {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadRequested value)? loadRequested,
+    TResult? Function(RefreshRequested value)? refreshRequested,
     TResult? Function(RoomOpened value)? roomOpened,
   }) {
     return loadRequested?.call(this);
@@ -166,6 +177,7 @@ class _$LoadRequestedImpl implements LoadRequested {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadRequested value)? loadRequested,
+    TResult Function(RefreshRequested value)? refreshRequested,
     TResult Function(RoomOpened value)? roomOpened,
     required TResult orElse(),
   }) {
@@ -178,6 +190,119 @@ class _$LoadRequestedImpl implements LoadRequested {
 
 abstract class LoadRequested implements RoomListEvent {
   const factory LoadRequested() = _$LoadRequestedImpl;
+}
+
+/// @nodoc
+abstract class _$$RefreshRequestedImplCopyWith<$Res> {
+  factory _$$RefreshRequestedImplCopyWith(
+    _$RefreshRequestedImpl value,
+    $Res Function(_$RefreshRequestedImpl) then,
+  ) = __$$RefreshRequestedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$RefreshRequestedImplCopyWithImpl<$Res>
+    extends _$RoomListEventCopyWithImpl<$Res, _$RefreshRequestedImpl>
+    implements _$$RefreshRequestedImplCopyWith<$Res> {
+  __$$RefreshRequestedImplCopyWithImpl(
+    _$RefreshRequestedImpl _value,
+    $Res Function(_$RefreshRequestedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$RefreshRequestedImpl implements RefreshRequested {
+  const _$RefreshRequestedImpl();
+
+  @override
+  String toString() {
+    return 'RoomListEvent.refreshRequested()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$RefreshRequestedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loadRequested,
+    required TResult Function() refreshRequested,
+    required TResult Function(String roomId) roomOpened,
+  }) {
+    return refreshRequested();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loadRequested,
+    TResult? Function()? refreshRequested,
+    TResult? Function(String roomId)? roomOpened,
+  }) {
+    return refreshRequested?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loadRequested,
+    TResult Function()? refreshRequested,
+    TResult Function(String roomId)? roomOpened,
+    required TResult orElse(),
+  }) {
+    if (refreshRequested != null) {
+      return refreshRequested();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoadRequested value) loadRequested,
+    required TResult Function(RefreshRequested value) refreshRequested,
+    required TResult Function(RoomOpened value) roomOpened,
+  }) {
+    return refreshRequested(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoadRequested value)? loadRequested,
+    TResult? Function(RefreshRequested value)? refreshRequested,
+    TResult? Function(RoomOpened value)? roomOpened,
+  }) {
+    return refreshRequested?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoadRequested value)? loadRequested,
+    TResult Function(RefreshRequested value)? refreshRequested,
+    TResult Function(RoomOpened value)? roomOpened,
+    required TResult orElse(),
+  }) {
+    if (refreshRequested != null) {
+      return refreshRequested(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class RefreshRequested implements RoomListEvent {
+  const factory RefreshRequested() = _$RefreshRequestedImpl;
 }
 
 /// @nodoc
@@ -251,6 +376,7 @@ class _$RoomOpenedImpl implements RoomOpened {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadRequested,
+    required TResult Function() refreshRequested,
     required TResult Function(String roomId) roomOpened,
   }) {
     return roomOpened(roomId);
@@ -260,6 +386,7 @@ class _$RoomOpenedImpl implements RoomOpened {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadRequested,
+    TResult? Function()? refreshRequested,
     TResult? Function(String roomId)? roomOpened,
   }) {
     return roomOpened?.call(roomId);
@@ -269,6 +396,7 @@ class _$RoomOpenedImpl implements RoomOpened {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadRequested,
+    TResult Function()? refreshRequested,
     TResult Function(String roomId)? roomOpened,
     required TResult orElse(),
   }) {
@@ -282,6 +410,7 @@ class _$RoomOpenedImpl implements RoomOpened {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoadRequested value) loadRequested,
+    required TResult Function(RefreshRequested value) refreshRequested,
     required TResult Function(RoomOpened value) roomOpened,
   }) {
     return roomOpened(this);
@@ -291,6 +420,7 @@ class _$RoomOpenedImpl implements RoomOpened {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadRequested value)? loadRequested,
+    TResult? Function(RefreshRequested value)? refreshRequested,
     TResult? Function(RoomOpened value)? roomOpened,
   }) {
     return roomOpened?.call(this);
@@ -300,6 +430,7 @@ class _$RoomOpenedImpl implements RoomOpened {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadRequested value)? loadRequested,
+    TResult Function(RefreshRequested value)? refreshRequested,
     TResult Function(RoomOpened value)? roomOpened,
     required TResult orElse(),
   }) {

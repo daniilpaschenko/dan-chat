@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/errors/failures.dart';
 import '../../../../core/errors/failure_mapper.dart';
+import '../../../../core/errors/failures.dart';
 import '../../domain/usecases/get_my_rooms_usecase.dart';
 import '../../domain/usecases/mark_room_as_read_usecase.dart';
 
@@ -18,6 +18,7 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
         _markRoomAsReadUseCase = markRoomAsReadUseCase,
         super(const RoomListState.initial()) {
     on<LoadRequested>(_onLoadRequested);
+    on<RefreshRequested>(_onRefreshRequested);
     on<RoomOpened>(_onRoomOpened);
   }
 
@@ -26,7 +27,27 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     Emitter<RoomListState> emit,
   ) async {
     emit(const RoomListState.loading());
+    await _fetchAndEmit(emit);
+  }
 
+  Future<void> _onRefreshRequested(
+    RefreshRequested event,
+    Emitter<RoomListState> emit,
+  ) async {
+    // сохраняем текущий список, если он есть, чтобы UI не показывал
+    // пустой экран/полноэкранный лоадер во время pull-to-refresh
+    final currentRooms = state.mapOrNull(
+      loaded: (s) => s.rooms,
+      refreshing: (s) => s.rooms,
+    );
+
+    emit(RoomListState.refreshing(currentRooms ?? const []));
+    await _fetchAndEmit(emit);
+  }
+
+  // общая логика похода за данными — используется и первой загрузкой, и рефрешем
+  // отличается только состояние ДО вызова
+  Future<void> _fetchAndEmit(Emitter<RoomListState> emit) async {
     final result = await _getMyRoomsUseCase();
 
     result.fold(
@@ -39,22 +60,15 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     RoomOpened event,
     Emitter<RoomListState> emit,
   ) async {
-    // не блокируем UI лоадером, обнуление unreadCount должно быть "фоновым"
-    // юзер уже перешёл в комнату к моменту, когда этот запрос отработает
     final result = await _markRoomAsReadUseCase(event.roomId);
 
     result.fold(
-      // ошибку обнуления unread молча логируем, а не рушим весь экран
       (failure) {},
       (_) {
-        // если текущий стейт уже loaded — оптимистично обнуляем
-        // unreadCount конкретной комнаты в списке без нового запроса на бэкенд
         final currentState = state;
         if (currentState is RoomListLoaded) {
           final updatedRooms = currentState.rooms.map((room) {
-            return room.id == event.roomId
-                ? room.copyWith(unreadCount: 0)
-                : room;
+            return room.id == event.roomId ? room.copyWith(unreadCount: 0) : room;
           }).toList();
           emit(RoomListState.loaded(updatedRooms));
         }
