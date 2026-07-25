@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/errors/failures.dart';
+import '../../../../core/errors/failure_mapper.dart';
 import '../../domain/usecases/get_my_rooms_usecase.dart';
 import '../../domain/usecases/mark_room_as_read_usecase.dart';
 
@@ -62,13 +63,9 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
   }
 
   String _mapFailureToMessage(Failure failure) {
-    return failure.when(
-      invalidCredentials: () => 'Сессия истекла, войдите заново',
-      emailAlreadyInUse: () => 'Что-то пошло не так',
-      validation: (message) => message,
-      network: () => 'Проверьте подключение к интернету',
-      sessionExpired: () => 'Сессия истекла, войдите заново',
-      unexpected: (message) => 'Не удалось загрузить чаты',
+    return failure.maybeWhen(
+      unexpected: (_) => 'Не удалось загрузить чаты',
+      orElse: () => defaultFailureMessage(failure),
     );
   }
 }
