@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import '../../../../core/models/failures.dart';
+import '../../../../core/errors/failures.dart';
 import '../interfaces/i_room_repository.dart';
 
 class MarkRoomAsReadUseCase {

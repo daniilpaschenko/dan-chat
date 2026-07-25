@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
-import '../../../../core/models/failures.dart';
+import '../../../../core/errors/failures.dart';
 import '../../domain/interfaces/i_room_repository.dart';
 import '../datasources/room_remote_datasource.dart';
 import '../models/room.dart';

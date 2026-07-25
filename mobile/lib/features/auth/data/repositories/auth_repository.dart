@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
-import '../../../../core/models/failures.dart';
+import '../../../../core/errors/failures.dart';
 import '../../../../core/storage/secure_storage_service.dart';
 import '../../domain/interfaces/i_auth_repository.dart';
 import '../datasources/auth_remote_datasource.dart';
