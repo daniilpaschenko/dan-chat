@@ -15,6 +15,10 @@ class RoomListState with _$RoomListState {
   // загрузилось, отдаём список комнат
   const factory RoomListState.loaded(List<RoomListItem> rooms) = RoomListLoaded;
 
+  // рефреш поверх уже отображённого списка — старые rooms остаются
+  // на экране, RefreshIndicator крутится, а список не мигает пустотой
+  const factory RoomListState.refreshing(List<RoomListItem> rooms) = RoomListRefreshing;
+
   // ошибка + сообщение об ошибке
   const factory RoomListState.failure(String message) = RoomListFailure;
 }
