@@ -65,13 +65,22 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     result.fold(
       (failure) {},
       (_) {
-        final currentState = state;
-        if (currentState is RoomListLoaded) {
-          final updatedRooms = currentState.rooms.map((room) {
-            return room.id == event.roomId ? room.copyWith(unreadCount: 0) : room;
-          }).toList();
-          emit(RoomListState.loaded(updatedRooms));
-        }
+        // проверяем оба состояния, в которых есть список — loaded и refreshing
+        final currentRooms = state.mapOrNull(
+          loaded: (s) => s.rooms,
+          refreshing: (s) => s.rooms,
+        );
+        if (currentRooms == null) return;
+
+        final updatedRooms = currentRooms.map((room) {
+          return room.id == event.roomId ? room.copyWith(unreadCount: 0) : room;
+        }).toList();
+
+        // сохраняем тот же тип состояния, в котором были
+        state.mapOrNull(
+          loaded: (_) => emit(RoomListState.loaded(updatedRooms)),
+          refreshing: (_) => emit(RoomListState.refreshing(updatedRooms)),
+        );
       },
     );
   }
