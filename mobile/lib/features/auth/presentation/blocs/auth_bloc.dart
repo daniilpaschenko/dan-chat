@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/models/failures.dart';
+import '../../../../core/errors/failures.dart';
 import '../../../../core/navigation/auth_state_notifier.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/logout_usecase.dart';

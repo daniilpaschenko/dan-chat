@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/models/failures.dart';
+import '../../../../core/errors/failures.dart';
 import '../../data/models/auth_response.dart';
 
 abstract class IAuthRepository {

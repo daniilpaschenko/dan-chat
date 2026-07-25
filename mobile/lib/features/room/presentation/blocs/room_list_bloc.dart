@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/models/failures.dart';
+import '../../../../core/errors/failures.dart';
 import '../../domain/usecases/get_my_rooms_usecase.dart';
 import '../../domain/usecases/mark_room_as_read_usecase.dart';
 
