@@ -51,6 +51,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await _authStateNotifier.logIn(
           accessToken: authResponse.accessToken,
           refreshToken: authResponse.refreshToken,
+          userId: authResponse.user.id,
         );
         // успех
         emit(AuthState.success(authResponse));
@@ -77,6 +78,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await _authStateNotifier.logIn(
           accessToken: authResponse.accessToken,
           refreshToken: authResponse.refreshToken,
+          userId: authResponse.user.id,
         );
         emit(AuthState.success(authResponse));
       },
