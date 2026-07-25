@@ -29,6 +29,17 @@ class PlaceholderScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             ElevatedButton(
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(RoutePaths.chatList); // или RoutePaths.home — как у тебя называется
+                }
+              },
+              child: const Text('Назад'),
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton(
               onPressed: () async {
                 await getIt<AuthStateNotifier>().logOut();
                 if (context.mounted) context.go(RoutePaths.login);
