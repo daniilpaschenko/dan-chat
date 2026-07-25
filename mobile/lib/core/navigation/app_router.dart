@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
+import '../../features/room/presentation/screens/room_list_screen.dart';
 import '../widgets/placeholder_screen.dart';
 import '../widgets/splash_screen.dart';
 import 'auth_state_notifier.dart';
@@ -58,9 +59,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutePaths.chatList,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Чаты',
-          ),
+          builder: (context, state) => const RoomListScreen(),
         ),
         GoRoute(
           path: RoutePaths.chatRoom,
@@ -68,6 +67,12 @@ class AppRouter {
             final roomId = state.pathParameters['roomId']!;
             return PlaceholderScreen(title: 'Комната: $roomId');
           },
+        ),
+        GoRoute(
+          path: RoutePaths.profile,
+          builder: (context, state) => const PlaceholderScreen(
+            title: 'Профиль',
+          ),
         ),
       ],
     );
