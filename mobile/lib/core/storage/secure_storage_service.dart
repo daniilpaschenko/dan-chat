@@ -9,6 +9,8 @@ class SecureStorageService {
   static const String _accessTokenKey = 'access_token';
   static const String _refreshTokenKey = 'refresh_token';
 
+  static const String _userIdKey = 'user_id';
+
   Future<void> saveTokens({
     required String accessToken,
     required String refreshToken,
@@ -32,5 +34,14 @@ class SecureStorageService {
   Future<void> deleteTokens() async {
     await _storage.delete(key: _accessTokenKey);
     await _storage.delete(key: _refreshTokenKey);
+    await _storage.delete(key: _userIdKey); // айди пользователя тоже нужно удалить
+  }
+
+  Future<void> saveUserId(String userId) {
+    return _storage.write(key: _userIdKey, value: userId);
+  }
+
+  Future<String?> getUserId() {
+    return _storage.read(key: _userIdKey);
   }
 }
