@@ -69,6 +69,12 @@ class AppRouter {
           },
         ),
         GoRoute(
+          path: RoutePaths.search,
+          builder: (context, state) => const PlaceholderScreen(
+            title: 'Поиск',
+          ),
+        ),
+        GoRoute(
           path: RoutePaths.profile,
           builder: (context, state) => const PlaceholderScreen(
             title: 'Профиль',
