@@ -24,6 +24,8 @@ dependencies:
   cached_network_image: ^3.4.1
   hive_ce: ^2.19.3
   hive_ce_flutter: ^2.3.4
+  dartz: ^0.10.1
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -33,6 +35,21 @@ dev_dependencies:
   freezed: ^2.5.2
   json_serializable: ^6.8.0
   hive_ce_generator: ^1.9.2
+  flutter_native_splash: ^2.4.8
   
 flutter:
   uses-material-design: true
+  assets:
+    - assets/icons/
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/icon.png"
+
+flutter_native_splash:
+  color: "#040A20"
+  image: assets/icons/icon.png
+  android_12:
+    color: "#040A20"
+    image: assets/icons/icon.png
