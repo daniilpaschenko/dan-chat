@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/navigation/auth_state_notifier.dart';
 import '../../../../core/navigation/route_paths.dart';
@@ -238,17 +239,36 @@ class _RoomTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double avatarSize = gap * 1.1;
     return ListTile(
       onTap: onTap,
       contentPadding: EdgeInsets.symmetric(horizontal: gap, vertical: gap * 0.15),
       // круглая аватарка
-      leading: CircleAvatar(
-        backgroundColor: AppColors.primary,
-        backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl!) : null,
-        child: avatarUrl == null
-        // если нет аватарка покажет первую букву имени (+приведёт к верхнему регистру)
-            ? Text(title.isNotEmpty ? title[0].toUpperCase() : '?')
-            : null,
+      leading: ClipOval(
+        child: avatarUrl != null
+            ? CachedNetworkImage(
+                imageUrl: avatarUrl!,
+                width: avatarSize,
+                height: avatarSize,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Container(
+                  width: avatarSize,
+                  height: avatarSize,
+                  color: AppColors.primary,
+                ),
+                // если ошибка, то покажет первую букву имени (+приведёт к верхнему регистру)
+                errorWidget: (context, url, error) => CircleAvatar(
+                  radius: avatarSize / 2,
+                  backgroundColor: AppColors.primary,
+                  child: Text(title.isNotEmpty ? title[0].toUpperCase() : '?'),
+                ),
+              )
+            // если нет аватарки, то покажет первую букву имени (+приведёт к верхнему регистру)
+            : CircleAvatar(
+                radius: avatarSize / 2,
+                backgroundColor: AppColors.primary,
+                child: Text(title.isNotEmpty ? title[0].toUpperCase() : '?'),
+              ),
       ),
       // ellipsis - если длинное название сделает троеточие
       title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
