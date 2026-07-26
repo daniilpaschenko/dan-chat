@@ -31,6 +31,8 @@ exports.createRoom = async (req, res) => {
             });
 
             if (existing) {
+                // для однообразного поведения
+                await existing.populate('participants.user', 'username avatarUrl status lastSeen');
                 return res.status(200).json(existing);
             }
 
