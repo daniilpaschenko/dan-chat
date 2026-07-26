@@ -50,4 +50,7 @@ const userSchema = new Schema({
 }
 );
 
+// для regex-поиска
+userSchema.index({ username: 1 });
+
 module.exports = mongoose.model("User", userSchema);
