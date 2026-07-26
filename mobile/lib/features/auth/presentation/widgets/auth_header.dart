@@ -12,10 +12,10 @@ class AuthHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Icon(
-          Icons.chat_bubble_rounded,
-          size: spacing.titleSize * 2.2,
-          color: AppColors.primary,
+        Image(
+          image: AssetImage('assets/icons/icon_no_background_v1.png'),
+          width: spacing.titleSize * 3.5,
+          height: spacing.titleSize * 3.5,
         ),
         SizedBox(height: spacing.small),
         Text(
