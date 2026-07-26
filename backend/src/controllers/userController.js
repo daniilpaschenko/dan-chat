@@ -23,6 +23,12 @@ const streamUpload = (buffer, publicId) => {
     });
 };
 
+// экранируем спецсимволы regex, чтобы юзер не мог сломать поиск
+// или устроить ReDoS через специально подобранный паттерн
+function escapeRegex(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 exports.getMe = async (req, res) => {
     res.json({ user: req.user });
 };
@@ -55,6 +61,34 @@ exports.uploadAvatar = async (req, res) => {
         return res.status(200).json({ user: updatedUser });
     } catch (err) {
         console.error('uploadAvatar error:', err);
+        return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
+    }
+};
+
+// GET /users/search?query=ali
+// ищет пользователей по username/email (регистронезависимо), исключая себя
+exports.searchUsers = async (req, res) => {
+    try {
+        const myId = req.user.id;
+        const { query } = req.query;
+
+        if (!query || query.trim().length < 3) {
+            return res.status(400).json({ message: 'Минимум 3 символа для поиска' });
+        }
+
+        const safeQuery = escapeRegex(query.trim());
+        const regex = new RegExp(safeQuery, 'i'); // 'i' — регистронезависимый поиск
+
+        const users = await User.find({
+            _id: { $ne: myId }, // исключаем себя из результатов
+            $or: [{ username: regex }],
+        })
+            .select('username avatarUrl status lastSeen') // не отдаём email/passwordHash всем подряд
+            .limit(5); // защита от слишком тяжёлых запросов
+
+        return res.json(users);
+    } catch (err) {
+        console.error('searchUsers error:', err);
         return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
     }
 };
