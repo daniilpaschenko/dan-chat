@@ -119,7 +119,7 @@ class _RoomListViewState extends State<_RoomListView> {
                 controller: _searchController,
                 onChanged: (value) => setState(() => _query = value),
                 decoration: InputDecoration(
-                  hintText: 'Поиск чатов и пользователей',
+                  hintText: 'Поиск чатов',
                   prefixIcon: const Icon(Icons.search),
                   fillColor: AppColors.surface,
                 ),
@@ -150,10 +150,12 @@ class _RoomListViewState extends State<_RoomListView> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: 0,
         onDestinationSelected: (index) {
-          if (index == 1) context.go(RoutePaths.profile);
+          if (index == 1) context.go(RoutePaths.search);
+          if (index == 2) context.go(RoutePaths.profile);
         },
         destinations: const [
           NavigationDestination(icon: Icon(Icons.chat_bubble_outline), label: 'Чаты'),
+          NavigationDestination(icon: Icon(Icons.search_outlined), label: "Поиск"),
           NavigationDestination(icon: Icon(Icons.person_outline), label: 'Профиль'),
         ],
       ),
