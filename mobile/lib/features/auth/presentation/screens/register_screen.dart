@@ -4,9 +4,14 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/navigation/route_paths.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/utils/validators.dart';
+import '../../../../core/widgets/password_field.dart';
 import '../blocs/auth_bloc.dart';
 import '../blocs/auth_event.dart';
-import '../blocs/auth_state.dart';
+import '../widgets/auth_form_scaffold.dart';
+import '../widgets/auth_header.dart';
+import '../widgets/auth_submit_button.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -33,8 +38,6 @@ class _RegisterViewState extends State<_RegisterView> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  bool _isPasswordVisible = false;
-
   @override
   void dispose() {
     _usernameController.dispose();
@@ -55,137 +58,47 @@ class _RegisterViewState extends State<_RegisterView> {
         );
   }
 
-  String? _validateUsername(String? value) {
-    if (value == null || value.trim().isEmpty) return 'Введите имя пользователя';
-    if (value.trim().length < 3) return 'Минимум 3 символа';
-    if (value.trim().length > 16) return 'Максимум 16 символов';
-    return null;
-  }
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.trim().isEmpty) return 'Введите email';
-    final emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
-    if (!emailRegex.hasMatch(value.trim())) return 'Некорректный email';
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) return 'Введите пароль';
-    if (value.length < 8) return 'Минимум 8 символов';
-    if (value.length > 24) return 'Максимум 24 символа';
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final double screenW = MediaQuery.of(context).size.width.clamp(0.0, 600.0);
-    final double titleSize = screenW * 0.05;
-    final double smallGap = screenW * 0.03;
-    final double mediumGap = screenW * 0.08;
-    final double formGap = screenW * 0.06;
+    final spacing = AppSpacing.of(context);
 
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        state.whenOrNull(
-          success: (_) => context.go(RoutePaths.chatList),
-          failure: (message) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(message)),
-            );
-          },
-        );
-      },
-      child: Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: formGap),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 400),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Icon(Icons.chat_bubble_rounded, size: titleSize * 2.2, color: AppColors.primary),
-                      SizedBox(height: smallGap),
-                      Text(
-                        'DAN',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: titleSize,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                      SizedBox(height: mediumGap),
-                      TextFormField(
-                        controller: _usernameController,
-                        validator: _validateUsername,
-                        decoration: const InputDecoration(hintText: 'Имя пользователя'),
-                      ),
-                      SizedBox(height: smallGap),
-                      TextFormField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        validator: _validateEmail,
-                        decoration: const InputDecoration(hintText: 'Email'),
-                      ),
-                      SizedBox(height: smallGap),
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: !_isPasswordVisible,
-                        validator: _validatePassword,
-                        decoration: InputDecoration(
-                          hintText: 'Пароль',
-                          suffixIcon: IconButton(
-                            icon: AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 200),
-                              child: Icon(
-                                _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                                key: ValueKey(_isPasswordVisible),
-                                color: AppColors.textSecondary,
-                              ),
-                            ),
-                            onPressed: () {setState(() {
-                              _isPasswordVisible = !_isPasswordVisible;
-                              });
-                            },
-                          )
-                        ),
-                      ),
-                      SizedBox(height: formGap),
-                      BlocBuilder<AuthBloc, AuthState>(
-                        builder: (context, state) {
-                          final isLoading = state is AuthLoading;
-                          return ElevatedButton(
-                            onPressed: isLoading ? null : _submit,
-                            child: isLoading
-                                ? const SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(strokeWidth: 2),
-                                  )
-                                : const Text('Зарегистрироваться'),
-                          );
-                        },
-                      ),
-                      SizedBox(height: smallGap),
-                      TextButton(
-                        onPressed: () => context.go(RoutePaths.login),
-                        child: const Text(
-                          'Уже есть аккаунт? Войти',
-                          style: TextStyle(color: AppColors.textSecondary),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+    return AuthFormScaffold(
+      formKey: _formKey,
+      horizontalPadding: spacing.form,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AuthHeader(spacing: spacing),
+          SizedBox(height: spacing.medium),
+          TextFormField(
+            controller: _usernameController,
+            validator: Validators.username,
+            decoration: const InputDecoration(hintText: 'Имя пользователя'),
+          ),
+          SizedBox(height: spacing.small),
+          TextFormField(
+            controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
+            validator: Validators.email,
+            decoration: const InputDecoration(hintText: 'Email'),
+          ),
+          SizedBox(height: spacing.small),
+          PasswordField(
+            controller: _passwordController,
+            validator: Validators.password,
+          ),
+          SizedBox(height: spacing.form),
+          AuthSubmitButton(label: 'Зарегистрироваться', onPressed: _submit),
+          SizedBox(height: spacing.small),
+          TextButton(
+            onPressed: () => context.go(RoutePaths.login),
+            child: const Text(
+              'Уже есть аккаунт? Войти',
+              style: TextStyle(color: AppColors.textSecondary),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

@@ -5,6 +5,7 @@ import '../../../../core/di/injection_container.dart';
 import '../../../../core/navigation/auth_state_notifier.dart';
 import '../../../../core/navigation/route_paths.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../data/models/room.dart';
 import '../../../user/data/models/user_model.dart';
 import '../blocs/room_list_bloc.dart';
@@ -99,11 +100,7 @@ class _RoomListViewState extends State<_RoomListView> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenW = MediaQuery.of(context).size.width.clamp(0.0, 600.0);
-    // final double titleSize = screenW * 0.05;
-    final double smallGap = screenW * 0.03;
-    final double mediumGap = screenW * 0.08;
-    final double formGap = screenW * 0.06;
+    final spacing = AppSpacing.of(context);
 
     // currentUserId читаем напрямую из AuthStateNotifier
     final currentUserId = getIt<AuthStateNotifier>().currentUserId;
@@ -117,7 +114,7 @@ class _RoomListViewState extends State<_RoomListView> {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: formGap, vertical: smallGap),
+              padding: EdgeInsets.symmetric(horizontal: spacing.form, vertical: spacing.small),
               child: TextField(
                 controller: _searchController,
                 onChanged: (value) => setState(() => _query = value),
@@ -136,13 +133,13 @@ class _RoomListViewState extends State<_RoomListView> {
                     loading: () => const Center(child: CircularProgressIndicator()),
                     failure: (message) => _ErrorView(
                       message: message,
-                      gap: mediumGap,
+                      gap: spacing.medium,
                       onRetry: () => context
                           .read<RoomListBloc>()
                           .add(const RoomListEvent.loadRequested()),
                     ),
-                    loaded: (rooms) => _buildList(context, rooms, currentUserId, formGap: formGap),
-                    refreshing: (rooms) => _buildList(context, rooms, currentUserId, formGap: formGap),
+                    loaded: (rooms) => _buildList(context, rooms, currentUserId, formGap: spacing.form),
+                    refreshing: (rooms) => _buildList(context, rooms, currentUserId, formGap: spacing.form),
                   );
                 },
               ),
@@ -259,12 +256,11 @@ class _RoomTile extends StatelessWidget {
       // счётчик непрочитанных сообщений
       trailing: unreadCount > 0
           ? CircleAvatar(
-              radius: 10,
+              radius: gap * 0.33,
               backgroundColor: AppColors.primary,
               child: Text(
                 unreadCount > 99 ? '99+' : '$unreadCount',
-                // TODO: заменить на titleSize
-                style: const TextStyle(fontSize: 11, color: Colors.white),
+                style: TextStyle(fontSize: gap * 0.28, color: Colors.white),
               ),
             )
           : null,
