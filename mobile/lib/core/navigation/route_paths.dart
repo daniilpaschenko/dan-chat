@@ -13,6 +13,9 @@ class RoutePaths {
   // PROFILE
   static const String profile = '/profile';
 
+  // SEARCH
+  static const String search = '/search';
+
   // ДРУГОЕ
   static const String splash = '/splash';
 }
