@@ -11,7 +11,8 @@ class HiveService {
     // храним закэшированные комнаты как JSON-строку
     await Hive.openBox(roomsBoxName);
 
-    // await Hive.openBox(messagesBoxName);
+    // сообщения
+    await Hive.openBox(messagesBoxName);
     // await Hive.openBox(userBoxName);
   }
 
@@ -19,8 +20,8 @@ class HiveService {
   // чтобы не было утечки данных между разными аккаунтами на одном устройстве
   Future<void> clearAll() async {
     await Hive.box(roomsBoxName).clear();
-
-    // await Hive.box(messagesBoxName).clear();
+    await Hive.box(messagesBoxName).clear();
+    
     // await Hive.box(userBoxName).clear();
   }
 }
