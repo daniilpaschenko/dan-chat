@@ -4,7 +4,9 @@ import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/room/presentation/screens/room_list_screen.dart';
 import '../../features/user/presentation/screens/search_screen.dart';
+import '../../features/message/presentation/screens/chat_room_screen.dart';
 import '../navigation/app_shell.dart';
+import '../../features/room/data/models/room.dart';
 import '../widgets/placeholder_screen.dart';
 import '../widgets/splash_screen.dart';
 import 'auth_state_notifier.dart';
@@ -72,10 +74,10 @@ class AppRouter {
         GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: RoutePaths.chatRoom,
-          builder: (context, state) {
-            final roomId = state.pathParameters['roomId']!;
-            return PlaceholderScreen(title: 'Комната: $roomId');
-          },
+          builder: (context, state) => ChatRoomScreen(
+            roomId: state.pathParameters['roomId']!,
+            room: state.extra as RoomListItem?, 
+          )
         ),
         GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
