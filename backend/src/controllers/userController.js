@@ -83,6 +83,7 @@ exports.searchUsers = async (req, res) => {
             _id: { $ne: myId }, // исключаем себя из результатов
             $or: [{ username: regex }],
         })
+            // совместим на фронтенде с PartialUser 
             .select('username avatarUrl status lastSeen') // не отдаём email/passwordHash всем подряд
             .limit(5); // защита от слишком тяжёлых запросов
 
