@@ -30,7 +30,7 @@ const userSchema = new Schema({
     status: {
         type: String,
         enum: ["online", "offline"],
-        default: "online",
+        default: "offline", // логичнее поставить offline
     },
     lastSeen: {
         type: Date,
