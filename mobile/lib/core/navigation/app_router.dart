@@ -80,6 +80,12 @@ class AppRouter {
             title: 'Профиль',
           ),
         ),
+        GoRoute(
+          path: RoutePaths.userProfile,
+          builder: (context, state) => const PlaceholderScreen(
+            title: 'Профиль другого пользователя',
+          ),
+        ),
       ],
     );
   }
