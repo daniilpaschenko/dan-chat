@@ -32,6 +32,13 @@ import '../../features/room/domain/usecases/add_participant_usecase.dart';
 import '../../features/room/domain/usecases/remove_participant_usecase.dart';
 import '../../features/room/presentation/blocs/room_list_bloc.dart';
 
+// USER
+import '../../features/user/data/datasources/user_remote_datasource.dart';
+import '../../features/user/data/repositories/user_repository.dart';
+import '../../features/user/domain/interfaces/i_user_repository.dart';
+import '../../features/user/domain/usecases/search_users_usecase.dart';
+import '../../features/user/presentation/blocs/search/search_bloc.dart';
+
 final GetIt getIt = GetIt.instance;
 
 Future<void> setupDependencies() async {
@@ -134,5 +141,24 @@ Future<void> setupDependencies() async {
       getMyRoomsUseCase: getIt<GetMyRoomsUseCase>(),
       markRoomAsReadUseCase: getIt<MarkRoomAsReadUseCase>(),
     ),
+  );
+
+  // features/user/data
+  getIt.registerLazySingleton<UserRemoteDatasource>(
+    () => UserRemoteDatasource(getIt<Dio>()),
+  );
+  getIt.registerLazySingleton<IUserRepository>(
+    () => UserRepository(getIt<UserRemoteDatasource>()),
+  );
+
+  // features/user/domain
+  getIt.registerLazySingleton<SearchUsersUseCase>(
+    () => SearchUsersUseCase(getIt<IUserRepository>()),
+  );
+
+  // features/user/presentation - SearchBloc
+  // также нужен чистый Initial при заходе
+  getIt.registerFactory<SearchBloc>(
+    () => SearchBloc(searchUsersUseCase: getIt<SearchUsersUseCase>()),
   );
 }

@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
 import '../../../../core/errors/failures.dart';
+import '../../../../core/errors/dio_exception_mapper.dart';
 import '../../domain/interfaces/i_room_repository.dart';
 import '../datasources/room_remote_datasource.dart';
 import '../models/room.dart';
@@ -106,28 +107,17 @@ class RoomRepository implements IRoomRepository {
   }
 
   Failure _mapDioException(DioException e) {
-    final isConnectivityIssue = e.type == DioExceptionType.connectionTimeout ||
-        e.type == DioExceptionType.receiveTimeout ||
-        e.type == DioExceptionType.connectionError;
-
-    if (isConnectivityIssue) {
-      return const Failure.network();
-    }
-
-    final statusCode = e.response?.statusCode;
-    final message = e.response?.data is Map
-        ? (e.response?.data['message'] as String?) ?? 'Неизвестная ошибка'
-        : 'Неизвестная ошибка';
-
-    switch (statusCode) {
-      case 400:
-        return Failure.validation(message);
-      case 403:
-        return Failure.validation(message); // "нет доступа/прав" — тоже нативно подходит под validation-текст
-      case 404:
-        return Failure.validation(message);
-      default:
-        return Failure.unexpected(message);
-    }
+    return mapDioExceptionToFailure(
+      e,
+      statusOverride: (statusCode, message) {
+        switch (statusCode) {
+          case 403:
+          case 404:
+            return Failure.validation(message);
+          default:
+            return null;
+        }
+      },
+    );
   }
 }
