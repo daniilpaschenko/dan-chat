@@ -1,13 +1,26 @@
 import 'package:hive_ce_flutter/hive_flutter.dart';
 
-/// регистрировать TypeAdapter'ы перед открытием боксов
 class HiveService {
   static const String roomsBoxName = 'rooms_box';
   static const String messagesBoxName = 'messages_box';
+  static const String userBoxName = 'user_box'; // для профиля
 
   Future<void> init() async {
     await Hive.initFlutter();
-    // Hive.registerAdapter(RoomModelAdapter());
-    // Hive.registerAdapter(MessageModelAdapter());
+
+    // храним закэшированные комнаты как JSON-строку
+    await Hive.openBox(roomsBoxName);
+
+    // await Hive.openBox(messagesBoxName);
+    // await Hive.openBox(userBoxName);
+  }
+
+  // вызывается при logOut — чистим весь локальный кэш,
+  // чтобы не было утечки данных между разными аккаунтами на одном устройстве
+  Future<void> clearAll() async {
+    await Hive.box(roomsBoxName).clear();
+
+    // await Hive.box(messagesBoxName).clear();
+    // await Hive.box(userBoxName).clear();
   }
 }
