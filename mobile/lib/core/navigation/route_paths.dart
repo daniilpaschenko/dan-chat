@@ -12,6 +12,7 @@ class RoutePaths {
   
   // PROFILE
   static const String profile = '/profile';
+  static const String userProfile = '/profile/:userId';
 
   // SEARCH
   static const String search = '/search';

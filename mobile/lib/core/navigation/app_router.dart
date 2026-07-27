@@ -1,7 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/room/presentation/screens/room_list_screen.dart';
+import '../../features/user/presentation/screens/search_screen.dart';
+import '../navigation/app_shell.dart';
 import '../widgets/placeholder_screen.dart';
 import '../widgets/splash_screen.dart';
 import 'auth_state_notifier.dart';
@@ -12,8 +15,15 @@ class AppRouter {
 
   AppRouter(this._authStateNotifier);
 
+  // root — для splash/auth/модальных экранов вне навбара, остальные — по одному на каждую вкладку боттом навбара
+  static final _rootNavigatorKey = GlobalKey<NavigatorState>();
+  static final _chatsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'chats');
+  static final _searchNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'search');
+  static final _profileNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
+
   GoRouter build() {
     return GoRouter(
+      navigatorKey: _rootNavigatorKey,
       initialLocation: RoutePaths.splash,
       refreshListenable: _authStateNotifier,
       redirect: (context, state) {
@@ -57,11 +67,10 @@ class AppRouter {
           path: RoutePaths.register,
           builder: (context, state) => const RegisterScreen(),
         ),
+
+        // экраны вне навбара — открываются поверх текущего таба, без него
         GoRoute(
-          path: RoutePaths.chatList,
-          builder: (context, state) => const RoomListScreen(),
-        ),
-        GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
           path: RoutePaths.chatRoom,
           builder: (context, state) {
             final roomId = state.pathParameters['roomId']!;
@@ -69,16 +78,47 @@ class AppRouter {
           },
         ),
         GoRoute(
-          path: RoutePaths.search,
+          parentNavigatorKey: _rootNavigatorKey,
+          path: RoutePaths.userProfile,
           builder: (context, state) => const PlaceholderScreen(
-            title: 'Поиск',
+            title: 'Профиль другого пользователя',
           ),
         ),
-        GoRoute(
-          path: RoutePaths.profile,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Профиль',
-          ),
+
+        // три вкладки с навбаром
+        StatefulShellRoute.indexedStack(
+          builder: (context, state, navigationShell) => AppShell(navigationShell: navigationShell),
+          branches: [
+            StatefulShellBranch(
+              navigatorKey: _chatsNavigatorKey,
+              routes: [
+                GoRoute(
+                  path: RoutePaths.chatList,
+                  builder: (context, state) => const RoomListScreen(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: _searchNavigatorKey,
+              routes: [
+                GoRoute(
+                  path: RoutePaths.search,
+                  builder: (context, state) => const SearchScreen(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: _profileNavigatorKey,
+              routes: [
+                GoRoute(
+                  path: RoutePaths.profile,
+                  builder: (context, state) => const PlaceholderScreen(
+                    title: 'Профиль',
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ],
     );
