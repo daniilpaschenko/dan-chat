@@ -22,6 +22,7 @@ import '../../features/auth/presentation/blocs/auth_bloc.dart';
 
 // ROOM
 import '../../features/room/data/datasources/room_remote_datasource.dart';
+import '../../features/room/data/datasources/room_local_datasource.dart';
 import '../../features/room/data/repositories/room_repository.dart';
 import '../../features/room/domain/interfaces/i_room_repository.dart';
 import '../../features/room/domain/usecases/get_my_rooms_usecase.dart';
@@ -54,7 +55,7 @@ Future<void> setupDependencies() async {
   // core/navigation
   // регистрируем раньше Dio, т.к. DioClient дергает logOut() при провале refresh
   getIt.registerLazySingleton<AuthStateNotifier>(
-    () => AuthStateNotifier(getIt<SecureStorageService>()),
+    () => AuthStateNotifier(getIt<SecureStorageService>(), getIt<HiveService>()),
   );
 
   // core/network
@@ -108,8 +109,12 @@ Future<void> setupDependencies() async {
   getIt.registerLazySingleton<RoomRemoteDatasource>(
     () => RoomRemoteDatasource(getIt<Dio>()),
   );
+  getIt.registerLazySingleton(() => RoomLocalDatasource());
   getIt.registerLazySingleton<IRoomRepository>(
-    () => RoomRepository(getIt<RoomRemoteDatasource>()),
+    () => RoomRepository(
+      getIt<RoomRemoteDatasource>(),
+      getIt<RoomLocalDatasource>()
+    ),
   );
 
   // features/room/domain
