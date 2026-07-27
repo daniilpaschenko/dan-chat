@@ -73,14 +73,6 @@ class AppRouter {
         // экраны вне навбара — открываются поверх текущего таба, без него
         GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
-          path: RoutePaths.chatRoom,
-          builder: (context, state) => ChatRoomScreen(
-            roomId: state.pathParameters['roomId']!,
-            room: state.extra as RoomListItem?, 
-          )
-        ),
-        GoRoute(
-          parentNavigatorKey: _rootNavigatorKey,
           path: RoutePaths.userProfile,
           builder: (context, state) => const PlaceholderScreen(
             title: 'Профиль другого пользователя',
@@ -97,6 +89,17 @@ class AppRouter {
                 GoRoute(
                   path: RoutePaths.chatList,
                   builder: (context, state) => const RoomListScreen(),
+                  routes: [
+                    // ChatRoom — подмаршрут chatList
+                    GoRoute(
+                      path: 'room/:roomId',
+                      parentNavigatorKey: _chatsNavigatorKey, // используем тот же навигатор
+                      builder: (context, state) => ChatRoomScreen(
+                        roomId: state.pathParameters['roomId']!,
+                        room: state.extra as RoomListItem?, 
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
