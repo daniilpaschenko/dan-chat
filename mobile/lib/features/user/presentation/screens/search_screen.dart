@@ -160,7 +160,7 @@ class _UserTile extends StatelessWidget {
       title: Text(user.username, maxLines: 1, overflow: TextOverflow.ellipsis),
       subtitle: user.status != null
           ? Text(
-              user.status == UserStatus.online ? 'В сети' : 'Не в сети',
+              user.status == UserStatus.online ? 'в сети' : 'не в сети',
               style: TextStyle(
                 color: user.status == UserStatus.online ? AppColors.primary : AppColors.textSecondary,
                 fontSize: gap * 0.3,
