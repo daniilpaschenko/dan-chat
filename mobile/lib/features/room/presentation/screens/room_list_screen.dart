@@ -198,7 +198,10 @@ class _RoomListViewState extends State<_RoomListView> {
                   gap: formGap,
                   onTap: () {
                     context.read<RoomListBloc>().add(RoomListEvent.roomOpened(room.id));
-                    context.go(RoutePaths.chatRoom.replaceFirst(':roomId', room.id));
+                    context.go(
+                      RoutePaths.chatRoom.replaceFirst(':roomId', room.id),
+                      extra: room, // передаём уже загруженный RoomListItem для заголовка
+                    );
                   },
                 );
               },
