@@ -1,0 +1,328 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
+part of 'chat_room_state.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
+
+/// @nodoc
+mixin _$ChatRoomState {
+  String get roomId => throw _privateConstructorUsedError;
+  List<Message> get messages =>
+      throw _privateConstructorUsedError; // от старых к новым
+  bool get isInitialLoading => throw _privateConstructorUsedError;
+  bool get isLoadingMore => throw _privateConstructorUsedError;
+  bool get isSending => throw _privateConstructorUsedError;
+  String? get nextCursor => throw _privateConstructorUsedError;
+  bool get hasMore => throw _privateConstructorUsedError;
+  String? get errorMessage => throw _privateConstructorUsedError;
+
+  /// Create a copy of ChatRoomState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ChatRoomStateCopyWith<ChatRoomState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChatRoomStateCopyWith<$Res> {
+  factory $ChatRoomStateCopyWith(
+    ChatRoomState value,
+    $Res Function(ChatRoomState) then,
+  ) = _$ChatRoomStateCopyWithImpl<$Res, ChatRoomState>;
+  @useResult
+  $Res call({
+    String roomId,
+    List<Message> messages,
+    bool isInitialLoading,
+    bool isLoadingMore,
+    bool isSending,
+    String? nextCursor,
+    bool hasMore,
+    String? errorMessage,
+  });
+}
+
+/// @nodoc
+class _$ChatRoomStateCopyWithImpl<$Res, $Val extends ChatRoomState>
+    implements $ChatRoomStateCopyWith<$Res> {
+  _$ChatRoomStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ChatRoomState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? roomId = null,
+    Object? messages = null,
+    Object? isInitialLoading = null,
+    Object? isLoadingMore = null,
+    Object? isSending = null,
+    Object? nextCursor = freezed,
+    Object? hasMore = null,
+    Object? errorMessage = freezed,
+  }) {
+    return _then(
+      _value.copyWith(
+            roomId: null == roomId
+                ? _value.roomId
+                : roomId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            messages: null == messages
+                ? _value.messages
+                : messages // ignore: cast_nullable_to_non_nullable
+                      as List<Message>,
+            isInitialLoading: null == isInitialLoading
+                ? _value.isInitialLoading
+                : isInitialLoading // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isLoadingMore: null == isLoadingMore
+                ? _value.isLoadingMore
+                : isLoadingMore // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isSending: null == isSending
+                ? _value.isSending
+                : isSending // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            nextCursor: freezed == nextCursor
+                ? _value.nextCursor
+                : nextCursor // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            hasMore: null == hasMore
+                ? _value.hasMore
+                : hasMore // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            errorMessage: freezed == errorMessage
+                ? _value.errorMessage
+                : errorMessage // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$ChatRoomStateImplCopyWith<$Res>
+    implements $ChatRoomStateCopyWith<$Res> {
+  factory _$$ChatRoomStateImplCopyWith(
+    _$ChatRoomStateImpl value,
+    $Res Function(_$ChatRoomStateImpl) then,
+  ) = __$$ChatRoomStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({
+    String roomId,
+    List<Message> messages,
+    bool isInitialLoading,
+    bool isLoadingMore,
+    bool isSending,
+    String? nextCursor,
+    bool hasMore,
+    String? errorMessage,
+  });
+}
+
+/// @nodoc
+class __$$ChatRoomStateImplCopyWithImpl<$Res>
+    extends _$ChatRoomStateCopyWithImpl<$Res, _$ChatRoomStateImpl>
+    implements _$$ChatRoomStateImplCopyWith<$Res> {
+  __$$ChatRoomStateImplCopyWithImpl(
+    _$ChatRoomStateImpl _value,
+    $Res Function(_$ChatRoomStateImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of ChatRoomState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? roomId = null,
+    Object? messages = null,
+    Object? isInitialLoading = null,
+    Object? isLoadingMore = null,
+    Object? isSending = null,
+    Object? nextCursor = freezed,
+    Object? hasMore = null,
+    Object? errorMessage = freezed,
+  }) {
+    return _then(
+      _$ChatRoomStateImpl(
+        roomId: null == roomId
+            ? _value.roomId
+            : roomId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        messages: null == messages
+            ? _value._messages
+            : messages // ignore: cast_nullable_to_non_nullable
+                  as List<Message>,
+        isInitialLoading: null == isInitialLoading
+            ? _value.isInitialLoading
+            : isInitialLoading // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isLoadingMore: null == isLoadingMore
+            ? _value.isLoadingMore
+            : isLoadingMore // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isSending: null == isSending
+            ? _value.isSending
+            : isSending // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        nextCursor: freezed == nextCursor
+            ? _value.nextCursor
+            : nextCursor // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        hasMore: null == hasMore
+            ? _value.hasMore
+            : hasMore // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        errorMessage: freezed == errorMessage
+            ? _value.errorMessage
+            : errorMessage // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$ChatRoomStateImpl implements _ChatRoomState {
+  const _$ChatRoomStateImpl({
+    required this.roomId,
+    final List<Message> messages = const [],
+    this.isInitialLoading = false,
+    this.isLoadingMore = false,
+    this.isSending = false,
+    this.nextCursor,
+    this.hasMore = true,
+    this.errorMessage,
+  }) : _messages = messages;
+
+  @override
+  final String roomId;
+  final List<Message> _messages;
+  @override
+  @JsonKey()
+  List<Message> get messages {
+    if (_messages is EqualUnmodifiableListView) return _messages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_messages);
+  }
+
+  // от старых к новым
+  @override
+  @JsonKey()
+  final bool isInitialLoading;
+  @override
+  @JsonKey()
+  final bool isLoadingMore;
+  @override
+  @JsonKey()
+  final bool isSending;
+  @override
+  final String? nextCursor;
+  @override
+  @JsonKey()
+  final bool hasMore;
+  @override
+  final String? errorMessage;
+
+  @override
+  String toString() {
+    return 'ChatRoomState(roomId: $roomId, messages: $messages, isInitialLoading: $isInitialLoading, isLoadingMore: $isLoadingMore, isSending: $isSending, nextCursor: $nextCursor, hasMore: $hasMore, errorMessage: $errorMessage)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatRoomStateImpl &&
+            (identical(other.roomId, roomId) || other.roomId == roomId) &&
+            const DeepCollectionEquality().equals(other._messages, _messages) &&
+            (identical(other.isInitialLoading, isInitialLoading) ||
+                other.isInitialLoading == isInitialLoading) &&
+            (identical(other.isLoadingMore, isLoadingMore) ||
+                other.isLoadingMore == isLoadingMore) &&
+            (identical(other.isSending, isSending) ||
+                other.isSending == isSending) &&
+            (identical(other.nextCursor, nextCursor) ||
+                other.nextCursor == nextCursor) &&
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    roomId,
+    const DeepCollectionEquality().hash(_messages),
+    isInitialLoading,
+    isLoadingMore,
+    isSending,
+    nextCursor,
+    hasMore,
+    errorMessage,
+  );
+
+  /// Create a copy of ChatRoomState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatRoomStateImplCopyWith<_$ChatRoomStateImpl> get copyWith =>
+      __$$ChatRoomStateImplCopyWithImpl<_$ChatRoomStateImpl>(this, _$identity);
+}
+
+abstract class _ChatRoomState implements ChatRoomState {
+  const factory _ChatRoomState({
+    required final String roomId,
+    final List<Message> messages,
+    final bool isInitialLoading,
+    final bool isLoadingMore,
+    final bool isSending,
+    final String? nextCursor,
+    final bool hasMore,
+    final String? errorMessage,
+  }) = _$ChatRoomStateImpl;
+
+  @override
+  String get roomId;
+  @override
+  List<Message> get messages; // от старых к новым
+  @override
+  bool get isInitialLoading;
+  @override
+  bool get isLoadingMore;
+  @override
+  bool get isSending;
+  @override
+  String? get nextCursor;
+  @override
+  bool get hasMore;
+  @override
+  String? get errorMessage;
+
+  /// Create a copy of ChatRoomState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ChatRoomStateImplCopyWith<_$ChatRoomStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
