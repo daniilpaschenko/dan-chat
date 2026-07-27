@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/navigation/auth_state_notifier.dart';
-import '../../../../core/navigation/route_paths.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../room/data/models/room.dart';
@@ -162,7 +161,7 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
             // стрелка назад -> в chatList
             IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: () => context.go(RoutePaths.chatList),
+              onPressed: () => context.pop(),
             ),
             SizedBox(width: spacing.small * 0.5),
             // аватарка чата
