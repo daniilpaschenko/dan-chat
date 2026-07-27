@@ -42,6 +42,7 @@ import '../../features/user/presentation/blocs/search/search_bloc.dart';
 
 // MESSAGE
 import '../../features/message/data/datasources/message_remote_datasource.dart';
+import '../../features/message/data/datasources/message_local_datasource.dart';
 import '../../features/message/data/repositories/message_repository.dart';
 import '../../features/message/domain/interfaces/i_message_repository.dart';
 import '../../features/message/domain/usecases/get_room_messages_usecase.dart';
@@ -179,8 +180,12 @@ Future<void> setupDependencies() async {
   getIt.registerLazySingleton<MessageRemoteDatasource>(
     () => MessageRemoteDatasource(getIt<Dio>()),
   );
+  getIt.registerLazySingleton(() => MessageLocalDatasource());
   getIt.registerLazySingleton<IMessageRepository>(
-    () => MessageRepository(getIt<MessageRemoteDatasource>()),
+    () => MessageRepository(
+      getIt<MessageRemoteDatasource>(),
+      getIt<MessageLocalDatasource>()
+    ),
   );
 
   // features/message/domain
