@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -144,6 +145,7 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
   @override
   Widget build(BuildContext context) {
     final spacing = AppSpacing.of(context);
+    final double avatarSize = spacing.medium * 1.3;
 
     final currentUserId = getIt<AuthStateNotifier>().currentUserId;
 
@@ -165,16 +167,32 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
             ),
             SizedBox(width: spacing.small * 0.5),
             // аватарка чата
-            CircleAvatar(
-              radius: spacing.small * 2,
-              backgroundColor: AppColors.primary,
-              backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl) : null,
-              child: avatarUrl == null
-                  ? Text(
+            ClipOval(
+              child: avatarUrl != null
+                ? CachedNetworkImage(
+                    imageUrl: avatarUrl,
+                    width: avatarSize,
+                    height: avatarSize,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Container(
+                      width: avatarSize,
+                      height: avatarSize,
+                      color: AppColors.primary,
+                    ),
+                    errorWidget: (context, url, error) => CircleAvatar(
+                      radius: avatarSize / 2,
+                      backgroundColor: AppColors.primary,
+                      child: Text(title.isNotEmpty ? title[0].toUpperCase() : '?'),
+                    ),
+                  )
+                : CircleAvatar(
+                    radius: avatarSize / 2,
+                    backgroundColor: AppColors.primary,
+                    child: Text(
                       title.isNotEmpty ? title[0].toUpperCase() : '?',
                       style: TextStyle(fontSize: spacing.captionSize * 1.7, color: AppColors.textPrimary, fontWeight: FontWeight.w600),
-                    )
-                  : null,
+                    ),
+                  ),
             ),
             SizedBox(width: spacing.small),
             // название чата и статус/кол-во участников
