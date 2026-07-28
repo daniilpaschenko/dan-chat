@@ -92,7 +92,7 @@ class AppRouter {
                   routes: [
                     // ChatRoom — подмаршрут chatList
                     GoRoute(
-                      path: 'room/:roomId',
+                      path: ':roomId',
                       parentNavigatorKey: _chatsNavigatorKey, // используем тот же навигатор
                       builder: (context, state) => ChatRoomScreen(
                         roomId: state.pathParameters['roomId']!,
