@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 // CORE
 import '../navigation/app_router.dart';
 import '../navigation/auth_state_notifier.dart';
+import '../navigation/bottom_nav_visibility.dart';
 import '../network/dio_client.dart';
 import '../storage/hive_service.dart';
 import '../storage/secure_storage_service.dart';
@@ -78,6 +79,8 @@ Future<void> setupDependencies() async {
   getIt.registerLazySingleton<GoRouter>(
     () => AppRouter(getIt<AuthStateNotifier>()).build(),
   );
+
+  getIt.registerLazySingleton(() => BottomNavVisibility());
 
   // features/auth/data
   getIt.registerLazySingleton<AuthRemoteDatasource>(
