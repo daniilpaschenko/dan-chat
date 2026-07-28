@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/navigation/route_paths.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/app_bar_with_connectivity.dart';
-import '../../data/models/user_model.dart';
 import '../blocs/search/search_bloc.dart';
 import '../blocs/search/search_event.dart';
 import '../blocs/search/search_state.dart';
+import '../widgets/user_tile.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
@@ -100,10 +99,10 @@ class _SearchViewState extends State<_SearchView> {
                     ),
                     loaded: (users) {
                       if (users.isEmpty) {
-                        return Center(
+                        return const Center(
                           child: Text(
                             'Пользователи не найдены',
-                            style: const TextStyle(color: AppColors.textSecondary),
+                            style: TextStyle(color: AppColors.textSecondary),
                           ),
                         );
                       }
@@ -112,7 +111,7 @@ class _SearchViewState extends State<_SearchView> {
                         separatorBuilder: (_, _) => const Divider(height: 1),
                         itemBuilder: (context, index) {
                           final user = users[index];
-                          return _UserTile(
+                          return UserTile(
                             user: user,
                             gap: spacing.form,
                             onTap: () {
@@ -132,70 +131,6 @@ class _SearchViewState extends State<_SearchView> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _UserTile extends StatelessWidget {
-  final PartialUser user;
-  final double gap;
-  final VoidCallback onTap;
-
-  const _UserTile({
-    required this.user,
-    required this.gap,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final spacing = AppSpacing.of(context);
-    final double avatarSize = gap * 2;
-    return ListTile(
-      onTap: onTap,
-      contentPadding: EdgeInsets.symmetric(horizontal: gap, vertical: gap * 0.15),
-      leading: ClipOval(
-        child: user.avatarUrl != null
-            ? CachedNetworkImage(
-                imageUrl: user.avatarUrl!,
-                width: avatarSize,
-                height: avatarSize,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => Container(
-                  width: avatarSize,
-                  height: avatarSize,
-                  color: AppColors.primary,
-                ),
-                // если ошибка, то покажет первую букву имени (+приведёт к верхнему регистру)
-                errorWidget: (context, url, error) => CircleAvatar(
-                  radius: avatarSize / 2,
-                  backgroundColor: AppColors.primary,
-                  child: Text(user.username.isNotEmpty ? user.username[0].toUpperCase() : '?'),
-                ),
-              )
-            // если нет аватарки, то покажет первую букву имени (+приведёт к верхнему регистру)
-            : CircleAvatar(
-                radius: avatarSize / 2,
-                backgroundColor: AppColors.primary,
-                child: Text(
-                  user.username.isNotEmpty ? user.username[0].toUpperCase() : '?',
-                  style: TextStyle(fontSize: spacing.captionSize * 1.7, color: AppColors.textPrimary, fontWeight: FontWeight.w600),
-                ),
-              ),
-      ),
-      title: Text(
-        user.username, maxLines: 1, overflow: TextOverflow.ellipsis,
-        style: TextStyle(fontSize: spacing.captionSize * 1.8, color: AppColors.textPrimary, fontWeight: FontWeight.w600),
-      ),
-      subtitle: user.status != null
-          ? Text(
-              user.status == UserStatus.online ? 'в сети' : 'не в сети',
-              style: TextStyle(
-                color: user.status == UserStatus.online ? AppColors.primary : AppColors.textSecondary,
-                fontSize: gap * 0.6,
-              ),
-            )
-          : null,
     );
   }
 }
