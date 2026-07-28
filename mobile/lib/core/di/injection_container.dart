@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 // CORE
 import '../navigation/app_router.dart';
 import '../navigation/auth_state_notifier.dart';
+import '../navigation/bottom_nav_visibility.dart';
 import '../network/dio_client.dart';
 import '../storage/hive_service.dart';
 import '../storage/secure_storage_service.dart';
@@ -40,6 +41,15 @@ import '../../features/user/domain/interfaces/i_user_repository.dart';
 import '../../features/user/domain/usecases/search_users_usecase.dart';
 import '../../features/user/presentation/blocs/search/search_bloc.dart';
 
+// MESSAGE
+import '../../features/message/data/datasources/message_remote_datasource.dart';
+import '../../features/message/data/datasources/message_local_datasource.dart';
+import '../../features/message/data/repositories/message_repository.dart';
+import '../../features/message/domain/interfaces/i_message_repository.dart';
+import '../../features/message/domain/usecases/get_room_messages_usecase.dart';
+import '../../features/message/domain/usecases/send_message_usecase.dart';
+import '../../features/message/presentation/blocs/chat_room_bloc.dart';
+
 final GetIt getIt = GetIt.instance;
 
 Future<void> setupDependencies() async {
@@ -69,6 +79,8 @@ Future<void> setupDependencies() async {
   getIt.registerLazySingleton<GoRouter>(
     () => AppRouter(getIt<AuthStateNotifier>()).build(),
   );
+
+  getIt.registerLazySingleton(() => BottomNavVisibility());
 
   // features/auth/data
   getIt.registerLazySingleton<AuthRemoteDatasource>(
@@ -165,5 +177,34 @@ Future<void> setupDependencies() async {
   // также нужен чистый Initial при заходе
   getIt.registerFactory<SearchBloc>(
     () => SearchBloc(searchUsersUseCase: getIt<SearchUsersUseCase>()),
+  );
+
+  // features/message/data
+  getIt.registerLazySingleton<MessageRemoteDatasource>(
+    () => MessageRemoteDatasource(getIt<Dio>()),
+  );
+  getIt.registerLazySingleton(() => MessageLocalDatasource());
+  getIt.registerLazySingleton<IMessageRepository>(
+    () => MessageRepository(
+      getIt<MessageRemoteDatasource>(),
+      getIt<MessageLocalDatasource>()
+    ),
+  );
+
+  // features/message/domain
+  getIt.registerLazySingleton<GetRoomMessagesUseCase>(
+    () => GetRoomMessagesUseCase(getIt<IMessageRepository>()),
+  );
+  getIt.registerLazySingleton<SendMessageUseCase>(
+    () => SendMessageUseCase(getIt<IMessageRepository>()),
+  );
+
+  // features/message/presentation
+  // также нужен чистый Initial при заходе
+  getIt.registerFactory<ChatRoomBloc>(
+    () => ChatRoomBloc(
+      getRoomMessagesUseCase: getIt<GetRoomMessagesUseCase>(),
+      sendMessageUseCase: getIt<SendMessageUseCase>(),
+    ),
   );
 }

@@ -1,6 +1,7 @@
 class ApiConstants {
   ApiConstants._();
-
+  // для моего девайса
+  // adb reverse tcp:3000 tcp:3000
   // static const String baseUrl = 'http://localhost:3000/api';
 
   // для андроид-эмулятора

@@ -7,6 +7,7 @@ import '../../../../core/navigation/auth_state_notifier.dart';
 import '../../../../core/navigation/route_paths.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/widgets/app_bar_with_connectivity.dart';
 import '../../data/models/room.dart';
 import '../../../user/data/models/user_model.dart';
 import '../blocs/room_list_bloc.dart';
@@ -107,9 +108,8 @@ class _RoomListViewState extends State<_RoomListView> {
     final currentUserId = getIt<AuthStateNotifier>().currentUserId;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Сообщения'),
-        centerTitle: false,
+      appBar: const AppBarWithConnectivity(
+        onlineTitle: 'Сообщения'
       ),
       body: SafeArea(
         child: Column(
@@ -198,7 +198,10 @@ class _RoomListViewState extends State<_RoomListView> {
                   gap: formGap,
                   onTap: () {
                     context.read<RoomListBloc>().add(RoomListEvent.roomOpened(room.id));
-                    context.go(RoutePaths.chatRoom.replaceFirst(':roomId', room.id));
+                    context.go(
+                      RoutePaths.chatRoomPath(room.id),
+                      extra: room, // передаём уже загруженный RoomListItem для заголовка
+                    );
                   },
                 );
               },
@@ -227,7 +230,8 @@ class _RoomTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double avatarSize = gap * 1.1;
+    final spacing = AppSpacing.of(context);
+    final double avatarSize = gap * 2;
     return ListTile(
       onTap: onTap,
       contentPadding: EdgeInsets.symmetric(horizontal: gap, vertical: gap * 0.15),
@@ -255,22 +259,31 @@ class _RoomTile extends StatelessWidget {
             : CircleAvatar(
                 radius: avatarSize / 2,
                 backgroundColor: AppColors.primary,
-                child: Text(title.isNotEmpty ? title[0].toUpperCase() : '?'),
+                child: Text(
+                  title.isNotEmpty ? title[0].toUpperCase() : '?',
+                  style: TextStyle(fontSize: spacing.captionSize * 1.7, color: AppColors.textPrimary, fontWeight: FontWeight.w600),
+                ),
               ),
       ),
       // ellipsis - если длинное название сделает троеточие
-      title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
+      title: Text(
+        title, maxLines: 1, overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontSize: spacing.captionSize * 1.8, color: AppColors.textPrimary, fontWeight: FontWeight.w600),
+      ),
       subtitle: subtitle != null
-          ? Text(subtitle!, maxLines: 1, overflow: TextOverflow.ellipsis)
+          ? Text(
+            subtitle!, maxLines: 1, overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: spacing.captionSize * 1.25, color: AppColors.textSecondary),
+          )
           : null,
       // счётчик непрочитанных сообщений
       trailing: unreadCount > 0
           ? CircleAvatar(
-              radius: gap * 0.33,
-              backgroundColor: AppColors.primary,
+              radius: gap * 0.6,
+              backgroundColor: AppColors.textSecondary,
               child: Text(
                 unreadCount > 99 ? '99+' : '$unreadCount',
-                style: TextStyle(fontSize: gap * 0.28, color: Colors.white),
+                style: TextStyle(fontSize: spacing.captionSize * 1.3, color: AppColors.textPrimary),
               ),
             )
           : null,
