@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/navigation/auth_state_notifier.dart';
 import '../../../../core/navigation/route_paths.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/app_bar_with_connectivity.dart';
+import '../../../../core/widgets/empty_state_text.dart';
+import '../../../../core/widgets/error_view.dart';
 import '../../data/models/room.dart';
-import '../../../user/data/models/user_model.dart';
+import '../../domain/entities/room_display_info.dart';
 import '../blocs/room_list_bloc.dart';
 import '../blocs/room_list_event.dart';
 import '../blocs/room_list_state.dart';
+import '../widgets/room_tile.dart';
 
 class RoomListScreen extends StatelessWidget {
   const RoomListScreen({super.key});
@@ -45,34 +47,6 @@ class _RoomListViewState extends State<_RoomListView> {
     super.dispose();
   }
 
-  // собеседник в direct-чате — единственный участник с id != currentUserId
-  PartialUser? _otherParticipant(RoomListItem room, String? currentUserId) {
-    if (room.participants.isEmpty) return null;
-    // откат на "первый участник" чтобы не упасть
-    if (currentUserId == null) return room.participants.first.user;
-
-    final others = room.participants.where((p) => p.user.id != currentUserId);
-    return others.isNotEmpty ? others.first.user : room.participants.first.user;
-  }
-
-  // название комнаты
-  String _roomTitle(RoomListItem room, String? currentUserId) {
-    // если это группа
-    if (room.type == RoomType.group) return room.name ?? 'Без названия';
-    // если нет, то только direct-чат
-    final other = _otherParticipant(room, currentUserId);
-    return other?.username ?? 'Чат';
-  }
-
-  // аватарка комнаты
-  String? _roomAvatarUrl(RoomListItem room, String? currentUserId) {
-    if (room.type == RoomType.group) return room.avatarUrl;
-
-    // для direct-чата аватарка собеседника, а не комнаты
-    final other = _otherParticipant(room, currentUserId);
-    return other?.avatarUrl;
-  }
-
   List<RoomListItem> _filterRooms(List<RoomListItem> rooms, String? currentUserId) {
     // если пользователь ничего не ввёл
     if (_query.trim().isEmpty) return rooms;
@@ -86,7 +60,7 @@ class _RoomListViewState extends State<_RoomListView> {
         return room.name?.toLowerCase().contains(lowerQuery) ?? false;
       }
       // если direct-чат то по имени пользователя т.к. у direct-чата нет имени чата
-      return _otherParticipant(room, currentUserId)
+      return RoomDisplayInfo.otherParticipant(room, currentUserId)
               ?.username
               .toLowerCase()
               .contains(lowerQuery) ?? false;
@@ -132,7 +106,7 @@ class _RoomListViewState extends State<_RoomListView> {
                   return state.when(
                     initial: () => const SizedBox.shrink(),
                     loading: () => const Center(child: CircularProgressIndicator()),
-                    failure: (message) => _ErrorView(
+                    failure: (message) => ErrorView(
                       message: message,
                       gap: spacing.medium,
                       onRetry: () => context
@@ -159,28 +133,16 @@ class _RoomListViewState extends State<_RoomListView> {
   }) {
     final filtered = _filterRooms(rooms, currentUserId);
 
-    // позволяет обновлять потягиванием вниз 
+    // позволяет обновлять потягиванием вниз
     return RefreshIndicator(
       onRefresh: () async {
         // при обновлении отправляется событие refreshRequested
         context.read<RoomListBloc>().add(const RoomListEvent.refreshRequested());
       },
       child: filtered.isEmpty
-          ? LayoutBuilder(
-              builder: (context, constraints) => ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                children: [
-                  SizedBox(
-                    height: constraints.maxHeight,
-                    child: Center(
-                      child: Text(
-                        rooms.isEmpty ? 'У вас пока нет чатов' : 'Ничего не найдено',
-                        style: const TextStyle(color: AppColors.textSecondary),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+          ? EmptyStateText(
+              message: rooms.isEmpty ? 'У вас пока нет чатов' : 'Ничего не найдено',
+              fillHeight: true,
             )
           // автоматически вставляет разделитель между чатами
           : ListView.separated(
@@ -190,10 +152,11 @@ class _RoomListViewState extends State<_RoomListView> {
               separatorBuilder: (_, _) => const Divider(height: 1),
               itemBuilder: (context, index) {
                 final room = filtered[index];
-                return _RoomTile(
-                  title: _roomTitle(room, currentUserId),
+                final info = RoomDisplayInfo.from(room, currentUserId);
+                return RoomTile(
+                  title: info.title,
                   subtitle: _lastMessagePreview(room),
-                  avatarUrl: _roomAvatarUrl(room, currentUserId),
+                  avatarUrl: info.avatarUrl,
                   unreadCount: room.unreadCount,
                   gap: formGap,
                   onTap: () {
@@ -206,110 +169,6 @@ class _RoomListViewState extends State<_RoomListView> {
                 );
               },
             ),
-    );
-  }
-}
-
-// один элемент списка - чат
-class _RoomTile extends StatelessWidget {
-  final String title;
-  final String? subtitle;
-  final String? avatarUrl;
-  final int unreadCount;
-  final double gap;
-  final VoidCallback onTap;
-
-  const _RoomTile({
-    required this.title,
-    required this.subtitle,
-    required this.avatarUrl,
-    required this.unreadCount,
-    required this.gap,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final spacing = AppSpacing.of(context);
-    final double avatarSize = gap * 2;
-    return ListTile(
-      onTap: onTap,
-      contentPadding: EdgeInsets.symmetric(horizontal: gap, vertical: gap * 0.15),
-      // круглая аватарка
-      leading: ClipOval(
-        child: avatarUrl != null
-            ? CachedNetworkImage(
-                imageUrl: avatarUrl!,
-                width: avatarSize,
-                height: avatarSize,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => Container(
-                  width: avatarSize,
-                  height: avatarSize,
-                  color: AppColors.primary,
-                ),
-                // если ошибка, то покажет первую букву имени (+приведёт к верхнему регистру)
-                errorWidget: (context, url, error) => CircleAvatar(
-                  radius: avatarSize / 2,
-                  backgroundColor: AppColors.primary,
-                  child: Text(title.isNotEmpty ? title[0].toUpperCase() : '?'),
-                ),
-              )
-            // если нет аватарки, то покажет первую букву имени (+приведёт к верхнему регистру)
-            : CircleAvatar(
-                radius: avatarSize / 2,
-                backgroundColor: AppColors.primary,
-                child: Text(
-                  title.isNotEmpty ? title[0].toUpperCase() : '?',
-                  style: TextStyle(fontSize: spacing.captionSize * 1.7, color: AppColors.textPrimary, fontWeight: FontWeight.w600),
-                ),
-              ),
-      ),
-      // ellipsis - если длинное название сделает троеточие
-      title: Text(
-        title, maxLines: 1, overflow: TextOverflow.ellipsis,
-        style: TextStyle(fontSize: spacing.captionSize * 1.8, color: AppColors.textPrimary, fontWeight: FontWeight.w600),
-      ),
-      subtitle: subtitle != null
-          ? Text(
-            subtitle!, maxLines: 1, overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: spacing.captionSize * 1.25, color: AppColors.textSecondary),
-          )
-          : null,
-      // счётчик непрочитанных сообщений
-      trailing: unreadCount > 0
-          ? CircleAvatar(
-              radius: gap * 0.6,
-              backgroundColor: AppColors.textSecondary,
-              child: Text(
-                unreadCount > 99 ? '99+' : '$unreadCount',
-                style: TextStyle(fontSize: spacing.captionSize * 1.3, color: AppColors.textPrimary),
-              ),
-            )
-          : null,
-    );
-  }
-}
-
-// экран ошибки
-class _ErrorView extends StatelessWidget {
-  final String message;
-  final double gap;
-  final VoidCallback onRetry;
-
-  const _ErrorView({required this.message, required this.gap, required this.onRetry});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(message, style: const TextStyle(color: AppColors.textSecondary)),
-          SizedBox(height: gap * 0.4),
-          TextButton(onPressed: onRetry, child: const Text('Повторить')),
-        ],
-      ),
     );
   }
 }

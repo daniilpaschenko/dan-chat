@@ -7,7 +7,7 @@ class RoutePaths {
 
   // CHATS
   static const String chatList = '/chats';
-  static const String chatRoom = '/chats/:roomId';
+  static const String chatRoom = ':roomId';
   static String chatRoomPath(String roomId) => '/chats/$roomId';
   
   // PROFILE
