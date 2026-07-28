@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/navigation/route_paths.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/widgets/app_bar_with_connectivity.dart';
 import '../../data/models/user_model.dart';
 import '../blocs/search/search_bloc.dart';
 import '../blocs/search/search_event.dart';
@@ -43,8 +45,8 @@ class _SearchViewState extends State<_SearchView> {
     final spacing = AppSpacing.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Поиск пользователей'),
+      appBar: const AppBarWithConnectivity(
+        onlineTitle: 'Поиск пользователей'
       ),
       body: SafeArea(
         child: Column(
@@ -147,23 +149,50 @@ class _UserTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final spacing = AppSpacing.of(context);
+    final double avatarSize = gap * 2;
     return ListTile(
       onTap: onTap,
       contentPadding: EdgeInsets.symmetric(horizontal: gap, vertical: gap * 0.15),
-      leading: CircleAvatar(
-        backgroundColor: AppColors.primary,
-        backgroundImage: user.avatarUrl != null ? NetworkImage(user.avatarUrl!) : null,
-        child: user.avatarUrl == null
-            ? Text(user.username.isNotEmpty ? user.username[0].toUpperCase() : '?')
-            : null,
+      leading: ClipOval(
+        child: user.avatarUrl != null
+            ? CachedNetworkImage(
+                imageUrl: user.avatarUrl!,
+                width: avatarSize,
+                height: avatarSize,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Container(
+                  width: avatarSize,
+                  height: avatarSize,
+                  color: AppColors.primary,
+                ),
+                // если ошибка, то покажет первую букву имени (+приведёт к верхнему регистру)
+                errorWidget: (context, url, error) => CircleAvatar(
+                  radius: avatarSize / 2,
+                  backgroundColor: AppColors.primary,
+                  child: Text(user.username.isNotEmpty ? user.username[0].toUpperCase() : '?'),
+                ),
+              )
+            // если нет аватарки, то покажет первую букву имени (+приведёт к верхнему регистру)
+            : CircleAvatar(
+                radius: avatarSize / 2,
+                backgroundColor: AppColors.primary,
+                child: Text(
+                  user.username.isNotEmpty ? user.username[0].toUpperCase() : '?',
+                  style: TextStyle(fontSize: spacing.captionSize * 1.7, color: AppColors.textPrimary, fontWeight: FontWeight.w600),
+                ),
+              ),
       ),
-      title: Text(user.username, maxLines: 1, overflow: TextOverflow.ellipsis),
+      title: Text(
+        user.username, maxLines: 1, overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontSize: spacing.captionSize * 1.8, color: AppColors.textPrimary, fontWeight: FontWeight.w600),
+      ),
       subtitle: user.status != null
           ? Text(
-              user.status == UserStatus.online ? 'В сети' : 'Не в сети',
+              user.status == UserStatus.online ? 'в сети' : 'не в сети',
               style: TextStyle(
                 color: user.status == UserStatus.online ? AppColors.primary : AppColors.textSecondary,
-                fontSize: gap * 0.3,
+                fontSize: gap * 0.6,
               ),
             )
           : null,
