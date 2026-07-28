@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/navigation/auth_state_notifier.dart';
+import '../../../../core/navigation/bottom_nav_visibility.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../room/data/models/room.dart';
@@ -47,6 +48,9 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getIt<BottomNavVisibility>().visible.value = false;
+    });
   }
 
   @override
@@ -54,6 +58,9 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     _textController.dispose();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getIt<BottomNavVisibility>().visible.value = true;
+    });
     super.dispose();
   }
 
