@@ -7,6 +7,7 @@ import '../../../../core/navigation/auth_state_notifier.dart';
 import '../../../../core/navigation/route_paths.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/widgets/app_bar_with_connectivity.dart';
 import '../../data/models/room.dart';
 import '../../../user/data/models/user_model.dart';
 import '../blocs/room_list_bloc.dart';
@@ -107,9 +108,8 @@ class _RoomListViewState extends State<_RoomListView> {
     final currentUserId = getIt<AuthStateNotifier>().currentUserId;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Сообщения'),
-        centerTitle: false,
+      appBar: const AppBarWithConnectivity(
+        onlineTitle: 'Сообщения'
       ),
       body: SafeArea(
         child: Column(
