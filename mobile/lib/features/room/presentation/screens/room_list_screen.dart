@@ -279,11 +279,11 @@ class _RoomTile extends StatelessWidget {
       // счётчик непрочитанных сообщений
       trailing: unreadCount > 0
           ? CircleAvatar(
-              radius: gap * 0.7,
-              backgroundColor: AppColors.primary,
+              radius: gap * 0.6,
+              backgroundColor: AppColors.textSecondary,
               child: Text(
                 unreadCount > 99 ? '99+' : '$unreadCount',
-                style: TextStyle(fontSize: spacing.captionSize * 1.5, color: AppColors.textPrimary),
+                style: TextStyle(fontSize: spacing.captionSize * 1.3, color: AppColors.textPrimary),
               ),
             )
           : null,
