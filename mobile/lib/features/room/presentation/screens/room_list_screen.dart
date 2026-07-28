@@ -199,7 +199,7 @@ class _RoomListViewState extends State<_RoomListView> {
                   onTap: () {
                     context.read<RoomListBloc>().add(RoomListEvent.roomOpened(room.id));
                     context.go(
-                      RoutePaths.chatRoom.replaceFirst(':roomId', room.id),
+                      RoutePaths.chatRoomPath(room.id),
                       extra: room, // передаём уже загруженный RoomListItem для заголовка
                     );
                   },
@@ -230,7 +230,8 @@ class _RoomTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double avatarSize = gap * 1.1;
+    final spacing = AppSpacing.of(context);
+    final double avatarSize = gap * 2;
     return ListTile(
       onTap: onTap,
       contentPadding: EdgeInsets.symmetric(horizontal: gap, vertical: gap * 0.15),
@@ -258,22 +259,31 @@ class _RoomTile extends StatelessWidget {
             : CircleAvatar(
                 radius: avatarSize / 2,
                 backgroundColor: AppColors.primary,
-                child: Text(title.isNotEmpty ? title[0].toUpperCase() : '?'),
+                child: Text(
+                  title.isNotEmpty ? title[0].toUpperCase() : '?',
+                  style: TextStyle(fontSize: spacing.captionSize * 1.7, color: AppColors.textPrimary, fontWeight: FontWeight.w600),
+                ),
               ),
       ),
       // ellipsis - если длинное название сделает троеточие
-      title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
+      title: Text(
+        title, maxLines: 1, overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontSize: spacing.captionSize * 1.8, color: AppColors.textPrimary, fontWeight: FontWeight.w600),
+      ),
       subtitle: subtitle != null
-          ? Text(subtitle!, maxLines: 1, overflow: TextOverflow.ellipsis)
+          ? Text(
+            subtitle!, maxLines: 1, overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: spacing.captionSize * 1.25, color: AppColors.textSecondary),
+          )
           : null,
       // счётчик непрочитанных сообщений
       trailing: unreadCount > 0
           ? CircleAvatar(
-              radius: gap * 0.33,
+              radius: gap * 0.7,
               backgroundColor: AppColors.primary,
               child: Text(
                 unreadCount > 99 ? '99+' : '$unreadCount',
-                style: TextStyle(fontSize: gap * 0.28, color: Colors.white),
+                style: TextStyle(fontSize: spacing.captionSize * 1.5, color: AppColors.textPrimary),
               ),
             )
           : null,
