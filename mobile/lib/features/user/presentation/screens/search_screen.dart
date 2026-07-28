@@ -6,6 +6,7 @@ import '../../../../core/di/injection_container.dart';
 import '../../../../core/navigation/route_paths.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/widgets/app_bar_with_connectivity.dart';
 import '../../data/models/user_model.dart';
 import '../blocs/search/search_bloc.dart';
 import '../blocs/search/search_event.dart';
@@ -44,8 +45,8 @@ class _SearchViewState extends State<_SearchView> {
     final spacing = AppSpacing.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Поиск пользователей'),
+      appBar: const AppBarWithConnectivity(
+        onlineTitle: 'Поиск пользователей'
       ),
       body: SafeArea(
         child: Column(
