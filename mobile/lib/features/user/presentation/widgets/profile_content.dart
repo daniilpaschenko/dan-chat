@@ -11,7 +11,9 @@ class ProfileContent extends StatelessWidget {
   final String username;
   final String? email;
   final bool isUploadingAvatar;
+  final bool isCreatingChat;
   final VoidCallback onPickPhoto;
+  final VoidCallback onChatTap;
 
   const ProfileContent({
     super.key,
@@ -20,7 +22,9 @@ class ProfileContent extends StatelessWidget {
     required this.username,
     required this.email,
     required this.isUploadingAvatar,
+    required this.isCreatingChat,
     required this.onPickPhoto,
+    required this.onChatTap,
   });
 
   @override
@@ -99,8 +103,7 @@ class ProfileContent extends StatelessWidget {
                         child: ActionButton(
                           icon: Icons.chat_bubble_outline,
                           label: 'Чат',
-                          // TODO: создать/открыть комнату с этим юзером
-                          onTap: () {},
+                          onTap: isCreatingChat ? () {} : onChatTap,
                         ),
                       ),
                       SizedBox(width: spacing.buttonGap),
