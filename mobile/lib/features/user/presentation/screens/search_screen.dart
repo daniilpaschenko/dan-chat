@@ -116,7 +116,7 @@ class _SearchViewState extends State<_SearchView> {
                             gap: spacing.form,
                             onTap: () {
                               // ведём на профиль этого юзера
-                              context.go(
+                              context.push(
                                 RoutePaths.userProfile.replaceFirst(':userId', user.id),
                               );
                             },
