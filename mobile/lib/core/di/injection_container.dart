@@ -36,10 +36,15 @@ import '../../features/room/presentation/blocs/room_list_bloc.dart';
 
 // USER
 import '../../features/user/data/datasources/user_remote_datasource.dart';
+import '../../features/user/data/datasources/user_local_datasource.dart';
 import '../../features/user/data/repositories/user_repository.dart';
 import '../../features/user/domain/interfaces/i_user_repository.dart';
 import '../../features/user/domain/usecases/search_users_usecase.dart';
+import '../../features/user/domain/usecases/get_my_profile_usecase.dart';
+import '../../features/user/domain/usecases/get_user_profile_usecase.dart';
+import '../../features/user/domain/usecases/upload_avatar_usecase.dart';
 import '../../features/user/presentation/blocs/search/search_bloc.dart';
+import '../../features/user/presentation/blocs/profile/profile_bloc.dart';
 
 // MESSAGE
 import '../../features/message/data/datasources/message_remote_datasource.dart';
@@ -165,12 +170,31 @@ Future<void> setupDependencies() async {
     () => UserRemoteDatasource(getIt<Dio>()),
   );
   getIt.registerLazySingleton<IUserRepository>(
-    () => UserRepository(getIt<UserRemoteDatasource>()),
+    () => UserRepository(getIt<UserRemoteDatasource>(), getIt<UserLocalDatasource>()),
   );
 
   // features/user/domain
   getIt.registerLazySingleton<SearchUsersUseCase>(
     () => SearchUsersUseCase(getIt<IUserRepository>()),
+  );
+  getIt.registerLazySingleton<GetMyProfileUseCase>(
+    () => GetMyProfileUseCase(getIt<IUserRepository>()),
+  );
+  getIt.registerLazySingleton<GetUserProfileUseCase>(
+    () => GetUserProfileUseCase(getIt<IUserRepository>()),
+  );
+  getIt.registerLazySingleton<UploadAvatarUseCase>(
+    () => UploadAvatarUseCase(getIt<IUserRepository>()),
+  );
+
+  // features/user/presentation - ProfileBloc
+  getIt.registerFactoryParam<ProfileBloc, String?, void>(
+    (userId, _) => ProfileBloc(
+      userId: userId,
+      getMyProfileUseCase: getIt<GetMyProfileUseCase>(),
+      getUserProfileUseCase: getIt<GetUserProfileUseCase>(),
+      uploadAvatarUseCase: getIt<UploadAvatarUseCase>(),
+    ),
   );
 
   // features/user/presentation - SearchBloc
