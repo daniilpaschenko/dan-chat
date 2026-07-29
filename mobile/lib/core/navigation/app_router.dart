@@ -5,6 +5,7 @@ import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/room/presentation/screens/room_list_screen.dart';
 import '../../features/user/presentation/screens/search_screen.dart';
 import '../../features/message/presentation/screens/chat_room_screen.dart';
+import '../../features/user/presentation/screens/profile_screen.dart';
 import '../navigation/app_shell.dart';
 import '../../features/room/data/models/room.dart';
 import '../widgets/placeholder_screen.dart';
@@ -117,9 +118,7 @@ class AppRouter {
               routes: [
                 GoRoute(
                   path: RoutePaths.profile,
-                  builder: (context, state) => const PlaceholderScreen(
-                    title: 'Профиль',
-                  ),
+                  builder: (context, state) => const ProfileScreen(),
                 ),
               ],
             ),
