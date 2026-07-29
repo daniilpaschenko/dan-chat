@@ -8,7 +8,7 @@ import '../../features/message/presentation/screens/chat_room_screen.dart';
 import '../../features/user/presentation/screens/profile_screen.dart';
 import '../navigation/app_shell.dart';
 import '../../features/room/data/models/room.dart';
-import '../widgets/placeholder_screen.dart';
+// import '../widgets/placeholder_screen.dart';
 import '../widgets/splash_screen.dart';
 import 'auth_state_notifier.dart';
 import 'route_paths.dart';
@@ -70,16 +70,15 @@ class AppRouter {
           path: RoutePaths.register,
           builder: (context, state) => const RegisterScreen(),
         ),
-
-        // экраны вне навбара — открываются поверх текущего таба, без него
         GoRoute(
+          path: RoutePaths.userProfile, // например, '/users/:userId'
           parentNavigatorKey: _rootNavigatorKey,
-          path: RoutePaths.userProfile,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Профиль другого пользователя',
-          ),
+          builder: (context, state) {
+            // извлекаем userId из pathParameters
+            final userId = state.pathParameters['userId'];
+            return ProfileScreen(userId: userId);
+          },
         ),
-
         // три вкладки с навбаром
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) => AppShell(navigationShell: navigationShell),
