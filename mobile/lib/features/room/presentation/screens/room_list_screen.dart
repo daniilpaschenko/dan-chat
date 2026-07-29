@@ -145,11 +145,9 @@ class _RoomListViewState extends State<_RoomListView> {
               fillHeight: true,
             )
           // автоматически вставляет разделитель между чатами
-          : ListView.separated(
+          : ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
               itemCount: filtered.length,
-              // вот этот разделитель
-              separatorBuilder: (_, _) => const Divider(height: 1),
               itemBuilder: (context, index) {
                 final room = filtered[index];
                 final info = RoomDisplayInfo.from(room, currentUserId);
