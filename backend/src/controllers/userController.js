@@ -1,4 +1,5 @@
 const streamifier = require('streamifier');
+const mongoose = require('mongoose');
 const cloudinary = require('../config/cloudinary');
 const User = require('../models/User');
 
@@ -90,6 +91,26 @@ exports.searchUsers = async (req, res) => {
         return res.json(users);
     } catch (err) {
         console.error('searchUsers error:', err);
+        return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
+    }
+};
+
+// GET /users/:userId
+// публичный профиль другого пользователя (только публичные поля)
+exports.getUserById = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({ message: 'Некорректный id пользователя' });
+        }
+        // только его username, аватарка статус и время последнего захода в сеть
+        const user = await User.findById(userId).select('username avatarUrl status lastSeen');
+        if (!user) return res.status(404).json({ message: 'Пользователь не найден' });
+
+        return res.json(user);
+    } catch (err) {
+        console.error('getUserById error:', err);
         return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
     }
 };
