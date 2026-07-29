@@ -21,16 +21,25 @@ mixin _$ProfileEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(File file) avatarUploadRequested,
+    required TResult Function() chatRequested,
+    required TResult Function() chatNavigationHandled,
+    required TResult Function() chatErrorHandled,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(File file)? avatarUploadRequested,
+    TResult? Function()? chatRequested,
+    TResult? Function()? chatNavigationHandled,
+    TResult? Function()? chatErrorHandled,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(File file)? avatarUploadRequested,
+    TResult Function()? chatRequested,
+    TResult Function()? chatNavigationHandled,
+    TResult Function()? chatErrorHandled,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,17 +47,28 @@ mixin _$ProfileEvent {
     required TResult Function(ProfileStarted value) started,
     required TResult Function(ProfileAvatarUploadRequested value)
     avatarUploadRequested,
+    required TResult Function(ProfileChatRequested value) chatRequested,
+    required TResult Function(ProfileChatNavigationHandled value)
+    chatNavigationHandled,
+    required TResult Function(ProfileChatErrorHandled value) chatErrorHandled,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ProfileStarted value)? started,
     TResult? Function(ProfileAvatarUploadRequested value)?
     avatarUploadRequested,
+    TResult? Function(ProfileChatRequested value)? chatRequested,
+    TResult? Function(ProfileChatNavigationHandled value)?
+    chatNavigationHandled,
+    TResult? Function(ProfileChatErrorHandled value)? chatErrorHandled,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ProfileStarted value)? started,
     TResult Function(ProfileAvatarUploadRequested value)? avatarUploadRequested,
+    TResult Function(ProfileChatRequested value)? chatRequested,
+    TResult Function(ProfileChatNavigationHandled value)? chatNavigationHandled,
+    TResult Function(ProfileChatErrorHandled value)? chatErrorHandled,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -120,6 +140,9 @@ class _$ProfileStartedImpl implements ProfileStarted {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(File file) avatarUploadRequested,
+    required TResult Function() chatRequested,
+    required TResult Function() chatNavigationHandled,
+    required TResult Function() chatErrorHandled,
   }) {
     return started();
   }
@@ -129,6 +152,9 @@ class _$ProfileStartedImpl implements ProfileStarted {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(File file)? avatarUploadRequested,
+    TResult? Function()? chatRequested,
+    TResult? Function()? chatNavigationHandled,
+    TResult? Function()? chatErrorHandled,
   }) {
     return started?.call();
   }
@@ -138,6 +164,9 @@ class _$ProfileStartedImpl implements ProfileStarted {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(File file)? avatarUploadRequested,
+    TResult Function()? chatRequested,
+    TResult Function()? chatNavigationHandled,
+    TResult Function()? chatErrorHandled,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -152,6 +181,10 @@ class _$ProfileStartedImpl implements ProfileStarted {
     required TResult Function(ProfileStarted value) started,
     required TResult Function(ProfileAvatarUploadRequested value)
     avatarUploadRequested,
+    required TResult Function(ProfileChatRequested value) chatRequested,
+    required TResult Function(ProfileChatNavigationHandled value)
+    chatNavigationHandled,
+    required TResult Function(ProfileChatErrorHandled value) chatErrorHandled,
   }) {
     return started(this);
   }
@@ -162,6 +195,10 @@ class _$ProfileStartedImpl implements ProfileStarted {
     TResult? Function(ProfileStarted value)? started,
     TResult? Function(ProfileAvatarUploadRequested value)?
     avatarUploadRequested,
+    TResult? Function(ProfileChatRequested value)? chatRequested,
+    TResult? Function(ProfileChatNavigationHandled value)?
+    chatNavigationHandled,
+    TResult? Function(ProfileChatErrorHandled value)? chatErrorHandled,
   }) {
     return started?.call(this);
   }
@@ -171,6 +208,9 @@ class _$ProfileStartedImpl implements ProfileStarted {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ProfileStarted value)? started,
     TResult Function(ProfileAvatarUploadRequested value)? avatarUploadRequested,
+    TResult Function(ProfileChatRequested value)? chatRequested,
+    TResult Function(ProfileChatNavigationHandled value)? chatNavigationHandled,
+    TResult Function(ProfileChatErrorHandled value)? chatErrorHandled,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -262,6 +302,9 @@ class _$ProfileAvatarUploadRequestedImpl
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(File file) avatarUploadRequested,
+    required TResult Function() chatRequested,
+    required TResult Function() chatNavigationHandled,
+    required TResult Function() chatErrorHandled,
   }) {
     return avatarUploadRequested(file);
   }
@@ -271,6 +314,9 @@ class _$ProfileAvatarUploadRequestedImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(File file)? avatarUploadRequested,
+    TResult? Function()? chatRequested,
+    TResult? Function()? chatNavigationHandled,
+    TResult? Function()? chatErrorHandled,
   }) {
     return avatarUploadRequested?.call(file);
   }
@@ -280,6 +326,9 @@ class _$ProfileAvatarUploadRequestedImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(File file)? avatarUploadRequested,
+    TResult Function()? chatRequested,
+    TResult Function()? chatNavigationHandled,
+    TResult Function()? chatErrorHandled,
     required TResult orElse(),
   }) {
     if (avatarUploadRequested != null) {
@@ -294,6 +343,10 @@ class _$ProfileAvatarUploadRequestedImpl
     required TResult Function(ProfileStarted value) started,
     required TResult Function(ProfileAvatarUploadRequested value)
     avatarUploadRequested,
+    required TResult Function(ProfileChatRequested value) chatRequested,
+    required TResult Function(ProfileChatNavigationHandled value)
+    chatNavigationHandled,
+    required TResult Function(ProfileChatErrorHandled value) chatErrorHandled,
   }) {
     return avatarUploadRequested(this);
   }
@@ -304,6 +357,10 @@ class _$ProfileAvatarUploadRequestedImpl
     TResult? Function(ProfileStarted value)? started,
     TResult? Function(ProfileAvatarUploadRequested value)?
     avatarUploadRequested,
+    TResult? Function(ProfileChatRequested value)? chatRequested,
+    TResult? Function(ProfileChatNavigationHandled value)?
+    chatNavigationHandled,
+    TResult? Function(ProfileChatErrorHandled value)? chatErrorHandled,
   }) {
     return avatarUploadRequested?.call(this);
   }
@@ -313,6 +370,9 @@ class _$ProfileAvatarUploadRequestedImpl
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ProfileStarted value)? started,
     TResult Function(ProfileAvatarUploadRequested value)? avatarUploadRequested,
+    TResult Function(ProfileChatRequested value)? chatRequested,
+    TResult Function(ProfileChatNavigationHandled value)? chatNavigationHandled,
+    TResult Function(ProfileChatErrorHandled value)? chatErrorHandled,
     required TResult orElse(),
   }) {
     if (avatarUploadRequested != null) {
@@ -335,4 +395,396 @@ abstract class ProfileAvatarUploadRequested implements ProfileEvent {
     _$ProfileAvatarUploadRequestedImpl
   >
   get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ProfileChatRequestedImplCopyWith<$Res> {
+  factory _$$ProfileChatRequestedImplCopyWith(
+    _$ProfileChatRequestedImpl value,
+    $Res Function(_$ProfileChatRequestedImpl) then,
+  ) = __$$ProfileChatRequestedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ProfileChatRequestedImplCopyWithImpl<$Res>
+    extends _$ProfileEventCopyWithImpl<$Res, _$ProfileChatRequestedImpl>
+    implements _$$ProfileChatRequestedImplCopyWith<$Res> {
+  __$$ProfileChatRequestedImplCopyWithImpl(
+    _$ProfileChatRequestedImpl _value,
+    $Res Function(_$ProfileChatRequestedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of ProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$ProfileChatRequestedImpl implements ProfileChatRequested {
+  const _$ProfileChatRequestedImpl();
+
+  @override
+  String toString() {
+    return 'ProfileEvent.chatRequested()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ProfileChatRequestedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(File file) avatarUploadRequested,
+    required TResult Function() chatRequested,
+    required TResult Function() chatNavigationHandled,
+    required TResult Function() chatErrorHandled,
+  }) {
+    return chatRequested();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(File file)? avatarUploadRequested,
+    TResult? Function()? chatRequested,
+    TResult? Function()? chatNavigationHandled,
+    TResult? Function()? chatErrorHandled,
+  }) {
+    return chatRequested?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(File file)? avatarUploadRequested,
+    TResult Function()? chatRequested,
+    TResult Function()? chatNavigationHandled,
+    TResult Function()? chatErrorHandled,
+    required TResult orElse(),
+  }) {
+    if (chatRequested != null) {
+      return chatRequested();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ProfileStarted value) started,
+    required TResult Function(ProfileAvatarUploadRequested value)
+    avatarUploadRequested,
+    required TResult Function(ProfileChatRequested value) chatRequested,
+    required TResult Function(ProfileChatNavigationHandled value)
+    chatNavigationHandled,
+    required TResult Function(ProfileChatErrorHandled value) chatErrorHandled,
+  }) {
+    return chatRequested(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ProfileStarted value)? started,
+    TResult? Function(ProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
+    TResult? Function(ProfileChatRequested value)? chatRequested,
+    TResult? Function(ProfileChatNavigationHandled value)?
+    chatNavigationHandled,
+    TResult? Function(ProfileChatErrorHandled value)? chatErrorHandled,
+  }) {
+    return chatRequested?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ProfileStarted value)? started,
+    TResult Function(ProfileAvatarUploadRequested value)? avatarUploadRequested,
+    TResult Function(ProfileChatRequested value)? chatRequested,
+    TResult Function(ProfileChatNavigationHandled value)? chatNavigationHandled,
+    TResult Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    required TResult orElse(),
+  }) {
+    if (chatRequested != null) {
+      return chatRequested(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ProfileChatRequested implements ProfileEvent {
+  const factory ProfileChatRequested() = _$ProfileChatRequestedImpl;
+}
+
+/// @nodoc
+abstract class _$$ProfileChatNavigationHandledImplCopyWith<$Res> {
+  factory _$$ProfileChatNavigationHandledImplCopyWith(
+    _$ProfileChatNavigationHandledImpl value,
+    $Res Function(_$ProfileChatNavigationHandledImpl) then,
+  ) = __$$ProfileChatNavigationHandledImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ProfileChatNavigationHandledImplCopyWithImpl<$Res>
+    extends _$ProfileEventCopyWithImpl<$Res, _$ProfileChatNavigationHandledImpl>
+    implements _$$ProfileChatNavigationHandledImplCopyWith<$Res> {
+  __$$ProfileChatNavigationHandledImplCopyWithImpl(
+    _$ProfileChatNavigationHandledImpl _value,
+    $Res Function(_$ProfileChatNavigationHandledImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of ProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$ProfileChatNavigationHandledImpl
+    implements ProfileChatNavigationHandled {
+  const _$ProfileChatNavigationHandledImpl();
+
+  @override
+  String toString() {
+    return 'ProfileEvent.chatNavigationHandled()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ProfileChatNavigationHandledImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(File file) avatarUploadRequested,
+    required TResult Function() chatRequested,
+    required TResult Function() chatNavigationHandled,
+    required TResult Function() chatErrorHandled,
+  }) {
+    return chatNavigationHandled();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(File file)? avatarUploadRequested,
+    TResult? Function()? chatRequested,
+    TResult? Function()? chatNavigationHandled,
+    TResult? Function()? chatErrorHandled,
+  }) {
+    return chatNavigationHandled?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(File file)? avatarUploadRequested,
+    TResult Function()? chatRequested,
+    TResult Function()? chatNavigationHandled,
+    TResult Function()? chatErrorHandled,
+    required TResult orElse(),
+  }) {
+    if (chatNavigationHandled != null) {
+      return chatNavigationHandled();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ProfileStarted value) started,
+    required TResult Function(ProfileAvatarUploadRequested value)
+    avatarUploadRequested,
+    required TResult Function(ProfileChatRequested value) chatRequested,
+    required TResult Function(ProfileChatNavigationHandled value)
+    chatNavigationHandled,
+    required TResult Function(ProfileChatErrorHandled value) chatErrorHandled,
+  }) {
+    return chatNavigationHandled(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ProfileStarted value)? started,
+    TResult? Function(ProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
+    TResult? Function(ProfileChatRequested value)? chatRequested,
+    TResult? Function(ProfileChatNavigationHandled value)?
+    chatNavigationHandled,
+    TResult? Function(ProfileChatErrorHandled value)? chatErrorHandled,
+  }) {
+    return chatNavigationHandled?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ProfileStarted value)? started,
+    TResult Function(ProfileAvatarUploadRequested value)? avatarUploadRequested,
+    TResult Function(ProfileChatRequested value)? chatRequested,
+    TResult Function(ProfileChatNavigationHandled value)? chatNavigationHandled,
+    TResult Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    required TResult orElse(),
+  }) {
+    if (chatNavigationHandled != null) {
+      return chatNavigationHandled(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ProfileChatNavigationHandled implements ProfileEvent {
+  const factory ProfileChatNavigationHandled() =
+      _$ProfileChatNavigationHandledImpl;
+}
+
+/// @nodoc
+abstract class _$$ProfileChatErrorHandledImplCopyWith<$Res> {
+  factory _$$ProfileChatErrorHandledImplCopyWith(
+    _$ProfileChatErrorHandledImpl value,
+    $Res Function(_$ProfileChatErrorHandledImpl) then,
+  ) = __$$ProfileChatErrorHandledImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ProfileChatErrorHandledImplCopyWithImpl<$Res>
+    extends _$ProfileEventCopyWithImpl<$Res, _$ProfileChatErrorHandledImpl>
+    implements _$$ProfileChatErrorHandledImplCopyWith<$Res> {
+  __$$ProfileChatErrorHandledImplCopyWithImpl(
+    _$ProfileChatErrorHandledImpl _value,
+    $Res Function(_$ProfileChatErrorHandledImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of ProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$ProfileChatErrorHandledImpl implements ProfileChatErrorHandled {
+  const _$ProfileChatErrorHandledImpl();
+
+  @override
+  String toString() {
+    return 'ProfileEvent.chatErrorHandled()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ProfileChatErrorHandledImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(File file) avatarUploadRequested,
+    required TResult Function() chatRequested,
+    required TResult Function() chatNavigationHandled,
+    required TResult Function() chatErrorHandled,
+  }) {
+    return chatErrorHandled();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(File file)? avatarUploadRequested,
+    TResult? Function()? chatRequested,
+    TResult? Function()? chatNavigationHandled,
+    TResult? Function()? chatErrorHandled,
+  }) {
+    return chatErrorHandled?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(File file)? avatarUploadRequested,
+    TResult Function()? chatRequested,
+    TResult Function()? chatNavigationHandled,
+    TResult Function()? chatErrorHandled,
+    required TResult orElse(),
+  }) {
+    if (chatErrorHandled != null) {
+      return chatErrorHandled();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ProfileStarted value) started,
+    required TResult Function(ProfileAvatarUploadRequested value)
+    avatarUploadRequested,
+    required TResult Function(ProfileChatRequested value) chatRequested,
+    required TResult Function(ProfileChatNavigationHandled value)
+    chatNavigationHandled,
+    required TResult Function(ProfileChatErrorHandled value) chatErrorHandled,
+  }) {
+    return chatErrorHandled(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ProfileStarted value)? started,
+    TResult? Function(ProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
+    TResult? Function(ProfileChatRequested value)? chatRequested,
+    TResult? Function(ProfileChatNavigationHandled value)?
+    chatNavigationHandled,
+    TResult? Function(ProfileChatErrorHandled value)? chatErrorHandled,
+  }) {
+    return chatErrorHandled?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ProfileStarted value)? started,
+    TResult Function(ProfileAvatarUploadRequested value)? avatarUploadRequested,
+    TResult Function(ProfileChatRequested value)? chatRequested,
+    TResult Function(ProfileChatNavigationHandled value)? chatNavigationHandled,
+    TResult Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    required TResult orElse(),
+  }) {
+    if (chatErrorHandled != null) {
+      return chatErrorHandled(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ProfileChatErrorHandled implements ProfileEvent {
+  const factory ProfileChatErrorHandled() = _$ProfileChatErrorHandledImpl;
 }

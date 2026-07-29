@@ -26,6 +26,9 @@ mixin _$ProfileState {
       User? ownUser,
       PartialUser? otherUser,
       bool isUploadingAvatar,
+      bool isCreatingChat,
+      Room? navigateToRoom,
+      String? chatError,
     )
     loaded,
     required TResult Function(String message) failure,
@@ -39,6 +42,9 @@ mixin _$ProfileState {
       User? ownUser,
       PartialUser? otherUser,
       bool isUploadingAvatar,
+      bool isCreatingChat,
+      Room? navigateToRoom,
+      String? chatError,
     )?
     loaded,
     TResult? Function(String message)? failure,
@@ -52,6 +58,9 @@ mixin _$ProfileState {
       User? ownUser,
       PartialUser? otherUser,
       bool isUploadingAvatar,
+      bool isCreatingChat,
+      Room? navigateToRoom,
+      String? chatError,
     )?
     loaded,
     TResult Function(String message)? failure,
@@ -153,6 +162,9 @@ class _$ProfileInitialImpl implements ProfileInitial {
       User? ownUser,
       PartialUser? otherUser,
       bool isUploadingAvatar,
+      bool isCreatingChat,
+      Room? navigateToRoom,
+      String? chatError,
     )
     loaded,
     required TResult Function(String message) failure,
@@ -170,6 +182,9 @@ class _$ProfileInitialImpl implements ProfileInitial {
       User? ownUser,
       PartialUser? otherUser,
       bool isUploadingAvatar,
+      bool isCreatingChat,
+      Room? navigateToRoom,
+      String? chatError,
     )?
     loaded,
     TResult? Function(String message)? failure,
@@ -187,6 +202,9 @@ class _$ProfileInitialImpl implements ProfileInitial {
       User? ownUser,
       PartialUser? otherUser,
       bool isUploadingAvatar,
+      bool isCreatingChat,
+      Room? navigateToRoom,
+      String? chatError,
     )?
     loaded,
     TResult Function(String message)? failure,
@@ -290,6 +308,9 @@ class _$ProfileLoadingImpl implements ProfileLoading {
       User? ownUser,
       PartialUser? otherUser,
       bool isUploadingAvatar,
+      bool isCreatingChat,
+      Room? navigateToRoom,
+      String? chatError,
     )
     loaded,
     required TResult Function(String message) failure,
@@ -307,6 +328,9 @@ class _$ProfileLoadingImpl implements ProfileLoading {
       User? ownUser,
       PartialUser? otherUser,
       bool isUploadingAvatar,
+      bool isCreatingChat,
+      Room? navigateToRoom,
+      String? chatError,
     )?
     loaded,
     TResult? Function(String message)? failure,
@@ -324,6 +348,9 @@ class _$ProfileLoadingImpl implements ProfileLoading {
       User? ownUser,
       PartialUser? otherUser,
       bool isUploadingAvatar,
+      bool isCreatingChat,
+      Room? navigateToRoom,
+      String? chatError,
     )?
     loaded,
     TResult Function(String message)? failure,
@@ -389,10 +416,14 @@ abstract class _$$ProfileLoadedImplCopyWith<$Res> {
     User? ownUser,
     PartialUser? otherUser,
     bool isUploadingAvatar,
+    bool isCreatingChat,
+    Room? navigateToRoom,
+    String? chatError,
   });
 
   $UserCopyWith<$Res>? get ownUser;
   $PartialUserCopyWith<$Res>? get otherUser;
+  $RoomCopyWith<$Res>? get navigateToRoom;
 }
 
 /// @nodoc
@@ -413,6 +444,9 @@ class __$$ProfileLoadedImplCopyWithImpl<$Res>
     Object? ownUser = freezed,
     Object? otherUser = freezed,
     Object? isUploadingAvatar = null,
+    Object? isCreatingChat = null,
+    Object? navigateToRoom = freezed,
+    Object? chatError = freezed,
   }) {
     return _then(
       _$ProfileLoadedImpl(
@@ -432,6 +466,18 @@ class __$$ProfileLoadedImplCopyWithImpl<$Res>
             ? _value.isUploadingAvatar
             : isUploadingAvatar // ignore: cast_nullable_to_non_nullable
                   as bool,
+        isCreatingChat: null == isCreatingChat
+            ? _value.isCreatingChat
+            : isCreatingChat // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        navigateToRoom: freezed == navigateToRoom
+            ? _value.navigateToRoom
+            : navigateToRoom // ignore: cast_nullable_to_non_nullable
+                  as Room?,
+        chatError: freezed == chatError
+            ? _value.chatError
+            : chatError // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -463,6 +509,20 @@ class __$$ProfileLoadedImplCopyWithImpl<$Res>
       return _then(_value.copyWith(otherUser: value));
     });
   }
+
+  /// Create a copy of ProfileState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $RoomCopyWith<$Res>? get navigateToRoom {
+    if (_value.navigateToRoom == null) {
+      return null;
+    }
+
+    return $RoomCopyWith<$Res>(_value.navigateToRoom!, (value) {
+      return _then(_value.copyWith(navigateToRoom: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -473,6 +533,9 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
     this.ownUser,
     this.otherUser,
     this.isUploadingAvatar = false,
+    this.isCreatingChat = false,
+    this.navigateToRoom,
+    this.chatError,
   });
 
   @override
@@ -486,10 +549,18 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
   @override
   @JsonKey()
   final bool isUploadingAvatar;
+  @override
+  @JsonKey()
+  final bool isCreatingChat;
+  @override
+  final Room? navigateToRoom;
+  // одноразовый сигнал для навигации, теперь с полными данными
+  @override
+  final String? chatError;
 
   @override
   String toString() {
-    return 'ProfileState.loaded(isOwnProfile: $isOwnProfile, ownUser: $ownUser, otherUser: $otherUser, isUploadingAvatar: $isUploadingAvatar)';
+    return 'ProfileState.loaded(isOwnProfile: $isOwnProfile, ownUser: $ownUser, otherUser: $otherUser, isUploadingAvatar: $isUploadingAvatar, isCreatingChat: $isCreatingChat, navigateToRoom: $navigateToRoom, chatError: $chatError)';
   }
 
   @override
@@ -503,7 +574,13 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
             (identical(other.otherUser, otherUser) ||
                 other.otherUser == otherUser) &&
             (identical(other.isUploadingAvatar, isUploadingAvatar) ||
-                other.isUploadingAvatar == isUploadingAvatar));
+                other.isUploadingAvatar == isUploadingAvatar) &&
+            (identical(other.isCreatingChat, isCreatingChat) ||
+                other.isCreatingChat == isCreatingChat) &&
+            (identical(other.navigateToRoom, navigateToRoom) ||
+                other.navigateToRoom == navigateToRoom) &&
+            (identical(other.chatError, chatError) ||
+                other.chatError == chatError));
   }
 
   @override
@@ -513,6 +590,9 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
     ownUser,
     otherUser,
     isUploadingAvatar,
+    isCreatingChat,
+    navigateToRoom,
+    chatError,
   );
 
   /// Create a copy of ProfileState
@@ -533,11 +613,22 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
       User? ownUser,
       PartialUser? otherUser,
       bool isUploadingAvatar,
+      bool isCreatingChat,
+      Room? navigateToRoom,
+      String? chatError,
     )
     loaded,
     required TResult Function(String message) failure,
   }) {
-    return loaded(isOwnProfile, ownUser, otherUser, isUploadingAvatar);
+    return loaded(
+      isOwnProfile,
+      ownUser,
+      otherUser,
+      isUploadingAvatar,
+      isCreatingChat,
+      navigateToRoom,
+      chatError,
+    );
   }
 
   @override
@@ -550,11 +641,22 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
       User? ownUser,
       PartialUser? otherUser,
       bool isUploadingAvatar,
+      bool isCreatingChat,
+      Room? navigateToRoom,
+      String? chatError,
     )?
     loaded,
     TResult? Function(String message)? failure,
   }) {
-    return loaded?.call(isOwnProfile, ownUser, otherUser, isUploadingAvatar);
+    return loaded?.call(
+      isOwnProfile,
+      ownUser,
+      otherUser,
+      isUploadingAvatar,
+      isCreatingChat,
+      navigateToRoom,
+      chatError,
+    );
   }
 
   @override
@@ -567,13 +669,24 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
       User? ownUser,
       PartialUser? otherUser,
       bool isUploadingAvatar,
+      bool isCreatingChat,
+      Room? navigateToRoom,
+      String? chatError,
     )?
     loaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(isOwnProfile, ownUser, otherUser, isUploadingAvatar);
+      return loaded(
+        isOwnProfile,
+        ownUser,
+        otherUser,
+        isUploadingAvatar,
+        isCreatingChat,
+        navigateToRoom,
+        chatError,
+      );
     }
     return orElse();
   }
@@ -622,12 +735,19 @@ abstract class ProfileLoaded implements ProfileState {
     final User? ownUser,
     final PartialUser? otherUser,
     final bool isUploadingAvatar,
+    final bool isCreatingChat,
+    final Room? navigateToRoom,
+    final String? chatError,
   }) = _$ProfileLoadedImpl;
 
   bool get isOwnProfile;
   User? get ownUser; // если isOwnProfile == true
   PartialUser? get otherUser; // если isOwnProfile == false
   bool get isUploadingAvatar;
+  bool get isCreatingChat;
+  Room?
+  get navigateToRoom; // одноразовый сигнал для навигации, теперь с полными данными
+  String? get chatError;
 
   /// Create a copy of ProfileState
   /// with the given fields replaced by the non-null parameter values.
@@ -716,6 +836,9 @@ class _$ProfileFailureImpl implements ProfileFailure {
       User? ownUser,
       PartialUser? otherUser,
       bool isUploadingAvatar,
+      bool isCreatingChat,
+      Room? navigateToRoom,
+      String? chatError,
     )
     loaded,
     required TResult Function(String message) failure,
@@ -733,6 +856,9 @@ class _$ProfileFailureImpl implements ProfileFailure {
       User? ownUser,
       PartialUser? otherUser,
       bool isUploadingAvatar,
+      bool isCreatingChat,
+      Room? navigateToRoom,
+      String? chatError,
     )?
     loaded,
     TResult? Function(String message)? failure,
@@ -750,6 +876,9 @@ class _$ProfileFailureImpl implements ProfileFailure {
       User? ownUser,
       PartialUser? otherUser,
       bool isUploadingAvatar,
+      bool isCreatingChat,
+      Room? navigateToRoom,
+      String? chatError,
     )?
     loaded,
     TResult Function(String message)? failure,
