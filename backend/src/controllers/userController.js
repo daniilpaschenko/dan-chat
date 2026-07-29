@@ -11,8 +11,13 @@ const streamUpload = (buffer, publicId) => {
                 public_id: publicId,
                 overwrite: true,
                 resource_type: 'image',
-                // обрезка на 400 x 400
-                transformation: [{ width: 400, height: 400, crop: 'fill' }]
+                // обрезка на 1000 x 1000, центрировать по лицу
+                transformation: [{
+                    width: 1000,
+                    height: 1000,
+                    crop: 'fill',
+                    gravity: 'face'
+                }]
             },
             (error, result) => {
                 if (result) resolve(result);
