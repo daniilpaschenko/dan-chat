@@ -169,6 +169,7 @@ Future<void> setupDependencies() async {
   getIt.registerLazySingleton<UserRemoteDatasource>(
     () => UserRemoteDatasource(getIt<Dio>()),
   );
+  getIt.registerLazySingleton(() => UserLocalDatasource());
   getIt.registerLazySingleton<IUserRepository>(
     () => UserRepository(getIt<UserRemoteDatasource>(), getIt<UserLocalDatasource>()),
   );
