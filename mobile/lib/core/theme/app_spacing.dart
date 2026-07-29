@@ -83,7 +83,7 @@ class AppSpacing {
 
       pagePadding: screenW * .04,
       heroRadius: screenW * .06,
-      heroLetterSize: screenW * .16,
+      heroLetterSize: screenW * .5,
 
       buttonRadius: screenW * .035,
       buttonVerticalPadding: screenW * .035,
