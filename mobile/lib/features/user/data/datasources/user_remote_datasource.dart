@@ -40,7 +40,7 @@ class UserRemoteDatasource {
         filename: file.path.split('/').last,
       ),
     });
-    final response = await _dio.post('/users/avatar', data: formData);
+    final response = await _dio.post('/users/me/avatar', data: formData);
     return User.fromJson(response.data['user'] as Map<String, dynamic>);
   }
 }
