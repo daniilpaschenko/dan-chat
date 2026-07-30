@@ -11,4 +11,9 @@ async function findRoomIfMember(roomId, userId) {
     return room;
 }
 
-module.exports = { findRoomIfMember };
+// находит участника внутри уже загруженной комнаты
+function getParticipant(room, userId) {
+    return room.participants.find((p) => p.user.toString() === userId);
+}
+
+module.exports = { findRoomIfMember, getParticipant };
