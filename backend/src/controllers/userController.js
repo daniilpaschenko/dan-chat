@@ -2,6 +2,7 @@ const streamifier = require('streamifier');
 const mongoose = require('mongoose');
 const cloudinary = require('../config/cloudinary');
 const User = require('../models/User');
+const { toPublicUser } = require('../utils/userUtils');
 
 const streamUpload = (buffer, publicId) => {
     return new Promise((resolve, reject) => {
@@ -36,7 +37,7 @@ function escapeRegex(string) {
 }
 
 exports.getMe = async (req, res) => {
-    res.json({ user: req.user });
+    res.json({ user: toPublicUser(req.user) });
 };
 
 exports.uploadAvatar = async (req, res) => {
