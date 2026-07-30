@@ -8,7 +8,7 @@ import '../../features/message/presentation/screens/chat_room_screen.dart';
 import '../../features/user/presentation/screens/profile_screen.dart';
 import '../navigation/app_shell.dart';
 import '../../features/room/data/models/room.dart';
-// import '../widgets/placeholder_screen.dart';
+import '../widgets/placeholder_screen.dart';
 import '../widgets/splash_screen.dart';
 import 'auth_state_notifier.dart';
 import 'route_paths.dart';
@@ -78,6 +78,11 @@ class AppRouter {
             final userId = state.pathParameters['userId'];
             return ProfileScreen(userId: userId);
           },
+        ),
+        GoRoute(
+          path: RoutePaths.settings,
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) => const PlaceholderScreen(title: 'Настройки'),
         ),
         // три вкладки с навбаром
         StatefulShellRoute.indexedStack(
