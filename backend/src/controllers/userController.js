@@ -72,7 +72,7 @@ exports.uploadAvatar = async (req, res) => {
 };
 
 // GET /users/search?query=ali
-// ищет пользователей по username/email (регистронезависимо), исключая себя
+// ищет пользователей по username (регистронезависимо), исключая себя
 exports.searchUsers = async (req, res) => {
     try {
         const myId = req.user.id;
