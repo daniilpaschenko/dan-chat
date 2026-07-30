@@ -1,18 +1,8 @@
 const mongoose = require('mongoose');
-const Room = require('../models/Room');
 const Message = require('../models/Message');
 const { createMessageSchema } = require('../validators/messageValidator');
-
-// проверяет что юзер состоит в комнате, возвращает комнату или null
-async function findRoomIfMember(roomId, userId) {
-    const room = await Room.findById(roomId);
-    if (!room) return null;
-
-    const isMember = room.participants.some((p) => p.user.toString() === userId);
-    if (!isMember) return null;
-
-    return room;
-}
+const { findRoomIfMember } = require('../services/roomService');
+const { createMessage } = require('../services/messageService');
 
 // GET /rooms/:roomId/messages?before=<messageId>&limit=30
 // курсорная пагинация: отдаём сообщения СТАРШЕ курсора, от новых к старым, поэтому
@@ -67,40 +57,17 @@ exports.createMessage = async (req, res) => {
             return res.status(400).json({ message: error.details[0].message });
         }
 
-        const myId = req.user.id;
-        const { roomId } = req.params;
-        const { text } = value;
-
-        const room = await findRoomIfMember(roomId, myId);
-        if (!room) return res.status(403).json({ message: 'Нет доступа к этой комнате' });
-
-        const message = await Message.create({
-            room: roomId,
-            sender: myId,
-            text,
+        const result = await createMessage({
+            roomId: req.params.roomId,
+            senderId: req.user.id,
+            text: value.text,
         });
 
-        // обновляем превью последнего сообщения
-        room.lastMessage = {
-            text,
-            sender: myId,
-            createdAt: message.createdAt,
-        };
+        if (!result.ok) {
+            return res.status(result.status).json({ message: result.error });
+        }
 
-        // инкремент unread всем, кроме отправителя
-        room.participants.forEach((p) => {
-            const participantId = p.user.toString();
-            if (participantId === myId) return;
-
-            const current = room.unreadCount.get(participantId) || 0;
-            room.unreadCount.set(participantId, current + 1);
-        });
-
-        await room.save();
-
-        const populated = await message.populate('sender', 'username avatarUrl');
-
-        return res.status(201).json(populated);
+        return res.status(201).json(result.message);
     } catch (err) {
         console.error('createMessage error:', err);
         return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
