@@ -13,7 +13,8 @@ class HiveService {
 
     // сообщения
     await Hive.openBox(messagesBoxName);
-    // await Hive.openBox(userBoxName);
+    // пользователи
+    await Hive.openBox(userBoxName);
   }
 
   // вызывается при logOut — чистим весь локальный кэш,
@@ -21,7 +22,6 @@ class HiveService {
   Future<void> clearAll() async {
     await Hive.box(roomsBoxName).clear();
     await Hive.box(messagesBoxName).clear();
-    
-    // await Hive.box(userBoxName).clear();
+    await Hive.box(userBoxName).clear();
   }
 }

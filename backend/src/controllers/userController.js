@@ -1,4 +1,5 @@
 const streamifier = require('streamifier');
+const mongoose = require('mongoose');
 const cloudinary = require('../config/cloudinary');
 const User = require('../models/User');
 
@@ -10,8 +11,13 @@ const streamUpload = (buffer, publicId) => {
                 public_id: publicId,
                 overwrite: true,
                 resource_type: 'image',
-                // обрезка на 400 x 400
-                transformation: [{ width: 400, height: 400, crop: 'fill' }]
+                // обрезка на 1000 x 1000, центрировать по лицу
+                transformation: [{
+                    width: 1000,
+                    height: 1000,
+                    crop: 'fill',
+                    gravity: 'face'
+                }]
             },
             (error, result) => {
                 if (result) resolve(result);
@@ -66,7 +72,7 @@ exports.uploadAvatar = async (req, res) => {
 };
 
 // GET /users/search?query=ali
-// ищет пользователей по username/email (регистронезависимо), исключая себя
+// ищет пользователей по username (регистронезависимо), исключая себя
 exports.searchUsers = async (req, res) => {
     try {
         const myId = req.user.id;
@@ -90,6 +96,26 @@ exports.searchUsers = async (req, res) => {
         return res.json(users);
     } catch (err) {
         console.error('searchUsers error:', err);
+        return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
+    }
+};
+
+// GET /users/:userId
+// публичный профиль другого пользователя (только публичные поля)
+exports.getUserById = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({ message: 'Некорректный id пользователя' });
+        }
+        // только его username, аватарка статус и время последнего захода в сеть
+        const user = await User.findById(userId).select('username avatarUrl status lastSeen');
+        if (!user) return res.status(404).json({ message: 'Пользователь не найден' });
+
+        return res.json(user);
+    } catch (err) {
+        console.error('getUserById error:', err);
         return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
     }
 };
