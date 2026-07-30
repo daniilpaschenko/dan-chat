@@ -44,7 +44,7 @@ exports.createRoom = async (req, res) => {
                 ],
                 createdBy: myId,
             });
-
+            await room.populate('participants.user', 'username avatarUrl status lastSeen');
             return res.status(201).json(room);
         }
 
