@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/navigation/route_paths.dart';
 import 'hero_photo.dart';
 import 'action_button.dart';
 import 'info_tile.dart';
@@ -91,8 +92,7 @@ class ProfileContent extends StatelessWidget {
                         child: ActionButton(
                           icon: Icons.settings_outlined,
                           label: 'Настройки',
-                          // TODO: подключить роут настроек
-                          onTap: () {},
+                          onTap: () => context.push(RoutePaths.settings),
                         ),
                       ),
                     ],
