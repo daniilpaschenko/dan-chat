@@ -1,0 +1,43 @@
+const Message = require('../models/Message');
+const { findRoomIfMember } = require('./roomService');
+
+const SENDER_PUBLIC_FIELDS = 'username avatarUrl';
+
+// возвращает { ok: true, message } либо { ok: false, status, message: текст ошибки }
+async function createMessage({ roomId, senderId, text }) {
+    if (!text || !text.trim()) {
+        return { ok: false, status: 400, error: 'Пустое сообщение' };
+    }
+
+    const room = await findRoomIfMember(roomId, senderId);
+    if (!room) {
+        return { ok: false, status: 403, error: 'Нет доступа к этой комнате' };
+    }
+
+    const message = await Message.create({
+        room: roomId,
+        sender: senderId,
+        text: text.trim(),
+    });
+
+    room.lastMessage = {
+        text: message.text,
+        sender: senderId,
+        createdAt: message.createdAt,
+    };
+
+    room.participants.forEach((p) => {
+        const participantId = p.user.toString();
+        if (participantId === senderId) return;
+
+        const current = room.unreadCount.get(participantId) || 0;
+        room.unreadCount.set(participantId, current + 1);
+    });
+
+    await room.save();
+    await message.populate('sender', SENDER_PUBLIC_FIELDS);
+
+    return { ok: true, message };
+}
+
+module.exports = { createMessage, SENDER_PUBLIC_FIELDS };
