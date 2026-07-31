@@ -46,7 +46,7 @@ class RoomDisplayInfo {
 
     final lastSeen = other.lastSeen;
     if (lastSeen == null) return 'не в сети';
-    return 'был(а) в ${_formatLastSeen(lastSeen)}';
+    return 'был(а) ${_formatLastSeen(lastSeen)}';
   }
 
   // склонение слова "участник"
@@ -64,6 +64,6 @@ class RoomDisplayInfo {
     if (diff.inMinutes < 1) return 'только что';
     if (diff.inHours < 1) return '${diff.inMinutes} мин назад';
     if (diff.inDays < 1) return '${diff.inHours} ч назад';
-    return '${lastSeen.day.toString().padLeft(2, '0')}.${lastSeen.month.toString().padLeft(2, '0')}';
+    return 'в ${lastSeen.day.toString().padLeft(2, '0')}.${lastSeen.month.toString().padLeft(2, '0')}';
   }
 }
