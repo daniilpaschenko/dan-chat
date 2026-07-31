@@ -1,10 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../user/data/models/user_model.dart';
+import '../../domain/entities/message_entity.dart' show AttachmentType;
 
 part 'message.freezed.dart';
 part 'message.g.dart';
-
-enum AttachmentType { image, file }
 
 // под-схема для прикреплённого файла к сообщению
 @freezed

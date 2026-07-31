@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
-import '../../data/models/messages_page.dart';
+import '../entities/messages_page_entity.dart';
 import '../interfaces/i_message_repository.dart';
 
 class GetRoomMessagesUseCase {
@@ -8,7 +8,7 @@ class GetRoomMessagesUseCase {
 
   const GetRoomMessagesUseCase(this._repository);
 
-  Future<Either<Failure, MessagesPage>> call({
+  Future<Either<Failure, MessagesPageEntity>> call({
     required String roomId,
     String? before,
   }) {

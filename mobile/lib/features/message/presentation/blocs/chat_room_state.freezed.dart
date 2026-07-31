@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ChatRoomState {
   String get roomId => throw _privateConstructorUsedError;
-  List<Message> get messages =>
+  List<MessageEntity> get messages =>
       throw _privateConstructorUsedError; // от старых к новым
   bool get isInitialLoading => throw _privateConstructorUsedError;
   bool get isLoadingMore => throw _privateConstructorUsedError;
@@ -43,7 +43,7 @@ abstract class $ChatRoomStateCopyWith<$Res> {
   @useResult
   $Res call({
     String roomId,
-    List<Message> messages,
+    List<MessageEntity> messages,
     bool isInitialLoading,
     bool isLoadingMore,
     bool isSending,
@@ -86,7 +86,7 @@ class _$ChatRoomStateCopyWithImpl<$Res, $Val extends ChatRoomState>
             messages: null == messages
                 ? _value.messages
                 : messages // ignore: cast_nullable_to_non_nullable
-                      as List<Message>,
+                      as List<MessageEntity>,
             isInitialLoading: null == isInitialLoading
                 ? _value.isInitialLoading
                 : isInitialLoading // ignore: cast_nullable_to_non_nullable
@@ -128,7 +128,7 @@ abstract class _$$ChatRoomStateImplCopyWith<$Res>
   @useResult
   $Res call({
     String roomId,
-    List<Message> messages,
+    List<MessageEntity> messages,
     bool isInitialLoading,
     bool isLoadingMore,
     bool isSending,
@@ -170,7 +170,7 @@ class __$$ChatRoomStateImplCopyWithImpl<$Res>
         messages: null == messages
             ? _value._messages
             : messages // ignore: cast_nullable_to_non_nullable
-                  as List<Message>,
+                  as List<MessageEntity>,
         isInitialLoading: null == isInitialLoading
             ? _value.isInitialLoading
             : isInitialLoading // ignore: cast_nullable_to_non_nullable
@@ -205,7 +205,7 @@ class __$$ChatRoomStateImplCopyWithImpl<$Res>
 class _$ChatRoomStateImpl implements _ChatRoomState {
   const _$ChatRoomStateImpl({
     required this.roomId,
-    final List<Message> messages = const [],
+    final List<MessageEntity> messages = const [],
     this.isInitialLoading = false,
     this.isLoadingMore = false,
     this.isSending = false,
@@ -216,10 +216,10 @@ class _$ChatRoomStateImpl implements _ChatRoomState {
 
   @override
   final String roomId;
-  final List<Message> _messages;
+  final List<MessageEntity> _messages;
   @override
   @JsonKey()
-  List<Message> get messages {
+  List<MessageEntity> get messages {
     if (_messages is EqualUnmodifiableListView) return _messages;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_messages);
@@ -293,7 +293,7 @@ class _$ChatRoomStateImpl implements _ChatRoomState {
 abstract class _ChatRoomState implements ChatRoomState {
   const factory _ChatRoomState({
     required final String roomId,
-    final List<Message> messages,
+    final List<MessageEntity> messages,
     final bool isInitialLoading,
     final bool isLoadingMore,
     final bool isSending,
@@ -305,7 +305,7 @@ abstract class _ChatRoomState implements ChatRoomState {
   @override
   String get roomId;
   @override
-  List<Message> get messages; // от старых к новым
+  List<MessageEntity> get messages; // от старых к новым
   @override
   bool get isInitialLoading;
   @override

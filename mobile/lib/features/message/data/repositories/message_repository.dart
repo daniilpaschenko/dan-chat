@@ -3,11 +3,12 @@ import 'package:dio/dio.dart';
 
 import '../../../../core/errors/dio_exception_mapper.dart';
 import '../../../../core/errors/failures.dart';
+import '../../domain/entities/message_entity.dart';
+import '../../domain/entities/messages_page_entity.dart';
 import '../../domain/interfaces/i_message_repository.dart';
 import '../datasources/message_remote_datasource.dart';
 import '../datasources/message_local_datasource.dart';
-import '../models/message.dart';
-import '../models/messages_page.dart';
+import '../mappers/message_mapper.dart';
 
 class MessageRepository implements IMessageRepository {
   final MessageRemoteDatasource _remoteDatasource;
@@ -16,7 +17,7 @@ class MessageRepository implements IMessageRepository {
   const MessageRepository(this._remoteDatasource, this._localDatasource);
 
   @override
-  Future<Either<Failure, MessagesPage>> getRoomMessages({
+  Future<Either<Failure, MessagesPageEntity>> getRoomMessages({
     required String roomId,
     String? before,
   }) async {
@@ -36,15 +37,15 @@ class MessageRepository implements IMessageRepository {
           olderMessages: page.messages,
         );
       }
-      return Right(page);
+      return Right(page.toEntity());
     } on DioException catch (e) {
       // если это первая загрузка, пробуем показать локальный кэш
       if (before == null) {
         final cached = await _localDatasource.getCachedMessages(roomId);
         if (cached.isNotEmpty) {
           return Right(
-            MessagesPage(
-              messages: cached,
+            MessagesPageEntity(
+              messages: cached.map((m) => m.toEntity()).toList(),
               nextCursor: null,
               hasMore: false,
             ),
@@ -68,14 +69,14 @@ class MessageRepository implements IMessageRepository {
   }
 
   @override
-  Future<Either<Failure, Message>> sendMessage({
+  Future<Either<Failure, MessageEntity>> sendMessage({
     required String roomId,
     required String text,
   }) async {
     try {
       final message = await _remoteDatasource.createMessage(roomId: roomId, text: text);
       await _localDatasource.addNewMessage(roomId: roomId, message: message);
-      return Right(message);
+      return Right(message.toEntity());
     } on DioException catch (e) {
       return Left(mapDioExceptionToFailure(
         e,
