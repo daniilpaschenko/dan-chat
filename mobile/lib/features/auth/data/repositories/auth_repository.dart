@@ -4,9 +4,10 @@ import 'package:dio/dio.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/errors/dio_exception_mapper.dart';
 import '../../../../core/storage/secure_storage_service.dart';
+import '../../domain/entities/auth_entity.dart';
 import '../../domain/interfaces/i_auth_repository.dart';
 import '../datasources/auth_remote_datasource.dart';
-import '../models/auth_response.dart';
+import '../mappers/auth_mapper.dart';
 
 class AuthRepository implements IAuthRepository {
   final AuthRemoteDatasource _remoteDatasource;
@@ -15,7 +16,7 @@ class AuthRepository implements IAuthRepository {
   const AuthRepository(this._remoteDatasource, this._secureStorageService);
 
   @override
-  Future<Either<Failure, AuthResponse>> login({
+  Future<Either<Failure, AuthEntity>> login({
     required String email,
     required String password,
   }) async {
@@ -31,8 +32,8 @@ class AuthRepository implements IAuthRepository {
         refreshToken: authResponse.refreshToken,
       );
 
-      // bloc просто получает готовый AuthResponse
-      return Right(authResponse);
+      // наружу отдаём доменную сущность, а не data-модель
+      return Right(authResponse.toEntity());
     } on DioException catch (e) {
       return Left(_mapDioException(e));
     } catch (e) {
@@ -41,7 +42,7 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<Either<Failure, AuthResponse>> register({
+  Future<Either<Failure, AuthEntity>> register({
     required String email,
     required String password,
     required String username,
@@ -58,7 +59,7 @@ class AuthRepository implements IAuthRepository {
         refreshToken: authResponse.refreshToken,
       );
 
-      return Right(authResponse);
+      return Right(authResponse.toEntity());
     } on DioException catch (e) {
       return Left(_mapDioException(e));
     } catch (e) {
