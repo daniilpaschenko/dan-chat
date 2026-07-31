@@ -1,15 +1,15 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
-import '../../data/models/message.dart';
-import '../../data/models/messages_page.dart';
+import '../entities/message_entity.dart';
+import '../entities/messages_page_entity.dart';
 
 abstract class IMessageRepository {
-  Future<Either<Failure, MessagesPage>> getRoomMessages({
+  Future<Either<Failure, MessagesPageEntity>> getRoomMessages({
     required String roomId,
     String? before,
   });
 
-  Future<Either<Failure, Message>> sendMessage({
+  Future<Either<Failure, MessageEntity>> sendMessage({
     required String roomId,
     required String text,
   });
