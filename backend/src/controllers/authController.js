@@ -8,21 +8,10 @@ const {
     hashToken,
     getRefreshExpiryDate,
 } = require('../utils/tokenUtils');
+const { toPublicUser } = require('../utils/userUtils');
 
 
 const SALT_ROUNDS = 12; // для bcrypt hashing
-
-// преобразует объект пользователя в формат, который можно безопасно отправлять клиенту
-// (без пароля и других чувствительных данных)
-function toPublicUser(user) {
-    return {
-        id: user._id,
-        email: user.email,
-        username: user.username,
-        avatarUrl: user.avatarUrl,
-        status: user.status,
-    };
-}
 
 // создаёт новую refresh-сессию в БД и возвращает сырой токен
 async function issueRefreshToken(userId) {

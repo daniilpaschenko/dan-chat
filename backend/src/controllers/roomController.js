@@ -1,5 +1,6 @@
 const Room = require('../models/Room');
 const { createRoomSchema, addParticipantSchema } = require('../validators/roomValidator');
+const { findRoomIfMember, getParticipant } = require('../services/roomService');
 
 // POST /rooms
 // body: { type: 'direct'|'group', participantIds: string[], name?, avatarUrl? }
@@ -102,16 +103,12 @@ exports.getRoomById = async (req, res) => {
         const myId = req.user.id;
         const { roomId } = req.params;
 
-        const room = await Room.findById(roomId).populate(
-            'participants.user',
-            'username avatarUrl status lastSeen'
-        );
+        const room = await findRoomIfMember(roomId, myId);
 
-        if (!room) return res.status(404).json({ message: 'Комната не найдена' });
+        // не вскрываем существование чужих комнат
+        if (!room) return res.status(403).json({ message: 'Нет доступа к этой комнате' });
 
-        const isMember = room.participants.some((p) => p.user._id.toString() === myId);
-        if (!isMember) return res.status(403).json({ message: 'Нет доступа к этой комнате' });
-
+        await room.populate('participants.user', 'username avatarUrl status lastSeen');
         return res.json(room);
     } catch (err) {
         console.error('getRoomById error:', err);
@@ -126,11 +123,8 @@ exports.markRoomAsRead = async (req, res) => {
         const myId = req.user.id;
         const { roomId } = req.params;
 
-        const room = await Room.findById(roomId);
-        if (!room) return res.status(404).json({ message: 'Комната не найдена' });
-
-        const isMember = room.participants.some((p) => p.user.toString() === myId);
-        if (!isMember) return res.status(403).json({ message: 'Нет доступа к этой комнате' });
+        const room = await findRoomIfMember(roomId, myId);
+        if (!room) return res.status(403).json({ message: 'Нет доступа к этой комнате' });
 
         room.unreadCount.set(myId, 0);
         await room.save();
@@ -156,14 +150,14 @@ exports.addParticipant = async (req, res) => {
         const { roomId } = req.params;
         const { userId } = value;
 
-        const room = await Room.findById(roomId);
-        if (!room) return res.status(404).json({ message: 'Комната не найдена' });
+        const room = await findRoomIfMember(roomId, myId);
+        if (!room) return res.status(403).json({ message: 'Нет доступа к этой комнате' });
         if (room.type !== 'group') {
             return res.status(400).json({ message: 'Добавлять участников можно только в групповой чат' });
         }
 
-        const me = room.participants.find((p) => p.user.toString() === myId);
-        if (!me || !['owner', 'admin'].includes(me.role)) {
+        const me = getParticipant(room, myId);
+        if (!['owner', 'admin'].includes(me.role)) {
             return res.status(403).json({ message: 'Недостаточно прав' });
         }
 
@@ -189,15 +183,13 @@ exports.removeParticipant = async (req, res) => {
         const myId = req.user.id;
         const { roomId, userId } = req.params;
 
-        const room = await Room.findById(roomId);
-        if (!room) return res.status(404).json({ message: 'Комната не найдена' });
+        const room = await findRoomIfMember(roomId, myId);
+        if (!room) return res.status(403).json({ message: 'Нет доступа к этой комнате' });
         if (room.type !== 'group') {
             return res.status(400).json({ message: 'Операция доступна только для группового чата' });
         }
 
-        const me = room.participants.find((p) => p.user.toString() === myId);
-        if (!me) return res.status(403).json({ message: 'Нет доступа к этой комнате' });
-
+        const me = getParticipant(room, myId);
         const isSelf = userId === myId;
         const canManage = ['owner', 'admin'].includes(me.role);
 
@@ -216,7 +208,7 @@ exports.removeParticipant = async (req, res) => {
         await room.save();
         // populate чтобы сделать однообразное поведения для удобства на фронтенде
         await room.populate('participants.user', 'username avatarUrl status lastSeen');
-        
+
         return res.json(room);
     } catch (err) {
         console.error('removeParticipant error:', err);
