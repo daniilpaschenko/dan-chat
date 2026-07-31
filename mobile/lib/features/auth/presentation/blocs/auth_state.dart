@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../data/models/auth_response.dart';
+import '../../domain/entities/auth_entity.dart';
 
 part 'auth_state.freezed.dart';
 
@@ -12,7 +12,7 @@ class AuthState with _$AuthState {
   const factory AuthState.loading() = AuthLoading;
 
   // успешный login/register
-  const factory AuthState.success(AuthResponse authResponse) = AuthSuccess;
+  const factory AuthState.success(AuthEntity authResponse) = AuthSuccess;
 
   // провал login/register — сообщение пользователю для показа под формой 
   const factory AuthState.failure(String message) = AuthFailure;

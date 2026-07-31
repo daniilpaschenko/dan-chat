@@ -554,7 +554,7 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
   final bool isCreatingChat;
   @override
   final Room? navigateToRoom;
-  // одноразовый сигнал для навигации, теперь с полными данными
+  // одноразовый сигнал для навигации с полными данными
   @override
   final String? chatError;
 
@@ -746,7 +746,7 @@ abstract class ProfileLoaded implements ProfileState {
   bool get isUploadingAvatar;
   bool get isCreatingChat;
   Room?
-  get navigateToRoom; // одноразовый сигнал для навигации, теперь с полными данными
+  get navigateToRoom; // одноразовый сигнал для навигации с полными данными
   String? get chatError;
 
   /// Create a copy of ProfileState
