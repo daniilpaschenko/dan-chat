@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../models/room.dart';
+import '../../../room/domain/entities/room_entity.dart' show RoomType;
 
 class RoomRemoteDatasource {
   final Dio _dio;

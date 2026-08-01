@@ -1,11 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../user/data/models/user_model.dart';
+import '../../domain/entities/room_entity.dart' show RoomType, ParticipantRole;
 
 part 'room.freezed.dart';
 part 'room.g.dart';
-
-enum RoomType { direct, group }
-enum ParticipantRole { owner, admin, member }
 
 @freezed
 class Participant with _$Participant {
