@@ -21,21 +21,21 @@ mixin _$SearchState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<PartialUser> users) loaded,
+    required TResult Function(List<PartialUserEntity> users) loaded,
     required TResult Function(String message) failure,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<PartialUser> users)? loaded,
+    TResult? Function(List<PartialUserEntity> users)? loaded,
     TResult? Function(String message)? failure,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<PartialUser> users)? loaded,
+    TResult Function(List<PartialUserEntity> users)? loaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -130,7 +130,7 @@ class _$SearchInitialImpl implements SearchInitial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<PartialUser> users) loaded,
+    required TResult Function(List<PartialUserEntity> users) loaded,
     required TResult Function(String message) failure,
   }) {
     return initial();
@@ -141,7 +141,7 @@ class _$SearchInitialImpl implements SearchInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<PartialUser> users)? loaded,
+    TResult? Function(List<PartialUserEntity> users)? loaded,
     TResult? Function(String message)? failure,
   }) {
     return initial?.call();
@@ -152,7 +152,7 @@ class _$SearchInitialImpl implements SearchInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<PartialUser> users)? loaded,
+    TResult Function(List<PartialUserEntity> users)? loaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -249,7 +249,7 @@ class _$SearchLoadingImpl implements SearchLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<PartialUser> users) loaded,
+    required TResult Function(List<PartialUserEntity> users) loaded,
     required TResult Function(String message) failure,
   }) {
     return loading();
@@ -260,7 +260,7 @@ class _$SearchLoadingImpl implements SearchLoading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<PartialUser> users)? loaded,
+    TResult? Function(List<PartialUserEntity> users)? loaded,
     TResult? Function(String message)? failure,
   }) {
     return loading?.call();
@@ -271,7 +271,7 @@ class _$SearchLoadingImpl implements SearchLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<PartialUser> users)? loaded,
+    TResult Function(List<PartialUserEntity> users)? loaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -330,7 +330,7 @@ abstract class _$$SearchLoadedImplCopyWith<$Res> {
     $Res Function(_$SearchLoadedImpl) then,
   ) = __$$SearchLoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<PartialUser> users});
+  $Res call({List<PartialUserEntity> users});
 }
 
 /// @nodoc
@@ -352,7 +352,7 @@ class __$$SearchLoadedImplCopyWithImpl<$Res>
         null == users
             ? _value._users
             : users // ignore: cast_nullable_to_non_nullable
-                  as List<PartialUser>,
+                  as List<PartialUserEntity>,
       ),
     );
   }
@@ -361,11 +361,12 @@ class __$$SearchLoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SearchLoadedImpl implements SearchLoaded {
-  const _$SearchLoadedImpl(final List<PartialUser> users) : _users = users;
+  const _$SearchLoadedImpl(final List<PartialUserEntity> users)
+    : _users = users;
 
-  final List<PartialUser> _users;
+  final List<PartialUserEntity> _users;
   @override
-  List<PartialUser> get users {
+  List<PartialUserEntity> get users {
     if (_users is EqualUnmodifiableListView) return _users;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_users);
@@ -401,7 +402,7 @@ class _$SearchLoadedImpl implements SearchLoaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<PartialUser> users) loaded,
+    required TResult Function(List<PartialUserEntity> users) loaded,
     required TResult Function(String message) failure,
   }) {
     return loaded(users);
@@ -412,7 +413,7 @@ class _$SearchLoadedImpl implements SearchLoaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<PartialUser> users)? loaded,
+    TResult? Function(List<PartialUserEntity> users)? loaded,
     TResult? Function(String message)? failure,
   }) {
     return loaded?.call(users);
@@ -423,7 +424,7 @@ class _$SearchLoadedImpl implements SearchLoaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<PartialUser> users)? loaded,
+    TResult Function(List<PartialUserEntity> users)? loaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -472,10 +473,10 @@ class _$SearchLoadedImpl implements SearchLoaded {
 }
 
 abstract class SearchLoaded implements SearchState {
-  const factory SearchLoaded(final List<PartialUser> users) =
+  const factory SearchLoaded(final List<PartialUserEntity> users) =
       _$SearchLoadedImpl;
 
-  List<PartialUser> get users;
+  List<PartialUserEntity> get users;
 
   /// Create a copy of SearchState
   /// with the given fields replaced by the non-null parameter values.
@@ -556,7 +557,7 @@ class _$SearchFailureImpl implements SearchFailure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<PartialUser> users) loaded,
+    required TResult Function(List<PartialUserEntity> users) loaded,
     required TResult Function(String message) failure,
   }) {
     return failure(message);
@@ -567,7 +568,7 @@ class _$SearchFailureImpl implements SearchFailure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<PartialUser> users)? loaded,
+    TResult? Function(List<PartialUserEntity> users)? loaded,
     TResult? Function(String message)? failure,
   }) {
     return failure?.call(message);
@@ -578,7 +579,7 @@ class _$SearchFailureImpl implements SearchFailure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<PartialUser> users)? loaded,
+    TResult Function(List<PartialUserEntity> users)? loaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {

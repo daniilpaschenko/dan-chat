@@ -1,10 +1,11 @@
+import 'package:dan_chat/features/user/data/mappers/user_mapper.dart';
+
 import '../models/message.dart';
 import '../models/messages_page.dart';
 import '../../domain/entities/message_entity.dart';
 import '../../domain/entities/messages_page_entity.dart';
 
 // маппинг data-слой -> domain-слой для сообщений
-// префиксы нужны т.к. AttachmentType объявлен и в data, и в domain
 
 extension AttachmentMapper on Attachment {
   AttachmentEntity toEntity() {
@@ -24,7 +25,7 @@ extension MessageMapper on Message {
     return MessageEntity(
       id: id,
       room: room,
-      sender: sender, // TODO: sender.toEntity()
+      sender: sender.toEntity(),
       text: text,
       attachments: attachments.map((a) => a.toEntity()).toList(),
       readBy: readBy,

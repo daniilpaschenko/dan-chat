@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../../user/data/models/user_model.dart'; // TODO: domain/entities/user_entity.dart
+import '../../../user/domain/entities/user_entity.dart';
 
 part 'room_entity.freezed.dart';
 
@@ -7,9 +7,9 @@ enum RoomType { direct, group }
 enum ParticipantRole { owner, admin, member }
 
 @freezed
-class ParticipantEntity with _$ParticipantEntity { // TODO: PartialUserEntity
+class ParticipantEntity with _$ParticipantEntity {
   const factory ParticipantEntity({
-    required PartialUser user,
+    required PartialUserEntity user,
     @Default(ParticipantRole.member) ParticipantRole role,
     DateTime? joinedAt,
   }) = _ParticipantEntity;

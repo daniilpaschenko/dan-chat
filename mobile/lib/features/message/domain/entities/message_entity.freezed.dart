@@ -217,8 +217,7 @@ abstract class _AttachmentEntity implements AttachmentEntity {
 mixin _$MessageEntity {
   String get id => throw _privateConstructorUsedError;
   String get room => throw _privateConstructorUsedError;
-  PartialUser get sender =>
-      throw _privateConstructorUsedError; // TODO: PartialUserEntity
+  PartialUserEntity get sender => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
   List<AttachmentEntity> get attachments => throw _privateConstructorUsedError;
   List<String> get readBy => throw _privateConstructorUsedError;
@@ -244,7 +243,7 @@ abstract class $MessageEntityCopyWith<$Res> {
   $Res call({
     String id,
     String room,
-    PartialUser sender,
+    PartialUserEntity sender,
     String text,
     List<AttachmentEntity> attachments,
     List<String> readBy,
@@ -254,7 +253,7 @@ abstract class $MessageEntityCopyWith<$Res> {
     DateTime? updatedAt,
   });
 
-  $PartialUserCopyWith<$Res> get sender;
+  $PartialUserEntityCopyWith<$Res> get sender;
 }
 
 /// @nodoc
@@ -296,7 +295,7 @@ class _$MessageEntityCopyWithImpl<$Res, $Val extends MessageEntity>
             sender: null == sender
                 ? _value.sender
                 : sender // ignore: cast_nullable_to_non_nullable
-                      as PartialUser,
+                      as PartialUserEntity,
             text: null == text
                 ? _value.text
                 : text // ignore: cast_nullable_to_non_nullable
@@ -334,8 +333,8 @@ class _$MessageEntityCopyWithImpl<$Res, $Val extends MessageEntity>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $PartialUserCopyWith<$Res> get sender {
-    return $PartialUserCopyWith<$Res>(_value.sender, (value) {
+  $PartialUserEntityCopyWith<$Res> get sender {
+    return $PartialUserEntityCopyWith<$Res>(_value.sender, (value) {
       return _then(_value.copyWith(sender: value) as $Val);
     });
   }
@@ -353,7 +352,7 @@ abstract class _$$MessageEntityImplCopyWith<$Res>
   $Res call({
     String id,
     String room,
-    PartialUser sender,
+    PartialUserEntity sender,
     String text,
     List<AttachmentEntity> attachments,
     List<String> readBy,
@@ -364,7 +363,7 @@ abstract class _$$MessageEntityImplCopyWith<$Res>
   });
 
   @override
-  $PartialUserCopyWith<$Res> get sender;
+  $PartialUserEntityCopyWith<$Res> get sender;
 }
 
 /// @nodoc
@@ -405,7 +404,7 @@ class __$$MessageEntityImplCopyWithImpl<$Res>
         sender: null == sender
             ? _value.sender
             : sender // ignore: cast_nullable_to_non_nullable
-                  as PartialUser,
+                  as PartialUserEntity,
         text: null == text
             ? _value.text
             : text // ignore: cast_nullable_to_non_nullable
@@ -461,8 +460,7 @@ class _$MessageEntityImpl implements _MessageEntity {
   @override
   final String room;
   @override
-  final PartialUser sender;
-  // TODO: PartialUserEntity
+  final PartialUserEntity sender;
   @override
   @JsonKey()
   final String text;
@@ -551,7 +549,7 @@ abstract class _MessageEntity implements MessageEntity {
   const factory _MessageEntity({
     required final String id,
     required final String room,
-    required final PartialUser sender,
+    required final PartialUserEntity sender,
     final String text,
     final List<AttachmentEntity> attachments,
     final List<String> readBy,
@@ -566,7 +564,7 @@ abstract class _MessageEntity implements MessageEntity {
   @override
   String get room;
   @override
-  PartialUser get sender; // TODO: PartialUserEntity
+  PartialUserEntity get sender;
   @override
   String get text;
   @override

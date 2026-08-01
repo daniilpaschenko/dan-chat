@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ParticipantEntity {
-  PartialUser get user => throw _privateConstructorUsedError;
+  PartialUserEntity get user => throw _privateConstructorUsedError;
   ParticipantRole get role => throw _privateConstructorUsedError;
   DateTime? get joinedAt => throw _privateConstructorUsedError;
 
@@ -35,9 +35,9 @@ abstract class $ParticipantEntityCopyWith<$Res> {
     $Res Function(ParticipantEntity) then,
   ) = _$ParticipantEntityCopyWithImpl<$Res, ParticipantEntity>;
   @useResult
-  $Res call({PartialUser user, ParticipantRole role, DateTime? joinedAt});
+  $Res call({PartialUserEntity user, ParticipantRole role, DateTime? joinedAt});
 
-  $PartialUserCopyWith<$Res> get user;
+  $PartialUserEntityCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -64,7 +64,7 @@ class _$ParticipantEntityCopyWithImpl<$Res, $Val extends ParticipantEntity>
             user: null == user
                 ? _value.user
                 : user // ignore: cast_nullable_to_non_nullable
-                      as PartialUser,
+                      as PartialUserEntity,
             role: null == role
                 ? _value.role
                 : role // ignore: cast_nullable_to_non_nullable
@@ -82,8 +82,8 @@ class _$ParticipantEntityCopyWithImpl<$Res, $Val extends ParticipantEntity>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $PartialUserCopyWith<$Res> get user {
-    return $PartialUserCopyWith<$Res>(_value.user, (value) {
+  $PartialUserEntityCopyWith<$Res> get user {
+    return $PartialUserEntityCopyWith<$Res>(_value.user, (value) {
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
@@ -98,10 +98,10 @@ abstract class _$$ParticipantEntityImplCopyWith<$Res>
   ) = __$$ParticipantEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({PartialUser user, ParticipantRole role, DateTime? joinedAt});
+  $Res call({PartialUserEntity user, ParticipantRole role, DateTime? joinedAt});
 
   @override
-  $PartialUserCopyWith<$Res> get user;
+  $PartialUserEntityCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -127,7 +127,7 @@ class __$$ParticipantEntityImplCopyWithImpl<$Res>
         user: null == user
             ? _value.user
             : user // ignore: cast_nullable_to_non_nullable
-                  as PartialUser,
+                  as PartialUserEntity,
         role: null == role
             ? _value.role
             : role // ignore: cast_nullable_to_non_nullable
@@ -151,7 +151,7 @@ class _$ParticipantEntityImpl implements _ParticipantEntity {
   });
 
   @override
-  final PartialUser user;
+  final PartialUserEntity user;
   @override
   @JsonKey()
   final ParticipantRole role;
@@ -191,13 +191,13 @@ class _$ParticipantEntityImpl implements _ParticipantEntity {
 
 abstract class _ParticipantEntity implements ParticipantEntity {
   const factory _ParticipantEntity({
-    required final PartialUser user,
+    required final PartialUserEntity user,
     final ParticipantRole role,
     final DateTime? joinedAt,
   }) = _$ParticipantEntityImpl;
 
   @override
-  PartialUser get user;
+  PartialUserEntity get user;
   @override
   ParticipantRole get role;
   @override

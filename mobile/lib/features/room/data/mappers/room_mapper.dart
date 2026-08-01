@@ -1,10 +1,12 @@
+import 'package:dan_chat/features/user/data/mappers/user_mapper.dart';
+
 import '../models/room.dart';
 import '../../domain/entities/room_entity.dart';
 
 extension ParticipantMapper on Participant {
   ParticipantEntity toEntity() {
     return ParticipantEntity(
-      user: user,
+      user: user.toEntity(),
       role: role,
       joinedAt: joinedAt,
     );

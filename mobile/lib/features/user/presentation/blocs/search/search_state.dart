@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../../data/models/user_model.dart';
+import '../../../domain/entities/user_entity.dart';
 
 part 'search_state.freezed.dart';
 
@@ -10,7 +10,7 @@ class SearchState with _$SearchState {
 
   const factory SearchState.loading() = SearchLoading;
 
-  const factory SearchState.loaded(List<PartialUser> users) = SearchLoaded;
+  const factory SearchState.loaded(List<PartialUserEntity> users) = SearchLoaded;
 
   const factory SearchState.failure(String message) = SearchFailure;
 }

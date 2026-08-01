@@ -6,7 +6,7 @@ import '../../../../core/navigation/route_paths.dart';
 import '../../../../core/widgets/user_avatar.dart';
 import '../../../room/domain/entities/room_display_info.dart';
 import '../../../room/domain/entities/room_entity.dart';
-import '../../../user/data/models/user_model.dart'; // TODO: domain/entities/user_entity.dart
+import '../../../user/domain/entities/user_entity.dart';
 
 
 // кастомный AppBar: своя стрелка назад, аватарка, название чата и подзаголовок
@@ -20,7 +20,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
     // собеседник в личном чате — участник, чей user.id != currentUserId
-    PartialUser? get _otherUser {
+    PartialUserEntity? get _otherUser {
       if (room == null || room!.type != RoomType.direct) return null;
       try {
         return room!.participants
