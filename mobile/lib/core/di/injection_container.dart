@@ -9,8 +9,10 @@ import '../navigation/app_router.dart';
 import '../navigation/auth_state_notifier.dart';
 import '../navigation/bottom_nav_visibility.dart';
 import '../network/dio_client.dart';
+import '../network/socket_service.dart';
 import '../storage/hive_service.dart';
 import '../storage/secure_storage_service.dart';
+
 
 // AUTH
 import '../../features/auth/data/datasources/auth_remote_datasource.dart';
@@ -67,10 +69,16 @@ Future<void> setupDependencies() async {
   );
   getIt.registerLazySingleton<HiveService>(() => HiveService());
 
+  getIt.registerLazySingleton<SocketService>(() => SocketService());
+
   // core/navigation
   // регистрируем раньше Dio, т.к. DioClient дергает logOut() при провале refresh
   getIt.registerLazySingleton<AuthStateNotifier>(
-    () => AuthStateNotifier(getIt<SecureStorageService>(), getIt<HiveService>()),
+    () => AuthStateNotifier(
+      getIt<SecureStorageService>(),
+      getIt<HiveService>(),
+      getIt<SocketService>(),
+    ),
   );
 
   // core/network
@@ -230,7 +238,9 @@ Future<void> setupDependencies() async {
   getIt.registerFactory<ChatRoomBloc>(
     () => ChatRoomBloc(
       getRoomMessagesUseCase: getIt<GetRoomMessagesUseCase>(),
-      sendMessageUseCase: getIt<SendMessageUseCase>(),
+      getMyProfileUseCase: getIt<GetMyProfileUseCase>(),
+      socketService: getIt<SocketService>(),
+      currentUserId: getIt<AuthStateNotifier>().currentUserId!,
     ),
   );
 }
