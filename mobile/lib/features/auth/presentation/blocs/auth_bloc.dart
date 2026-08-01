@@ -46,15 +46,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // fold — способ dartz разобрать Either без if/else
     await result.fold(
       (failure) async => emit(AuthState.failure(_mapFailureToMessage(failure))),
-      (authResponse) async {
+      (authEntity) async {
         // токены уже сохранены внутри AuthRepository.login()
         await _authStateNotifier.logIn(
-          accessToken: authResponse.accessToken,
-          refreshToken: authResponse.refreshToken,
-          userId: authResponse.user.id,
+          accessToken: authEntity.accessToken,
+          refreshToken: authEntity.refreshToken,
+          userId: authEntity.user.id,
         );
         // успех
-        emit(AuthState.success(authResponse));
+        emit(AuthState.success(authEntity));
       },
     );
   }
@@ -74,13 +74,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     await result.fold(
       (failure) async => emit(AuthState.failure(_mapFailureToMessage(failure))),
-      (authResponse) async {
+      (authEntity) async {
         await _authStateNotifier.logIn(
-          accessToken: authResponse.accessToken,
-          refreshToken: authResponse.refreshToken,
-          userId: authResponse.user.id,
+          accessToken: authEntity.accessToken,
+          refreshToken: authEntity.refreshToken,
+          userId: authEntity.user.id,
         );
-        emit(AuthState.success(authResponse));
+        emit(AuthState.success(authEntity));
       },
     );
   }

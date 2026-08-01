@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
-import '../../data/models/message.dart';
+import '../../domain/entities/message_entity.dart';
 
 class MessageBubble extends StatelessWidget {
-  final Message message;
+  final MessageEntity message;
   final bool isMine;
   final double gap;
   final AppSpacing spacing;

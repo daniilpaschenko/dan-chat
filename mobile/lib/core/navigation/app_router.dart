@@ -1,3 +1,4 @@
+import '../../features/room/domain/entities/room_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
@@ -7,7 +8,6 @@ import '../../features/user/presentation/screens/search_screen.dart';
 import '../../features/message/presentation/screens/chat_room_screen.dart';
 import '../../features/user/presentation/screens/profile_screen.dart';
 import '../navigation/app_shell.dart';
-import '../../features/room/data/models/room.dart';
 import '../widgets/placeholder_screen.dart';
 import '../widgets/splash_screen.dart';
 import 'auth_state_notifier.dart';
@@ -101,7 +101,7 @@ class AppRouter {
                       parentNavigatorKey: _chatsNavigatorKey, // используем тот же навигатор
                       builder: (context, state) => ChatRoomScreen(
                         roomId: state.pathParameters['roomId']!,
-                        room: state.extra as RoomListItem?, 
+                        room: state.extra as RoomListItemEntity?, 
                       ),
                     ),
                   ],

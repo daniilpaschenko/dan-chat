@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
-import '../../data/models/message.dart';
+import '../entities/message_entity.dart';
 import '../interfaces/i_message_repository.dart';
 
 class SendMessageUseCase {
@@ -8,7 +8,7 @@ class SendMessageUseCase {
 
   const SendMessageUseCase(this._repository);
 
-  Future<Either<Failure, Message>> call({
+  Future<Either<Failure, MessageEntity>> call({
     required String roomId,
     required String text,
   }) {
