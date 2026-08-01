@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../../../domain/entities/user_entity.dart';
 
 part 'profile_event.freezed.dart';
 
@@ -10,4 +11,9 @@ class ProfileEvent with _$ProfileEvent {
   const factory ProfileEvent.chatRequested() = ProfileChatRequested;
   const factory ProfileEvent.chatNavigationHandled() = ProfileChatNavigationHandled;
   const factory ProfileEvent.chatErrorHandled() = ProfileChatErrorHandled;
+
+  const factory ProfileEvent.presenceUpdated({
+    required UserStatus status,
+    DateTime? lastSeen,
+  }) = ProfilePresenceUpdated;
 }
