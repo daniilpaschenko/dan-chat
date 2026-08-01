@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../data/models/message.dart';
+import '../../domain/entities/message_entity.dart';
 
 part 'chat_room_state.freezed.dart';
 
@@ -7,7 +7,7 @@ part 'chat_room_state.freezed.dart';
 class ChatRoomState with _$ChatRoomState {
   const factory ChatRoomState({
     required String roomId,
-    @Default([]) List<Message> messages, // от старых к новым
+    @Default([]) List<MessageEntity> messages, // от старых к новым
     @Default(false) bool isInitialLoading,
     @Default(false) bool isLoadingMore,
     @Default(false) bool isSending,

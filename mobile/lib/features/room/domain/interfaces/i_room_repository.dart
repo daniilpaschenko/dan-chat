@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
-import '../../data/models/room.dart';
+import '../entities/room_entity.dart';
 
 abstract class IRoomRepository {
-  Future<Either<Failure, List<RoomListItem>>> getMyRooms();
+  Future<Either<Failure, List<RoomListItemEntity>>> getMyRooms();
 
-  Future<Either<Failure, Room>> getRoomById(String roomId);
+  Future<Either<Failure, RoomEntity>> getRoomById(String roomId);
 
-  Future<Either<Failure, Room>> createRoom({
+  Future<Either<Failure, RoomEntity>> createRoom({
     required RoomType type,
     String? name,
     String? avatarUrl,
@@ -16,12 +16,12 @@ abstract class IRoomRepository {
 
   Future<Either<Failure, Unit>> markRoomAsRead(String roomId);
 
-  Future<Either<Failure, Room>> addParticipant({
+  Future<Either<Failure, RoomEntity>> addParticipant({
     required String roomId,
     required String userId,
   });
 
-  Future<Either<Failure, Room?>> removeParticipant({
+  Future<Either<Failure, RoomEntity?>> removeParticipant({
     required String roomId,
     required String userId,
   });

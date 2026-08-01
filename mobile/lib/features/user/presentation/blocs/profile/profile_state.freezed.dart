@@ -23,11 +23,11 @@ mixin _$ProfileState {
     required TResult Function() loading,
     required TResult Function(
       bool isOwnProfile,
-      User? ownUser,
-      PartialUser? otherUser,
+      UserEntity? ownUser,
+      PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
-      Room? navigateToRoom,
+      RoomEntity? navigateToRoom,
       String? chatError,
     )
     loaded,
@@ -39,11 +39,11 @@ mixin _$ProfileState {
     TResult? Function()? loading,
     TResult? Function(
       bool isOwnProfile,
-      User? ownUser,
-      PartialUser? otherUser,
+      UserEntity? ownUser,
+      PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
-      Room? navigateToRoom,
+      RoomEntity? navigateToRoom,
       String? chatError,
     )?
     loaded,
@@ -55,11 +55,11 @@ mixin _$ProfileState {
     TResult Function()? loading,
     TResult Function(
       bool isOwnProfile,
-      User? ownUser,
-      PartialUser? otherUser,
+      UserEntity? ownUser,
+      PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
-      Room? navigateToRoom,
+      RoomEntity? navigateToRoom,
       String? chatError,
     )?
     loaded,
@@ -159,11 +159,11 @@ class _$ProfileInitialImpl implements ProfileInitial {
     required TResult Function() loading,
     required TResult Function(
       bool isOwnProfile,
-      User? ownUser,
-      PartialUser? otherUser,
+      UserEntity? ownUser,
+      PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
-      Room? navigateToRoom,
+      RoomEntity? navigateToRoom,
       String? chatError,
     )
     loaded,
@@ -179,11 +179,11 @@ class _$ProfileInitialImpl implements ProfileInitial {
     TResult? Function()? loading,
     TResult? Function(
       bool isOwnProfile,
-      User? ownUser,
-      PartialUser? otherUser,
+      UserEntity? ownUser,
+      PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
-      Room? navigateToRoom,
+      RoomEntity? navigateToRoom,
       String? chatError,
     )?
     loaded,
@@ -199,11 +199,11 @@ class _$ProfileInitialImpl implements ProfileInitial {
     TResult Function()? loading,
     TResult Function(
       bool isOwnProfile,
-      User? ownUser,
-      PartialUser? otherUser,
+      UserEntity? ownUser,
+      PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
-      Room? navigateToRoom,
+      RoomEntity? navigateToRoom,
       String? chatError,
     )?
     loaded,
@@ -305,11 +305,11 @@ class _$ProfileLoadingImpl implements ProfileLoading {
     required TResult Function() loading,
     required TResult Function(
       bool isOwnProfile,
-      User? ownUser,
-      PartialUser? otherUser,
+      UserEntity? ownUser,
+      PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
-      Room? navigateToRoom,
+      RoomEntity? navigateToRoom,
       String? chatError,
     )
     loaded,
@@ -325,11 +325,11 @@ class _$ProfileLoadingImpl implements ProfileLoading {
     TResult? Function()? loading,
     TResult? Function(
       bool isOwnProfile,
-      User? ownUser,
-      PartialUser? otherUser,
+      UserEntity? ownUser,
+      PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
-      Room? navigateToRoom,
+      RoomEntity? navigateToRoom,
       String? chatError,
     )?
     loaded,
@@ -345,11 +345,11 @@ class _$ProfileLoadingImpl implements ProfileLoading {
     TResult Function()? loading,
     TResult Function(
       bool isOwnProfile,
-      User? ownUser,
-      PartialUser? otherUser,
+      UserEntity? ownUser,
+      PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
-      Room? navigateToRoom,
+      RoomEntity? navigateToRoom,
       String? chatError,
     )?
     loaded,
@@ -413,17 +413,17 @@ abstract class _$$ProfileLoadedImplCopyWith<$Res> {
   @useResult
   $Res call({
     bool isOwnProfile,
-    User? ownUser,
-    PartialUser? otherUser,
+    UserEntity? ownUser,
+    PartialUserEntity? otherUser,
     bool isUploadingAvatar,
     bool isCreatingChat,
-    Room? navigateToRoom,
+    RoomEntity? navigateToRoom,
     String? chatError,
   });
 
-  $UserCopyWith<$Res>? get ownUser;
-  $PartialUserCopyWith<$Res>? get otherUser;
-  $RoomCopyWith<$Res>? get navigateToRoom;
+  $UserEntityCopyWith<$Res>? get ownUser;
+  $PartialUserEntityCopyWith<$Res>? get otherUser;
+  $RoomEntityCopyWith<$Res>? get navigateToRoom;
 }
 
 /// @nodoc
@@ -457,11 +457,11 @@ class __$$ProfileLoadedImplCopyWithImpl<$Res>
         ownUser: freezed == ownUser
             ? _value.ownUser
             : ownUser // ignore: cast_nullable_to_non_nullable
-                  as User?,
+                  as UserEntity?,
         otherUser: freezed == otherUser
             ? _value.otherUser
             : otherUser // ignore: cast_nullable_to_non_nullable
-                  as PartialUser?,
+                  as PartialUserEntity?,
         isUploadingAvatar: null == isUploadingAvatar
             ? _value.isUploadingAvatar
             : isUploadingAvatar // ignore: cast_nullable_to_non_nullable
@@ -473,7 +473,7 @@ class __$$ProfileLoadedImplCopyWithImpl<$Res>
         navigateToRoom: freezed == navigateToRoom
             ? _value.navigateToRoom
             : navigateToRoom // ignore: cast_nullable_to_non_nullable
-                  as Room?,
+                  as RoomEntity?,
         chatError: freezed == chatError
             ? _value.chatError
             : chatError // ignore: cast_nullable_to_non_nullable
@@ -486,12 +486,12 @@ class __$$ProfileLoadedImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res>? get ownUser {
+  $UserEntityCopyWith<$Res>? get ownUser {
     if (_value.ownUser == null) {
       return null;
     }
 
-    return $UserCopyWith<$Res>(_value.ownUser!, (value) {
+    return $UserEntityCopyWith<$Res>(_value.ownUser!, (value) {
       return _then(_value.copyWith(ownUser: value));
     });
   }
@@ -500,12 +500,12 @@ class __$$ProfileLoadedImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $PartialUserCopyWith<$Res>? get otherUser {
+  $PartialUserEntityCopyWith<$Res>? get otherUser {
     if (_value.otherUser == null) {
       return null;
     }
 
-    return $PartialUserCopyWith<$Res>(_value.otherUser!, (value) {
+    return $PartialUserEntityCopyWith<$Res>(_value.otherUser!, (value) {
       return _then(_value.copyWith(otherUser: value));
     });
   }
@@ -514,12 +514,12 @@ class __$$ProfileLoadedImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $RoomCopyWith<$Res>? get navigateToRoom {
+  $RoomEntityCopyWith<$Res>? get navigateToRoom {
     if (_value.navigateToRoom == null) {
       return null;
     }
 
-    return $RoomCopyWith<$Res>(_value.navigateToRoom!, (value) {
+    return $RoomEntityCopyWith<$Res>(_value.navigateToRoom!, (value) {
       return _then(_value.copyWith(navigateToRoom: value));
     });
   }
@@ -541,10 +541,10 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
   @override
   final bool isOwnProfile;
   @override
-  final User? ownUser;
+  final UserEntity? ownUser;
   // если isOwnProfile == true
   @override
-  final PartialUser? otherUser;
+  final PartialUserEntity? otherUser;
   // если isOwnProfile == false
   @override
   @JsonKey()
@@ -553,8 +553,8 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
   @JsonKey()
   final bool isCreatingChat;
   @override
-  final Room? navigateToRoom;
-  // одноразовый сигнал для навигации, теперь с полными данными
+  final RoomEntity? navigateToRoom;
+  // одноразовый сигнал для навигации с полными данными
   @override
   final String? chatError;
 
@@ -610,11 +610,11 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
     required TResult Function() loading,
     required TResult Function(
       bool isOwnProfile,
-      User? ownUser,
-      PartialUser? otherUser,
+      UserEntity? ownUser,
+      PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
-      Room? navigateToRoom,
+      RoomEntity? navigateToRoom,
       String? chatError,
     )
     loaded,
@@ -638,11 +638,11 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
     TResult? Function()? loading,
     TResult? Function(
       bool isOwnProfile,
-      User? ownUser,
-      PartialUser? otherUser,
+      UserEntity? ownUser,
+      PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
-      Room? navigateToRoom,
+      RoomEntity? navigateToRoom,
       String? chatError,
     )?
     loaded,
@@ -666,11 +666,11 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
     TResult Function()? loading,
     TResult Function(
       bool isOwnProfile,
-      User? ownUser,
-      PartialUser? otherUser,
+      UserEntity? ownUser,
+      PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
-      Room? navigateToRoom,
+      RoomEntity? navigateToRoom,
       String? chatError,
     )?
     loaded,
@@ -732,21 +732,21 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
 abstract class ProfileLoaded implements ProfileState {
   const factory ProfileLoaded({
     required final bool isOwnProfile,
-    final User? ownUser,
-    final PartialUser? otherUser,
+    final UserEntity? ownUser,
+    final PartialUserEntity? otherUser,
     final bool isUploadingAvatar,
     final bool isCreatingChat,
-    final Room? navigateToRoom,
+    final RoomEntity? navigateToRoom,
     final String? chatError,
   }) = _$ProfileLoadedImpl;
 
   bool get isOwnProfile;
-  User? get ownUser; // если isOwnProfile == true
-  PartialUser? get otherUser; // если isOwnProfile == false
+  UserEntity? get ownUser; // если isOwnProfile == true
+  PartialUserEntity? get otherUser; // если isOwnProfile == false
   bool get isUploadingAvatar;
   bool get isCreatingChat;
-  Room?
-  get navigateToRoom; // одноразовый сигнал для навигации, теперь с полными данными
+  RoomEntity?
+  get navigateToRoom; // одноразовый сигнал для навигации с полными данными
   String? get chatError;
 
   /// Create a copy of ProfileState
@@ -833,11 +833,11 @@ class _$ProfileFailureImpl implements ProfileFailure {
     required TResult Function() loading,
     required TResult Function(
       bool isOwnProfile,
-      User? ownUser,
-      PartialUser? otherUser,
+      UserEntity? ownUser,
+      PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
-      Room? navigateToRoom,
+      RoomEntity? navigateToRoom,
       String? chatError,
     )
     loaded,
@@ -853,11 +853,11 @@ class _$ProfileFailureImpl implements ProfileFailure {
     TResult? Function()? loading,
     TResult? Function(
       bool isOwnProfile,
-      User? ownUser,
-      PartialUser? otherUser,
+      UserEntity? ownUser,
+      PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
-      Room? navigateToRoom,
+      RoomEntity? navigateToRoom,
       String? chatError,
     )?
     loaded,
@@ -873,11 +873,11 @@ class _$ProfileFailureImpl implements ProfileFailure {
     TResult Function()? loading,
     TResult Function(
       bool isOwnProfile,
-      User? ownUser,
-      PartialUser? otherUser,
+      UserEntity? ownUser,
+      PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
-      Room? navigateToRoom,
+      RoomEntity? navigateToRoom,
       String? chatError,
     )?
     loaded,

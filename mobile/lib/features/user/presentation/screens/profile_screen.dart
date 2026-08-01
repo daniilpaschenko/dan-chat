@@ -14,7 +14,7 @@ import '../blocs/profile/profile_bloc.dart';
 import '../blocs/profile/profile_event.dart';
 import '../blocs/profile/profile_state.dart';
 import '../widgets/profile_content.dart';
-import '../../../room/data/models/room.dart';
+import '../../../room/domain/entities/room_entity.dart';
 
 class ProfileScreen extends StatelessWidget {
   // null -> свой профиль
@@ -76,7 +76,7 @@ class _ProfileView extends StatelessWidget {
                 context.read<ProfileBloc>().add(const ProfileEvent.chatNavigationHandled());
 
                 final currentUserId = getIt<AuthStateNotifier>().currentUserId;
-                final roomListItem = RoomListItem(
+                final roomListItem = RoomListItemEntity(
                   id: room.id,
                   type: room.type,
                   name: room.name,

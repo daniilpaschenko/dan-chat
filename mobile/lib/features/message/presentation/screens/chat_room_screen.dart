@@ -6,7 +6,7 @@ import '../../../../core/navigation/bottom_nav_visibility.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/small_loader.dart';
-import '../../../room/data/models/room.dart';
+import '../../../room/domain/entities/room_entity.dart';
 import '../blocs/chat_room_bloc.dart';
 import '../blocs/chat_room_event.dart';
 import '../blocs/chat_room_state.dart';
@@ -18,7 +18,7 @@ class ChatRoomScreen extends StatelessWidget {
   final String roomId;
 
   // ради заголовка страницы (получаем тем самым без нового запроса)
-  final RoomListItem? room;
+  final RoomListItemEntity? room;
 
   const ChatRoomScreen({super.key, required this.roomId, this.room});
 
@@ -32,7 +32,7 @@ class ChatRoomScreen extends StatelessWidget {
 }
 
 class _ChatRoomView extends StatefulWidget {
-  final RoomListItem? room;
+  final RoomListItemEntity? room;
 
   const _ChatRoomView({required this.room});
 

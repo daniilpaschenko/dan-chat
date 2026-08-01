@@ -1,12 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../domain/entities/user_entity.dart' show UserStatus;
 
-part 'user_model.freezed.dart';
-part 'user_model.g.dart';
+part 'user_entity.freezed.dart';
+
+enum UserStatus { online, offline }
 
 @freezed
-class User with _$User {
-  const factory User({
+class UserEntity with _$UserEntity {
+  const factory UserEntity({
     required String id,
     required String username,
     required String email,
@@ -16,23 +16,18 @@ class User with _$User {
     DateTime? lastSeen,
     DateTime? createdAt,
     DateTime? updatedAt,
-  }) = _User;
-
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  }) = _UserEntity;
 }
 
 // соответствует .populate('participants.user', 'username avatarUrl status lastSeen')
 // "частичный юзер"
 @freezed
-class PartialUser with _$PartialUser {
-  const factory PartialUser({
+class PartialUserEntity with _$PartialUserEntity {
+  const factory PartialUserEntity({
     required String id,
     required String username,
     String? avatarUrl,
     UserStatus? status,
     DateTime? lastSeen,
-  }) = _PartialUser;
-
-  factory PartialUser.fromJson(Map<String, dynamic> json) =>
-      _$PartialUserFromJson(json);
+  }) = _PartialUserEntity;
 }

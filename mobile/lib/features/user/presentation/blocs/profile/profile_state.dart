@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../../data/models/user_model.dart';
-import '../../../../room/data/models/room.dart';
+import '../../../domain/entities/user_entity.dart';
+import '../../../../room/domain/entities/room_entity.dart';
 
 part 'profile_state.freezed.dart';
 
@@ -11,11 +11,11 @@ class ProfileState with _$ProfileState {
 
   const factory ProfileState.loaded({
     required bool isOwnProfile,
-    User? ownUser, // если isOwnProfile == true
-    PartialUser? otherUser, // если isOwnProfile == false
+    UserEntity? ownUser, // если isOwnProfile == true
+    PartialUserEntity? otherUser, // если isOwnProfile == false
     @Default(false) bool isUploadingAvatar,
     @Default(false) bool isCreatingChat,
-    Room? navigateToRoom, // одноразовый сигнал для навигации с полными данными
+    RoomEntity? navigateToRoom, // одноразовый сигнал для навигации с полными данными
     String? chatError, // одноразовое сообщение об ошибке создания чата
   }) = ProfileLoaded;
 

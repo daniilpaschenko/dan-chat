@@ -9,8 +9,8 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/app_bar_with_connectivity.dart';
 import '../../../../core/widgets/empty_state_text.dart';
 import '../../../../core/widgets/error_view.dart';
-import '../../data/models/room.dart';
 import '../../domain/entities/room_display_info.dart';
+import '../../domain/entities/room_entity.dart';
 import '../blocs/room_list_bloc.dart';
 import '../blocs/room_list_event.dart';
 import '../blocs/room_list_state.dart';
@@ -47,7 +47,7 @@ class _RoomListViewState extends State<_RoomListView> {
     super.dispose();
   }
 
-  List<RoomListItem> _filterRooms(List<RoomListItem> rooms, String? currentUserId) {
+  List<RoomListItemEntity> _filterRooms(List<RoomListItemEntity> rooms, String? currentUserId) {
     // если пользователь ничего не ввёл
     if (_query.trim().isEmpty) return rooms;
     // убрать лишние пробелы и привести к нижнему регистру
@@ -68,7 +68,7 @@ class _RoomListViewState extends State<_RoomListView> {
   }
 
   // последнее сообщение в чате
-  String? _lastMessagePreview(RoomListItem room) {
+  String? _lastMessagePreview(RoomListItemEntity room) {
     final lastMessage = room.lastMessage;
     if (lastMessage == null || lastMessage.text == null) return null;
     return lastMessage.text;
@@ -127,7 +127,7 @@ class _RoomListViewState extends State<_RoomListView> {
 
   Widget _buildList(
     BuildContext context,
-    List<RoomListItem> rooms,
+    List<RoomListItemEntity> rooms,
     String? currentUserId, {
     required double formGap,
   }) {
@@ -161,7 +161,7 @@ class _RoomListViewState extends State<_RoomListView> {
                     context.read<RoomListBloc>().add(RoomListEvent.roomOpened(room.id));
                     context.go(
                       RoutePaths.chatRoomPath(room.id),
-                      extra: room, // передаём уже загруженный RoomListItem для заголовка
+                      extra: room, // передаём уже загруженный RoomListItemEntity для заголовка
                     );
                   },
                 );

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/user_avatar.dart';
-import '../../data/models/user_model.dart';
+import '../../domain/entities/user_entity.dart';
 
 // один элемент списка результатов поиска пользователей
 class UserTile extends StatelessWidget {
-  final PartialUser user;
+  final PartialUserEntity user;
   final double gap;
   final VoidCallback onTap;
 
