@@ -4,6 +4,7 @@ import '../../../user/domain/entities/user_entity.dart';
 part 'message_entity.freezed.dart';
 
 enum AttachmentType { image, file }
+enum MessageSendStatus { sending, sent, failed }
 
 // доменная под-сущность для прикреплённого файла
 @freezed
@@ -29,5 +30,6 @@ class MessageEntity with _$MessageEntity {
     @Default(false) bool isDeleted,
     DateTime? createdAt,
     DateTime? updatedAt,
+    @Default(MessageSendStatus.sent) MessageSendStatus sendStatus,
   }) = _MessageEntity;
 }
