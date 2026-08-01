@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 
 import '../../../../../core/errors/failure_mapper.dart';
 import '../../../../../core/errors/failures.dart';
-import '../../../../room/data/models/room.dart';
+import '../../../../room/domain/entities/room_entity.dart' show RoomType;
 import '../../../../room/domain/usecases/create_room_usecase.dart';
 import '../../../domain/usecases/get_my_profile_usecase.dart';
 import '../../../domain/usecases/get_user_profile_usecase.dart';

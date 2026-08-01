@@ -1,3 +1,5 @@
+import 'package:dan_chat/features/user/data/mappers/user_mapper.dart';
+
 import '../models/auth_response.dart';
 import '../../domain/entities/auth_entity.dart';
 
@@ -8,7 +10,7 @@ extension AuthResponseMapper on AuthResponse {
     return AuthEntity(
       accessToken: accessToken,
       refreshToken: refreshToken,
-      user: user, // TODO: user.toEntity()
+      user: user.toEntity(),
     );
   }
 }

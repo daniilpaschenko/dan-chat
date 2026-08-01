@@ -1,4 +1,4 @@
-import '../../../user/data/models/user_model.dart';
+import '../../../user/domain/entities/user_entity.dart';
 import '../../../room/domain/entities/room_entity.dart' show RoomListItemEntity, RoomType;
 
 // вычисляет pаголовок чата, аватарку, собеседника в direct-чате и текстовый подзаголовок 
@@ -27,7 +27,7 @@ class RoomDisplayInfo {
 
   /// собеседник в direct-чате — единственный участник с id != currentUserId
   /// (откат на "первый участник", чтобы не упасть, если currentUserId неизвестен/не найден)
-  static PartialUser? otherParticipant(RoomListItemEntity room, String? currentUserId) {
+  static PartialUserEntity? otherParticipant(RoomListItemEntity room, String? currentUserId) {
     if (room.participants.isEmpty) return null;
     if (currentUserId == null) return room.participants.first.user;
 
@@ -35,7 +35,7 @@ class RoomDisplayInfo {
     return others.isNotEmpty ? others.first.user : room.participants.first.user;
   }
 
-  static String? _subtitle(RoomListItemEntity room, bool isGroup, PartialUser? other) {
+  static String? _subtitle(RoomListItemEntity room, bool isGroup, PartialUserEntity? other) {
     if (isGroup) {
       final count = room.participants.length;
       return '$count ${_participantsWord(count)}';
@@ -64,6 +64,6 @@ class RoomDisplayInfo {
     if (diff.inMinutes < 1) return 'только что';
     if (diff.inHours < 1) return '${diff.inMinutes} мин назад';
     if (diff.inDays < 1) return '${diff.inHours} ч назад';
-    return 'в ${lastSeen.day.toString().padLeft(2, '0')}.${lastSeen.month.toString().padLeft(2, '0')}';
+    return '${lastSeen.day.toString().padLeft(2, '0')}.${lastSeen.month.toString().padLeft(2, '0')}';
   }
 }

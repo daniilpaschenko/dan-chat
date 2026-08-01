@@ -19,7 +19,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AuthEntity {
   String get accessToken => throw _privateConstructorUsedError;
   String get refreshToken => throw _privateConstructorUsedError;
-  User get user => throw _privateConstructorUsedError;
+  UserEntity get user => throw _privateConstructorUsedError;
 
   /// Create a copy of AuthEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -35,9 +35,9 @@ abstract class $AuthEntityCopyWith<$Res> {
     $Res Function(AuthEntity) then,
   ) = _$AuthEntityCopyWithImpl<$Res, AuthEntity>;
   @useResult
-  $Res call({String accessToken, String refreshToken, User user});
+  $Res call({String accessToken, String refreshToken, UserEntity user});
 
-  $UserCopyWith<$Res> get user;
+  $UserEntityCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -72,7 +72,7 @@ class _$AuthEntityCopyWithImpl<$Res, $Val extends AuthEntity>
             user: null == user
                 ? _value.user
                 : user // ignore: cast_nullable_to_non_nullable
-                      as User,
+                      as UserEntity,
           )
           as $Val,
     );
@@ -82,8 +82,8 @@ class _$AuthEntityCopyWithImpl<$Res, $Val extends AuthEntity>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res> get user {
-    return $UserCopyWith<$Res>(_value.user, (value) {
+  $UserEntityCopyWith<$Res> get user {
+    return $UserEntityCopyWith<$Res>(_value.user, (value) {
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
@@ -98,10 +98,10 @@ abstract class _$$AuthEntityImplCopyWith<$Res>
   ) = __$$AuthEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String accessToken, String refreshToken, User user});
+  $Res call({String accessToken, String refreshToken, UserEntity user});
 
   @override
-  $UserCopyWith<$Res> get user;
+  $UserEntityCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -135,7 +135,7 @@ class __$$AuthEntityImplCopyWithImpl<$Res>
         user: null == user
             ? _value.user
             : user // ignore: cast_nullable_to_non_nullable
-                  as User,
+                  as UserEntity,
       ),
     );
   }
@@ -155,7 +155,7 @@ class _$AuthEntityImpl implements _AuthEntity {
   @override
   final String refreshToken;
   @override
-  final User user;
+  final UserEntity user;
 
   @override
   String toString() {
@@ -190,7 +190,7 @@ abstract class _AuthEntity implements AuthEntity {
   const factory _AuthEntity({
     required final String accessToken,
     required final String refreshToken,
-    required final User user,
+    required final UserEntity user,
   }) = _$AuthEntityImpl;
 
   @override
@@ -198,7 +198,7 @@ abstract class _AuthEntity implements AuthEntity {
   @override
   String get refreshToken;
   @override
-  User get user;
+  UserEntity get user;
 
   /// Create a copy of AuthEntity
   /// with the given fields replaced by the non-null parameter values.

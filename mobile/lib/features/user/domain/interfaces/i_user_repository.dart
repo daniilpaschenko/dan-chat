@@ -1,14 +1,14 @@
 import 'dart:io';
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
-import '../../data/models/user_model.dart';
+import '../../domain/entities/user_entity.dart';
 
 abstract class IUserRepository {
-  Future<Either<Failure, List<PartialUser>>> searchUsers(String query);
+  Future<Either<Failure, List<PartialUserEntity>>> searchUsers(String query);
 
-  Future<Either<Failure, User>> getMyProfile();
+  Future<Either<Failure, UserEntity>> getMyProfile();
 
-  Future<Either<Failure, PartialUser>> getUserProfile(String userId);
+  Future<Either<Failure, PartialUserEntity>> getUserProfile(String userId);
 
-  Future<Either<Failure, User>> uploadAvatar(File file);
+  Future<Either<Failure, UserEntity>> uploadAvatar(File file);
 }

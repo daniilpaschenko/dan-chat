@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../../user/data/models/user_model.dart'; // TODO: domain/entities/user_entity.dart
+import '../../../user/domain/entities/user_entity.dart';
 
 part 'message_entity.freezed.dart';
 
@@ -21,7 +21,7 @@ class MessageEntity with _$MessageEntity {
   const factory MessageEntity({
     required String id,
     required String room,
-    required PartialUser sender, // TODO: PartialUserEntity
+    required PartialUserEntity sender,
     @Default('') String text,
     @Default([]) List<AttachmentEntity> attachments,
     @Default([]) List<String> readBy,
