@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
-import '../../data/models/room.dart';
+import '../entities/room_entity.dart';
 import '../interfaces/i_room_repository.dart';
 
 class GetRoomByIdUseCase {
@@ -8,7 +8,7 @@ class GetRoomByIdUseCase {
 
   const GetRoomByIdUseCase(this._repository);
 
-  Future<Either<Failure, Room>> call(String roomId) {
+  Future<Either<Failure, RoomEntity>> call(String roomId) {
     return _repository.getRoomById(roomId);
   }
 }

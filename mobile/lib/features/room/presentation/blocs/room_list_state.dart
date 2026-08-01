@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../data/models/room.dart';
+import '../../domain/entities/room_entity.dart';
 
 part 'room_list_state.freezed.dart';
 
@@ -13,11 +13,11 @@ class RoomListState with _$RoomListState {
   const factory RoomListState.loading() = RoomListLoading;
 
   // загрузилось, отдаём список комнат
-  const factory RoomListState.loaded(List<RoomListItem> rooms) = RoomListLoaded;
+  const factory RoomListState.loaded(List<RoomListItemEntity> rooms) = RoomListLoaded;
 
   // рефреш поверх уже отображённого списка — старые rooms остаются
   // на экране, RefreshIndicator крутится, а список не мигает пустотой
-  const factory RoomListState.refreshing(List<RoomListItem> rooms) = RoomListRefreshing;
+  const factory RoomListState.refreshing(List<RoomListItemEntity> rooms) = RoomListRefreshing;
 
   // ошибка + сообщение об ошибке
   const factory RoomListState.failure(String message) = RoomListFailure;

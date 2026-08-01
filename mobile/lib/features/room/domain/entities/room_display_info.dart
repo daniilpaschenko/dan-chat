@@ -1,5 +1,5 @@
-import '../../data/models/room.dart';
 import '../../../user/data/models/user_model.dart';
+import '../../../room/domain/entities/room_entity.dart' show RoomListItemEntity, RoomType;
 
 // вычисляет pаголовок чата, аватарку, собеседника в direct-чате и текстовый подзаголовок 
 class RoomDisplayInfo {
@@ -10,7 +10,7 @@ class RoomDisplayInfo {
   const RoomDisplayInfo({required this.title, required this.avatarUrl, required this.subtitle});
 
   // includeSubtitle — в списке чатов подзаголовок не нужен, поэтому по умолчанию выключен
-  factory RoomDisplayInfo.from(RoomListItem? room, String? currentUserId, {bool includeSubtitle = false}) {
+  factory RoomDisplayInfo.from(RoomListItemEntity? room, String? currentUserId, {bool includeSubtitle = false}) {
     if (room == null) {
       return const RoomDisplayInfo(title: 'Чат', avatarUrl: null, subtitle: null);
     }
@@ -27,7 +27,7 @@ class RoomDisplayInfo {
 
   /// собеседник в direct-чате — единственный участник с id != currentUserId
   /// (откат на "первый участник", чтобы не упасть, если currentUserId неизвестен/не найден)
-  static PartialUser? otherParticipant(RoomListItem room, String? currentUserId) {
+  static PartialUser? otherParticipant(RoomListItemEntity room, String? currentUserId) {
     if (room.participants.isEmpty) return null;
     if (currentUserId == null) return room.participants.first.user;
 
@@ -35,7 +35,7 @@ class RoomDisplayInfo {
     return others.isNotEmpty ? others.first.user : room.participants.first.user;
   }
 
-  static String? _subtitle(RoomListItem room, bool isGroup, PartialUser? other) {
+  static String? _subtitle(RoomListItemEntity room, bool isGroup, PartialUser? other) {
     if (isGroup) {
       final count = room.participants.length;
       return '$count ${_participantsWord(count)}';

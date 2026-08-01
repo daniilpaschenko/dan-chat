@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
-import '../../data/models/room.dart';
+import '../entities/room_entity.dart';
 import '../interfaces/i_room_repository.dart';
 
 class RemoveParticipantUseCase {
@@ -8,7 +8,7 @@ class RemoveParticipantUseCase {
 
   const RemoveParticipantUseCase(this._repository);
 
-  Future<Either<Failure, Room?>> call({
+  Future<Either<Failure, RoomEntity?>> call({
     required String roomId,
     required String userId,
   }) {

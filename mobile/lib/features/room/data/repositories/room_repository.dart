@@ -3,10 +3,11 @@ import 'package:dio/dio.dart';
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/errors/dio_exception_mapper.dart';
+import '../../domain/entities/room_entity.dart';
 import '../../domain/interfaces/i_room_repository.dart';
 import '../datasources/room_remote_datasource.dart';
 import '../datasources/room_local_datasource.dart';
-import '../models/room.dart';
+import '../mappers/room_mapper.dart';
 
 class RoomRepository implements IRoomRepository {
   final RoomRemoteDatasource _remoteDatasource;
@@ -15,32 +16,32 @@ class RoomRepository implements IRoomRepository {
   const RoomRepository(this._remoteDatasource, this._localDatasource);
 
   @override
-  Future<Either<Failure, List<RoomListItem>>> getMyRooms() async {
+  Future<Either<Failure, List<RoomListItemEntity>>> getMyRooms() async {
     try {
       final rooms = await _remoteDatasource.getMyRooms();
-      // сеть отработала — обновляем кэш свежими данными
+      // сеть отработала — обновляем кэш свежими данными (кэш хранит data-модели)
       await _localDatasource.cacheRooms(rooms);
-      return Right(rooms);
+      return Right(rooms.map((r) => r.toEntity()).toList());
     } on DioException catch (e) {
       // сети нет / сервер недоступен — пробуем отдать то, что есть локально,
       // чтобы юзер видел список чатов, а не пустой экран ошибки
       final cached = _localDatasource.getCachedRooms();
-      if (cached != null) return Right(cached);
+      if (cached != null) return Right(cached.map((r) => r.toEntity()).toList());
 
       return Left(_mapDioException(e));
     } catch (e) {
       final cached = _localDatasource.getCachedRooms();
-      if (cached != null) return Right(cached);
+      if (cached != null) return Right(cached.map((r) => r.toEntity()).toList());
 
       return Left(Failure.unexpected(e.toString()));
     }
   }
 
   @override
-  Future<Either<Failure, Room>> getRoomById(String roomId) async {
+  Future<Either<Failure, RoomEntity>> getRoomById(String roomId) async {
     try {
       final room = await _remoteDatasource.getRoomById(roomId);
-      return Right(room);
+      return Right(room.toEntity());
     } on DioException catch (e) {
       return Left(_mapDioException(e));
     } catch (e) {
@@ -49,7 +50,7 @@ class RoomRepository implements IRoomRepository {
   }
 
   @override
-  Future<Either<Failure, Room>> createRoom({
+  Future<Either<Failure, RoomEntity>> createRoom({
     required RoomType type,
     String? name,
     String? avatarUrl,
@@ -62,7 +63,7 @@ class RoomRepository implements IRoomRepository {
         avatarUrl: avatarUrl,
         participantIds: participantIds,
       );
-      return Right(room);
+      return Right(room.toEntity());
     } on DioException catch (e) {
       return Left(_mapDioException(e));
     } catch (e) {
@@ -75,7 +76,8 @@ class RoomRepository implements IRoomRepository {
     try {
       await _remoteDatasource.markRoomAsRead(roomId);
 
-      // обновляем и локальный кэш, чтобы при следующем офлайн-открытии список не показывал устаревший unreadCount
+      // обновляем и локальный кэш (data-модели), чтобы при следующем офлайн-открытии
+      // список не показывал устаревший unreadCount
       final cached = _localDatasource.getCachedRooms();
       if (cached != null) {
         final updated = cached
@@ -93,7 +95,7 @@ class RoomRepository implements IRoomRepository {
   }
 
   @override
-  Future<Either<Failure, Room>> addParticipant({
+  Future<Either<Failure, RoomEntity>> addParticipant({
     required String roomId,
     required String userId,
   }) async {
@@ -102,7 +104,7 @@ class RoomRepository implements IRoomRepository {
         roomId: roomId,
         userId: userId,
       );
-      return Right(room);
+      return Right(room.toEntity());
     } on DioException catch (e) {
       return Left(_mapDioException(e));
     } catch (e) {
@@ -111,7 +113,7 @@ class RoomRepository implements IRoomRepository {
   }
 
   @override
-  Future<Either<Failure, Room?>> removeParticipant({
+  Future<Either<Failure, RoomEntity?>> removeParticipant({
     required String roomId,
     required String userId,
   }) async {
@@ -120,7 +122,7 @@ class RoomRepository implements IRoomRepository {
         roomId: roomId,
         userId: userId,
       );
-      return Right(room); // room = Room/null — оба являются валидным успешным случаем
+      return Right(room?.toEntity()); // room = Room?/null — оба являются валидным успешным случаем
     } on DioException catch (e) {
       return Left(_mapDioException(e));
     } catch (e) {

@@ -5,13 +5,13 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/navigation/route_paths.dart';
 import '../../../../core/widgets/user_avatar.dart';
 import '../../../room/domain/entities/room_display_info.dart';
-import '../../../room/data/models/room.dart';
-import '../../../user/data/models/user_model.dart';
+import '../../../room/domain/entities/room_entity.dart';
+import '../../../user/data/models/user_model.dart'; // TODO: domain/entities/user_entity.dart
 
 
 // кастомный AppBar: своя стрелка назад, аватарка, название чата и подзаголовок
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final RoomListItem? room;
+  final RoomListItemEntity? room;
   final String? currentUserId;
 
   const ChatAppBar({super.key, required this.room, required this.currentUserId});
