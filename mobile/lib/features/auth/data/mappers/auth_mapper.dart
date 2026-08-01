@@ -1,4 +1,4 @@
-import 'package:dan_chat/features/user/data/mappers/user_mapper.dart';
+import '../../../../features/user/data/mappers/user_mapper.dart';
 
 import '../models/auth_response.dart';
 import '../../domain/entities/auth_entity.dart';
