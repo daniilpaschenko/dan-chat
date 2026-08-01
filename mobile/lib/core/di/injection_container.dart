@@ -204,6 +204,7 @@ Future<void> setupDependencies() async {
       getUserProfileUseCase: getIt<GetUserProfileUseCase>(),
       uploadAvatarUseCase: getIt<UploadAvatarUseCase>(),
       createRoomUseCase: getIt<CreateRoomUseCase>(),
+      socketService: getIt<SocketService>(),
     ),
   );
 
