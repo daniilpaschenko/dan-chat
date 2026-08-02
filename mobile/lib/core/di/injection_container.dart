@@ -170,6 +170,7 @@ Future<void> setupDependencies() async {
       // правильно single responsibility
       getMyRoomsUseCase: getIt<GetMyRoomsUseCase>(),
       markRoomAsReadUseCase: getIt<MarkRoomAsReadUseCase>(),
+      socketService: getIt<SocketService>(),
     ),
   );
 
