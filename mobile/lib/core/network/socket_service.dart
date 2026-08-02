@@ -6,6 +6,7 @@ import 'api_constants.dart';
 // одно соединение на всё приложение, поднимается после логина, закрывается при логауте
 class SocketService {
   io.Socket? _socket; // соединение с сервером, null если не подключены
+  String? _currentToken; // под каким токеном подключены
 
   // broadcast streams, чтобы несколько слушателей могли подписаться на события сокета
   // хранит поток новых сообщений
@@ -28,26 +29,31 @@ class SocketService {
   bool get isConnected => _socket?.connected ?? false;
 
   void connect(String token) {
-    // не пересоздаём, если уже есть активное соединение
-    if (_socket != null) return;
+    // не пересоздаём, если уже есть активное соединение с этим же токеном
+    if (_socket != null && _currentToken == token) return;
 
-    // создаём клиент сокета
-    _socket = io.io( 
+    if (_socket != null) {
+      _hardDisconnect();
+    }
+
+    _currentToken = token;
+
+    _socket = io.io(
       ApiConstants.socketUrl,
-      io.OptionBuilder()
-          // использовать только websocket 
-          .setTransports(['websocket'])
-          // не подключаемся автоматически, подключим вручную после установки токена
-          .disableAutoConnect()
-          .setAuth({'token': token})
-          .build(),
+      <String, dynamic>{
+        'transports': ['websocket'],
+        'autoConnect': false,
+        'reconnection': false,
+        'forceNew': true, // принудительно создаём новое соединение, чтобы не было проблем с кэшированным manager'ом (переключение между аккаунтами)
+        'auth': {'token': token},
+      },
     );
 
     // регистрация событий сокета
     _socket!
-      ..onConnect((_) => print('[socket] connected'))
-      ..onDisconnect((_) => print('[socket] disconnected'))
-      ..onConnectError((err) => print('[socket] connect_error: $err'))
+      //..onConnect((_) => print('[socket] connected'))
+      //..onDisconnect((_) => print('[socket] disconnected'))
+      //..onConnectError((err) => print('[socket] connect_error: $err'))
       // реагирует на события, отправленные севрером, и добавляет их в соответствующие стримы
       ..on('message:new', (data) =>
           _messageNewController.add(Map<String, dynamic>.from(data as Map)))
@@ -57,20 +63,35 @@ class SocketService {
           _typingStopController.add(Map<String, dynamic>.from(data as Map)))
       ..on('presence:update', (data) =>
           _presenceUpdateController.add(Map<String, dynamic>.from(data as Map)))
-      // после регитрации всех событий подключаемся к серверу
+      // после регистрации всех событий подключаемся к серверу
       ..connect();
   }
 
   void disconnect() {
-    // закрыть соединение
+    _hardDisconnect();
+    _currentToken = null;
+  }
+
+  void _hardDisconnect() {
+    _socket?.clearListeners(); // снимаем все хендлеры перед закрытием
     _socket?.disconnect();
     // освободить ресурсы
     _socket?.dispose();
     _socket = null;
   }
 
-  // отправить события на сервер
-  void joinRoom(String roomId) => _socket?.emit('room:join', roomId);
+  /// [onAck] вызовется с ответом сервера: {ok:true, participantsStatus:[...]} или {ok:false, message:'...'}
+  void joinRoom(String roomId, {void Function(Map<String, dynamic> ack)? onAck}) {
+    if (onAck == null) {
+      _socket?.emit('room:join', roomId);
+      return;
+    }
+    _socket?.emitWithAck(
+      'room:join',
+      roomId,
+      ack: (data) => onAck(Map<String, dynamic>.from(data as Map)),
+    );
+  }
 
   void leaveRoom(String roomId) => _socket?.emit('room:leave', roomId);
 
