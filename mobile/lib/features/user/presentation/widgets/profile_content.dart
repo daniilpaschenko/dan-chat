@@ -13,6 +13,7 @@ class ProfileContent extends StatelessWidget {
   final String? email;
   final bool isUploadingAvatar;
   final bool isCreatingChat;
+  final String? statusText;
   final VoidCallback onPickPhoto;
   final VoidCallback onChatTap;
 
@@ -24,6 +25,7 @@ class ProfileContent extends StatelessWidget {
     required this.email,
     required this.isUploadingAvatar,
     required this.isCreatingChat,
+    this.statusText,
     required this.onPickPhoto,
     required this.onChatTap,
   });
@@ -60,6 +62,7 @@ class ProfileContent extends StatelessWidget {
             fallbackLetter: username,
             height: photoHeight > 0 ? photoHeight : screenH * 0.4, // защита от отрицательной высоты
             isUploading: isUploadingAvatar,
+            statusText: statusText,
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(
