@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -7,7 +8,8 @@ import '../../../../core/widgets/user_avatar.dart';
 import '../../../room/domain/entities/room_display_info.dart';
 import '../../../room/domain/entities/room_entity.dart';
 import '../../../user/domain/entities/user_entity.dart';
-
+import '../blocs/chat_room_bloc.dart';
+import '../blocs/chat_room_state.dart';
 
 // кастомный AppBar: своя стрелка назад, аватарка, название чата и подзаголовок
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -31,6 +33,30 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
       }
     }
 
+  // приоритет: печатает -> live-presence -> статика из room
+  String? _liveSubtitle(ChatRoomState state, PartialUserEntity? otherUser, String? staticSubtitle) {
+    if (room != null && room!.type == RoomType.group) {
+      if (state.typingUsers.isNotEmpty) {
+        final names = state.typingUsers.values.toList();
+        return names.length == 1 ? '${names.first} печатает...' : 'печатают...';
+      }
+      return staticSubtitle;
+    }
+
+    if (otherUser == null) return staticSubtitle;
+
+    if (state.typingUsers.containsKey(otherUser.id)) {
+      return 'печатает...';
+    }
+
+    final liveStatus = state.participantsStatus[otherUser.id];
+    if (liveStatus == null) return staticSubtitle; // presence ещё не приходил
+
+    final liveLastSeen = state.participantsLastSeen[otherUser.id] ?? otherUser.lastSeen;
+    return RoomDisplayInfo.presenceText(liveStatus, liveLastSeen);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final spacing = AppSpacing.of(context);
@@ -38,6 +64,10 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     final info = RoomDisplayInfo.from(room, currentUserId, includeSubtitle: true);
     final otherUser = _otherUser;
+
+    final chatState = context.watch<ChatRoomBloc>().state;
+    final subtitle = _liveSubtitle(chatState, otherUser, info.subtitle);
+    final isTyping = subtitle == 'печатает...' || (subtitle?.contains('печатают') ?? false);
 
     return AppBar(
       // выключаем стандартную кнопку назад — рисуем всё сами
@@ -80,12 +110,15 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(fontSize: spacing.captionSize * 1.7, fontWeight: FontWeight.w600),
                         ),
-                        if (info.subtitle != null)
+                        if (subtitle != null)
                           Text(
-                            info.subtitle!,
+                            subtitle,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: spacing.captionSize * 1.2, color: AppColors.textSecondary),
+                            style: TextStyle(
+                              fontSize: spacing.captionSize * 1.2,
+                              color: isTyping ? AppColors.primary : AppColors.textSecondary,
+                            ),
                           ),
                       ],
                     ),

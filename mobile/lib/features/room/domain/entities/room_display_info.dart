@@ -42,9 +42,13 @@ class RoomDisplayInfo {
     }
 
     if (other == null) return null;
-    if (other.status == UserStatus.online) return 'в сети';
+    return presenceText(other.status, other.lastSeen);
+  }
 
-    final lastSeen = other.lastSeen;
+  //принимает "сырые" status/lastSeen
+  // используется здесь и в ChatAppBar, чтобы не дублировать
+  static String presenceText(UserStatus? status, DateTime? lastSeen) {
+    if (status == UserStatus.online) return 'в сети';
     if (lastSeen == null) return 'не в сети';
     return 'был(а) ${_formatLastSeen(lastSeen)}';
   }
