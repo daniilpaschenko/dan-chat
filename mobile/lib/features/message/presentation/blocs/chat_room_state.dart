@@ -18,6 +18,7 @@ class ChatRoomState with _$ChatRoomState {
     // userId -> username, кто сейчас печатает (кроме нас самих)
     @Default({}) Map<String, String> typingUsers,
     @Default({}) Map<String, UserStatus> participantsStatus,
+    @Default({}) Map<String, DateTime> participantsLastSeen,
   }) = _ChatRoomState;
 
   factory ChatRoomState.initial(String roomId) => ChatRoomState(roomId: roomId);

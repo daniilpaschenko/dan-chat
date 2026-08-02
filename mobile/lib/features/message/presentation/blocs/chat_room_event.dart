@@ -15,7 +15,7 @@ class ChatRoomEvent with _$ChatRoomEvent {
   const factory ChatRoomEvent.socketAckReceived(String tempId, Map<String, dynamic> ack) = SocketAckReceived;
   const factory ChatRoomEvent.typingStarted(String userId, String username) = TypingStarted;
   const factory ChatRoomEvent.typingStopped(String userId) = TypingStopped;
-  const factory ChatRoomEvent.presenceUpdated(String userId, UserStatus status) = ChatRoomPresenceUpdated;
+  const factory ChatRoomEvent.presenceUpdated(String userId, UserStatus status, DateTime? lastSeen) = ChatRoomPresenceUpdated;
 
   // вызывается из UI при вводе текста, чтобы слать typing:start/stop
   const factory ChatRoomEvent.typingTextChanged(String text) = TypingTextChanged;
