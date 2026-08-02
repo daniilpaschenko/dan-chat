@@ -34,6 +34,11 @@ mixin _$ChatRoomEvent {
     )
     presenceUpdated,
     required TResult Function(String text) typingTextChanged,
+    required TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )
+    participantsStatusSnapshotReceived,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -48,6 +53,11 @@ mixin _$ChatRoomEvent {
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
+    TResult? Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -62,6 +72,11 @@ mixin _$ChatRoomEvent {
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String text)? typingTextChanged,
+    TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -76,6 +91,8 @@ mixin _$ChatRoomEvent {
     required TResult Function(TypingStopped value) typingStopped,
     required TResult Function(ChatRoomPresenceUpdated value) presenceUpdated,
     required TResult Function(TypingTextChanged value) typingTextChanged,
+    required TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)
+    participantsStatusSnapshotReceived,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -88,6 +105,8 @@ mixin _$ChatRoomEvent {
     TResult? Function(TypingStopped value)? typingStopped,
     TResult? Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult? Function(TypingTextChanged value)? typingTextChanged,
+    TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -100,6 +119,8 @@ mixin _$ChatRoomEvent {
     TResult Function(TypingStopped value)? typingStopped,
     TResult Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult Function(TypingTextChanged value)? typingTextChanged,
+    TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -214,6 +235,11 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     )
     presenceUpdated,
     required TResult Function(String text) typingTextChanged,
+    required TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )
+    participantsStatusSnapshotReceived,
   }) {
     return started(roomId);
   }
@@ -232,6 +258,11 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
+    TResult? Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
   }) {
     return started?.call(roomId);
   }
@@ -250,6 +281,11 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String text)? typingTextChanged,
+    TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -271,6 +307,8 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     required TResult Function(TypingStopped value) typingStopped,
     required TResult Function(ChatRoomPresenceUpdated value) presenceUpdated,
     required TResult Function(TypingTextChanged value) typingTextChanged,
+    required TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)
+    participantsStatusSnapshotReceived,
   }) {
     return started(this);
   }
@@ -287,6 +325,8 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     TResult? Function(TypingStopped value)? typingStopped,
     TResult? Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult? Function(TypingTextChanged value)? typingTextChanged,
+    TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
   }) {
     return started?.call(this);
   }
@@ -303,6 +343,8 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     TResult Function(TypingStopped value)? typingStopped,
     TResult Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult Function(TypingTextChanged value)? typingTextChanged,
+    TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -382,6 +424,11 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     )
     presenceUpdated,
     required TResult Function(String text) typingTextChanged,
+    required TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )
+    participantsStatusSnapshotReceived,
   }) {
     return loadMoreRequested();
   }
@@ -400,6 +447,11 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
+    TResult? Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
   }) {
     return loadMoreRequested?.call();
   }
@@ -418,6 +470,11 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String text)? typingTextChanged,
+    TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (loadMoreRequested != null) {
@@ -439,6 +496,8 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     required TResult Function(TypingStopped value) typingStopped,
     required TResult Function(ChatRoomPresenceUpdated value) presenceUpdated,
     required TResult Function(TypingTextChanged value) typingTextChanged,
+    required TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)
+    participantsStatusSnapshotReceived,
   }) {
     return loadMoreRequested(this);
   }
@@ -455,6 +514,8 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     TResult? Function(TypingStopped value)? typingStopped,
     TResult? Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult? Function(TypingTextChanged value)? typingTextChanged,
+    TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
   }) {
     return loadMoreRequested?.call(this);
   }
@@ -471,6 +532,8 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     TResult Function(TypingStopped value)? typingStopped,
     TResult Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult Function(TypingTextChanged value)? typingTextChanged,
+    TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (loadMoreRequested != null) {
@@ -573,6 +636,11 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     )
     presenceUpdated,
     required TResult Function(String text) typingTextChanged,
+    required TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )
+    participantsStatusSnapshotReceived,
   }) {
     return sendMessageRequested(text);
   }
@@ -591,6 +659,11 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
+    TResult? Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
   }) {
     return sendMessageRequested?.call(text);
   }
@@ -609,6 +682,11 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String text)? typingTextChanged,
+    TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (sendMessageRequested != null) {
@@ -630,6 +708,8 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     required TResult Function(TypingStopped value) typingStopped,
     required TResult Function(ChatRoomPresenceUpdated value) presenceUpdated,
     required TResult Function(TypingTextChanged value) typingTextChanged,
+    required TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)
+    participantsStatusSnapshotReceived,
   }) {
     return sendMessageRequested(this);
   }
@@ -646,6 +726,8 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     TResult? Function(TypingStopped value)? typingStopped,
     TResult? Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult? Function(TypingTextChanged value)? typingTextChanged,
+    TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
   }) {
     return sendMessageRequested?.call(this);
   }
@@ -662,6 +744,8 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     TResult Function(TypingStopped value)? typingStopped,
     TResult Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult Function(TypingTextChanged value)? typingTextChanged,
+    TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (sendMessageRequested != null) {
@@ -785,6 +869,11 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     )
     presenceUpdated,
     required TResult Function(String text) typingTextChanged,
+    required TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )
+    participantsStatusSnapshotReceived,
   }) {
     return socketMessageReceived(message);
   }
@@ -803,6 +892,11 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
+    TResult? Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
   }) {
     return socketMessageReceived?.call(message);
   }
@@ -821,6 +915,11 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String text)? typingTextChanged,
+    TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (socketMessageReceived != null) {
@@ -842,6 +941,8 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     required TResult Function(TypingStopped value) typingStopped,
     required TResult Function(ChatRoomPresenceUpdated value) presenceUpdated,
     required TResult Function(TypingTextChanged value) typingTextChanged,
+    required TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)
+    participantsStatusSnapshotReceived,
   }) {
     return socketMessageReceived(this);
   }
@@ -858,6 +959,8 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     TResult? Function(TypingStopped value)? typingStopped,
     TResult? Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult? Function(TypingTextChanged value)? typingTextChanged,
+    TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
   }) {
     return socketMessageReceived?.call(this);
   }
@@ -874,6 +977,8 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     TResult Function(TypingStopped value)? typingStopped,
     TResult Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult Function(TypingTextChanged value)? typingTextChanged,
+    TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (socketMessageReceived != null) {
@@ -1001,6 +1106,11 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     )
     presenceUpdated,
     required TResult Function(String text) typingTextChanged,
+    required TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )
+    participantsStatusSnapshotReceived,
   }) {
     return socketAckReceived(tempId, ack);
   }
@@ -1019,6 +1129,11 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
+    TResult? Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
   }) {
     return socketAckReceived?.call(tempId, ack);
   }
@@ -1037,6 +1152,11 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String text)? typingTextChanged,
+    TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (socketAckReceived != null) {
@@ -1058,6 +1178,8 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     required TResult Function(TypingStopped value) typingStopped,
     required TResult Function(ChatRoomPresenceUpdated value) presenceUpdated,
     required TResult Function(TypingTextChanged value) typingTextChanged,
+    required TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)
+    participantsStatusSnapshotReceived,
   }) {
     return socketAckReceived(this);
   }
@@ -1074,6 +1196,8 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     TResult? Function(TypingStopped value)? typingStopped,
     TResult? Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult? Function(TypingTextChanged value)? typingTextChanged,
+    TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
   }) {
     return socketAckReceived?.call(this);
   }
@@ -1090,6 +1214,8 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     TResult Function(TypingStopped value)? typingStopped,
     TResult Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult Function(TypingTextChanged value)? typingTextChanged,
+    TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (socketAckReceived != null) {
@@ -1208,6 +1334,11 @@ class _$TypingStartedImpl implements TypingStarted {
     )
     presenceUpdated,
     required TResult Function(String text) typingTextChanged,
+    required TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )
+    participantsStatusSnapshotReceived,
   }) {
     return typingStarted(userId, username);
   }
@@ -1226,6 +1357,11 @@ class _$TypingStartedImpl implements TypingStarted {
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
+    TResult? Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
   }) {
     return typingStarted?.call(userId, username);
   }
@@ -1244,6 +1380,11 @@ class _$TypingStartedImpl implements TypingStarted {
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String text)? typingTextChanged,
+    TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (typingStarted != null) {
@@ -1265,6 +1406,8 @@ class _$TypingStartedImpl implements TypingStarted {
     required TResult Function(TypingStopped value) typingStopped,
     required TResult Function(ChatRoomPresenceUpdated value) presenceUpdated,
     required TResult Function(TypingTextChanged value) typingTextChanged,
+    required TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)
+    participantsStatusSnapshotReceived,
   }) {
     return typingStarted(this);
   }
@@ -1281,6 +1424,8 @@ class _$TypingStartedImpl implements TypingStarted {
     TResult? Function(TypingStopped value)? typingStopped,
     TResult? Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult? Function(TypingTextChanged value)? typingTextChanged,
+    TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
   }) {
     return typingStarted?.call(this);
   }
@@ -1297,6 +1442,8 @@ class _$TypingStartedImpl implements TypingStarted {
     TResult Function(TypingStopped value)? typingStopped,
     TResult Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult Function(TypingTextChanged value)? typingTextChanged,
+    TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (typingStarted != null) {
@@ -1405,6 +1552,11 @@ class _$TypingStoppedImpl implements TypingStopped {
     )
     presenceUpdated,
     required TResult Function(String text) typingTextChanged,
+    required TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )
+    participantsStatusSnapshotReceived,
   }) {
     return typingStopped(userId);
   }
@@ -1423,6 +1575,11 @@ class _$TypingStoppedImpl implements TypingStopped {
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
+    TResult? Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
   }) {
     return typingStopped?.call(userId);
   }
@@ -1441,6 +1598,11 @@ class _$TypingStoppedImpl implements TypingStopped {
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String text)? typingTextChanged,
+    TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (typingStopped != null) {
@@ -1462,6 +1624,8 @@ class _$TypingStoppedImpl implements TypingStopped {
     required TResult Function(TypingStopped value) typingStopped,
     required TResult Function(ChatRoomPresenceUpdated value) presenceUpdated,
     required TResult Function(TypingTextChanged value) typingTextChanged,
+    required TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)
+    participantsStatusSnapshotReceived,
   }) {
     return typingStopped(this);
   }
@@ -1478,6 +1642,8 @@ class _$TypingStoppedImpl implements TypingStopped {
     TResult? Function(TypingStopped value)? typingStopped,
     TResult? Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult? Function(TypingTextChanged value)? typingTextChanged,
+    TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
   }) {
     return typingStopped?.call(this);
   }
@@ -1494,6 +1660,8 @@ class _$TypingStoppedImpl implements TypingStopped {
     TResult Function(TypingStopped value)? typingStopped,
     TResult Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult Function(TypingTextChanged value)? typingTextChanged,
+    TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (typingStopped != null) {
@@ -1622,6 +1790,11 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     )
     presenceUpdated,
     required TResult Function(String text) typingTextChanged,
+    required TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )
+    participantsStatusSnapshotReceived,
   }) {
     return presenceUpdated(userId, status, lastSeen);
   }
@@ -1640,6 +1813,11 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
+    TResult? Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
   }) {
     return presenceUpdated?.call(userId, status, lastSeen);
   }
@@ -1658,6 +1836,11 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String text)? typingTextChanged,
+    TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (presenceUpdated != null) {
@@ -1679,6 +1862,8 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     required TResult Function(TypingStopped value) typingStopped,
     required TResult Function(ChatRoomPresenceUpdated value) presenceUpdated,
     required TResult Function(TypingTextChanged value) typingTextChanged,
+    required TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)
+    participantsStatusSnapshotReceived,
   }) {
     return presenceUpdated(this);
   }
@@ -1695,6 +1880,8 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     TResult? Function(TypingStopped value)? typingStopped,
     TResult? Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult? Function(TypingTextChanged value)? typingTextChanged,
+    TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
   }) {
     return presenceUpdated?.call(this);
   }
@@ -1711,6 +1898,8 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     TResult Function(TypingStopped value)? typingStopped,
     TResult Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult Function(TypingTextChanged value)? typingTextChanged,
+    TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (presenceUpdated != null) {
@@ -1826,6 +2015,11 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     )
     presenceUpdated,
     required TResult Function(String text) typingTextChanged,
+    required TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )
+    participantsStatusSnapshotReceived,
   }) {
     return typingTextChanged(text);
   }
@@ -1844,6 +2038,11 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
+    TResult? Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
   }) {
     return typingTextChanged?.call(text);
   }
@@ -1862,6 +2061,11 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String text)? typingTextChanged,
+    TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (typingTextChanged != null) {
@@ -1883,6 +2087,8 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     required TResult Function(TypingStopped value) typingStopped,
     required TResult Function(ChatRoomPresenceUpdated value) presenceUpdated,
     required TResult Function(TypingTextChanged value) typingTextChanged,
+    required TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)
+    participantsStatusSnapshotReceived,
   }) {
     return typingTextChanged(this);
   }
@@ -1899,6 +2105,8 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     TResult? Function(TypingStopped value)? typingStopped,
     TResult? Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult? Function(TypingTextChanged value)? typingTextChanged,
+    TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
   }) {
     return typingTextChanged?.call(this);
   }
@@ -1915,6 +2123,8 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     TResult Function(TypingStopped value)? typingStopped,
     TResult Function(ChatRoomPresenceUpdated value)? presenceUpdated,
     TResult Function(TypingTextChanged value)? typingTextChanged,
+    TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
     required TResult orElse(),
   }) {
     if (typingTextChanged != null) {
@@ -1934,4 +2144,272 @@ abstract class TypingTextChanged implements ChatRoomEvent {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TypingTextChangedImplCopyWith<_$TypingTextChangedImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ChatRoomParticipantsStatusSnapshotReceivedImplCopyWith<$Res> {
+  factory _$$ChatRoomParticipantsStatusSnapshotReceivedImplCopyWith(
+    _$ChatRoomParticipantsStatusSnapshotReceivedImpl value,
+    $Res Function(_$ChatRoomParticipantsStatusSnapshotReceivedImpl) then,
+  ) = __$$ChatRoomParticipantsStatusSnapshotReceivedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({
+    Map<String, UserStatus> statusMap,
+    Map<String, DateTime> lastSeenMap,
+  });
+}
+
+/// @nodoc
+class __$$ChatRoomParticipantsStatusSnapshotReceivedImplCopyWithImpl<$Res>
+    extends
+        _$ChatRoomEventCopyWithImpl<
+          $Res,
+          _$ChatRoomParticipantsStatusSnapshotReceivedImpl
+        >
+    implements _$$ChatRoomParticipantsStatusSnapshotReceivedImplCopyWith<$Res> {
+  __$$ChatRoomParticipantsStatusSnapshotReceivedImplCopyWithImpl(
+    _$ChatRoomParticipantsStatusSnapshotReceivedImpl _value,
+    $Res Function(_$ChatRoomParticipantsStatusSnapshotReceivedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of ChatRoomEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? statusMap = null, Object? lastSeenMap = null}) {
+    return _then(
+      _$ChatRoomParticipantsStatusSnapshotReceivedImpl(
+        null == statusMap
+            ? _value._statusMap
+            : statusMap // ignore: cast_nullable_to_non_nullable
+                  as Map<String, UserStatus>,
+        null == lastSeenMap
+            ? _value._lastSeenMap
+            : lastSeenMap // ignore: cast_nullable_to_non_nullable
+                  as Map<String, DateTime>,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$ChatRoomParticipantsStatusSnapshotReceivedImpl
+    implements ChatRoomParticipantsStatusSnapshotReceived {
+  const _$ChatRoomParticipantsStatusSnapshotReceivedImpl(
+    final Map<String, UserStatus> statusMap,
+    final Map<String, DateTime> lastSeenMap,
+  ) : _statusMap = statusMap,
+      _lastSeenMap = lastSeenMap;
+
+  final Map<String, UserStatus> _statusMap;
+  @override
+  Map<String, UserStatus> get statusMap {
+    if (_statusMap is EqualUnmodifiableMapView) return _statusMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_statusMap);
+  }
+
+  final Map<String, DateTime> _lastSeenMap;
+  @override
+  Map<String, DateTime> get lastSeenMap {
+    if (_lastSeenMap is EqualUnmodifiableMapView) return _lastSeenMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_lastSeenMap);
+  }
+
+  @override
+  String toString() {
+    return 'ChatRoomEvent.participantsStatusSnapshotReceived(statusMap: $statusMap, lastSeenMap: $lastSeenMap)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatRoomParticipantsStatusSnapshotReceivedImpl &&
+            const DeepCollectionEquality().equals(
+              other._statusMap,
+              _statusMap,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._lastSeenMap,
+              _lastSeenMap,
+            ));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(_statusMap),
+    const DeepCollectionEquality().hash(_lastSeenMap),
+  );
+
+  /// Create a copy of ChatRoomEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChatRoomParticipantsStatusSnapshotReceivedImplCopyWith<
+    _$ChatRoomParticipantsStatusSnapshotReceivedImpl
+  >
+  get copyWith =>
+      __$$ChatRoomParticipantsStatusSnapshotReceivedImplCopyWithImpl<
+        _$ChatRoomParticipantsStatusSnapshotReceivedImpl
+      >(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String roomId) started,
+    required TResult Function() loadMoreRequested,
+    required TResult Function(String text) sendMessageRequested,
+    required TResult Function(MessageEntity message) socketMessageReceived,
+    required TResult Function(String tempId, Map<String, dynamic> ack)
+    socketAckReceived,
+    required TResult Function(String userId, String username) typingStarted,
+    required TResult Function(String userId) typingStopped,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
+    required TResult Function(String text) typingTextChanged,
+    required TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )
+    participantsStatusSnapshotReceived,
+  }) {
+    return participantsStatusSnapshotReceived(statusMap, lastSeenMap);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String roomId)? started,
+    TResult? Function()? loadMoreRequested,
+    TResult? Function(String text)? sendMessageRequested,
+    TResult? Function(MessageEntity message)? socketMessageReceived,
+    TResult? Function(String tempId, Map<String, dynamic> ack)?
+    socketAckReceived,
+    TResult? Function(String userId, String username)? typingStarted,
+    TResult? Function(String userId)? typingStopped,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+    TResult? Function(String text)? typingTextChanged,
+    TResult? Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
+  }) {
+    return participantsStatusSnapshotReceived?.call(statusMap, lastSeenMap);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String roomId)? started,
+    TResult Function()? loadMoreRequested,
+    TResult Function(String text)? sendMessageRequested,
+    TResult Function(MessageEntity message)? socketMessageReceived,
+    TResult Function(String tempId, Map<String, dynamic> ack)?
+    socketAckReceived,
+    TResult Function(String userId, String username)? typingStarted,
+    TResult Function(String userId)? typingStopped,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+    TResult Function(String text)? typingTextChanged,
+    TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
+    required TResult orElse(),
+  }) {
+    if (participantsStatusSnapshotReceived != null) {
+      return participantsStatusSnapshotReceived(statusMap, lastSeenMap);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChatRoomStarted value) started,
+    required TResult Function(LoadMoreRequested value) loadMoreRequested,
+    required TResult Function(SendMessageRequested value) sendMessageRequested,
+    required TResult Function(SocketMessageReceived value)
+    socketMessageReceived,
+    required TResult Function(SocketAckReceived value) socketAckReceived,
+    required TResult Function(TypingStarted value) typingStarted,
+    required TResult Function(TypingStopped value) typingStopped,
+    required TResult Function(ChatRoomPresenceUpdated value) presenceUpdated,
+    required TResult Function(TypingTextChanged value) typingTextChanged,
+    required TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)
+    participantsStatusSnapshotReceived,
+  }) {
+    return participantsStatusSnapshotReceived(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChatRoomStarted value)? started,
+    TResult? Function(LoadMoreRequested value)? loadMoreRequested,
+    TResult? Function(SendMessageRequested value)? sendMessageRequested,
+    TResult? Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult? Function(SocketAckReceived value)? socketAckReceived,
+    TResult? Function(TypingStarted value)? typingStarted,
+    TResult? Function(TypingStopped value)? typingStopped,
+    TResult? Function(ChatRoomPresenceUpdated value)? presenceUpdated,
+    TResult? Function(TypingTextChanged value)? typingTextChanged,
+    TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
+  }) {
+    return participantsStatusSnapshotReceived?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChatRoomStarted value)? started,
+    TResult Function(LoadMoreRequested value)? loadMoreRequested,
+    TResult Function(SendMessageRequested value)? sendMessageRequested,
+    TResult Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult Function(SocketAckReceived value)? socketAckReceived,
+    TResult Function(TypingStarted value)? typingStarted,
+    TResult Function(TypingStopped value)? typingStopped,
+    TResult Function(ChatRoomPresenceUpdated value)? presenceUpdated,
+    TResult Function(TypingTextChanged value)? typingTextChanged,
+    TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
+    required TResult orElse(),
+  }) {
+    if (participantsStatusSnapshotReceived != null) {
+      return participantsStatusSnapshotReceived(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ChatRoomParticipantsStatusSnapshotReceived
+    implements ChatRoomEvent {
+  const factory ChatRoomParticipantsStatusSnapshotReceived(
+    final Map<String, UserStatus> statusMap,
+    final Map<String, DateTime> lastSeenMap,
+  ) = _$ChatRoomParticipantsStatusSnapshotReceivedImpl;
+
+  Map<String, UserStatus> get statusMap;
+  Map<String, DateTime> get lastSeenMap;
+
+  /// Create a copy of ChatRoomEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ChatRoomParticipantsStatusSnapshotReceivedImplCopyWith<
+    _$ChatRoomParticipantsStatusSnapshotReceivedImpl
+  >
+  get copyWith => throw _privateConstructorUsedError;
 }
