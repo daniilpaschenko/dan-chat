@@ -43,6 +43,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     on<TypingStopped>(_onTypingStopped);
     on<TypingTextChanged>(_onTypingTextChanged);
     on<ChatRoomPresenceUpdated>(_onPresenceUpdated);
+    on<ChatRoomParticipantsStatusSnapshotReceived>(_onParticipantsStatusSnapshot);
   }
 
   Future<void> _onStarted(
@@ -73,7 +74,24 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
       )),
     );
 
-    _socketService.joinRoom(event.roomId);
+    _socketService.joinRoom(event.roomId, onAck: (ack) {
+      if (ack['ok'] != true) return;
+      final list = (ack['participantsStatus'] as List?) ?? [];
+
+      final statusMap = <String, UserStatus>{};
+      final lastSeenMap = <String, DateTime>{};
+
+      for (final item in list) {
+        final map = Map<String, dynamic>.from(item as Map);
+        final uid = map['userId'] as String;
+        statusMap[uid] = map['status'] == 'online' ? UserStatus.online : UserStatus.offline;
+        if (map['lastSeen'] != null) {
+          lastSeenMap[uid] = DateTime.parse(map['lastSeen'] as String);
+        }
+      }
+
+      add(ChatRoomEvent.participantsStatusSnapshotReceived(statusMap, lastSeenMap));
+    });
 
     _messageSub = _socketService.messageNew$.listen((data) {
       final entity = Message.fromJson(data).toEntity();
@@ -275,6 +293,16 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
       participantsLastSeen: event.lastSeen != null
         ? {...state.participantsLastSeen, event.userId: event.lastSeen!}
         : state.participantsLastSeen,
+    ));
+  }
+
+  void _onParticipantsStatusSnapshot(
+    ChatRoomParticipantsStatusSnapshotReceived event,
+    Emitter<ChatRoomState> emit,
+  ) {
+    emit(state.copyWith(
+      participantsStatus: {...event.statusMap, ...state.participantsStatus},
+      participantsLastSeen: {...event.lastSeenMap, ...state.participantsLastSeen},
     ));
   }
 
