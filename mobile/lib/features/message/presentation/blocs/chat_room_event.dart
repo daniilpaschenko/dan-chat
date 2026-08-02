@@ -19,4 +19,9 @@ class ChatRoomEvent with _$ChatRoomEvent {
 
   // вызывается из UI при вводе текста, чтобы слать typing:start/stop
   const factory ChatRoomEvent.typingTextChanged(String text) = TypingTextChanged;
+
+  const factory ChatRoomEvent.participantsStatusSnapshotReceived(
+    Map<String, UserStatus> statusMap,
+    Map<String, DateTime> lastSeenMap,
+  ) = ChatRoomParticipantsStatusSnapshotReceived;
 }
