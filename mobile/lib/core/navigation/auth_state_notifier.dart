@@ -57,11 +57,11 @@ class AuthStateNotifier extends ChangeNotifier {
   Future<void> logOut() async {
     await _secureStorageService.deleteTokens();
 
+    _socketService.disconnect();
+
     // чистим локальный кэш, чтобы при входе другого юзера на этом же устройстве
     // не мелькнули чужие данные до первого успешного запроса к серверу
     await _hiveService.clearAll();
-
-    _socketService.disconnect();
 
     _isAuthenticated = false;
     _currentUserId = null;
