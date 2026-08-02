@@ -33,7 +33,7 @@ class PlaceholderScreen extends StatelessWidget {
                 if (context.canPop()) {
                   context.pop();
                 } else {
-                  context.go(RoutePaths.chatList); // или RoutePaths.home — как у тебя называется
+                  context.go(RoutePaths.chatList);
                 }
               },
               child: const Text('Назад'),
