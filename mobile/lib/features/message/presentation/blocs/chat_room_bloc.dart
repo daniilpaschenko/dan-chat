@@ -98,6 +98,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
       add(ChatRoomEvent.presenceUpdated(
         data['userId'] as String,
         data['status'] == 'online' ? UserStatus.online : UserStatus.offline,
+        data['lastSeen'] != null ? DateTime.parse(data['lastSeen'] as String) : null,
       ));
     });
   }
@@ -271,6 +272,9 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   void _onPresenceUpdated(ChatRoomPresenceUpdated event, Emitter<ChatRoomState> emit) {
     emit(state.copyWith(
       participantsStatus: {...state.participantsStatus, event.userId: event.status},
+      participantsLastSeen: event.lastSeen != null
+        ? {...state.participantsLastSeen, event.userId: event.lastSeen!}
+        : state.participantsLastSeen,
     ));
   }
 
