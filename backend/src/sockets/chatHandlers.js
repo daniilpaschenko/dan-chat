@@ -1,4 +1,4 @@
-const { findRoomIfMember } = require('../services/roomService');
+const { findRoomIfMember, getParticipantsStatus } = require('../services/roomService');
 const { createMessage } = require('../services/messageService');
 
 // io.emit() — событие получат все подключённые клиенты, независимо от комнат
@@ -18,7 +18,12 @@ module.exports = function registerChatHandlers(io, socket) {
             if (!room) return callback?.({ ok: false, message: 'Нет доступа к комнате' });
             // сокет добавляется в группу roomId
             socket.join(roomId);
-            callback?.({ ok: true });
+
+            // сразу отдаём актуальный статус участников — чтобы клиент
+            // не полагался только на устаревшие данные из REST/кэша
+            const participantsStatus = await getParticipantsStatus(room);
+
+            callback?.({ ok: true, participantsStatus });
         } catch (err) {
             console.error('room:join error:', err);
             callback?.({ ok: false, message: 'Ошибка сервера' });
