@@ -22,18 +22,28 @@ mixin _$RoomListEvent {
     required TResult Function() loadRequested,
     required TResult Function() refreshRequested,
     required TResult Function(String roomId) roomOpened,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadRequested,
     TResult? Function()? refreshRequested,
     TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadRequested,
     TResult Function()? refreshRequested,
     TResult Function(String roomId)? roomOpened,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -41,18 +51,21 @@ mixin _$RoomListEvent {
     required TResult Function(LoadRequested value) loadRequested,
     required TResult Function(RefreshRequested value) refreshRequested,
     required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadRequested value)? loadRequested,
     TResult? Function(RefreshRequested value)? refreshRequested,
     TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadRequested value)? loadRequested,
     TResult Function(RefreshRequested value)? refreshRequested,
     TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -125,6 +138,12 @@ class _$LoadRequestedImpl implements LoadRequested {
     required TResult Function() loadRequested,
     required TResult Function() refreshRequested,
     required TResult Function(String roomId) roomOpened,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
   }) {
     return loadRequested();
   }
@@ -135,6 +154,8 @@ class _$LoadRequestedImpl implements LoadRequested {
     TResult? Function()? loadRequested,
     TResult? Function()? refreshRequested,
     TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
   }) {
     return loadRequested?.call();
   }
@@ -145,6 +166,8 @@ class _$LoadRequestedImpl implements LoadRequested {
     TResult Function()? loadRequested,
     TResult Function()? refreshRequested,
     TResult Function(String roomId)? roomOpened,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     required TResult orElse(),
   }) {
     if (loadRequested != null) {
@@ -159,6 +182,7 @@ class _$LoadRequestedImpl implements LoadRequested {
     required TResult Function(LoadRequested value) loadRequested,
     required TResult Function(RefreshRequested value) refreshRequested,
     required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
   }) {
     return loadRequested(this);
   }
@@ -169,6 +193,7 @@ class _$LoadRequestedImpl implements LoadRequested {
     TResult? Function(LoadRequested value)? loadRequested,
     TResult? Function(RefreshRequested value)? refreshRequested,
     TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
   }) {
     return loadRequested?.call(this);
   }
@@ -179,6 +204,7 @@ class _$LoadRequestedImpl implements LoadRequested {
     TResult Function(LoadRequested value)? loadRequested,
     TResult Function(RefreshRequested value)? refreshRequested,
     TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
     required TResult orElse(),
   }) {
     if (loadRequested != null) {
@@ -238,6 +264,12 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     required TResult Function() loadRequested,
     required TResult Function() refreshRequested,
     required TResult Function(String roomId) roomOpened,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
   }) {
     return refreshRequested();
   }
@@ -248,6 +280,8 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     TResult? Function()? loadRequested,
     TResult? Function()? refreshRequested,
     TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
   }) {
     return refreshRequested?.call();
   }
@@ -258,6 +292,8 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     TResult Function()? loadRequested,
     TResult Function()? refreshRequested,
     TResult Function(String roomId)? roomOpened,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     required TResult orElse(),
   }) {
     if (refreshRequested != null) {
@@ -272,6 +308,7 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     required TResult Function(LoadRequested value) loadRequested,
     required TResult Function(RefreshRequested value) refreshRequested,
     required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
   }) {
     return refreshRequested(this);
   }
@@ -282,6 +319,7 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     TResult? Function(LoadRequested value)? loadRequested,
     TResult? Function(RefreshRequested value)? refreshRequested,
     TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
   }) {
     return refreshRequested?.call(this);
   }
@@ -292,6 +330,7 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     TResult Function(LoadRequested value)? loadRequested,
     TResult Function(RefreshRequested value)? refreshRequested,
     TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
     required TResult orElse(),
   }) {
     if (refreshRequested != null) {
@@ -378,6 +417,12 @@ class _$RoomOpenedImpl implements RoomOpened {
     required TResult Function() loadRequested,
     required TResult Function() refreshRequested,
     required TResult Function(String roomId) roomOpened,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
   }) {
     return roomOpened(roomId);
   }
@@ -388,6 +433,8 @@ class _$RoomOpenedImpl implements RoomOpened {
     TResult? Function()? loadRequested,
     TResult? Function()? refreshRequested,
     TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
   }) {
     return roomOpened?.call(roomId);
   }
@@ -398,6 +445,8 @@ class _$RoomOpenedImpl implements RoomOpened {
     TResult Function()? loadRequested,
     TResult Function()? refreshRequested,
     TResult Function(String roomId)? roomOpened,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     required TResult orElse(),
   }) {
     if (roomOpened != null) {
@@ -412,6 +461,7 @@ class _$RoomOpenedImpl implements RoomOpened {
     required TResult Function(LoadRequested value) loadRequested,
     required TResult Function(RefreshRequested value) refreshRequested,
     required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
   }) {
     return roomOpened(this);
   }
@@ -422,6 +472,7 @@ class _$RoomOpenedImpl implements RoomOpened {
     TResult? Function(LoadRequested value)? loadRequested,
     TResult? Function(RefreshRequested value)? refreshRequested,
     TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
   }) {
     return roomOpened?.call(this);
   }
@@ -432,6 +483,7 @@ class _$RoomOpenedImpl implements RoomOpened {
     TResult Function(LoadRequested value)? loadRequested,
     TResult Function(RefreshRequested value)? refreshRequested,
     TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
     required TResult orElse(),
   }) {
     if (roomOpened != null) {
@@ -451,4 +503,202 @@ abstract class RoomOpened implements RoomListEvent {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RoomOpenedImplCopyWith<_$RoomOpenedImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RoomListPresenceUpdatedImplCopyWith<$Res> {
+  factory _$$RoomListPresenceUpdatedImplCopyWith(
+    _$RoomListPresenceUpdatedImpl value,
+    $Res Function(_$RoomListPresenceUpdatedImpl) then,
+  ) = __$$RoomListPresenceUpdatedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String userId, UserStatus status, DateTime? lastSeen});
+}
+
+/// @nodoc
+class __$$RoomListPresenceUpdatedImplCopyWithImpl<$Res>
+    extends _$RoomListEventCopyWithImpl<$Res, _$RoomListPresenceUpdatedImpl>
+    implements _$$RoomListPresenceUpdatedImplCopyWith<$Res> {
+  __$$RoomListPresenceUpdatedImplCopyWithImpl(
+    _$RoomListPresenceUpdatedImpl _value,
+    $Res Function(_$RoomListPresenceUpdatedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = null,
+    Object? status = freezed,
+    Object? lastSeen = freezed,
+  }) {
+    return _then(
+      _$RoomListPresenceUpdatedImpl(
+        userId: null == userId
+            ? _value.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        status: freezed == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                  as UserStatus,
+        lastSeen: freezed == lastSeen
+            ? _value.lastSeen
+            : lastSeen // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
+  const _$RoomListPresenceUpdatedImpl({
+    required this.userId,
+    required this.status,
+    this.lastSeen,
+  });
+
+  @override
+  final String userId;
+  @override
+  final UserStatus status;
+  @override
+  final DateTime? lastSeen;
+
+  @override
+  String toString() {
+    return 'RoomListEvent.presenceUpdated(userId: $userId, status: $status, lastSeen: $lastSeen)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RoomListPresenceUpdatedImpl &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            const DeepCollectionEquality().equals(other.status, status) &&
+            (identical(other.lastSeen, lastSeen) ||
+                other.lastSeen == lastSeen));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    userId,
+    const DeepCollectionEquality().hash(status),
+    lastSeen,
+  );
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RoomListPresenceUpdatedImplCopyWith<_$RoomListPresenceUpdatedImpl>
+  get copyWith =>
+      __$$RoomListPresenceUpdatedImplCopyWithImpl<
+        _$RoomListPresenceUpdatedImpl
+      >(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loadRequested,
+    required TResult Function() refreshRequested,
+    required TResult Function(String roomId) roomOpened,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
+  }) {
+    return presenceUpdated(userId, status, lastSeen);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loadRequested,
+    TResult? Function()? refreshRequested,
+    TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+  }) {
+    return presenceUpdated?.call(userId, status, lastSeen);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loadRequested,
+    TResult Function()? refreshRequested,
+    TResult Function(String roomId)? roomOpened,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+    required TResult orElse(),
+  }) {
+    if (presenceUpdated != null) {
+      return presenceUpdated(userId, status, lastSeen);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoadRequested value) loadRequested,
+    required TResult Function(RefreshRequested value) refreshRequested,
+    required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
+  }) {
+    return presenceUpdated(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoadRequested value)? loadRequested,
+    TResult? Function(RefreshRequested value)? refreshRequested,
+    TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
+  }) {
+    return presenceUpdated?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoadRequested value)? loadRequested,
+    TResult Function(RefreshRequested value)? refreshRequested,
+    TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
+    required TResult orElse(),
+  }) {
+    if (presenceUpdated != null) {
+      return presenceUpdated(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class RoomListPresenceUpdated implements RoomListEvent {
+  const factory RoomListPresenceUpdated({
+    required final String userId,
+    required final UserStatus status,
+    final DateTime? lastSeen,
+  }) = _$RoomListPresenceUpdatedImpl;
+
+  String get userId;
+  UserStatus get status;
+  DateTime? get lastSeen;
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RoomListPresenceUpdatedImplCopyWith<_$RoomListPresenceUpdatedImpl>
+  get copyWith => throw _privateConstructorUsedError;
 }
