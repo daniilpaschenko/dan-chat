@@ -153,6 +153,7 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
                   controller: _textController,
                   isSending: state.isSending,
                   onSend: () => _sendMessage(context),
+                  onChanged: (text) => context.read<ChatRoomBloc>().add(ChatRoomEvent.typingTextChanged(text)),
                   gap: spacing.form,
                   spacing: spacing,
                 ),
