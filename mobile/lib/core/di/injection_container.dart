@@ -212,7 +212,10 @@ Future<void> setupDependencies() async {
   // features/user/presentation - SearchBloc
   // также нужен чистый Initial при заходе
   getIt.registerFactory<SearchBloc>(
-    () => SearchBloc(searchUsersUseCase: getIt<SearchUsersUseCase>()),
+    () => SearchBloc(
+      searchUsersUseCase: getIt<SearchUsersUseCase>(),
+      socketService: getIt<SocketService>(),
+    ),
   );
 
   // features/message/data
