@@ -530,7 +530,7 @@ class __$$RoomListPresenceUpdatedImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userId = null,
-    Object? status = freezed,
+    Object? status = null,
     Object? lastSeen = freezed,
   }) {
     return _then(
@@ -539,7 +539,7 @@ class __$$RoomListPresenceUpdatedImplCopyWithImpl<$Res>
             ? _value.userId
             : userId // ignore: cast_nullable_to_non_nullable
                   as String,
-        status: freezed == status
+        status: null == status
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as UserStatus,
@@ -579,18 +579,13 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
         (other.runtimeType == runtimeType &&
             other is _$RoomListPresenceUpdatedImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            const DeepCollectionEquality().equals(other.status, status) &&
+            (identical(other.status, status) || other.status == status) &&
             (identical(other.lastSeen, lastSeen) ||
                 other.lastSeen == lastSeen));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    userId,
-    const DeepCollectionEquality().hash(status),
-    lastSeen,
-  );
+  int get hashCode => Object.hash(runtimeType, userId, status, lastSeen);
 
   /// Create a copy of RoomListEvent
   /// with the given fields replaced by the non-null parameter values.

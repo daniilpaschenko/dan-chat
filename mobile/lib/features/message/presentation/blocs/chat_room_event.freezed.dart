@@ -27,7 +27,12 @@ mixin _$ChatRoomEvent {
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
     required TResult Function(String userId) typingStopped,
-    required TResult Function(String userId, UserStatus status) presenceUpdated,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
     required TResult Function(String text) typingTextChanged,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -40,7 +45,8 @@ mixin _$ChatRoomEvent {
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
     TResult? Function(String userId)? typingStopped,
-    TResult? Function(String userId, UserStatus status)? presenceUpdated,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -53,7 +59,8 @@ mixin _$ChatRoomEvent {
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
     TResult Function(String userId)? typingStopped,
-    TResult Function(String userId, UserStatus status)? presenceUpdated,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult Function(String text)? typingTextChanged,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -200,7 +207,12 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
     required TResult Function(String userId) typingStopped,
-    required TResult Function(String userId, UserStatus status) presenceUpdated,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
     required TResult Function(String text) typingTextChanged,
   }) {
     return started(roomId);
@@ -217,7 +229,8 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
     TResult? Function(String userId)? typingStopped,
-    TResult? Function(String userId, UserStatus status)? presenceUpdated,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
   }) {
     return started?.call(roomId);
@@ -234,7 +247,8 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
     TResult Function(String userId)? typingStopped,
-    TResult Function(String userId, UserStatus status)? presenceUpdated,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult Function(String text)? typingTextChanged,
     required TResult orElse(),
   }) {
@@ -361,7 +375,12 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
     required TResult Function(String userId) typingStopped,
-    required TResult Function(String userId, UserStatus status) presenceUpdated,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
     required TResult Function(String text) typingTextChanged,
   }) {
     return loadMoreRequested();
@@ -378,7 +397,8 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
     TResult? Function(String userId)? typingStopped,
-    TResult? Function(String userId, UserStatus status)? presenceUpdated,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
   }) {
     return loadMoreRequested?.call();
@@ -395,7 +415,8 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
     TResult Function(String userId)? typingStopped,
-    TResult Function(String userId, UserStatus status)? presenceUpdated,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult Function(String text)? typingTextChanged,
     required TResult orElse(),
   }) {
@@ -545,7 +566,12 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
     required TResult Function(String userId) typingStopped,
-    required TResult Function(String userId, UserStatus status) presenceUpdated,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
     required TResult Function(String text) typingTextChanged,
   }) {
     return sendMessageRequested(text);
@@ -562,7 +588,8 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
     TResult? Function(String userId)? typingStopped,
-    TResult? Function(String userId, UserStatus status)? presenceUpdated,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
   }) {
     return sendMessageRequested?.call(text);
@@ -579,7 +606,8 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
     TResult Function(String userId)? typingStopped,
-    TResult Function(String userId, UserStatus status)? presenceUpdated,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult Function(String text)? typingTextChanged,
     required TResult orElse(),
   }) {
@@ -750,7 +778,12 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
     required TResult Function(String userId) typingStopped,
-    required TResult Function(String userId, UserStatus status) presenceUpdated,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
     required TResult Function(String text) typingTextChanged,
   }) {
     return socketMessageReceived(message);
@@ -767,7 +800,8 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
     TResult? Function(String userId)? typingStopped,
-    TResult? Function(String userId, UserStatus status)? presenceUpdated,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
   }) {
     return socketMessageReceived?.call(message);
@@ -784,7 +818,8 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
     TResult Function(String userId)? typingStopped,
-    TResult Function(String userId, UserStatus status)? presenceUpdated,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult Function(String text)? typingTextChanged,
     required TResult orElse(),
   }) {
@@ -959,7 +994,12 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
     required TResult Function(String userId) typingStopped,
-    required TResult Function(String userId, UserStatus status) presenceUpdated,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
     required TResult Function(String text) typingTextChanged,
   }) {
     return socketAckReceived(tempId, ack);
@@ -976,7 +1016,8 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
     TResult? Function(String userId)? typingStopped,
-    TResult? Function(String userId, UserStatus status)? presenceUpdated,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
   }) {
     return socketAckReceived?.call(tempId, ack);
@@ -993,7 +1034,8 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
     TResult Function(String userId)? typingStopped,
-    TResult Function(String userId, UserStatus status)? presenceUpdated,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult Function(String text)? typingTextChanged,
     required TResult orElse(),
   }) {
@@ -1159,7 +1201,12 @@ class _$TypingStartedImpl implements TypingStarted {
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
     required TResult Function(String userId) typingStopped,
-    required TResult Function(String userId, UserStatus status) presenceUpdated,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
     required TResult Function(String text) typingTextChanged,
   }) {
     return typingStarted(userId, username);
@@ -1176,7 +1223,8 @@ class _$TypingStartedImpl implements TypingStarted {
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
     TResult? Function(String userId)? typingStopped,
-    TResult? Function(String userId, UserStatus status)? presenceUpdated,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
   }) {
     return typingStarted?.call(userId, username);
@@ -1193,7 +1241,8 @@ class _$TypingStartedImpl implements TypingStarted {
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
     TResult Function(String userId)? typingStopped,
-    TResult Function(String userId, UserStatus status)? presenceUpdated,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult Function(String text)? typingTextChanged,
     required TResult orElse(),
   }) {
@@ -1349,7 +1398,12 @@ class _$TypingStoppedImpl implements TypingStopped {
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
     required TResult Function(String userId) typingStopped,
-    required TResult Function(String userId, UserStatus status) presenceUpdated,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
     required TResult Function(String text) typingTextChanged,
   }) {
     return typingStopped(userId);
@@ -1366,7 +1420,8 @@ class _$TypingStoppedImpl implements TypingStopped {
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
     TResult? Function(String userId)? typingStopped,
-    TResult? Function(String userId, UserStatus status)? presenceUpdated,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
   }) {
     return typingStopped?.call(userId);
@@ -1383,7 +1438,8 @@ class _$TypingStoppedImpl implements TypingStopped {
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
     TResult Function(String userId)? typingStopped,
-    TResult Function(String userId, UserStatus status)? presenceUpdated,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult Function(String text)? typingTextChanged,
     required TResult orElse(),
   }) {
@@ -1466,7 +1522,7 @@ abstract class _$$ChatRoomPresenceUpdatedImplCopyWith<$Res> {
     $Res Function(_$ChatRoomPresenceUpdatedImpl) then,
   ) = __$$ChatRoomPresenceUpdatedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String userId, UserStatus status});
+  $Res call({String userId, UserStatus status, DateTime? lastSeen});
 }
 
 /// @nodoc
@@ -1482,7 +1538,11 @@ class __$$ChatRoomPresenceUpdatedImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? userId = null, Object? status = null}) {
+  $Res call({
+    Object? userId = null,
+    Object? status = null,
+    Object? lastSeen = freezed,
+  }) {
     return _then(
       _$ChatRoomPresenceUpdatedImpl(
         null == userId
@@ -1493,6 +1553,10 @@ class __$$ChatRoomPresenceUpdatedImplCopyWithImpl<$Res>
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as UserStatus,
+        freezed == lastSeen
+            ? _value.lastSeen
+            : lastSeen // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
       ),
     );
   }
@@ -1501,16 +1565,18 @@ class __$$ChatRoomPresenceUpdatedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
-  const _$ChatRoomPresenceUpdatedImpl(this.userId, this.status);
+  const _$ChatRoomPresenceUpdatedImpl(this.userId, this.status, this.lastSeen);
 
   @override
   final String userId;
   @override
   final UserStatus status;
+  @override
+  final DateTime? lastSeen;
 
   @override
   String toString() {
-    return 'ChatRoomEvent.presenceUpdated(userId: $userId, status: $status)';
+    return 'ChatRoomEvent.presenceUpdated(userId: $userId, status: $status, lastSeen: $lastSeen)';
   }
 
   @override
@@ -1519,11 +1585,13 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
         (other.runtimeType == runtimeType &&
             other is _$ChatRoomPresenceUpdatedImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.status, status) || other.status == status));
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.lastSeen, lastSeen) ||
+                other.lastSeen == lastSeen));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, userId, status);
+  int get hashCode => Object.hash(runtimeType, userId, status, lastSeen);
 
   /// Create a copy of ChatRoomEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -1547,10 +1615,15 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
     required TResult Function(String userId) typingStopped,
-    required TResult Function(String userId, UserStatus status) presenceUpdated,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
     required TResult Function(String text) typingTextChanged,
   }) {
-    return presenceUpdated(userId, status);
+    return presenceUpdated(userId, status, lastSeen);
   }
 
   @override
@@ -1564,10 +1637,11 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
     TResult? Function(String userId)? typingStopped,
-    TResult? Function(String userId, UserStatus status)? presenceUpdated,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
   }) {
-    return presenceUpdated?.call(userId, status);
+    return presenceUpdated?.call(userId, status, lastSeen);
   }
 
   @override
@@ -1581,12 +1655,13 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
     TResult Function(String userId)? typingStopped,
-    TResult Function(String userId, UserStatus status)? presenceUpdated,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult Function(String text)? typingTextChanged,
     required TResult orElse(),
   }) {
     if (presenceUpdated != null) {
-      return presenceUpdated(userId, status);
+      return presenceUpdated(userId, status, lastSeen);
     }
     return orElse();
   }
@@ -1649,10 +1724,12 @@ abstract class ChatRoomPresenceUpdated implements ChatRoomEvent {
   const factory ChatRoomPresenceUpdated(
     final String userId,
     final UserStatus status,
+    final DateTime? lastSeen,
   ) = _$ChatRoomPresenceUpdatedImpl;
 
   String get userId;
   UserStatus get status;
+  DateTime? get lastSeen;
 
   /// Create a copy of ChatRoomEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -1742,7 +1819,12 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
     required TResult Function(String userId) typingStopped,
-    required TResult Function(String userId, UserStatus status) presenceUpdated,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
     required TResult Function(String text) typingTextChanged,
   }) {
     return typingTextChanged(text);
@@ -1759,7 +1841,8 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
     TResult? Function(String userId)? typingStopped,
-    TResult? Function(String userId, UserStatus status)? presenceUpdated,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult? Function(String text)? typingTextChanged,
   }) {
     return typingTextChanged?.call(text);
@@ -1776,7 +1859,8 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
     TResult Function(String userId)? typingStopped,
-    TResult Function(String userId, UserStatus status)? presenceUpdated,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
     TResult Function(String text)? typingTextChanged,
     required TResult orElse(),
   }) {
