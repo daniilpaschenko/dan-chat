@@ -11,6 +11,7 @@ import '../../../../core/widgets/empty_state_text.dart';
 import '../../../../core/widgets/error_view.dart';
 import '../../domain/entities/room_display_info.dart';
 import '../../domain/entities/room_entity.dart';
+import '../../../user/domain/entities/user_entity.dart';
 import '../blocs/room_list_bloc.dart';
 import '../blocs/room_list_event.dart';
 import '../blocs/room_list_state.dart';
@@ -113,8 +114,10 @@ class _RoomListViewState extends State<_RoomListView> {
                           .read<RoomListBloc>()
                           .add(const RoomListEvent.loadRequested()),
                     ),
-                    loaded: (rooms) => _buildList(context, rooms, currentUserId, formGap: spacing.form),
-                    refreshing: (rooms) => _buildList(context, rooms, currentUserId, formGap: spacing.form),
+                    loaded: (rooms, typingByRoom) =>
+                      _buildList(context, rooms, typingByRoom, currentUserId, formGap: spacing.form),
+                    refreshing: (rooms, typingByRoom) =>
+                      _buildList(context, rooms, typingByRoom, currentUserId, formGap: spacing.form),
                   );
                 },
               ),
@@ -128,6 +131,7 @@ class _RoomListViewState extends State<_RoomListView> {
   Widget _buildList(
     BuildContext context,
     List<RoomListItemEntity> rooms,
+    Map<String, Map<String, String>> typingByRoom,
     String? currentUserId, {
     required double formGap,
   }) {
@@ -151,10 +155,28 @@ class _RoomListViewState extends State<_RoomListView> {
               itemBuilder: (context, index) {
                 final room = filtered[index];
                 final info = RoomDisplayInfo.from(room, currentUserId);
+
+                final typingUsers = typingByRoom[room.id] ?? const {};
+                final isTyping = typingUsers.isNotEmpty;
+
+                final other = room.type == RoomType.direct
+                    ? RoomDisplayInfo.otherParticipant(room, currentUserId)
+                    : null;
+                final isOnline = other?.status == UserStatus.online;
+
+                final subtitle = isTyping
+                    ? (room.type == RoomType.group
+                        ? (typingUsers.length == 1
+                            ? '${typingUsers.values.first} печатает...'
+                            : 'печатают...')
+                        : 'печатает...')
+                    : _lastMessagePreview(room);
                 return RoomTile(
                   title: info.title,
-                  subtitle: _lastMessagePreview(room),
+                  subtitle: subtitle,
+                  isTyping: isTyping,
                   avatarUrl: info.avatarUrl,
+                  isOnline: isOnline,
                   unreadCount: room.unreadCount,
                   gap: formGap,
                   onTap: () {
