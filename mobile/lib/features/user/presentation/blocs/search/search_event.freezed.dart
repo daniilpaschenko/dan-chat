@@ -238,14 +238,14 @@ class __$$SearchPresenceUpdatedImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? userId = null, Object? status = freezed}) {
+  $Res call({Object? userId = null, Object? status = null}) {
     return _then(
       _$SearchPresenceUpdatedImpl(
         userId: null == userId
             ? _value.userId
             : userId // ignore: cast_nullable_to_non_nullable
                   as String,
-        status: freezed == status
+        status: null == status
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as UserStatus,
@@ -278,15 +278,11 @@ class _$SearchPresenceUpdatedImpl implements SearchPresenceUpdated {
         (other.runtimeType == runtimeType &&
             other is _$SearchPresenceUpdatedImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            const DeepCollectionEquality().equals(other.status, status));
+            (identical(other.status, status) || other.status == status));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    userId,
-    const DeepCollectionEquality().hash(status),
-  );
+  int get hashCode => Object.hash(runtimeType, userId, status);
 
   /// Create a copy of SearchEvent
   /// with the given fields replaced by the non-null parameter values.
