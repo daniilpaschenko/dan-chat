@@ -13,3 +13,5 @@ async function getContactIds(userId) {
     });
     return [...ids]; // преобразует сет обратно в массив
 }
+
+module.exports = { getContactIds };

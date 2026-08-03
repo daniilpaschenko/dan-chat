@@ -21,24 +21,48 @@ mixin _$RoomListState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<RoomListItemEntity> rooms) loaded,
-    required TResult Function(List<RoomListItemEntity> rooms) refreshing,
+    required TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )
+    loaded,
+    required TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )
+    refreshing,
     required TResult Function(String message) failure,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<RoomListItemEntity> rooms)? loaded,
-    TResult? Function(List<RoomListItemEntity> rooms)? refreshing,
+    TResult? Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    loaded,
+    TResult? Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    refreshing,
     TResult? Function(String message)? failure,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<RoomListItemEntity> rooms)? loaded,
-    TResult Function(List<RoomListItemEntity> rooms)? refreshing,
+    TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    loaded,
+    TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    refreshing,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -136,8 +160,16 @@ class _$RoomListInitialImpl implements RoomListInitial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<RoomListItemEntity> rooms) loaded,
-    required TResult Function(List<RoomListItemEntity> rooms) refreshing,
+    required TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )
+    loaded,
+    required TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )
+    refreshing,
     required TResult Function(String message) failure,
   }) {
     return initial();
@@ -148,8 +180,16 @@ class _$RoomListInitialImpl implements RoomListInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<RoomListItemEntity> rooms)? loaded,
-    TResult? Function(List<RoomListItemEntity> rooms)? refreshing,
+    TResult? Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    loaded,
+    TResult? Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    refreshing,
     TResult? Function(String message)? failure,
   }) {
     return initial?.call();
@@ -160,8 +200,16 @@ class _$RoomListInitialImpl implements RoomListInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<RoomListItemEntity> rooms)? loaded,
-    TResult Function(List<RoomListItemEntity> rooms)? refreshing,
+    TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    loaded,
+    TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    refreshing,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -261,8 +309,16 @@ class _$RoomListLoadingImpl implements RoomListLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<RoomListItemEntity> rooms) loaded,
-    required TResult Function(List<RoomListItemEntity> rooms) refreshing,
+    required TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )
+    loaded,
+    required TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )
+    refreshing,
     required TResult Function(String message) failure,
   }) {
     return loading();
@@ -273,8 +329,16 @@ class _$RoomListLoadingImpl implements RoomListLoading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<RoomListItemEntity> rooms)? loaded,
-    TResult? Function(List<RoomListItemEntity> rooms)? refreshing,
+    TResult? Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    loaded,
+    TResult? Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    refreshing,
     TResult? Function(String message)? failure,
   }) {
     return loading?.call();
@@ -285,8 +349,16 @@ class _$RoomListLoadingImpl implements RoomListLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<RoomListItemEntity> rooms)? loaded,
-    TResult Function(List<RoomListItemEntity> rooms)? refreshing,
+    TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    loaded,
+    TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    refreshing,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -348,7 +420,10 @@ abstract class _$$RoomListLoadedImplCopyWith<$Res> {
     $Res Function(_$RoomListLoadedImpl) then,
   ) = __$$RoomListLoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<RoomListItemEntity> rooms});
+  $Res call({
+    List<RoomListItemEntity> rooms,
+    Map<String, Map<String, String>> typingByRoom,
+  });
 }
 
 /// @nodoc
@@ -364,13 +439,17 @@ class __$$RoomListLoadedImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? rooms = null}) {
+  $Res call({Object? rooms = null, Object? typingByRoom = null}) {
     return _then(
       _$RoomListLoadedImpl(
         null == rooms
             ? _value._rooms
             : rooms // ignore: cast_nullable_to_non_nullable
                   as List<RoomListItemEntity>,
+        typingByRoom: null == typingByRoom
+            ? _value._typingByRoom
+            : typingByRoom // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Map<String, String>>,
       ),
     );
   }
@@ -379,8 +458,11 @@ class __$$RoomListLoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$RoomListLoadedImpl implements RoomListLoaded {
-  const _$RoomListLoadedImpl(final List<RoomListItemEntity> rooms)
-    : _rooms = rooms;
+  const _$RoomListLoadedImpl(
+    final List<RoomListItemEntity> rooms, {
+    final Map<String, Map<String, String>> typingByRoom = const {},
+  }) : _rooms = rooms,
+       _typingByRoom = typingByRoom;
 
   final List<RoomListItemEntity> _rooms;
   @override
@@ -390,9 +472,20 @@ class _$RoomListLoadedImpl implements RoomListLoaded {
     return EqualUnmodifiableListView(_rooms);
   }
 
+  // кто сейчас печатает в этой комнате
+  final Map<String, Map<String, String>> _typingByRoom;
+  // кто сейчас печатает в этой комнате
+  @override
+  @JsonKey()
+  Map<String, Map<String, String>> get typingByRoom {
+    if (_typingByRoom is EqualUnmodifiableMapView) return _typingByRoom;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_typingByRoom);
+  }
+
   @override
   String toString() {
-    return 'RoomListState.loaded(rooms: $rooms)';
+    return 'RoomListState.loaded(rooms: $rooms, typingByRoom: $typingByRoom)';
   }
 
   @override
@@ -400,12 +493,19 @@ class _$RoomListLoadedImpl implements RoomListLoaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RoomListLoadedImpl &&
-            const DeepCollectionEquality().equals(other._rooms, _rooms));
+            const DeepCollectionEquality().equals(other._rooms, _rooms) &&
+            const DeepCollectionEquality().equals(
+              other._typingByRoom,
+              _typingByRoom,
+            ));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_rooms));
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(_rooms),
+    const DeepCollectionEquality().hash(_typingByRoom),
+  );
 
   /// Create a copy of RoomListState
   /// with the given fields replaced by the non-null parameter values.
@@ -423,11 +523,19 @@ class _$RoomListLoadedImpl implements RoomListLoaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<RoomListItemEntity> rooms) loaded,
-    required TResult Function(List<RoomListItemEntity> rooms) refreshing,
+    required TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )
+    loaded,
+    required TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )
+    refreshing,
     required TResult Function(String message) failure,
   }) {
-    return loaded(rooms);
+    return loaded(rooms, typingByRoom);
   }
 
   @override
@@ -435,11 +543,19 @@ class _$RoomListLoadedImpl implements RoomListLoaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<RoomListItemEntity> rooms)? loaded,
-    TResult? Function(List<RoomListItemEntity> rooms)? refreshing,
+    TResult? Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    loaded,
+    TResult? Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    refreshing,
     TResult? Function(String message)? failure,
   }) {
-    return loaded?.call(rooms);
+    return loaded?.call(rooms, typingByRoom);
   }
 
   @override
@@ -447,13 +563,21 @@ class _$RoomListLoadedImpl implements RoomListLoaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<RoomListItemEntity> rooms)? loaded,
-    TResult Function(List<RoomListItemEntity> rooms)? refreshing,
+    TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    loaded,
+    TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    refreshing,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(rooms);
+      return loaded(rooms, typingByRoom);
     }
     return orElse();
   }
@@ -500,10 +624,13 @@ class _$RoomListLoadedImpl implements RoomListLoaded {
 }
 
 abstract class RoomListLoaded implements RoomListState {
-  const factory RoomListLoaded(final List<RoomListItemEntity> rooms) =
-      _$RoomListLoadedImpl;
+  const factory RoomListLoaded(
+    final List<RoomListItemEntity> rooms, {
+    final Map<String, Map<String, String>> typingByRoom,
+  }) = _$RoomListLoadedImpl;
 
-  List<RoomListItemEntity> get rooms;
+  List<RoomListItemEntity> get rooms; // кто сейчас печатает в этой комнате
+  Map<String, Map<String, String>> get typingByRoom;
 
   /// Create a copy of RoomListState
   /// with the given fields replaced by the non-null parameter values.
@@ -519,7 +646,10 @@ abstract class _$$RoomListRefreshingImplCopyWith<$Res> {
     $Res Function(_$RoomListRefreshingImpl) then,
   ) = __$$RoomListRefreshingImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<RoomListItemEntity> rooms});
+  $Res call({
+    List<RoomListItemEntity> rooms,
+    Map<String, Map<String, String>> typingByRoom,
+  });
 }
 
 /// @nodoc
@@ -535,13 +665,17 @@ class __$$RoomListRefreshingImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? rooms = null}) {
+  $Res call({Object? rooms = null, Object? typingByRoom = null}) {
     return _then(
       _$RoomListRefreshingImpl(
         null == rooms
             ? _value._rooms
             : rooms // ignore: cast_nullable_to_non_nullable
                   as List<RoomListItemEntity>,
+        typingByRoom: null == typingByRoom
+            ? _value._typingByRoom
+            : typingByRoom // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Map<String, String>>,
       ),
     );
   }
@@ -550,8 +684,11 @@ class __$$RoomListRefreshingImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$RoomListRefreshingImpl implements RoomListRefreshing {
-  const _$RoomListRefreshingImpl(final List<RoomListItemEntity> rooms)
-    : _rooms = rooms;
+  const _$RoomListRefreshingImpl(
+    final List<RoomListItemEntity> rooms, {
+    final Map<String, Map<String, String>> typingByRoom = const {},
+  }) : _rooms = rooms,
+       _typingByRoom = typingByRoom;
 
   final List<RoomListItemEntity> _rooms;
   @override
@@ -561,9 +698,20 @@ class _$RoomListRefreshingImpl implements RoomListRefreshing {
     return EqualUnmodifiableListView(_rooms);
   }
 
+  // кто сейчас печатает в этой комнате
+  final Map<String, Map<String, String>> _typingByRoom;
+  // кто сейчас печатает в этой комнате
+  @override
+  @JsonKey()
+  Map<String, Map<String, String>> get typingByRoom {
+    if (_typingByRoom is EqualUnmodifiableMapView) return _typingByRoom;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_typingByRoom);
+  }
+
   @override
   String toString() {
-    return 'RoomListState.refreshing(rooms: $rooms)';
+    return 'RoomListState.refreshing(rooms: $rooms, typingByRoom: $typingByRoom)';
   }
 
   @override
@@ -571,12 +719,19 @@ class _$RoomListRefreshingImpl implements RoomListRefreshing {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RoomListRefreshingImpl &&
-            const DeepCollectionEquality().equals(other._rooms, _rooms));
+            const DeepCollectionEquality().equals(other._rooms, _rooms) &&
+            const DeepCollectionEquality().equals(
+              other._typingByRoom,
+              _typingByRoom,
+            ));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_rooms));
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(_rooms),
+    const DeepCollectionEquality().hash(_typingByRoom),
+  );
 
   /// Create a copy of RoomListState
   /// with the given fields replaced by the non-null parameter values.
@@ -594,11 +749,19 @@ class _$RoomListRefreshingImpl implements RoomListRefreshing {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<RoomListItemEntity> rooms) loaded,
-    required TResult Function(List<RoomListItemEntity> rooms) refreshing,
+    required TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )
+    loaded,
+    required TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )
+    refreshing,
     required TResult Function(String message) failure,
   }) {
-    return refreshing(rooms);
+    return refreshing(rooms, typingByRoom);
   }
 
   @override
@@ -606,11 +769,19 @@ class _$RoomListRefreshingImpl implements RoomListRefreshing {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<RoomListItemEntity> rooms)? loaded,
-    TResult? Function(List<RoomListItemEntity> rooms)? refreshing,
+    TResult? Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    loaded,
+    TResult? Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    refreshing,
     TResult? Function(String message)? failure,
   }) {
-    return refreshing?.call(rooms);
+    return refreshing?.call(rooms, typingByRoom);
   }
 
   @override
@@ -618,13 +789,21 @@ class _$RoomListRefreshingImpl implements RoomListRefreshing {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<RoomListItemEntity> rooms)? loaded,
-    TResult Function(List<RoomListItemEntity> rooms)? refreshing,
+    TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    loaded,
+    TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    refreshing,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
     if (refreshing != null) {
-      return refreshing(rooms);
+      return refreshing(rooms, typingByRoom);
     }
     return orElse();
   }
@@ -671,10 +850,13 @@ class _$RoomListRefreshingImpl implements RoomListRefreshing {
 }
 
 abstract class RoomListRefreshing implements RoomListState {
-  const factory RoomListRefreshing(final List<RoomListItemEntity> rooms) =
-      _$RoomListRefreshingImpl;
+  const factory RoomListRefreshing(
+    final List<RoomListItemEntity> rooms, {
+    final Map<String, Map<String, String>> typingByRoom,
+  }) = _$RoomListRefreshingImpl;
 
-  List<RoomListItemEntity> get rooms;
+  List<RoomListItemEntity> get rooms; // кто сейчас печатает в этой комнате
+  Map<String, Map<String, String>> get typingByRoom;
 
   /// Create a copy of RoomListState
   /// with the given fields replaced by the non-null parameter values.
@@ -758,8 +940,16 @@ class _$RoomListFailureImpl implements RoomListFailure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<RoomListItemEntity> rooms) loaded,
-    required TResult Function(List<RoomListItemEntity> rooms) refreshing,
+    required TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )
+    loaded,
+    required TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )
+    refreshing,
     required TResult Function(String message) failure,
   }) {
     return failure(message);
@@ -770,8 +960,16 @@ class _$RoomListFailureImpl implements RoomListFailure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<RoomListItemEntity> rooms)? loaded,
-    TResult? Function(List<RoomListItemEntity> rooms)? refreshing,
+    TResult? Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    loaded,
+    TResult? Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    refreshing,
     TResult? Function(String message)? failure,
   }) {
     return failure?.call(message);
@@ -782,8 +980,16 @@ class _$RoomListFailureImpl implements RoomListFailure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<RoomListItemEntity> rooms)? loaded,
-    TResult Function(List<RoomListItemEntity> rooms)? refreshing,
+    TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    loaded,
+    TResult Function(
+      List<RoomListItemEntity> rooms,
+      Map<String, Map<String, String>> typingByRoom,
+    )?
+    refreshing,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {

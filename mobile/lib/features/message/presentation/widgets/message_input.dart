@@ -9,6 +9,7 @@ class MessageInput extends StatelessWidget {
   final TextEditingController controller;
   final bool isSending;
   final VoidCallback onSend;
+  final ValueChanged<String>? onChanged;
   final double gap;
   final AppSpacing spacing;
 
@@ -17,6 +18,7 @@ class MessageInput extends StatelessWidget {
     required this.controller,
     required this.isSending,
     required this.onSend,
+    this.onChanged,
     required this.gap,
     required this.spacing,
   });
@@ -36,6 +38,7 @@ class MessageInput extends StatelessWidget {
                 // меняет кнопку на клавиатуре
                 textInputAction: TextInputAction.send,
                 onSubmitted: (_) => onSend(),
+                onChanged: onChanged,
                 decoration: InputDecoration(
                   hintText: 'Сообщение',
                   filled: true,

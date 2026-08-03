@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../../../user/domain/entities/user_entity.dart';
 
 part 'room_list_event.freezed.dart';
 
@@ -13,4 +14,29 @@ class RoomListEvent with _$RoomListEvent {
 
   // юзер открыл комнату из списка — обнуляем unreadCount на бэке
   const factory RoomListEvent.roomOpened(String roomId) = RoomOpened;
+
+  // внутреннее событие — обновление статуса участника из сокета
+  const factory RoomListEvent.presenceUpdated({
+    required String userId,
+    required UserStatus status,
+    DateTime? lastSeen,
+  }) = RoomListPresenceUpdated;
+
+  const factory RoomListEvent.typingStarted({
+    required String roomId,
+    required String userId,
+    required String username,
+  }) = RoomListTypingStarted;
+
+  const factory RoomListEvent.typingStopped({
+    required String roomId,
+    required String userId,
+  }) = RoomListTypingStopped;
+
+  const factory RoomListEvent.messageReceived({
+    required String roomId,
+    required String text,
+    required String senderId,
+    DateTime? createdAt,
+  }) = RoomListMessageReceived;
 }

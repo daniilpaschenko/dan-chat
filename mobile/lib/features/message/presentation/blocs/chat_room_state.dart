@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/message_entity.dart';
+import '../../../user/domain/entities/user_entity.dart';
 
 part 'chat_room_state.freezed.dart';
 
@@ -14,6 +15,10 @@ class ChatRoomState with _$ChatRoomState {
     String? nextCursor,
     @Default(true) bool hasMore,
     String? errorMessage,
+    // userId -> username, кто сейчас печатает (кроме нас самих)
+    @Default({}) Map<String, String> typingUsers,
+    @Default({}) Map<String, UserStatus> participantsStatus,
+    @Default({}) Map<String, DateTime> participantsLastSeen,
   }) = _ChatRoomState;
 
   factory ChatRoomState.initial(String roomId) => ChatRoomState(roomId: roomId);

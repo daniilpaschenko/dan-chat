@@ -25,7 +25,13 @@ mixin _$ChatRoomState {
   bool get isSending => throw _privateConstructorUsedError;
   String? get nextCursor => throw _privateConstructorUsedError;
   bool get hasMore => throw _privateConstructorUsedError;
-  String? get errorMessage => throw _privateConstructorUsedError;
+  String? get errorMessage =>
+      throw _privateConstructorUsedError; // userId -> username, кто сейчас печатает (кроме нас самих)
+  Map<String, String> get typingUsers => throw _privateConstructorUsedError;
+  Map<String, UserStatus> get participantsStatus =>
+      throw _privateConstructorUsedError;
+  Map<String, DateTime> get participantsLastSeen =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of ChatRoomState
   /// with the given fields replaced by the non-null parameter values.
@@ -50,6 +56,9 @@ abstract class $ChatRoomStateCopyWith<$Res> {
     String? nextCursor,
     bool hasMore,
     String? errorMessage,
+    Map<String, String> typingUsers,
+    Map<String, UserStatus> participantsStatus,
+    Map<String, DateTime> participantsLastSeen,
   });
 }
 
@@ -76,6 +85,9 @@ class _$ChatRoomStateCopyWithImpl<$Res, $Val extends ChatRoomState>
     Object? nextCursor = freezed,
     Object? hasMore = null,
     Object? errorMessage = freezed,
+    Object? typingUsers = null,
+    Object? participantsStatus = null,
+    Object? participantsLastSeen = null,
   }) {
     return _then(
       _value.copyWith(
@@ -111,6 +123,18 @@ class _$ChatRoomStateCopyWithImpl<$Res, $Val extends ChatRoomState>
                 ? _value.errorMessage
                 : errorMessage // ignore: cast_nullable_to_non_nullable
                       as String?,
+            typingUsers: null == typingUsers
+                ? _value.typingUsers
+                : typingUsers // ignore: cast_nullable_to_non_nullable
+                      as Map<String, String>,
+            participantsStatus: null == participantsStatus
+                ? _value.participantsStatus
+                : participantsStatus // ignore: cast_nullable_to_non_nullable
+                      as Map<String, UserStatus>,
+            participantsLastSeen: null == participantsLastSeen
+                ? _value.participantsLastSeen
+                : participantsLastSeen // ignore: cast_nullable_to_non_nullable
+                      as Map<String, DateTime>,
           )
           as $Val,
     );
@@ -135,6 +159,9 @@ abstract class _$$ChatRoomStateImplCopyWith<$Res>
     String? nextCursor,
     bool hasMore,
     String? errorMessage,
+    Map<String, String> typingUsers,
+    Map<String, UserStatus> participantsStatus,
+    Map<String, DateTime> participantsLastSeen,
   });
 }
 
@@ -160,6 +187,9 @@ class __$$ChatRoomStateImplCopyWithImpl<$Res>
     Object? nextCursor = freezed,
     Object? hasMore = null,
     Object? errorMessage = freezed,
+    Object? typingUsers = null,
+    Object? participantsStatus = null,
+    Object? participantsLastSeen = null,
   }) {
     return _then(
       _$ChatRoomStateImpl(
@@ -195,6 +225,18 @@ class __$$ChatRoomStateImplCopyWithImpl<$Res>
             ? _value.errorMessage
             : errorMessage // ignore: cast_nullable_to_non_nullable
                   as String?,
+        typingUsers: null == typingUsers
+            ? _value._typingUsers
+            : typingUsers // ignore: cast_nullable_to_non_nullable
+                  as Map<String, String>,
+        participantsStatus: null == participantsStatus
+            ? _value._participantsStatus
+            : participantsStatus // ignore: cast_nullable_to_non_nullable
+                  as Map<String, UserStatus>,
+        participantsLastSeen: null == participantsLastSeen
+            ? _value._participantsLastSeen
+            : participantsLastSeen // ignore: cast_nullable_to_non_nullable
+                  as Map<String, DateTime>,
       ),
     );
   }
@@ -212,7 +254,13 @@ class _$ChatRoomStateImpl implements _ChatRoomState {
     this.nextCursor,
     this.hasMore = true,
     this.errorMessage,
-  }) : _messages = messages;
+    final Map<String, String> typingUsers = const {},
+    final Map<String, UserStatus> participantsStatus = const {},
+    final Map<String, DateTime> participantsLastSeen = const {},
+  }) : _messages = messages,
+       _typingUsers = typingUsers,
+       _participantsStatus = participantsStatus,
+       _participantsLastSeen = participantsLastSeen;
 
   @override
   final String roomId;
@@ -242,10 +290,40 @@ class _$ChatRoomStateImpl implements _ChatRoomState {
   final bool hasMore;
   @override
   final String? errorMessage;
+  // userId -> username, кто сейчас печатает (кроме нас самих)
+  final Map<String, String> _typingUsers;
+  // userId -> username, кто сейчас печатает (кроме нас самих)
+  @override
+  @JsonKey()
+  Map<String, String> get typingUsers {
+    if (_typingUsers is EqualUnmodifiableMapView) return _typingUsers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_typingUsers);
+  }
+
+  final Map<String, UserStatus> _participantsStatus;
+  @override
+  @JsonKey()
+  Map<String, UserStatus> get participantsStatus {
+    if (_participantsStatus is EqualUnmodifiableMapView)
+      return _participantsStatus;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_participantsStatus);
+  }
+
+  final Map<String, DateTime> _participantsLastSeen;
+  @override
+  @JsonKey()
+  Map<String, DateTime> get participantsLastSeen {
+    if (_participantsLastSeen is EqualUnmodifiableMapView)
+      return _participantsLastSeen;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_participantsLastSeen);
+  }
 
   @override
   String toString() {
-    return 'ChatRoomState(roomId: $roomId, messages: $messages, isInitialLoading: $isInitialLoading, isLoadingMore: $isLoadingMore, isSending: $isSending, nextCursor: $nextCursor, hasMore: $hasMore, errorMessage: $errorMessage)';
+    return 'ChatRoomState(roomId: $roomId, messages: $messages, isInitialLoading: $isInitialLoading, isLoadingMore: $isLoadingMore, isSending: $isSending, nextCursor: $nextCursor, hasMore: $hasMore, errorMessage: $errorMessage, typingUsers: $typingUsers, participantsStatus: $participantsStatus, participantsLastSeen: $participantsLastSeen)';
   }
 
   @override
@@ -265,7 +343,19 @@ class _$ChatRoomStateImpl implements _ChatRoomState {
                 other.nextCursor == nextCursor) &&
             (identical(other.hasMore, hasMore) || other.hasMore == hasMore) &&
             (identical(other.errorMessage, errorMessage) ||
-                other.errorMessage == errorMessage));
+                other.errorMessage == errorMessage) &&
+            const DeepCollectionEquality().equals(
+              other._typingUsers,
+              _typingUsers,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._participantsStatus,
+              _participantsStatus,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._participantsLastSeen,
+              _participantsLastSeen,
+            ));
   }
 
   @override
@@ -279,6 +369,9 @@ class _$ChatRoomStateImpl implements _ChatRoomState {
     nextCursor,
     hasMore,
     errorMessage,
+    const DeepCollectionEquality().hash(_typingUsers),
+    const DeepCollectionEquality().hash(_participantsStatus),
+    const DeepCollectionEquality().hash(_participantsLastSeen),
   );
 
   /// Create a copy of ChatRoomState
@@ -300,6 +393,9 @@ abstract class _ChatRoomState implements ChatRoomState {
     final String? nextCursor,
     final bool hasMore,
     final String? errorMessage,
+    final Map<String, String> typingUsers,
+    final Map<String, UserStatus> participantsStatus,
+    final Map<String, DateTime> participantsLastSeen,
   }) = _$ChatRoomStateImpl;
 
   @override
@@ -317,7 +413,13 @@ abstract class _ChatRoomState implements ChatRoomState {
   @override
   bool get hasMore;
   @override
-  String? get errorMessage;
+  String? get errorMessage; // userId -> username, кто сейчас печатает (кроме нас самих)
+  @override
+  Map<String, String> get typingUsers;
+  @override
+  Map<String, UserStatus> get participantsStatus;
+  @override
+  Map<String, DateTime> get participantsLastSeen;
 
   /// Create a copy of ChatRoomState
   /// with the given fields replaced by the non-null parameter values.

@@ -225,6 +225,7 @@ mixin _$MessageEntity {
   bool get isDeleted => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
+  MessageSendStatus get sendStatus => throw _privateConstructorUsedError;
 
   /// Create a copy of MessageEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -251,6 +252,7 @@ abstract class $MessageEntityCopyWith<$Res> {
     bool isDeleted,
     DateTime? createdAt,
     DateTime? updatedAt,
+    MessageSendStatus sendStatus,
   });
 
   $PartialUserEntityCopyWith<$Res> get sender;
@@ -281,6 +283,7 @@ class _$MessageEntityCopyWithImpl<$Res, $Val extends MessageEntity>
     Object? isDeleted = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? sendStatus = null,
   }) {
     return _then(
       _value.copyWith(
@@ -324,6 +327,10 @@ class _$MessageEntityCopyWithImpl<$Res, $Val extends MessageEntity>
                 ? _value.updatedAt
                 : updatedAt // ignore: cast_nullable_to_non_nullable
                       as DateTime?,
+            sendStatus: null == sendStatus
+                ? _value.sendStatus
+                : sendStatus // ignore: cast_nullable_to_non_nullable
+                      as MessageSendStatus,
           )
           as $Val,
     );
@@ -360,6 +367,7 @@ abstract class _$$MessageEntityImplCopyWith<$Res>
     bool isDeleted,
     DateTime? createdAt,
     DateTime? updatedAt,
+    MessageSendStatus sendStatus,
   });
 
   @override
@@ -390,6 +398,7 @@ class __$$MessageEntityImplCopyWithImpl<$Res>
     Object? isDeleted = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? sendStatus = null,
   }) {
     return _then(
       _$MessageEntityImpl(
@@ -433,6 +442,10 @@ class __$$MessageEntityImplCopyWithImpl<$Res>
             ? _value.updatedAt
             : updatedAt // ignore: cast_nullable_to_non_nullable
                   as DateTime?,
+        sendStatus: null == sendStatus
+            ? _value.sendStatus
+            : sendStatus // ignore: cast_nullable_to_non_nullable
+                  as MessageSendStatus,
       ),
     );
   }
@@ -452,6 +465,7 @@ class _$MessageEntityImpl implements _MessageEntity {
     this.isDeleted = false,
     this.createdAt,
     this.updatedAt,
+    this.sendStatus = MessageSendStatus.sent,
   }) : _attachments = attachments,
        _readBy = readBy;
 
@@ -491,10 +505,13 @@ class _$MessageEntityImpl implements _MessageEntity {
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
+  @override
+  @JsonKey()
+  final MessageSendStatus sendStatus;
 
   @override
   String toString() {
-    return 'MessageEntity(id: $id, room: $room, sender: $sender, text: $text, attachments: $attachments, readBy: $readBy, editedAt: $editedAt, isDeleted: $isDeleted, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'MessageEntity(id: $id, room: $room, sender: $sender, text: $text, attachments: $attachments, readBy: $readBy, editedAt: $editedAt, isDeleted: $isDeleted, createdAt: $createdAt, updatedAt: $updatedAt, sendStatus: $sendStatus)';
   }
 
   @override
@@ -518,7 +535,9 @@ class _$MessageEntityImpl implements _MessageEntity {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.sendStatus, sendStatus) ||
+                other.sendStatus == sendStatus));
   }
 
   @override
@@ -534,6 +553,7 @@ class _$MessageEntityImpl implements _MessageEntity {
     isDeleted,
     createdAt,
     updatedAt,
+    sendStatus,
   );
 
   /// Create a copy of MessageEntity
@@ -557,6 +577,7 @@ abstract class _MessageEntity implements MessageEntity {
     final bool isDeleted,
     final DateTime? createdAt,
     final DateTime? updatedAt,
+    final MessageSendStatus sendStatus,
   }) = _$MessageEntityImpl;
 
   @override
@@ -579,6 +600,8 @@ abstract class _MessageEntity implements MessageEntity {
   DateTime? get createdAt;
   @override
   DateTime? get updatedAt;
+  @override
+  MessageSendStatus get sendStatus;
 
   /// Create a copy of MessageEntity
   /// with the given fields replaced by the non-null parameter values.

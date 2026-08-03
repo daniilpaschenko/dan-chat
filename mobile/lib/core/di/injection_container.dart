@@ -9,8 +9,11 @@ import '../navigation/app_router.dart';
 import '../navigation/auth_state_notifier.dart';
 import '../navigation/bottom_nav_visibility.dart';
 import '../network/dio_client.dart';
+import '../network/socket_service.dart';
 import '../storage/hive_service.dart';
 import '../storage/secure_storage_service.dart';
+import '../services/read_sync_service.dart';
+
 
 // AUTH
 import '../../features/auth/data/datasources/auth_remote_datasource.dart';
@@ -67,10 +70,16 @@ Future<void> setupDependencies() async {
   );
   getIt.registerLazySingleton<HiveService>(() => HiveService());
 
+  getIt.registerLazySingleton<SocketService>(() => SocketService());
+
   // core/navigation
   // регистрируем раньше Dio, т.к. DioClient дергает logOut() при провале refresh
   getIt.registerLazySingleton<AuthStateNotifier>(
-    () => AuthStateNotifier(getIt<SecureStorageService>(), getIt<HiveService>()),
+    () => AuthStateNotifier(
+      getIt<SecureStorageService>(),
+      getIt<HiveService>(),
+      getIt<SocketService>(),
+    ),
   );
 
   // core/network
@@ -86,6 +95,8 @@ Future<void> setupDependencies() async {
   );
 
   getIt.registerLazySingleton(() => BottomNavVisibility());
+
+  getIt.registerLazySingleton<ReadSyncService>(() => ReadSyncService());
 
   // features/auth/data
   getIt.registerLazySingleton<AuthRemoteDatasource>(
@@ -162,6 +173,9 @@ Future<void> setupDependencies() async {
       // правильно single responsibility
       getMyRoomsUseCase: getIt<GetMyRoomsUseCase>(),
       markRoomAsReadUseCase: getIt<MarkRoomAsReadUseCase>(),
+      socketService: getIt<SocketService>(),
+      readSyncService: getIt<ReadSyncService>(),
+      currentUserId: getIt<AuthStateNotifier>().currentUserId,
     ),
   );
 
@@ -196,13 +210,17 @@ Future<void> setupDependencies() async {
       getUserProfileUseCase: getIt<GetUserProfileUseCase>(),
       uploadAvatarUseCase: getIt<UploadAvatarUseCase>(),
       createRoomUseCase: getIt<CreateRoomUseCase>(),
+      socketService: getIt<SocketService>(),
     ),
   );
 
   // features/user/presentation - SearchBloc
   // также нужен чистый Initial при заходе
   getIt.registerFactory<SearchBloc>(
-    () => SearchBloc(searchUsersUseCase: getIt<SearchUsersUseCase>()),
+    () => SearchBloc(
+      searchUsersUseCase: getIt<SearchUsersUseCase>(),
+      socketService: getIt<SocketService>(),
+    ),
   );
 
   // features/message/data
@@ -230,7 +248,11 @@ Future<void> setupDependencies() async {
   getIt.registerFactory<ChatRoomBloc>(
     () => ChatRoomBloc(
       getRoomMessagesUseCase: getIt<GetRoomMessagesUseCase>(),
-      sendMessageUseCase: getIt<SendMessageUseCase>(),
+      getMyProfileUseCase: getIt<GetMyProfileUseCase>(),
+      markRoomAsReadUseCase: getIt<MarkRoomAsReadUseCase>(),
+      socketService: getIt<SocketService>(),
+      readSyncService: getIt<ReadSyncService>(),
+      currentUserId: getIt<AuthStateNotifier>().currentUserId!,
     ),
   );
 }
