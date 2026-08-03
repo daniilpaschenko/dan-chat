@@ -171,6 +171,7 @@ Future<void> setupDependencies() async {
       getMyRoomsUseCase: getIt<GetMyRoomsUseCase>(),
       markRoomAsReadUseCase: getIt<MarkRoomAsReadUseCase>(),
       socketService: getIt<SocketService>(),
+      currentUserId: getIt<AuthStateNotifier>().currentUserId,
     ),
   );
 
