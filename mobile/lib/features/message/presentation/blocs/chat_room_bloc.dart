@@ -308,7 +308,6 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
 
   @override
   Future<void> close() {
-    _socketService.leaveRoom(state.roomId);
     _messageSub?.cancel();
     _typingStartSub?.cancel();
     _typingStopSub?.cancel();
