@@ -3,8 +3,10 @@ import 'package:bloc/bloc.dart';
 
 import '../../../../../core/errors/failure_mapper.dart';
 import '../../../../../core/errors/failures.dart';
+import '../../../../../core/network/socket_service.dart';
 import '../../../../room/domain/entities/room_entity.dart' show RoomType;
 import '../../../../room/domain/usecases/create_room_usecase.dart';
+import '../../../domain/entities/user_entity.dart';
 import '../../../domain/usecases/get_my_profile_usecase.dart';
 import '../../../domain/usecases/get_user_profile_usecase.dart';
 import '../../../domain/usecases/upload_avatar_usecase.dart';
@@ -16,9 +18,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final GetUserProfileUseCase _getUserProfileUseCase;
   final UploadAvatarUseCase _uploadAvatarUseCase;
   final CreateRoomUseCase _createRoomUseCase;
+  final SocketService _socketService;
 
   /// null -> свой профиль, иначе id чужого
   final String? userId;
+
+  StreamSubscription? _presenceSub;
 
   ProfileBloc({
     required this.userId,
@@ -26,16 +31,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     required GetUserProfileUseCase getUserProfileUseCase,
     required UploadAvatarUseCase uploadAvatarUseCase,
     required CreateRoomUseCase createRoomUseCase,
+    required SocketService socketService,
   })  : _getMyProfileUseCase = getMyProfileUseCase,
         _getUserProfileUseCase = getUserProfileUseCase,
         _uploadAvatarUseCase = uploadAvatarUseCase,
         _createRoomUseCase = createRoomUseCase,
+        _socketService = socketService,
         super(const ProfileState.initial()) {
     on<ProfileStarted>(_onStarted);
     on<ProfileAvatarUploadRequested>(_onAvatarUploadRequested);
     on<ProfileChatRequested>(_onChatRequested);
     on<ProfileChatNavigationHandled>(_onChatNavigationHandled);
     on<ProfileChatErrorHandled>(_onChatErrorHandled);
+    on<ProfilePresenceUpdated>(_onPresenceUpdated);
   }
 
   bool get _isOwnProfile => userId == null;
@@ -55,8 +63,37 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final result = await _getUserProfileUseCase(userId!);
     result.fold(
       (failure) => emit(ProfileState.failure(_mapFailureToMessage(failure))),
-      (user) => emit(ProfileState.loaded(isOwnProfile: false, otherUser: user)),
+      (user) {
+        emit(ProfileState.loaded(isOwnProfile: false, otherUser: user));
+        // подписываемся только сейчас, когда точно знаем userId чужого профиля
+        _subscribeToPresence();
+      },
     );
+  }
+
+  void _subscribeToPresence() {
+    // cancel чтобы не было подписки на чужого юзера, если пользователь перешел на другой профиль
+    _presenceSub?.cancel();
+    _presenceSub = _socketService.presenceUpdate$.listen((data) {
+      if (data['userId'] == userId) {
+        add(ProfileEvent.presenceUpdated(
+          status: data['status'] == 'online' ? UserStatus.online : UserStatus.offline,
+          lastSeen: data['lastSeen'] != null ? DateTime.parse(data['lastSeen'] as String) : null,
+        ));
+      }
+    });
+  }
+
+  void _onPresenceUpdated(ProfilePresenceUpdated event, Emitter<ProfileState> emit) {
+    final current = state;
+    if (current is! ProfileLoaded || current.otherUser == null) return;
+
+    emit(current.copyWith(
+      otherUser: current.otherUser!.copyWith(
+        status: event.status,
+        lastSeen: event.lastSeen ?? current.otherUser!.lastSeen,
+      ),
+    ));
   }
 
   Future<void> _onAvatarUploadRequested(
@@ -126,4 +163,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   String _mapFailureToMessage(Failure failure) => defaultFailureMessage(failure);
+
+  @override
+  Future<void> close() {
+    _presenceSub?.cancel();
+    return super.close();
+  }
 }

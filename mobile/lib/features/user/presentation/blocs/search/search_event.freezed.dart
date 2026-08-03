@@ -17,39 +17,38 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SearchEvent {
-  String get query => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String query) queryChanged,
+    required TResult Function(String userId, UserStatus status) presenceUpdated,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String query)? queryChanged,
+    TResult? Function(String userId, UserStatus status)? presenceUpdated,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String query)? queryChanged,
+    TResult Function(String userId, UserStatus status)? presenceUpdated,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(QueryChanged value) queryChanged,
+    required TResult Function(SearchPresenceUpdated value) presenceUpdated,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(QueryChanged value)? queryChanged,
+    TResult? Function(SearchPresenceUpdated value)? presenceUpdated,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(QueryChanged value)? queryChanged,
+    TResult Function(SearchPresenceUpdated value)? presenceUpdated,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
-
-  /// Create a copy of SearchEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $SearchEventCopyWith<SearchEvent> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -58,8 +57,6 @@ abstract class $SearchEventCopyWith<$Res> {
     SearchEvent value,
     $Res Function(SearchEvent) then,
   ) = _$SearchEventCopyWithImpl<$Res, SearchEvent>;
-  @useResult
-  $Res call({String query});
 }
 
 /// @nodoc
@@ -74,29 +71,14 @@ class _$SearchEventCopyWithImpl<$Res, $Val extends SearchEvent>
 
   /// Create a copy of SearchEvent
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? query = null}) {
-    return _then(
-      _value.copyWith(
-            query: null == query
-                ? _value.query
-                : query // ignore: cast_nullable_to_non_nullable
-                      as String,
-          )
-          as $Val,
-    );
-  }
 }
 
 /// @nodoc
-abstract class _$$QueryChangedImplCopyWith<$Res>
-    implements $SearchEventCopyWith<$Res> {
+abstract class _$$QueryChangedImplCopyWith<$Res> {
   factory _$$QueryChangedImplCopyWith(
     _$QueryChangedImpl value,
     $Res Function(_$QueryChangedImpl) then,
   ) = __$$QueryChangedImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({String query});
 }
@@ -162,6 +144,7 @@ class _$QueryChangedImpl implements QueryChanged {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String query) queryChanged,
+    required TResult Function(String userId, UserStatus status) presenceUpdated,
   }) {
     return queryChanged(query);
   }
@@ -170,6 +153,7 @@ class _$QueryChangedImpl implements QueryChanged {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String query)? queryChanged,
+    TResult? Function(String userId, UserStatus status)? presenceUpdated,
   }) {
     return queryChanged?.call(query);
   }
@@ -178,6 +162,7 @@ class _$QueryChangedImpl implements QueryChanged {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String query)? queryChanged,
+    TResult Function(String userId, UserStatus status)? presenceUpdated,
     required TResult orElse(),
   }) {
     if (queryChanged != null) {
@@ -190,6 +175,7 @@ class _$QueryChangedImpl implements QueryChanged {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(QueryChanged value) queryChanged,
+    required TResult Function(SearchPresenceUpdated value) presenceUpdated,
   }) {
     return queryChanged(this);
   }
@@ -198,6 +184,7 @@ class _$QueryChangedImpl implements QueryChanged {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(QueryChanged value)? queryChanged,
+    TResult? Function(SearchPresenceUpdated value)? presenceUpdated,
   }) {
     return queryChanged?.call(this);
   }
@@ -206,6 +193,7 @@ class _$QueryChangedImpl implements QueryChanged {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(QueryChanged value)? queryChanged,
+    TResult Function(SearchPresenceUpdated value)? presenceUpdated,
     required TResult orElse(),
   }) {
     if (queryChanged != null) {
@@ -218,13 +206,171 @@ class _$QueryChangedImpl implements QueryChanged {
 abstract class QueryChanged implements SearchEvent {
   const factory QueryChanged(final String query) = _$QueryChangedImpl;
 
-  @override
   String get query;
 
   /// Create a copy of SearchEvent
   /// with the given fields replaced by the non-null parameter values.
-  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$QueryChangedImplCopyWith<_$QueryChangedImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SearchPresenceUpdatedImplCopyWith<$Res> {
+  factory _$$SearchPresenceUpdatedImplCopyWith(
+    _$SearchPresenceUpdatedImpl value,
+    $Res Function(_$SearchPresenceUpdatedImpl) then,
+  ) = __$$SearchPresenceUpdatedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String userId, UserStatus status});
+}
+
+/// @nodoc
+class __$$SearchPresenceUpdatedImplCopyWithImpl<$Res>
+    extends _$SearchEventCopyWithImpl<$Res, _$SearchPresenceUpdatedImpl>
+    implements _$$SearchPresenceUpdatedImplCopyWith<$Res> {
+  __$$SearchPresenceUpdatedImplCopyWithImpl(
+    _$SearchPresenceUpdatedImpl _value,
+    $Res Function(_$SearchPresenceUpdatedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of SearchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? userId = null, Object? status = null}) {
+    return _then(
+      _$SearchPresenceUpdatedImpl(
+        userId: null == userId
+            ? _value.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        status: null == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                  as UserStatus,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$SearchPresenceUpdatedImpl implements SearchPresenceUpdated {
+  const _$SearchPresenceUpdatedImpl({
+    required this.userId,
+    required this.status,
+  });
+
+  @override
+  final String userId;
+  @override
+  final UserStatus status;
+
+  @override
+  String toString() {
+    return 'SearchEvent.presenceUpdated(userId: $userId, status: $status)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SearchPresenceUpdatedImpl &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.status, status) || other.status == status));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, userId, status);
+
+  /// Create a copy of SearchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SearchPresenceUpdatedImplCopyWith<_$SearchPresenceUpdatedImpl>
+  get copyWith =>
+      __$$SearchPresenceUpdatedImplCopyWithImpl<_$SearchPresenceUpdatedImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String query) queryChanged,
+    required TResult Function(String userId, UserStatus status) presenceUpdated,
+  }) {
+    return presenceUpdated(userId, status);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String query)? queryChanged,
+    TResult? Function(String userId, UserStatus status)? presenceUpdated,
+  }) {
+    return presenceUpdated?.call(userId, status);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String query)? queryChanged,
+    TResult Function(String userId, UserStatus status)? presenceUpdated,
+    required TResult orElse(),
+  }) {
+    if (presenceUpdated != null) {
+      return presenceUpdated(userId, status);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(QueryChanged value) queryChanged,
+    required TResult Function(SearchPresenceUpdated value) presenceUpdated,
+  }) {
+    return presenceUpdated(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(QueryChanged value)? queryChanged,
+    TResult? Function(SearchPresenceUpdated value)? presenceUpdated,
+  }) {
+    return presenceUpdated?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(QueryChanged value)? queryChanged,
+    TResult Function(SearchPresenceUpdated value)? presenceUpdated,
+    required TResult orElse(),
+  }) {
+    if (presenceUpdated != null) {
+      return presenceUpdated(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SearchPresenceUpdated implements SearchEvent {
+  const factory SearchPresenceUpdated({
+    required final String userId,
+    required final UserStatus status,
+  }) = _$SearchPresenceUpdatedImpl;
+
+  String get userId;
+  UserStatus get status;
+
+  /// Create a copy of SearchEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SearchPresenceUpdatedImplCopyWith<_$SearchPresenceUpdatedImpl>
+  get copyWith => throw _privateConstructorUsedError;
 }
