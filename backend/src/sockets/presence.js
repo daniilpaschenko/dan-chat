@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Room = require('../models/Room');
 const { getContactIds } = require('../services/userService');
 
 // сколько сокетов сейчас держит каждый юзер
@@ -28,6 +29,11 @@ async function handleConnect(io, socket) {
     // персональная комната юзера, добавляем его сокет в эту комнату
     socket.join(`user:${userId}`);
     
+    // присоединяем сокет ко всем комнатам пользователя сразу при коннекте
+    // иначе message:new/typing доходят только пока открыт конкретный чат
+    const rooms = await Room.find({ 'participants.user': userId }).select('_id');
+    rooms.forEach((room) => socket.join(room._id.toString()));
+
     // количество предыдущих подключений
     const prevCount = activeConnections.get(userId) || 0;
     // т.к. прямо сейчас подключились, то +1 подключение
