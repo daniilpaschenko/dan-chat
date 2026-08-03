@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/network/socket_service.dart';
+import '../../../../core/services/read_sync_service.dart';
 import '../../../user/domain/entities/user_entity.dart';
+import '../../../room/domain/usecases/mark_room_as_read_usecase.dart';
 import '../../../user/domain/usecases/get_my_profile_usecase.dart';
 import '../../data/models/message.dart';
 import '../../data/mappers/message_mapper.dart';
@@ -13,7 +15,9 @@ import 'chat_room_state.dart';
 class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   final GetRoomMessagesUseCase _getRoomMessagesUseCase;
   final GetMyProfileUseCase _getMyProfileUseCase;
+  final MarkRoomAsReadUseCase _markRoomAsReadUseCase;
   final SocketService _socketService;
+  final ReadSyncService _readSyncService;
   final String _currentUserId;
 
   UserEntity? _currentUser;
@@ -27,11 +31,15 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   ChatRoomBloc({
     required GetRoomMessagesUseCase getRoomMessagesUseCase,
     required GetMyProfileUseCase getMyProfileUseCase,
+    required MarkRoomAsReadUseCase markRoomAsReadUseCase,
     required SocketService socketService,
+    required ReadSyncService readSyncService,
     required String currentUserId,
   })  : _getRoomMessagesUseCase = getRoomMessagesUseCase,
         _getMyProfileUseCase = getMyProfileUseCase,
+        _markRoomAsReadUseCase = markRoomAsReadUseCase,
         _socketService = socketService,
+        _readSyncService = readSyncService,
         _currentUserId = currentUserId,
         super(ChatRoomState.initial('')) {
     on<ChatRoomStarted>(_onStarted);
@@ -119,6 +127,8 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
         data['lastSeen'] != null ? DateTime.parse(data['lastSeen'] as String) : null,
       ));
     });
+
+    _readSyncService.notifyRoomRead(event.roomId);
   }
 
   Future<void> _onLoadMoreRequested(
@@ -249,6 +259,13 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     }
 
     emit(state.copyWith(messages: updated));
+
+    // мы уже открыли этот чат и видим новое сообщение — сразу помечаем прочитанным,
+    // но только если сообщение не от нас самих (свои и так не влияют на unreadCount)
+    if (incoming.sender.id != _currentUserId) {
+      _markRoomAsReadUseCase(state.roomId); // обновить на бэкенде
+      _readSyncService.notifyRoomRead(state.roomId); // сообщить списку чатов
+    }
   }
 
   void _onTypingStarted(TypingStarted event, Emitter<ChatRoomState> emit) {
