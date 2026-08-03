@@ -21,4 +21,22 @@ class RoomListEvent with _$RoomListEvent {
     required UserStatus status,
     DateTime? lastSeen,
   }) = RoomListPresenceUpdated;
+
+  const factory RoomListEvent.typingStarted({
+    required String roomId,
+    required String userId,
+    required String username,
+  }) = RoomListTypingStarted;
+
+  const factory RoomListEvent.typingStopped({
+    required String roomId,
+    required String userId,
+  }) = RoomListTypingStopped;
+
+  const factory RoomListEvent.messageReceived({
+    required String roomId,
+    required String text,
+    required String senderId,
+    DateTime? createdAt,
+  }) = RoomListMessageReceived;
 }
