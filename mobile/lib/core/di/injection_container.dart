@@ -12,6 +12,7 @@ import '../network/dio_client.dart';
 import '../network/socket_service.dart';
 import '../storage/hive_service.dart';
 import '../storage/secure_storage_service.dart';
+import '../services/read_sync_service.dart';
 
 
 // AUTH
@@ -95,6 +96,8 @@ Future<void> setupDependencies() async {
 
   getIt.registerLazySingleton(() => BottomNavVisibility());
 
+  getIt.registerLazySingleton<ReadSyncService>(() => ReadSyncService());
+
   // features/auth/data
   getIt.registerLazySingleton<AuthRemoteDatasource>(
     () => AuthRemoteDatasource(getIt<Dio>()),
@@ -171,6 +174,7 @@ Future<void> setupDependencies() async {
       getMyRoomsUseCase: getIt<GetMyRoomsUseCase>(),
       markRoomAsReadUseCase: getIt<MarkRoomAsReadUseCase>(),
       socketService: getIt<SocketService>(),
+      readSyncService: getIt<ReadSyncService>(),
       currentUserId: getIt<AuthStateNotifier>().currentUserId,
     ),
   );
@@ -245,7 +249,9 @@ Future<void> setupDependencies() async {
     () => ChatRoomBloc(
       getRoomMessagesUseCase: getIt<GetRoomMessagesUseCase>(),
       getMyProfileUseCase: getIt<GetMyProfileUseCase>(),
+      markRoomAsReadUseCase: getIt<MarkRoomAsReadUseCase>(),
       socketService: getIt<SocketService>(),
+      readSyncService: getIt<ReadSyncService>(),
       currentUserId: getIt<AuthStateNotifier>().currentUserId!,
     ),
   );
