@@ -1,5 +1,5 @@
 const { findRoomIfMember, getParticipantsStatus } = require('../services/roomService');
-const { createMessage } = require('../services/messageService');
+const { createMessage, markMessagesAsRead } = require('../services/messageService');
 
 // io.emit() — событие получат все подключённые клиенты, независимо от комнат
 // io.to(roomId).emit() — событие получат все пользователи roomId
@@ -51,6 +51,26 @@ module.exports = function registerChatHandlers(io, socket) {
             callback?.({ ok: true, message: result.message.toJSON() });
         } catch (err) {
             console.error('message:send error:', err);
+            callback?.({ ok: false, message: 'Ошибка сервера' });
+        }
+    });
+
+    socket.on('message:read', async ({ roomId }, callback) => {
+        try {
+            if (!roomId) return callback?.({ ok: false, message: 'roomId обязателен' });
+
+            const room = await findRoomIfMember(roomId, userId);
+            if (!room) return callback?.({ ok: false, message: 'Нет доступа к комнате' });
+
+            // добавляет userId в readBy всех сообщений комнаты, где его ещё нет
+            await markMessagesAsRead({ roomId, userId });
+
+            // уведомляем остальных участников комнаты (кроме себя), что мы прочитали
+            socket.to(roomId).emit('message:read', { roomId, userId });
+
+            callback?.({ ok: true });
+        } catch (err) {
+            console.error('message:read error:', err);
             callback?.({ ok: false, message: 'Ошибка сервера' });
         }
     });
