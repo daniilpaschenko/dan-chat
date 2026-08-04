@@ -199,12 +199,6 @@ exports.removeParticipant = async (req, res) => {
 
         room.participants = room.participants.filter((p) => p.user.toString() !== userId);
 
-        // если участников осталось меньше 2, то удаляем чат
-        if (room.participants.length < 2) {
-            await room.deleteOne();
-            return res.json({ message: 'Комната удалена (недостаточно участников)' });
-        }
-
         await room.save();
         // populate чтобы сделать однообразное поведения для удобства на фронтенде
         await room.populate('participants.user', 'username avatarUrl status lastSeen');
@@ -212,6 +206,55 @@ exports.removeParticipant = async (req, res) => {
         return res.json(room);
     } catch (err) {
         console.error('removeParticipant error:', err);
+        return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
+    }
+};
+
+exports.leaveRoom = async (req, res) => {
+    try {
+        const { myId } = req.user;
+        const { roomId } = req.params;
+
+        const room = await findRoomIfMember(roomId, myId);
+        if (!room) return res.status(403).json({ message: 'Нет доступа к этой комнате' });
+
+        room.participants = room.participants.filter((p) => p.user.toString() !== myId);
+
+        // удалить пустую комнату
+        if (room.participants.length == 0) {
+            await room.deleteOne();
+            return res.json({ message: 'Комната удалена' });
+        }
+
+        await room.save();
+        return res.json({ message: 'Вы вышли из комнаты' });
+    } catch (err) {
+        console.error('leaveRoom error:', err);
+        return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
+    }
+};
+
+exports.deleteRoom = async (req, res) => {
+    try {
+        const myId = req.user.id;
+        const { roomId } = req.params;
+
+        const room = await findRoomIfMember(roomId, myId);
+        if (!room) return res.status(403).json({ message: 'Нет доступа к этой комнате' });
+
+        const me = getParticipant(room, myId);
+
+        if (room.type == 'group') {
+            // owner может всегда, либо любой, если остался один
+            if (me.role !== 'owner' && room.participants.length >= 2) {
+                return res.status(403).json({ message: 'Только владелец может удалить чат' });
+            }
+        }
+        
+        await room.deleteOne();
+        return res.json({ message: 'Комната удалена' });
+    } catch (err) {
+        console.error('deleteRoom error:', err);
         return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
     }
 };
