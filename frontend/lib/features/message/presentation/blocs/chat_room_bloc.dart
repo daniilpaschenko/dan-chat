@@ -25,6 +25,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   StreamSubscription? _typingStartSub;
   StreamSubscription? _typingStopSub;
   StreamSubscription? _presenceSub;
+  StreamSubscription? _messageReadSub;
   Timer? _typingStopTimer;
   bool _isTypingSent = false;
 
@@ -52,6 +53,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     on<TypingTextChanged>(_onTypingTextChanged);
     on<ChatRoomPresenceUpdated>(_onPresenceUpdated);
     on<ChatRoomParticipantsStatusSnapshotReceived>(_onParticipantsStatusSnapshot);
+    on<SocketMessageRead>(_onSocketMessageRead);
   }
 
   Future<void> _onStarted(
@@ -129,6 +131,14 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     });
 
     _readSyncService.notifyRoomRead(event.roomId);
+
+    _socketService.markRead(event.roomId);
+
+    _messageReadSub = _socketService.messageRead$.listen((data) {
+      if (data['roomId'] == event.roomId) {
+        add(ChatRoomEvent.socketMessageRead(data['userId'] as String));
+      }
+    });
   }
 
   Future<void> _onLoadMoreRequested(
@@ -265,6 +275,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     if (incoming.sender.id != _currentUserId) {
       _markRoomAsReadUseCase(state.roomId); // обновить на бэкенде
       _readSyncService.notifyRoomRead(state.roomId); // сообщить списку чатов
+      _socketService.markRead(state.roomId);
     }
   }
 
@@ -323,6 +334,14 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     ));
   }
 
+  void _onSocketMessageRead(SocketMessageRead event, Emitter<ChatRoomState> emit) {
+    final updated = state.messages.map((m) {
+      if (m.readBy.contains(event.userId)) return m;
+      return m.copyWith(readBy: [...m.readBy, event.userId]);
+    }).toList();
+    emit(state.copyWith(messages: updated));
+  }
+
   @override
   Future<void> close() {
     _messageSub?.cancel();
@@ -330,6 +349,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     _typingStopSub?.cancel();
     _presenceSub?.cancel();
     _typingStopTimer?.cancel();
+    _messageReadSub?.cancel();
     return super.close();
   }
 }
