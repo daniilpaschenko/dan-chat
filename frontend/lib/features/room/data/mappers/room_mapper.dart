@@ -19,6 +19,7 @@ extension LastMessageMapper on LastMessage {
       text: text,
       sender: sender,
       createdAt: createdAt,
+      readBy: const [],
     );
   }
 }
