@@ -216,6 +216,7 @@ mixin _$LastMessageEntity {
   String? get text => throw _privateConstructorUsedError;
   String? get sender => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  List<String> get readBy => throw _privateConstructorUsedError;
 
   /// Create a copy of LastMessageEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -231,7 +232,12 @@ abstract class $LastMessageEntityCopyWith<$Res> {
     $Res Function(LastMessageEntity) then,
   ) = _$LastMessageEntityCopyWithImpl<$Res, LastMessageEntity>;
   @useResult
-  $Res call({String? text, String? sender, DateTime? createdAt});
+  $Res call({
+    String? text,
+    String? sender,
+    DateTime? createdAt,
+    List<String> readBy,
+  });
 }
 
 /// @nodoc
@@ -252,6 +258,7 @@ class _$LastMessageEntityCopyWithImpl<$Res, $Val extends LastMessageEntity>
     Object? text = freezed,
     Object? sender = freezed,
     Object? createdAt = freezed,
+    Object? readBy = null,
   }) {
     return _then(
       _value.copyWith(
@@ -267,6 +274,10 @@ class _$LastMessageEntityCopyWithImpl<$Res, $Val extends LastMessageEntity>
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
                       as DateTime?,
+            readBy: null == readBy
+                ? _value.readBy
+                : readBy // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
           )
           as $Val,
     );
@@ -282,7 +293,12 @@ abstract class _$$LastMessageEntityImplCopyWith<$Res>
   ) = __$$LastMessageEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? text, String? sender, DateTime? createdAt});
+  $Res call({
+    String? text,
+    String? sender,
+    DateTime? createdAt,
+    List<String> readBy,
+  });
 }
 
 /// @nodoc
@@ -302,6 +318,7 @@ class __$$LastMessageEntityImplCopyWithImpl<$Res>
     Object? text = freezed,
     Object? sender = freezed,
     Object? createdAt = freezed,
+    Object? readBy = null,
   }) {
     return _then(
       _$LastMessageEntityImpl(
@@ -317,6 +334,10 @@ class __$$LastMessageEntityImplCopyWithImpl<$Res>
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
                   as DateTime?,
+        readBy: null == readBy
+            ? _value._readBy
+            : readBy // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
       ),
     );
   }
@@ -325,7 +346,12 @@ class __$$LastMessageEntityImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LastMessageEntityImpl implements _LastMessageEntity {
-  const _$LastMessageEntityImpl({this.text, this.sender, this.createdAt});
+  const _$LastMessageEntityImpl({
+    this.text,
+    this.sender,
+    this.createdAt,
+    final List<String> readBy = const [],
+  }) : _readBy = readBy;
 
   @override
   final String? text;
@@ -333,10 +359,18 @@ class _$LastMessageEntityImpl implements _LastMessageEntity {
   final String? sender;
   @override
   final DateTime? createdAt;
+  final List<String> _readBy;
+  @override
+  @JsonKey()
+  List<String> get readBy {
+    if (_readBy is EqualUnmodifiableListView) return _readBy;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_readBy);
+  }
 
   @override
   String toString() {
-    return 'LastMessageEntity(text: $text, sender: $sender, createdAt: $createdAt)';
+    return 'LastMessageEntity(text: $text, sender: $sender, createdAt: $createdAt, readBy: $readBy)';
   }
 
   @override
@@ -347,11 +381,18 @@ class _$LastMessageEntityImpl implements _LastMessageEntity {
             (identical(other.text, text) || other.text == text) &&
             (identical(other.sender, sender) || other.sender == sender) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            const DeepCollectionEquality().equals(other._readBy, _readBy));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, text, sender, createdAt);
+  int get hashCode => Object.hash(
+    runtimeType,
+    text,
+    sender,
+    createdAt,
+    const DeepCollectionEquality().hash(_readBy),
+  );
 
   /// Create a copy of LastMessageEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -370,6 +411,7 @@ abstract class _LastMessageEntity implements LastMessageEntity {
     final String? text,
     final String? sender,
     final DateTime? createdAt,
+    final List<String> readBy,
   }) = _$LastMessageEntityImpl;
 
   @override
@@ -378,6 +420,8 @@ abstract class _LastMessageEntity implements LastMessageEntity {
   String? get sender;
   @override
   DateTime? get createdAt;
+  @override
+  List<String> get readBy;
 
   /// Create a copy of LastMessageEntity
   /// with the given fields replaced by the non-null parameter values.
