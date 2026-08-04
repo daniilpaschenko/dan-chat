@@ -8,8 +8,16 @@ class MessageBubble extends StatelessWidget {
   final bool isMine;
   final double gap;
   final AppSpacing spacing;
+  final String? currentUserId;
 
-  const MessageBubble({super.key, required this.message, required this.isMine, required this.gap, required this.spacing});
+  const MessageBubble({
+    super.key,
+    required this.message,
+    required this.isMine,
+    required this.gap,
+    required this.spacing,
+    required this.currentUserId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +58,72 @@ class MessageBubble extends StatelessWidget {
               message.text,
               style: TextStyle(color: isMine ? Colors.white : AppColors.textPrimary),
             ),
+            if (message.createdAt != null)
+              Padding(
+                padding: EdgeInsets.only(top: gap * 0.2),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      _formatTime(message.createdAt!),
+                      style: TextStyle(
+                        fontSize: spacing.captionSize,
+                        color: isMine ? Colors.white70 : AppColors.textSecondary,
+                      ),
+                    ),
+                    if (isMine) ...[
+                      SizedBox(width: gap * 0.25),
+                      _buildStatusIcon(),
+                    ],
+                  ],
+                ),
+              ),
           ],
         ),
       ),
     );
   }
+
+  // локальное время в формате HH:mm
+  String _formatTime(DateTime dateTime) {
+    final local = dateTime.toLocal();
+    final hours = local.hour.toString().padLeft(2, '0');
+    final minutes = local.minute.toString().padLeft(2, '0');
+    return '$hours:$minutes';
+  }
+
+  Widget _buildStatusIcon() {
+    final iconSize = spacing.captionSize * 1.1;
+
+    switch (message.sendStatus) {
+      case MessageSendStatus.sending:
+        return Icon(Icons.access_time, size: iconSize, color: Colors.white70);
+
+      case MessageSendStatus.failed:
+        return Container(
+          width: iconSize,
+          height: iconSize,
+          decoration: const BoxDecoration(color: Colors.redAccent, shape: BoxShape.circle),
+          alignment: Alignment.center,
+          child: Text(
+            '!',
+            style: TextStyle(
+              fontSize: iconSize * 0.75,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              height: 1,
+            ),
+          ),
+        );
+
+      case MessageSendStatus.sent:
+        final readByOthers = message.readBy.any((id) => id != currentUserId);
+        return Icon(
+          readByOthers ? Icons.done_all : Icons.done,
+          size: iconSize,
+          color: readByOthers ? Colors.lightBlueAccent : Colors.white70,
+        );
+    }
+  }
 }
+
