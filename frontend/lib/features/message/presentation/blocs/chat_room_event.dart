@@ -12,6 +12,7 @@ class ChatRoomEvent with _$ChatRoomEvent {
 
   // приходят из подписки на SocketService
   const factory ChatRoomEvent.socketMessageReceived(MessageEntity message) = SocketMessageReceived;
+  const factory ChatRoomEvent.socketMessageRead(String userId) = SocketMessageRead;
   const factory ChatRoomEvent.socketAckReceived(String tempId, Map<String, dynamic> ack) = SocketAckReceived;
   const factory ChatRoomEvent.typingStarted(String userId, String username) = TypingStarted;
   const factory ChatRoomEvent.typingStopped(String userId) = TypingStopped;

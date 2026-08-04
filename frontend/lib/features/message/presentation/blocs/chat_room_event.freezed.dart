@@ -23,6 +23,7 @@ mixin _$ChatRoomEvent {
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function(MessageEntity message) socketMessageReceived,
+    required TResult Function(String userId) socketMessageRead,
     required TResult Function(String tempId, Map<String, dynamic> ack)
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
@@ -46,6 +47,7 @@ mixin _$ChatRoomEvent {
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function(MessageEntity message)? socketMessageReceived,
+    TResult? Function(String userId)? socketMessageRead,
     TResult? Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
@@ -65,6 +67,7 @@ mixin _$ChatRoomEvent {
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function(MessageEntity message)? socketMessageReceived,
+    TResult Function(String userId)? socketMessageRead,
     TResult Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
@@ -86,6 +89,7 @@ mixin _$ChatRoomEvent {
     required TResult Function(SendMessageRequested value) sendMessageRequested,
     required TResult Function(SocketMessageReceived value)
     socketMessageReceived,
+    required TResult Function(SocketMessageRead value) socketMessageRead,
     required TResult Function(SocketAckReceived value) socketAckReceived,
     required TResult Function(TypingStarted value) typingStarted,
     required TResult Function(TypingStopped value) typingStopped,
@@ -100,6 +104,7 @@ mixin _$ChatRoomEvent {
     TResult? Function(LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(SendMessageRequested value)? sendMessageRequested,
     TResult? Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult? Function(SocketMessageRead value)? socketMessageRead,
     TResult? Function(SocketAckReceived value)? socketAckReceived,
     TResult? Function(TypingStarted value)? typingStarted,
     TResult? Function(TypingStopped value)? typingStopped,
@@ -114,6 +119,7 @@ mixin _$ChatRoomEvent {
     TResult Function(LoadMoreRequested value)? loadMoreRequested,
     TResult Function(SendMessageRequested value)? sendMessageRequested,
     TResult Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult Function(SocketMessageRead value)? socketMessageRead,
     TResult Function(SocketAckReceived value)? socketAckReceived,
     TResult Function(TypingStarted value)? typingStarted,
     TResult Function(TypingStopped value)? typingStopped,
@@ -224,6 +230,7 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function(MessageEntity message) socketMessageReceived,
+    required TResult Function(String userId) socketMessageRead,
     required TResult Function(String tempId, Map<String, dynamic> ack)
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
@@ -251,6 +258,7 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function(MessageEntity message)? socketMessageReceived,
+    TResult? Function(String userId)? socketMessageRead,
     TResult? Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
@@ -274,6 +282,7 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function(MessageEntity message)? socketMessageReceived,
+    TResult Function(String userId)? socketMessageRead,
     TResult Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
@@ -302,6 +311,7 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     required TResult Function(SendMessageRequested value) sendMessageRequested,
     required TResult Function(SocketMessageReceived value)
     socketMessageReceived,
+    required TResult Function(SocketMessageRead value) socketMessageRead,
     required TResult Function(SocketAckReceived value) socketAckReceived,
     required TResult Function(TypingStarted value) typingStarted,
     required TResult Function(TypingStopped value) typingStopped,
@@ -320,6 +330,7 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     TResult? Function(LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(SendMessageRequested value)? sendMessageRequested,
     TResult? Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult? Function(SocketMessageRead value)? socketMessageRead,
     TResult? Function(SocketAckReceived value)? socketAckReceived,
     TResult? Function(TypingStarted value)? typingStarted,
     TResult? Function(TypingStopped value)? typingStopped,
@@ -338,6 +349,7 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     TResult Function(LoadMoreRequested value)? loadMoreRequested,
     TResult Function(SendMessageRequested value)? sendMessageRequested,
     TResult Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult Function(SocketMessageRead value)? socketMessageRead,
     TResult Function(SocketAckReceived value)? socketAckReceived,
     TResult Function(TypingStarted value)? typingStarted,
     TResult Function(TypingStopped value)? typingStopped,
@@ -413,6 +425,7 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function(MessageEntity message) socketMessageReceived,
+    required TResult Function(String userId) socketMessageRead,
     required TResult Function(String tempId, Map<String, dynamic> ack)
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
@@ -440,6 +453,7 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function(MessageEntity message)? socketMessageReceived,
+    TResult? Function(String userId)? socketMessageRead,
     TResult? Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
@@ -463,6 +477,7 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function(MessageEntity message)? socketMessageReceived,
+    TResult Function(String userId)? socketMessageRead,
     TResult Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
@@ -491,6 +506,7 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     required TResult Function(SendMessageRequested value) sendMessageRequested,
     required TResult Function(SocketMessageReceived value)
     socketMessageReceived,
+    required TResult Function(SocketMessageRead value) socketMessageRead,
     required TResult Function(SocketAckReceived value) socketAckReceived,
     required TResult Function(TypingStarted value) typingStarted,
     required TResult Function(TypingStopped value) typingStopped,
@@ -509,6 +525,7 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     TResult? Function(LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(SendMessageRequested value)? sendMessageRequested,
     TResult? Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult? Function(SocketMessageRead value)? socketMessageRead,
     TResult? Function(SocketAckReceived value)? socketAckReceived,
     TResult? Function(TypingStarted value)? typingStarted,
     TResult? Function(TypingStopped value)? typingStopped,
@@ -527,6 +544,7 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     TResult Function(LoadMoreRequested value)? loadMoreRequested,
     TResult Function(SendMessageRequested value)? sendMessageRequested,
     TResult Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult Function(SocketMessageRead value)? socketMessageRead,
     TResult Function(SocketAckReceived value)? socketAckReceived,
     TResult Function(TypingStarted value)? typingStarted,
     TResult Function(TypingStopped value)? typingStopped,
@@ -625,6 +643,7 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function(MessageEntity message) socketMessageReceived,
+    required TResult Function(String userId) socketMessageRead,
     required TResult Function(String tempId, Map<String, dynamic> ack)
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
@@ -652,6 +671,7 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function(MessageEntity message)? socketMessageReceived,
+    TResult? Function(String userId)? socketMessageRead,
     TResult? Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
@@ -675,6 +695,7 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function(MessageEntity message)? socketMessageReceived,
+    TResult Function(String userId)? socketMessageRead,
     TResult Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
@@ -703,6 +724,7 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     required TResult Function(SendMessageRequested value) sendMessageRequested,
     required TResult Function(SocketMessageReceived value)
     socketMessageReceived,
+    required TResult Function(SocketMessageRead value) socketMessageRead,
     required TResult Function(SocketAckReceived value) socketAckReceived,
     required TResult Function(TypingStarted value) typingStarted,
     required TResult Function(TypingStopped value) typingStopped,
@@ -721,6 +743,7 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     TResult? Function(LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(SendMessageRequested value)? sendMessageRequested,
     TResult? Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult? Function(SocketMessageRead value)? socketMessageRead,
     TResult? Function(SocketAckReceived value)? socketAckReceived,
     TResult? Function(TypingStarted value)? typingStarted,
     TResult? Function(TypingStopped value)? typingStopped,
@@ -739,6 +762,7 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     TResult Function(LoadMoreRequested value)? loadMoreRequested,
     TResult Function(SendMessageRequested value)? sendMessageRequested,
     TResult Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult Function(SocketMessageRead value)? socketMessageRead,
     TResult Function(SocketAckReceived value)? socketAckReceived,
     TResult Function(TypingStarted value)? typingStarted,
     TResult Function(TypingStopped value)? typingStopped,
@@ -858,6 +882,7 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function(MessageEntity message) socketMessageReceived,
+    required TResult Function(String userId) socketMessageRead,
     required TResult Function(String tempId, Map<String, dynamic> ack)
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
@@ -885,6 +910,7 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function(MessageEntity message)? socketMessageReceived,
+    TResult? Function(String userId)? socketMessageRead,
     TResult? Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
@@ -908,6 +934,7 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function(MessageEntity message)? socketMessageReceived,
+    TResult Function(String userId)? socketMessageRead,
     TResult Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
@@ -936,6 +963,7 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     required TResult Function(SendMessageRequested value) sendMessageRequested,
     required TResult Function(SocketMessageReceived value)
     socketMessageReceived,
+    required TResult Function(SocketMessageRead value) socketMessageRead,
     required TResult Function(SocketAckReceived value) socketAckReceived,
     required TResult Function(TypingStarted value) typingStarted,
     required TResult Function(TypingStopped value) typingStopped,
@@ -954,6 +982,7 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     TResult? Function(LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(SendMessageRequested value)? sendMessageRequested,
     TResult? Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult? Function(SocketMessageRead value)? socketMessageRead,
     TResult? Function(SocketAckReceived value)? socketAckReceived,
     TResult? Function(TypingStarted value)? typingStarted,
     TResult? Function(TypingStopped value)? typingStopped,
@@ -972,6 +1001,7 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     TResult Function(LoadMoreRequested value)? loadMoreRequested,
     TResult Function(SendMessageRequested value)? sendMessageRequested,
     TResult Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult Function(SocketMessageRead value)? socketMessageRead,
     TResult Function(SocketAckReceived value)? socketAckReceived,
     TResult Function(TypingStarted value)? typingStarted,
     TResult Function(TypingStopped value)? typingStopped,
@@ -999,6 +1029,232 @@ abstract class SocketMessageReceived implements ChatRoomEvent {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SocketMessageReceivedImplCopyWith<_$SocketMessageReceivedImpl>
   get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SocketMessageReadImplCopyWith<$Res> {
+  factory _$$SocketMessageReadImplCopyWith(
+    _$SocketMessageReadImpl value,
+    $Res Function(_$SocketMessageReadImpl) then,
+  ) = __$$SocketMessageReadImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String userId});
+}
+
+/// @nodoc
+class __$$SocketMessageReadImplCopyWithImpl<$Res>
+    extends _$ChatRoomEventCopyWithImpl<$Res, _$SocketMessageReadImpl>
+    implements _$$SocketMessageReadImplCopyWith<$Res> {
+  __$$SocketMessageReadImplCopyWithImpl(
+    _$SocketMessageReadImpl _value,
+    $Res Function(_$SocketMessageReadImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of ChatRoomEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? userId = null}) {
+    return _then(
+      _$SocketMessageReadImpl(
+        null == userId
+            ? _value.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$SocketMessageReadImpl implements SocketMessageRead {
+  const _$SocketMessageReadImpl(this.userId);
+
+  @override
+  final String userId;
+
+  @override
+  String toString() {
+    return 'ChatRoomEvent.socketMessageRead(userId: $userId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SocketMessageReadImpl &&
+            (identical(other.userId, userId) || other.userId == userId));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, userId);
+
+  /// Create a copy of ChatRoomEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SocketMessageReadImplCopyWith<_$SocketMessageReadImpl> get copyWith =>
+      __$$SocketMessageReadImplCopyWithImpl<_$SocketMessageReadImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String roomId) started,
+    required TResult Function() loadMoreRequested,
+    required TResult Function(String text) sendMessageRequested,
+    required TResult Function(MessageEntity message) socketMessageReceived,
+    required TResult Function(String userId) socketMessageRead,
+    required TResult Function(String tempId, Map<String, dynamic> ack)
+    socketAckReceived,
+    required TResult Function(String userId, String username) typingStarted,
+    required TResult Function(String userId) typingStopped,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
+    required TResult Function(String text) typingTextChanged,
+    required TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )
+    participantsStatusSnapshotReceived,
+  }) {
+    return socketMessageRead(userId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String roomId)? started,
+    TResult? Function()? loadMoreRequested,
+    TResult? Function(String text)? sendMessageRequested,
+    TResult? Function(MessageEntity message)? socketMessageReceived,
+    TResult? Function(String userId)? socketMessageRead,
+    TResult? Function(String tempId, Map<String, dynamic> ack)?
+    socketAckReceived,
+    TResult? Function(String userId, String username)? typingStarted,
+    TResult? Function(String userId)? typingStopped,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+    TResult? Function(String text)? typingTextChanged,
+    TResult? Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
+  }) {
+    return socketMessageRead?.call(userId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String roomId)? started,
+    TResult Function()? loadMoreRequested,
+    TResult Function(String text)? sendMessageRequested,
+    TResult Function(MessageEntity message)? socketMessageReceived,
+    TResult Function(String userId)? socketMessageRead,
+    TResult Function(String tempId, Map<String, dynamic> ack)?
+    socketAckReceived,
+    TResult Function(String userId, String username)? typingStarted,
+    TResult Function(String userId)? typingStopped,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+    TResult Function(String text)? typingTextChanged,
+    TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
+    required TResult orElse(),
+  }) {
+    if (socketMessageRead != null) {
+      return socketMessageRead(userId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChatRoomStarted value) started,
+    required TResult Function(LoadMoreRequested value) loadMoreRequested,
+    required TResult Function(SendMessageRequested value) sendMessageRequested,
+    required TResult Function(SocketMessageReceived value)
+    socketMessageReceived,
+    required TResult Function(SocketMessageRead value) socketMessageRead,
+    required TResult Function(SocketAckReceived value) socketAckReceived,
+    required TResult Function(TypingStarted value) typingStarted,
+    required TResult Function(TypingStopped value) typingStopped,
+    required TResult Function(ChatRoomPresenceUpdated value) presenceUpdated,
+    required TResult Function(TypingTextChanged value) typingTextChanged,
+    required TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)
+    participantsStatusSnapshotReceived,
+  }) {
+    return socketMessageRead(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChatRoomStarted value)? started,
+    TResult? Function(LoadMoreRequested value)? loadMoreRequested,
+    TResult? Function(SendMessageRequested value)? sendMessageRequested,
+    TResult? Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult? Function(SocketMessageRead value)? socketMessageRead,
+    TResult? Function(SocketAckReceived value)? socketAckReceived,
+    TResult? Function(TypingStarted value)? typingStarted,
+    TResult? Function(TypingStopped value)? typingStopped,
+    TResult? Function(ChatRoomPresenceUpdated value)? presenceUpdated,
+    TResult? Function(TypingTextChanged value)? typingTextChanged,
+    TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
+  }) {
+    return socketMessageRead?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChatRoomStarted value)? started,
+    TResult Function(LoadMoreRequested value)? loadMoreRequested,
+    TResult Function(SendMessageRequested value)? sendMessageRequested,
+    TResult Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult Function(SocketMessageRead value)? socketMessageRead,
+    TResult Function(SocketAckReceived value)? socketAckReceived,
+    TResult Function(TypingStarted value)? typingStarted,
+    TResult Function(TypingStopped value)? typingStopped,
+    TResult Function(ChatRoomPresenceUpdated value)? presenceUpdated,
+    TResult Function(TypingTextChanged value)? typingTextChanged,
+    TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
+    required TResult orElse(),
+  }) {
+    if (socketMessageRead != null) {
+      return socketMessageRead(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SocketMessageRead implements ChatRoomEvent {
+  const factory SocketMessageRead(final String userId) =
+      _$SocketMessageReadImpl;
+
+  String get userId;
+
+  /// Create a copy of ChatRoomEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SocketMessageReadImplCopyWith<_$SocketMessageReadImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -1095,6 +1351,7 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function(MessageEntity message) socketMessageReceived,
+    required TResult Function(String userId) socketMessageRead,
     required TResult Function(String tempId, Map<String, dynamic> ack)
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
@@ -1122,6 +1379,7 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function(MessageEntity message)? socketMessageReceived,
+    TResult? Function(String userId)? socketMessageRead,
     TResult? Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
@@ -1145,6 +1403,7 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function(MessageEntity message)? socketMessageReceived,
+    TResult Function(String userId)? socketMessageRead,
     TResult Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
@@ -1173,6 +1432,7 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     required TResult Function(SendMessageRequested value) sendMessageRequested,
     required TResult Function(SocketMessageReceived value)
     socketMessageReceived,
+    required TResult Function(SocketMessageRead value) socketMessageRead,
     required TResult Function(SocketAckReceived value) socketAckReceived,
     required TResult Function(TypingStarted value) typingStarted,
     required TResult Function(TypingStopped value) typingStopped,
@@ -1191,6 +1451,7 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     TResult? Function(LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(SendMessageRequested value)? sendMessageRequested,
     TResult? Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult? Function(SocketMessageRead value)? socketMessageRead,
     TResult? Function(SocketAckReceived value)? socketAckReceived,
     TResult? Function(TypingStarted value)? typingStarted,
     TResult? Function(TypingStopped value)? typingStopped,
@@ -1209,6 +1470,7 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     TResult Function(LoadMoreRequested value)? loadMoreRequested,
     TResult Function(SendMessageRequested value)? sendMessageRequested,
     TResult Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult Function(SocketMessageRead value)? socketMessageRead,
     TResult Function(SocketAckReceived value)? socketAckReceived,
     TResult Function(TypingStarted value)? typingStarted,
     TResult Function(TypingStopped value)? typingStopped,
@@ -1323,6 +1585,7 @@ class _$TypingStartedImpl implements TypingStarted {
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function(MessageEntity message) socketMessageReceived,
+    required TResult Function(String userId) socketMessageRead,
     required TResult Function(String tempId, Map<String, dynamic> ack)
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
@@ -1350,6 +1613,7 @@ class _$TypingStartedImpl implements TypingStarted {
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function(MessageEntity message)? socketMessageReceived,
+    TResult? Function(String userId)? socketMessageRead,
     TResult? Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
@@ -1373,6 +1637,7 @@ class _$TypingStartedImpl implements TypingStarted {
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function(MessageEntity message)? socketMessageReceived,
+    TResult Function(String userId)? socketMessageRead,
     TResult Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
@@ -1401,6 +1666,7 @@ class _$TypingStartedImpl implements TypingStarted {
     required TResult Function(SendMessageRequested value) sendMessageRequested,
     required TResult Function(SocketMessageReceived value)
     socketMessageReceived,
+    required TResult Function(SocketMessageRead value) socketMessageRead,
     required TResult Function(SocketAckReceived value) socketAckReceived,
     required TResult Function(TypingStarted value) typingStarted,
     required TResult Function(TypingStopped value) typingStopped,
@@ -1419,6 +1685,7 @@ class _$TypingStartedImpl implements TypingStarted {
     TResult? Function(LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(SendMessageRequested value)? sendMessageRequested,
     TResult? Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult? Function(SocketMessageRead value)? socketMessageRead,
     TResult? Function(SocketAckReceived value)? socketAckReceived,
     TResult? Function(TypingStarted value)? typingStarted,
     TResult? Function(TypingStopped value)? typingStopped,
@@ -1437,6 +1704,7 @@ class _$TypingStartedImpl implements TypingStarted {
     TResult Function(LoadMoreRequested value)? loadMoreRequested,
     TResult Function(SendMessageRequested value)? sendMessageRequested,
     TResult Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult Function(SocketMessageRead value)? socketMessageRead,
     TResult Function(SocketAckReceived value)? socketAckReceived,
     TResult Function(TypingStarted value)? typingStarted,
     TResult Function(TypingStopped value)? typingStopped,
@@ -1541,6 +1809,7 @@ class _$TypingStoppedImpl implements TypingStopped {
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function(MessageEntity message) socketMessageReceived,
+    required TResult Function(String userId) socketMessageRead,
     required TResult Function(String tempId, Map<String, dynamic> ack)
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
@@ -1568,6 +1837,7 @@ class _$TypingStoppedImpl implements TypingStopped {
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function(MessageEntity message)? socketMessageReceived,
+    TResult? Function(String userId)? socketMessageRead,
     TResult? Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
@@ -1591,6 +1861,7 @@ class _$TypingStoppedImpl implements TypingStopped {
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function(MessageEntity message)? socketMessageReceived,
+    TResult Function(String userId)? socketMessageRead,
     TResult Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
@@ -1619,6 +1890,7 @@ class _$TypingStoppedImpl implements TypingStopped {
     required TResult Function(SendMessageRequested value) sendMessageRequested,
     required TResult Function(SocketMessageReceived value)
     socketMessageReceived,
+    required TResult Function(SocketMessageRead value) socketMessageRead,
     required TResult Function(SocketAckReceived value) socketAckReceived,
     required TResult Function(TypingStarted value) typingStarted,
     required TResult Function(TypingStopped value) typingStopped,
@@ -1637,6 +1909,7 @@ class _$TypingStoppedImpl implements TypingStopped {
     TResult? Function(LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(SendMessageRequested value)? sendMessageRequested,
     TResult? Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult? Function(SocketMessageRead value)? socketMessageRead,
     TResult? Function(SocketAckReceived value)? socketAckReceived,
     TResult? Function(TypingStarted value)? typingStarted,
     TResult? Function(TypingStopped value)? typingStopped,
@@ -1655,6 +1928,7 @@ class _$TypingStoppedImpl implements TypingStopped {
     TResult Function(LoadMoreRequested value)? loadMoreRequested,
     TResult Function(SendMessageRequested value)? sendMessageRequested,
     TResult Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult Function(SocketMessageRead value)? socketMessageRead,
     TResult Function(SocketAckReceived value)? socketAckReceived,
     TResult Function(TypingStarted value)? typingStarted,
     TResult Function(TypingStopped value)? typingStopped,
@@ -1779,6 +2053,7 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function(MessageEntity message) socketMessageReceived,
+    required TResult Function(String userId) socketMessageRead,
     required TResult Function(String tempId, Map<String, dynamic> ack)
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
@@ -1806,6 +2081,7 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function(MessageEntity message)? socketMessageReceived,
+    TResult? Function(String userId)? socketMessageRead,
     TResult? Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
@@ -1829,6 +2105,7 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function(MessageEntity message)? socketMessageReceived,
+    TResult Function(String userId)? socketMessageRead,
     TResult Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
@@ -1857,6 +2134,7 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     required TResult Function(SendMessageRequested value) sendMessageRequested,
     required TResult Function(SocketMessageReceived value)
     socketMessageReceived,
+    required TResult Function(SocketMessageRead value) socketMessageRead,
     required TResult Function(SocketAckReceived value) socketAckReceived,
     required TResult Function(TypingStarted value) typingStarted,
     required TResult Function(TypingStopped value) typingStopped,
@@ -1875,6 +2153,7 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     TResult? Function(LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(SendMessageRequested value)? sendMessageRequested,
     TResult? Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult? Function(SocketMessageRead value)? socketMessageRead,
     TResult? Function(SocketAckReceived value)? socketAckReceived,
     TResult? Function(TypingStarted value)? typingStarted,
     TResult? Function(TypingStopped value)? typingStopped,
@@ -1893,6 +2172,7 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     TResult Function(LoadMoreRequested value)? loadMoreRequested,
     TResult Function(SendMessageRequested value)? sendMessageRequested,
     TResult Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult Function(SocketMessageRead value)? socketMessageRead,
     TResult Function(SocketAckReceived value)? socketAckReceived,
     TResult Function(TypingStarted value)? typingStarted,
     TResult Function(TypingStopped value)? typingStopped,
@@ -2004,6 +2284,7 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function(MessageEntity message) socketMessageReceived,
+    required TResult Function(String userId) socketMessageRead,
     required TResult Function(String tempId, Map<String, dynamic> ack)
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
@@ -2031,6 +2312,7 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function(MessageEntity message)? socketMessageReceived,
+    TResult? Function(String userId)? socketMessageRead,
     TResult? Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
@@ -2054,6 +2336,7 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function(MessageEntity message)? socketMessageReceived,
+    TResult Function(String userId)? socketMessageRead,
     TResult Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
@@ -2082,6 +2365,7 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     required TResult Function(SendMessageRequested value) sendMessageRequested,
     required TResult Function(SocketMessageReceived value)
     socketMessageReceived,
+    required TResult Function(SocketMessageRead value) socketMessageRead,
     required TResult Function(SocketAckReceived value) socketAckReceived,
     required TResult Function(TypingStarted value) typingStarted,
     required TResult Function(TypingStopped value) typingStopped,
@@ -2100,6 +2384,7 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     TResult? Function(LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(SendMessageRequested value)? sendMessageRequested,
     TResult? Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult? Function(SocketMessageRead value)? socketMessageRead,
     TResult? Function(SocketAckReceived value)? socketAckReceived,
     TResult? Function(TypingStarted value)? typingStarted,
     TResult? Function(TypingStopped value)? typingStopped,
@@ -2118,6 +2403,7 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     TResult Function(LoadMoreRequested value)? loadMoreRequested,
     TResult Function(SendMessageRequested value)? sendMessageRequested,
     TResult Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult Function(SocketMessageRead value)? socketMessageRead,
     TResult Function(SocketAckReceived value)? socketAckReceived,
     TResult Function(TypingStarted value)? typingStarted,
     TResult Function(TypingStopped value)? typingStopped,
@@ -2265,6 +2551,7 @@ class _$ChatRoomParticipantsStatusSnapshotReceivedImpl
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function(MessageEntity message) socketMessageReceived,
+    required TResult Function(String userId) socketMessageRead,
     required TResult Function(String tempId, Map<String, dynamic> ack)
     socketAckReceived,
     required TResult Function(String userId, String username) typingStarted,
@@ -2292,6 +2579,7 @@ class _$ChatRoomParticipantsStatusSnapshotReceivedImpl
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function(MessageEntity message)? socketMessageReceived,
+    TResult? Function(String userId)? socketMessageRead,
     TResult? Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult? Function(String userId, String username)? typingStarted,
@@ -2315,6 +2603,7 @@ class _$ChatRoomParticipantsStatusSnapshotReceivedImpl
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function(MessageEntity message)? socketMessageReceived,
+    TResult Function(String userId)? socketMessageRead,
     TResult Function(String tempId, Map<String, dynamic> ack)?
     socketAckReceived,
     TResult Function(String userId, String username)? typingStarted,
@@ -2343,6 +2632,7 @@ class _$ChatRoomParticipantsStatusSnapshotReceivedImpl
     required TResult Function(SendMessageRequested value) sendMessageRequested,
     required TResult Function(SocketMessageReceived value)
     socketMessageReceived,
+    required TResult Function(SocketMessageRead value) socketMessageRead,
     required TResult Function(SocketAckReceived value) socketAckReceived,
     required TResult Function(TypingStarted value) typingStarted,
     required TResult Function(TypingStopped value) typingStopped,
@@ -2361,6 +2651,7 @@ class _$ChatRoomParticipantsStatusSnapshotReceivedImpl
     TResult? Function(LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(SendMessageRequested value)? sendMessageRequested,
     TResult? Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult? Function(SocketMessageRead value)? socketMessageRead,
     TResult? Function(SocketAckReceived value)? socketAckReceived,
     TResult? Function(TypingStarted value)? typingStarted,
     TResult? Function(TypingStopped value)? typingStopped,
@@ -2379,6 +2670,7 @@ class _$ChatRoomParticipantsStatusSnapshotReceivedImpl
     TResult Function(LoadMoreRequested value)? loadMoreRequested,
     TResult Function(SendMessageRequested value)? sendMessageRequested,
     TResult Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult Function(SocketMessageRead value)? socketMessageRead,
     TResult Function(SocketAckReceived value)? socketAckReceived,
     TResult Function(TypingStarted value)? typingStarted,
     TResult Function(TypingStopped value)? typingStopped,
