@@ -179,6 +179,9 @@ class _RoomListViewState extends State<_RoomListView> {
                   isOnline: isOnline,
                   unreadCount: room.unreadCount,
                   gap: formGap,
+                  lastMessageAt: room.lastMessage?.createdAt,
+                  isLastMessageMine: room.lastMessage?.sender == currentUserId,
+                  isLastMessageRead: (room.lastMessage?.readBy ?? const []).any((id) => id != currentUserId),
                   onTap: () {
                     context.read<RoomListBloc>().add(RoomListEvent.roomOpened(room.id));
                     context.go(
