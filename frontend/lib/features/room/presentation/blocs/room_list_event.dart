@@ -39,4 +39,9 @@ class RoomListEvent with _$RoomListEvent {
     required String senderId,
     DateTime? createdAt,
   }) = RoomListMessageReceived;
+
+  const factory RoomListEvent.messageRead({
+    required String roomId,
+    required String userId,
+  }) = RoomListMessageRead;
 }
