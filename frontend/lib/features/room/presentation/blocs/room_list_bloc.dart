@@ -24,6 +24,7 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
   StreamSubscription? _typingStopSub;
   StreamSubscription? _messageSub;
   StreamSubscription? _roomReadSub;
+  StreamSubscription? _messageReadSub;
 
   RoomListBloc({
     required GetMyRoomsUseCase getMyRoomsUseCase,
@@ -44,6 +45,14 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     on<RoomListTypingStarted>(_onTypingStarted);
     on<RoomListTypingStopped>(_onTypingStopped);
     on<RoomListMessageReceived>(_onMessageReceived);
+    on<RoomListMessageRead>(_onMessageRead);
+
+    _messageReadSub = _socketService.messageRead$.listen((data) {
+      add(RoomListEvent.messageRead(
+        roomId: data['roomId'] as String,
+        userId: data['userId'] as String,
+      ));
+    });
 
     _presenceSub = _socketService.presenceUpdate$.listen((data) {
       add(
@@ -273,6 +282,25 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     _emit(emit, rooms: updatedRooms, typingByRoom: typing);
   }
 
+  void _onMessageRead(RoomListMessageRead event, Emitter<RoomListState> emit) {
+    final rooms = _currentRooms();
+    if (rooms == null) return;
+
+    final updatedRooms = rooms.map((room) {
+      if (room.id != event.roomId) return room;
+      final lastMessage = room.lastMessage;
+      // статус читаем только для своего последнего сообщения
+      if (lastMessage == null || lastMessage.sender != _currentUserId) return room;
+      if (lastMessage.readBy.contains(event.userId)) return room;
+
+      return room.copyWith(
+        lastMessage: lastMessage.copyWith(readBy: [...lastMessage.readBy, event.userId]),
+      );
+    }).toList();
+
+    _emit(emit, rooms: updatedRooms, typingByRoom: _currentTyping());
+  }
+
   String _mapFailureToMessage(Failure failure) {
     return failure.maybeWhen(
       unexpected: (_) => 'Не удалось загрузить чаты',
@@ -287,6 +315,7 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     _typingStopSub?.cancel();
     _messageSub?.cancel();
     _roomReadSub?.cancel();
+    _messageReadSub?.cancel();
     return super.close();
   }
 }
