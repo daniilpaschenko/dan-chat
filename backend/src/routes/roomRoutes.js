@@ -8,6 +8,8 @@ const {
     markRoomAsRead,
     addParticipant,
     removeParticipant,
+    leaveRoom,
+    deleteRoom,
 } = require('../controllers/roomController');
 const { getRoomMessages, createMessage } = require('../controllers/messageController');
 
@@ -20,6 +22,9 @@ router.get('/:roomId', getRoomById);
 router.post('/:roomId/read', markRoomAsRead);
 router.post('/:roomId/participants', addParticipant);
 router.delete('/:roomId/participants/:userId', removeParticipant);
+router.post('/:roomId/leave', leaveRoom);
+router.delete('/:roomId', deleteRoom);
+
 
 router.get('/:roomId/messages', getRoomMessages);
 router.post('/:roomId/messages', createMessage);
