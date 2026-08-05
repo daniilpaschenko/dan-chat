@@ -30,4 +30,11 @@ async function getParticipantsStatus(room) {
     }));
 }
 
-module.exports = { findRoomIfMember, getParticipant, getParticipantsStatus };
+// форматирует комнату персонально под юзера (unreadCount — Map -> число для конкретного получателя)
+function formatRoomForUser(room, userId) {
+    const json = room.toJSON();
+    json.unreadCount = room.unreadCount.get(userId) || 0;
+    return json;
+}
+
+module.exports = { findRoomIfMember, getParticipant, getParticipantsStatus, formatRoomForUser };
