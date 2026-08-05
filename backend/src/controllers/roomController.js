@@ -245,8 +245,8 @@ exports.deleteRoom = async (req, res) => {
         const me = getParticipant(room, myId);
 
         if (room.type == 'group') {
-            // owner может всегда, либо любой, если остался один
-            if (me.role !== 'owner' && room.participants.length >= 2) {
+            // только owner
+            if (me.role !== 'owner') {
                 return res.status(403).json({ message: 'Только владелец может удалить чат' });
             }
         }
