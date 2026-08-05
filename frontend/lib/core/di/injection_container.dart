@@ -12,7 +12,7 @@ import '../network/dio_client.dart';
 import '../network/socket_service.dart';
 import '../storage/hive_service.dart';
 import '../storage/secure_storage_service.dart';
-import '../services/read_sync_service.dart';
+import '../services/room_sync_service.dart';
 
 
 // AUTH
@@ -35,6 +35,8 @@ import '../../features/room/domain/usecases/create_room_usecase.dart';
 import '../../features/room/domain/usecases/mark_room_as_read_usecase.dart';
 import '../../features/room/domain/usecases/add_participant_usecase.dart';
 import '../../features/room/domain/usecases/remove_participant_usecase.dart';
+import '../../features/room/domain/usecases/delete_room_usecase.dart';
+import '../../features/room/domain/usecases/leave_room_usecase.dart';
 import '../../features/room/presentation/blocs/room_list_bloc.dart';
 
 // USER
@@ -96,7 +98,7 @@ Future<void> setupDependencies() async {
 
   getIt.registerLazySingleton(() => BottomNavVisibility());
 
-  getIt.registerLazySingleton<ReadSyncService>(() => ReadSyncService());
+  getIt.registerLazySingleton<RoomSyncService>(() => RoomSyncService());
 
   // features/auth/data
   getIt.registerLazySingleton<AuthRemoteDatasource>(
@@ -164,6 +166,12 @@ Future<void> setupDependencies() async {
   getIt.registerLazySingleton<RemoveParticipantUseCase>(
     () => RemoveParticipantUseCase(getIt<IRoomRepository>()),
   );
+  getIt.registerLazySingleton<DeleteRoomUseCase>(
+    () => DeleteRoomUseCase(getIt<IRoomRepository>()),
+  );
+  getIt.registerLazySingleton<LeaveRoomUseCase>(
+    () => LeaveRoomUseCase(getIt<IRoomRepository>()),
+  );
 
   // features/room/presentation
   // также нужен чистый Initial при заходе
@@ -174,7 +182,7 @@ Future<void> setupDependencies() async {
       getMyRoomsUseCase: getIt<GetMyRoomsUseCase>(),
       markRoomAsReadUseCase: getIt<MarkRoomAsReadUseCase>(),
       socketService: getIt<SocketService>(),
-      readSyncService: getIt<ReadSyncService>(),
+      roomSyncService: getIt<RoomSyncService>(),
       currentUserId: getIt<AuthStateNotifier>().currentUserId,
     ),
   );
@@ -250,8 +258,10 @@ Future<void> setupDependencies() async {
       getRoomMessagesUseCase: getIt<GetRoomMessagesUseCase>(),
       getMyProfileUseCase: getIt<GetMyProfileUseCase>(),
       markRoomAsReadUseCase: getIt<MarkRoomAsReadUseCase>(),
+      deleteRoomUseCase: getIt<DeleteRoomUseCase>(),
+      leaveRoomUseCase: getIt<LeaveRoomUseCase>(),
       socketService: getIt<SocketService>(),
-      readSyncService: getIt<ReadSyncService>(),
+      roomSyncService: getIt<RoomSyncService>(),
       currentUserId: getIt<AuthStateNotifier>().currentUserId!,
     ),
   );
