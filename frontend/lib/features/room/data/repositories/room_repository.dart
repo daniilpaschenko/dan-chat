@@ -130,6 +130,32 @@ class RoomRepository implements IRoomRepository {
     }
   }
 
+  @override
+  Future<Either<Failure, void>> leaveRoom(String roomId) async {
+    try {
+      await _remoteDatasource.leaveRoom(roomId);
+      await _localDatasource.clearCachedRoom(roomId);
+      return const Right(null);
+    } on DioException catch (e) {
+      return Left(_mapDioException(e));
+    } catch (e) {
+      return Left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteRoom(String roomId) async {
+    try {
+      await _remoteDatasource.deleteRoom(roomId);
+      await _localDatasource.clearCachedRoom(roomId);
+      return const Right(null);
+    } on DioException catch (e) {
+      return Left(_mapDioException(e));
+    } catch (e) {
+      return Left(Failure.unexpected(e.toString()));
+    }
+  }
+
   Failure _mapDioException(DioException e) {
     return mapDioExceptionToFailure(
       e,
