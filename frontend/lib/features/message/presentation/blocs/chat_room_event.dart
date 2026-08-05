@@ -10,6 +10,9 @@ class ChatRoomEvent with _$ChatRoomEvent {
   const factory ChatRoomEvent.loadMoreRequested() = LoadMoreRequested;
   const factory ChatRoomEvent.sendMessageRequested(String text) = SendMessageRequested;
 
+  const factory ChatRoomEvent.deleteRoomRequested() = DeleteRoomRequested;
+  const factory ChatRoomEvent.leaveRoomRequested() = LeaveRoomRequested;
+
   // приходят из подписки на SocketService
   const factory ChatRoomEvent.socketMessageReceived(MessageEntity message) = SocketMessageReceived;
   const factory ChatRoomEvent.socketMessageRead(String userId) = SocketMessageRead;
