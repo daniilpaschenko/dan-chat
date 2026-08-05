@@ -72,4 +72,12 @@ class RoomRemoteDatasource {
 
     return Room.fromJson(data);
   }
+
+  Future<void> leaveRoom(String roomId) async {
+    await _dio.post('/rooms/$roomId/leave');
+  }
+
+  Future<void> deleteRoom(String roomId) async {
+    await _dio.delete('/rooms/$roomId');
+  }
 }
