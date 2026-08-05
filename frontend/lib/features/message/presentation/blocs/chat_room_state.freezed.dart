@@ -32,6 +32,7 @@ mixin _$ChatRoomState {
       throw _privateConstructorUsedError;
   Map<String, DateTime> get participantsLastSeen =>
       throw _privateConstructorUsedError;
+  bool get roomRemoved => throw _privateConstructorUsedError;
 
   /// Create a copy of ChatRoomState
   /// with the given fields replaced by the non-null parameter values.
@@ -59,6 +60,7 @@ abstract class $ChatRoomStateCopyWith<$Res> {
     Map<String, String> typingUsers,
     Map<String, UserStatus> participantsStatus,
     Map<String, DateTime> participantsLastSeen,
+    bool roomRemoved,
   });
 }
 
@@ -88,6 +90,7 @@ class _$ChatRoomStateCopyWithImpl<$Res, $Val extends ChatRoomState>
     Object? typingUsers = null,
     Object? participantsStatus = null,
     Object? participantsLastSeen = null,
+    Object? roomRemoved = null,
   }) {
     return _then(
       _value.copyWith(
@@ -135,6 +138,10 @@ class _$ChatRoomStateCopyWithImpl<$Res, $Val extends ChatRoomState>
                 ? _value.participantsLastSeen
                 : participantsLastSeen // ignore: cast_nullable_to_non_nullable
                       as Map<String, DateTime>,
+            roomRemoved: null == roomRemoved
+                ? _value.roomRemoved
+                : roomRemoved // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -162,6 +169,7 @@ abstract class _$$ChatRoomStateImplCopyWith<$Res>
     Map<String, String> typingUsers,
     Map<String, UserStatus> participantsStatus,
     Map<String, DateTime> participantsLastSeen,
+    bool roomRemoved,
   });
 }
 
@@ -190,6 +198,7 @@ class __$$ChatRoomStateImplCopyWithImpl<$Res>
     Object? typingUsers = null,
     Object? participantsStatus = null,
     Object? participantsLastSeen = null,
+    Object? roomRemoved = null,
   }) {
     return _then(
       _$ChatRoomStateImpl(
@@ -237,6 +246,10 @@ class __$$ChatRoomStateImplCopyWithImpl<$Res>
             ? _value._participantsLastSeen
             : participantsLastSeen // ignore: cast_nullable_to_non_nullable
                   as Map<String, DateTime>,
+        roomRemoved: null == roomRemoved
+            ? _value.roomRemoved
+            : roomRemoved // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -257,6 +270,7 @@ class _$ChatRoomStateImpl implements _ChatRoomState {
     final Map<String, String> typingUsers = const {},
     final Map<String, UserStatus> participantsStatus = const {},
     final Map<String, DateTime> participantsLastSeen = const {},
+    this.roomRemoved = false,
   }) : _messages = messages,
        _typingUsers = typingUsers,
        _participantsStatus = participantsStatus,
@@ -322,8 +336,12 @@ class _$ChatRoomStateImpl implements _ChatRoomState {
   }
 
   @override
+  @JsonKey()
+  final bool roomRemoved;
+
+  @override
   String toString() {
-    return 'ChatRoomState(roomId: $roomId, messages: $messages, isInitialLoading: $isInitialLoading, isLoadingMore: $isLoadingMore, isSending: $isSending, nextCursor: $nextCursor, hasMore: $hasMore, errorMessage: $errorMessage, typingUsers: $typingUsers, participantsStatus: $participantsStatus, participantsLastSeen: $participantsLastSeen)';
+    return 'ChatRoomState(roomId: $roomId, messages: $messages, isInitialLoading: $isInitialLoading, isLoadingMore: $isLoadingMore, isSending: $isSending, nextCursor: $nextCursor, hasMore: $hasMore, errorMessage: $errorMessage, typingUsers: $typingUsers, participantsStatus: $participantsStatus, participantsLastSeen: $participantsLastSeen, roomRemoved: $roomRemoved)';
   }
 
   @override
@@ -355,7 +373,9 @@ class _$ChatRoomStateImpl implements _ChatRoomState {
             const DeepCollectionEquality().equals(
               other._participantsLastSeen,
               _participantsLastSeen,
-            ));
+            ) &&
+            (identical(other.roomRemoved, roomRemoved) ||
+                other.roomRemoved == roomRemoved));
   }
 
   @override
@@ -372,6 +392,7 @@ class _$ChatRoomStateImpl implements _ChatRoomState {
     const DeepCollectionEquality().hash(_typingUsers),
     const DeepCollectionEquality().hash(_participantsStatus),
     const DeepCollectionEquality().hash(_participantsLastSeen),
+    roomRemoved,
   );
 
   /// Create a copy of ChatRoomState
@@ -396,6 +417,7 @@ abstract class _ChatRoomState implements ChatRoomState {
     final Map<String, String> typingUsers,
     final Map<String, UserStatus> participantsStatus,
     final Map<String, DateTime> participantsLastSeen,
+    final bool roomRemoved,
   }) = _$ChatRoomStateImpl;
 
   @override
@@ -420,6 +442,8 @@ abstract class _ChatRoomState implements ChatRoomState {
   Map<String, UserStatus> get participantsStatus;
   @override
   Map<String, DateTime> get participantsLastSeen;
+  @override
+  bool get roomRemoved;
 
   /// Create a copy of ChatRoomState
   /// with the given fields replaced by the non-null parameter values.
