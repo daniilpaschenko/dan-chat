@@ -5,6 +5,7 @@ import '../../../../core/errors/failures.dart';
 import '../../../../core/errors/dio_exception_mapper.dart';
 import '../../domain/entities/room_entity.dart';
 import '../../domain/interfaces/i_room_repository.dart';
+import '../models/room.dart';
 import '../datasources/room_remote_datasource.dart';
 import '../datasources/room_local_datasource.dart';
 import '../mappers/room_mapper.dart';
@@ -154,6 +155,11 @@ class RoomRepository implements IRoomRepository {
     } catch (e) {
       return Left(Failure.unexpected(e.toString()));
     }
+  }
+
+  @override
+  RoomListItemEntity mapSocketRoom(Map<String, dynamic> json) {
+    return RoomListItem.fromJson(json).toEntity();
   }
 
   Failure _mapDioException(DioException e) {
