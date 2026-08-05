@@ -4,6 +4,8 @@ import '../../../../core/network/socket_service.dart';
 import '../../../../core/services/room_sync_service.dart';
 import '../../../user/domain/entities/user_entity.dart';
 import '../../../room/domain/usecases/mark_room_as_read_usecase.dart';
+import '../../../room/domain/usecases/delete_room_usecase.dart';
+import '../../../room/domain/usecases/leave_room_usecase.dart';
 import '../../../user/domain/usecases/get_my_profile_usecase.dart';
 import '../../data/models/message.dart';
 import '../../data/mappers/message_mapper.dart';
@@ -16,6 +18,8 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   final GetRoomMessagesUseCase _getRoomMessagesUseCase;
   final GetMyProfileUseCase _getMyProfileUseCase;
   final MarkRoomAsReadUseCase _markRoomAsReadUseCase;
+  final DeleteRoomUseCase _deleteRoomUseCase;
+  final LeaveRoomUseCase _leaveRoomUseCase;
   final SocketService _socketService;
   final RoomSyncService _roomSyncService;
   final String _currentUserId;
@@ -33,12 +37,16 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     required GetRoomMessagesUseCase getRoomMessagesUseCase,
     required GetMyProfileUseCase getMyProfileUseCase,
     required MarkRoomAsReadUseCase markRoomAsReadUseCase,
+    required DeleteRoomUseCase deleteRoomUseCase,
+    required LeaveRoomUseCase leaveRoomUseCase,
     required SocketService socketService,
     required RoomSyncService roomSyncService,
     required String currentUserId,
   })  : _getRoomMessagesUseCase = getRoomMessagesUseCase,
         _getMyProfileUseCase = getMyProfileUseCase,
         _markRoomAsReadUseCase = markRoomAsReadUseCase,
+        _deleteRoomUseCase = deleteRoomUseCase,
+        _leaveRoomUseCase = leaveRoomUseCase,
         _socketService = socketService,
         _roomSyncService = roomSyncService,
         _currentUserId = currentUserId,
@@ -46,6 +54,8 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     on<ChatRoomStarted>(_onStarted);
     on<LoadMoreRequested>(_onLoadMoreRequested);
     on<SendMessageRequested>(_onSendMessageRequested);
+    on<DeleteRoomRequested>(_onDeleteRoomRequested);
+    on<LeaveRoomRequested>(_onLeaveRoomRequested);
     on<SocketMessageReceived>(_onSocketMessageReceived);
     on<SocketAckReceived>(_onSocketAckReceived);
     on<TypingStarted>(_onTypingStarted);
@@ -340,6 +350,34 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
       return m.copyWith(readBy: [...m.readBy, event.userId]);
     }).toList();
     emit(state.copyWith(messages: updated));
+  }
+
+  Future<void> _onDeleteRoomRequested(
+    DeleteRoomRequested event,
+    Emitter<ChatRoomState> emit,
+  ) async {
+    final result = await _deleteRoomUseCase(state.roomId);
+    result.fold(
+      (failure) => emit(state.copyWith(errorMessage: 'Не удалось удалить чат')),
+      (_) {
+        _roomSyncService.notifyRoomRemoved(state.roomId);
+        emit(state.copyWith(roomRemoved: true));
+      },
+    );
+  }
+
+  Future<void> _onLeaveRoomRequested(
+    LeaveRoomRequested event,
+    Emitter<ChatRoomState> emit,
+  ) async {
+    final result = await _leaveRoomUseCase(state.roomId);
+    result.fold(
+      (failure) => emit(state.copyWith(errorMessage: 'Не удалось покинуть чат')),
+      (_) {
+        _roomSyncService.notifyRoomRemoved(state.roomId);
+        emit(state.copyWith(roomRemoved: true));
+      },
+    );
   }
 
   @override
