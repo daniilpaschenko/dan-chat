@@ -25,6 +25,7 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
   StreamSubscription? _messageSub;
   StreamSubscription? _roomReadSub;
   StreamSubscription? _messageReadSub;
+  StreamSubscription? _roomRemovedSub;
 
   RoomListBloc({
     required GetMyRoomsUseCase getMyRoomsUseCase,
@@ -46,6 +47,7 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     on<RoomListTypingStopped>(_onTypingStopped);
     on<RoomListMessageReceived>(_onMessageReceived);
     on<RoomListMessageRead>(_onMessageRead);
+    on<RoomListRoomRemoved>(_onRoomRemoved);
 
     _messageReadSub = _socketService.messageRead$.listen((data) {
       add(RoomListEvent.messageRead(
@@ -112,6 +114,10 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     // обработчик RoomOpened, он обнуляет unreadCount как локально, так и через REST
     _roomReadSub = _roomSyncService.roomRead$.listen((roomId) {
       add(RoomListEvent.roomOpened(roomId));
+    });
+    
+    _roomRemovedSub = _roomSyncService.roomRemoved$.listen((roomId) {
+      add(RoomListEvent.roomRemoved(roomId));
     });
   }
 
@@ -301,6 +307,14 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     _emit(emit, rooms: updatedRooms, typingByRoom: _currentTyping());
   }
 
+  void _onRoomRemoved(RoomListRoomRemoved event, Emitter<RoomListState> emit) {
+    final rooms = _currentRooms();
+    if (rooms == null) return;
+
+    final updatedRooms = rooms.where((r) => r.id != event.roomId).toList();
+    _emit(emit, rooms: updatedRooms, typingByRoom: _currentTyping());
+  }
+
   String _mapFailureToMessage(Failure failure) {
     return failure.maybeWhen(
       unexpected: (_) => 'Не удалось загрузить чаты',
@@ -316,6 +330,7 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     _messageSub?.cancel();
     _roomReadSub?.cancel();
     _messageReadSub?.cancel();
+    _roomRemovedSub?.cancel();
     return super.close();
   }
 }
