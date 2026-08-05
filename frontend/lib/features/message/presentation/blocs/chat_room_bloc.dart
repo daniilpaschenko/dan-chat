@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/network/socket_service.dart';
-import '../../../../core/services/read_sync_service.dart';
+import '../../../../core/services/room_sync_service.dart';
 import '../../../user/domain/entities/user_entity.dart';
 import '../../../room/domain/usecases/mark_room_as_read_usecase.dart';
 import '../../../user/domain/usecases/get_my_profile_usecase.dart';
@@ -17,7 +17,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   final GetMyProfileUseCase _getMyProfileUseCase;
   final MarkRoomAsReadUseCase _markRoomAsReadUseCase;
   final SocketService _socketService;
-  final ReadSyncService _readSyncService;
+  final RoomSyncService _roomSyncService;
   final String _currentUserId;
 
   UserEntity? _currentUser;
@@ -34,13 +34,13 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     required GetMyProfileUseCase getMyProfileUseCase,
     required MarkRoomAsReadUseCase markRoomAsReadUseCase,
     required SocketService socketService,
-    required ReadSyncService readSyncService,
+    required RoomSyncService roomSyncService,
     required String currentUserId,
   })  : _getRoomMessagesUseCase = getRoomMessagesUseCase,
         _getMyProfileUseCase = getMyProfileUseCase,
         _markRoomAsReadUseCase = markRoomAsReadUseCase,
         _socketService = socketService,
-        _readSyncService = readSyncService,
+        _roomSyncService = roomSyncService,
         _currentUserId = currentUserId,
         super(ChatRoomState.initial('')) {
     on<ChatRoomStarted>(_onStarted);
@@ -130,7 +130,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
       ));
     });
 
-    _readSyncService.notifyRoomRead(event.roomId);
+    _roomSyncService.notifyRoomRead(event.roomId);
 
     _socketService.markRead(event.roomId);
 
@@ -274,7 +274,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     // но только если сообщение не от нас самих (свои и так не влияют на unreadCount)
     if (incoming.sender.id != _currentUserId) {
       _markRoomAsReadUseCase(state.roomId); // обновить на бэкенде
-      _readSyncService.notifyRoomRead(state.roomId); // сообщить списку чатов
+      _roomSyncService.notifyRoomRead(state.roomId); // сообщить списку чатов
       _socketService.markRead(state.roomId);
     }
   }

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/errors/failure_mapper.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/network/socket_service.dart';
-import '../../../../core/services/read_sync_service.dart';
+import '../../../../core/services/room_sync_service.dart';
 import '../../../user/domain/entities/user_entity.dart';
 import '../../domain/entities/room_entity.dart';
 import '../../domain/usecases/get_my_rooms_usecase.dart';
@@ -16,7 +16,7 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
   final GetMyRoomsUseCase _getMyRoomsUseCase;
   final MarkRoomAsReadUseCase _markRoomAsReadUseCase;
   final SocketService _socketService;
-  final ReadSyncService _readSyncService;
+  final RoomSyncService _roomSyncService;
   final String? _currentUserId;
 
   StreamSubscription? _presenceSub;
@@ -30,12 +30,12 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     required GetMyRoomsUseCase getMyRoomsUseCase,
     required MarkRoomAsReadUseCase markRoomAsReadUseCase,
     required SocketService socketService,
-    required ReadSyncService readSyncService,
+    required RoomSyncService roomSyncService,
     required String? currentUserId,
   }) : _getMyRoomsUseCase = getMyRoomsUseCase,
       _markRoomAsReadUseCase = markRoomAsReadUseCase,
       _socketService = socketService,
-      _readSyncService = readSyncService,
+      _roomSyncService = roomSyncService,
       _currentUserId = currentUserId,
       super(const RoomListState.initial()) {
     on<LoadRequested>(_onLoadRequested);
@@ -110,7 +110,7 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
 
     // при получении сигнала "комната прочитана" — просто зовём уже готовый
     // обработчик RoomOpened, он обнуляет unreadCount как локально, так и через REST
-    _roomReadSub = _readSyncService.roomRead$.listen((roomId) {
+    _roomReadSub = _roomSyncService.roomRead$.listen((roomId) {
       add(RoomListEvent.roomOpened(roomId));
     });
   }
