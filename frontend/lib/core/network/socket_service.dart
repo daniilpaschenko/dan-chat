@@ -17,6 +17,8 @@ class SocketService {
   final _typingStopController = StreamController<Map<String, dynamic>>.broadcast();
   // хранит поток обновлений присутствия пользователей
   final _presenceUpdateController = StreamController<Map<String, dynamic>>.broadcast();
+  // хранит поток событий прочтения сообщений
+  final _messageReadController = StreamController<Map<String, dynamic>>.broadcast();
 
   // геттеры для потоков, чтобы подписчики могли слушать события
   // только слушать, не иметь доступа к контроллерам
@@ -24,6 +26,7 @@ class SocketService {
   Stream<Map<String, dynamic>> get typingStart$ => _typingStartController.stream;
   Stream<Map<String, dynamic>> get typingStop$ => _typingStopController.stream;
   Stream<Map<String, dynamic>> get presenceUpdate$ => _presenceUpdateController.stream;
+  Stream<Map<String, dynamic>> get messageRead$ => _messageReadController.stream;
 
   // проверка соединения
   bool get isConnected => _socket?.connected ?? false;
@@ -57,6 +60,8 @@ class SocketService {
       // реагирует на события, отправленные севрером, и добавляет их в соответствующие стримы
       ..on('message:new', (data) =>
           _messageNewController.add(Map<String, dynamic>.from(data as Map)))
+      ..on('message:read', (data) =>
+          _messageReadController.add(Map<String, dynamic>.from(data as Map)))
       ..on('typing:start', (data) =>
           _typingStartController.add(Map<String, dynamic>.from(data as Map)))
       ..on('typing:stop', (data) =>
@@ -115,6 +120,6 @@ class SocketService {
 
   // отправить события на сервер
   void startTyping(String roomId) => _socket?.emit('typing:start', {'roomId': roomId});
-  
   void stopTyping(String roomId) => _socket?.emit('typing:stop', {'roomId': roomId});
+  void markRead(String roomId) => _socket?.emit('message:read', {'roomId': roomId});
 }

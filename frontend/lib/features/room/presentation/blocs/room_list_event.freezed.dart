@@ -38,6 +38,7 @@ mixin _$RoomListEvent {
       DateTime? createdAt,
     )
     messageReceived,
+    required TResult Function(String roomId, String userId) messageRead,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -56,6 +57,7 @@ mixin _$RoomListEvent {
       DateTime? createdAt,
     )?
     messageReceived,
+    TResult? Function(String roomId, String userId)? messageRead,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -74,6 +76,7 @@ mixin _$RoomListEvent {
       DateTime? createdAt,
     )?
     messageReceived,
+    TResult Function(String roomId, String userId)? messageRead,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -85,6 +88,7 @@ mixin _$RoomListEvent {
     required TResult Function(RoomListTypingStarted value) typingStarted,
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
+    required TResult Function(RoomListMessageRead value) messageRead,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -95,6 +99,7 @@ mixin _$RoomListEvent {
     TResult? Function(RoomListTypingStarted value)? typingStarted,
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
+    TResult? Function(RoomListMessageRead value)? messageRead,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -105,6 +110,7 @@ mixin _$RoomListEvent {
     TResult Function(RoomListTypingStarted value)? typingStarted,
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
+    TResult Function(RoomListMessageRead value)? messageRead,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -193,6 +199,7 @@ class _$LoadRequestedImpl implements LoadRequested {
       DateTime? createdAt,
     )
     messageReceived,
+    required TResult Function(String roomId, String userId) messageRead,
   }) {
     return loadRequested();
   }
@@ -215,6 +222,7 @@ class _$LoadRequestedImpl implements LoadRequested {
       DateTime? createdAt,
     )?
     messageReceived,
+    TResult? Function(String roomId, String userId)? messageRead,
   }) {
     return loadRequested?.call();
   }
@@ -237,6 +245,7 @@ class _$LoadRequestedImpl implements LoadRequested {
       DateTime? createdAt,
     )?
     messageReceived,
+    TResult Function(String roomId, String userId)? messageRead,
     required TResult orElse(),
   }) {
     if (loadRequested != null) {
@@ -255,6 +264,7 @@ class _$LoadRequestedImpl implements LoadRequested {
     required TResult Function(RoomListTypingStarted value) typingStarted,
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
+    required TResult Function(RoomListMessageRead value) messageRead,
   }) {
     return loadRequested(this);
   }
@@ -269,6 +279,7 @@ class _$LoadRequestedImpl implements LoadRequested {
     TResult? Function(RoomListTypingStarted value)? typingStarted,
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
+    TResult? Function(RoomListMessageRead value)? messageRead,
   }) {
     return loadRequested?.call(this);
   }
@@ -283,6 +294,7 @@ class _$LoadRequestedImpl implements LoadRequested {
     TResult Function(RoomListTypingStarted value)? typingStarted,
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
+    TResult Function(RoomListMessageRead value)? messageRead,
     required TResult orElse(),
   }) {
     if (loadRequested != null) {
@@ -358,6 +370,7 @@ class _$RefreshRequestedImpl implements RefreshRequested {
       DateTime? createdAt,
     )
     messageReceived,
+    required TResult Function(String roomId, String userId) messageRead,
   }) {
     return refreshRequested();
   }
@@ -380,6 +393,7 @@ class _$RefreshRequestedImpl implements RefreshRequested {
       DateTime? createdAt,
     )?
     messageReceived,
+    TResult? Function(String roomId, String userId)? messageRead,
   }) {
     return refreshRequested?.call();
   }
@@ -402,6 +416,7 @@ class _$RefreshRequestedImpl implements RefreshRequested {
       DateTime? createdAt,
     )?
     messageReceived,
+    TResult Function(String roomId, String userId)? messageRead,
     required TResult orElse(),
   }) {
     if (refreshRequested != null) {
@@ -420,6 +435,7 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     required TResult Function(RoomListTypingStarted value) typingStarted,
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
+    required TResult Function(RoomListMessageRead value) messageRead,
   }) {
     return refreshRequested(this);
   }
@@ -434,6 +450,7 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     TResult? Function(RoomListTypingStarted value)? typingStarted,
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
+    TResult? Function(RoomListMessageRead value)? messageRead,
   }) {
     return refreshRequested?.call(this);
   }
@@ -448,6 +465,7 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     TResult Function(RoomListTypingStarted value)? typingStarted,
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
+    TResult Function(RoomListMessageRead value)? messageRead,
     required TResult orElse(),
   }) {
     if (refreshRequested != null) {
@@ -550,6 +568,7 @@ class _$RoomOpenedImpl implements RoomOpened {
       DateTime? createdAt,
     )
     messageReceived,
+    required TResult Function(String roomId, String userId) messageRead,
   }) {
     return roomOpened(roomId);
   }
@@ -572,6 +591,7 @@ class _$RoomOpenedImpl implements RoomOpened {
       DateTime? createdAt,
     )?
     messageReceived,
+    TResult? Function(String roomId, String userId)? messageRead,
   }) {
     return roomOpened?.call(roomId);
   }
@@ -594,6 +614,7 @@ class _$RoomOpenedImpl implements RoomOpened {
       DateTime? createdAt,
     )?
     messageReceived,
+    TResult Function(String roomId, String userId)? messageRead,
     required TResult orElse(),
   }) {
     if (roomOpened != null) {
@@ -612,6 +633,7 @@ class _$RoomOpenedImpl implements RoomOpened {
     required TResult Function(RoomListTypingStarted value) typingStarted,
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
+    required TResult Function(RoomListMessageRead value) messageRead,
   }) {
     return roomOpened(this);
   }
@@ -626,6 +648,7 @@ class _$RoomOpenedImpl implements RoomOpened {
     TResult? Function(RoomListTypingStarted value)? typingStarted,
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
+    TResult? Function(RoomListMessageRead value)? messageRead,
   }) {
     return roomOpened?.call(this);
   }
@@ -640,6 +663,7 @@ class _$RoomOpenedImpl implements RoomOpened {
     TResult Function(RoomListTypingStarted value)? typingStarted,
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
+    TResult Function(RoomListMessageRead value)? messageRead,
     required TResult orElse(),
   }) {
     if (roomOpened != null) {
@@ -776,6 +800,7 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
       DateTime? createdAt,
     )
     messageReceived,
+    required TResult Function(String roomId, String userId) messageRead,
   }) {
     return presenceUpdated(userId, status, lastSeen);
   }
@@ -798,6 +823,7 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
       DateTime? createdAt,
     )?
     messageReceived,
+    TResult? Function(String roomId, String userId)? messageRead,
   }) {
     return presenceUpdated?.call(userId, status, lastSeen);
   }
@@ -820,6 +846,7 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
       DateTime? createdAt,
     )?
     messageReceived,
+    TResult Function(String roomId, String userId)? messageRead,
     required TResult orElse(),
   }) {
     if (presenceUpdated != null) {
@@ -838,6 +865,7 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
     required TResult Function(RoomListTypingStarted value) typingStarted,
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
+    required TResult Function(RoomListMessageRead value) messageRead,
   }) {
     return presenceUpdated(this);
   }
@@ -852,6 +880,7 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
     TResult? Function(RoomListTypingStarted value)? typingStarted,
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
+    TResult? Function(RoomListMessageRead value)? messageRead,
   }) {
     return presenceUpdated?.call(this);
   }
@@ -866,6 +895,7 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
     TResult Function(RoomListTypingStarted value)? typingStarted,
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
+    TResult Function(RoomListMessageRead value)? messageRead,
     required TResult orElse(),
   }) {
     if (presenceUpdated != null) {
@@ -1009,6 +1039,7 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
       DateTime? createdAt,
     )
     messageReceived,
+    required TResult Function(String roomId, String userId) messageRead,
   }) {
     return typingStarted(roomId, userId, username);
   }
@@ -1031,6 +1062,7 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
       DateTime? createdAt,
     )?
     messageReceived,
+    TResult? Function(String roomId, String userId)? messageRead,
   }) {
     return typingStarted?.call(roomId, userId, username);
   }
@@ -1053,6 +1085,7 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
       DateTime? createdAt,
     )?
     messageReceived,
+    TResult Function(String roomId, String userId)? messageRead,
     required TResult orElse(),
   }) {
     if (typingStarted != null) {
@@ -1071,6 +1104,7 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
     required TResult Function(RoomListTypingStarted value) typingStarted,
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
+    required TResult Function(RoomListMessageRead value) messageRead,
   }) {
     return typingStarted(this);
   }
@@ -1085,6 +1119,7 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
     TResult? Function(RoomListTypingStarted value)? typingStarted,
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
+    TResult? Function(RoomListMessageRead value)? messageRead,
   }) {
     return typingStarted?.call(this);
   }
@@ -1099,6 +1134,7 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
     TResult Function(RoomListTypingStarted value)? typingStarted,
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
+    TResult Function(RoomListMessageRead value)? messageRead,
     required TResult orElse(),
   }) {
     if (typingStarted != null) {
@@ -1229,6 +1265,7 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
       DateTime? createdAt,
     )
     messageReceived,
+    required TResult Function(String roomId, String userId) messageRead,
   }) {
     return typingStopped(roomId, userId);
   }
@@ -1251,6 +1288,7 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
       DateTime? createdAt,
     )?
     messageReceived,
+    TResult? Function(String roomId, String userId)? messageRead,
   }) {
     return typingStopped?.call(roomId, userId);
   }
@@ -1273,6 +1311,7 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
       DateTime? createdAt,
     )?
     messageReceived,
+    TResult Function(String roomId, String userId)? messageRead,
     required TResult orElse(),
   }) {
     if (typingStopped != null) {
@@ -1291,6 +1330,7 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
     required TResult Function(RoomListTypingStarted value) typingStarted,
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
+    required TResult Function(RoomListMessageRead value) messageRead,
   }) {
     return typingStopped(this);
   }
@@ -1305,6 +1345,7 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
     TResult? Function(RoomListTypingStarted value)? typingStarted,
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
+    TResult? Function(RoomListMessageRead value)? messageRead,
   }) {
     return typingStopped?.call(this);
   }
@@ -1319,6 +1360,7 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
     TResult Function(RoomListTypingStarted value)? typingStarted,
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
+    TResult Function(RoomListMessageRead value)? messageRead,
     required TResult orElse(),
   }) {
     if (typingStopped != null) {
@@ -1470,6 +1512,7 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
       DateTime? createdAt,
     )
     messageReceived,
+    required TResult Function(String roomId, String userId) messageRead,
   }) {
     return messageReceived(roomId, text, senderId, createdAt);
   }
@@ -1492,6 +1535,7 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
       DateTime? createdAt,
     )?
     messageReceived,
+    TResult? Function(String roomId, String userId)? messageRead,
   }) {
     return messageReceived?.call(roomId, text, senderId, createdAt);
   }
@@ -1514,6 +1558,7 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
       DateTime? createdAt,
     )?
     messageReceived,
+    TResult Function(String roomId, String userId)? messageRead,
     required TResult orElse(),
   }) {
     if (messageReceived != null) {
@@ -1532,6 +1577,7 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
     required TResult Function(RoomListTypingStarted value) typingStarted,
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
+    required TResult Function(RoomListMessageRead value) messageRead,
   }) {
     return messageReceived(this);
   }
@@ -1546,6 +1592,7 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
     TResult? Function(RoomListTypingStarted value)? typingStarted,
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
+    TResult? Function(RoomListMessageRead value)? messageRead,
   }) {
     return messageReceived?.call(this);
   }
@@ -1560,6 +1607,7 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
     TResult Function(RoomListTypingStarted value)? typingStarted,
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
+    TResult Function(RoomListMessageRead value)? messageRead,
     required TResult orElse(),
   }) {
     if (messageReceived != null) {
@@ -1587,4 +1635,224 @@ abstract class RoomListMessageReceived implements RoomListEvent {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RoomListMessageReceivedImplCopyWith<_$RoomListMessageReceivedImpl>
   get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RoomListMessageReadImplCopyWith<$Res> {
+  factory _$$RoomListMessageReadImplCopyWith(
+    _$RoomListMessageReadImpl value,
+    $Res Function(_$RoomListMessageReadImpl) then,
+  ) = __$$RoomListMessageReadImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String roomId, String userId});
+}
+
+/// @nodoc
+class __$$RoomListMessageReadImplCopyWithImpl<$Res>
+    extends _$RoomListEventCopyWithImpl<$Res, _$RoomListMessageReadImpl>
+    implements _$$RoomListMessageReadImplCopyWith<$Res> {
+  __$$RoomListMessageReadImplCopyWithImpl(
+    _$RoomListMessageReadImpl _value,
+    $Res Function(_$RoomListMessageReadImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? roomId = null, Object? userId = null}) {
+    return _then(
+      _$RoomListMessageReadImpl(
+        roomId: null == roomId
+            ? _value.roomId
+            : roomId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        userId: null == userId
+            ? _value.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$RoomListMessageReadImpl implements RoomListMessageRead {
+  const _$RoomListMessageReadImpl({required this.roomId, required this.userId});
+
+  @override
+  final String roomId;
+  @override
+  final String userId;
+
+  @override
+  String toString() {
+    return 'RoomListEvent.messageRead(roomId: $roomId, userId: $userId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RoomListMessageReadImpl &&
+            (identical(other.roomId, roomId) || other.roomId == roomId) &&
+            (identical(other.userId, userId) || other.userId == userId));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, roomId, userId);
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RoomListMessageReadImplCopyWith<_$RoomListMessageReadImpl> get copyWith =>
+      __$$RoomListMessageReadImplCopyWithImpl<_$RoomListMessageReadImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loadRequested,
+    required TResult Function() refreshRequested,
+    required TResult Function(String roomId) roomOpened,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
+    required TResult Function(String roomId, String userId, String username)
+    typingStarted,
+    required TResult Function(String roomId, String userId) typingStopped,
+    required TResult Function(
+      String roomId,
+      String text,
+      String senderId,
+      DateTime? createdAt,
+    )
+    messageReceived,
+    required TResult Function(String roomId, String userId) messageRead,
+  }) {
+    return messageRead(roomId, userId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loadRequested,
+    TResult? Function()? refreshRequested,
+    TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+    TResult? Function(String roomId, String userId, String username)?
+    typingStarted,
+    TResult? Function(String roomId, String userId)? typingStopped,
+    TResult? Function(
+      String roomId,
+      String text,
+      String senderId,
+      DateTime? createdAt,
+    )?
+    messageReceived,
+    TResult? Function(String roomId, String userId)? messageRead,
+  }) {
+    return messageRead?.call(roomId, userId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loadRequested,
+    TResult Function()? refreshRequested,
+    TResult Function(String roomId)? roomOpened,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+    TResult Function(String roomId, String userId, String username)?
+    typingStarted,
+    TResult Function(String roomId, String userId)? typingStopped,
+    TResult Function(
+      String roomId,
+      String text,
+      String senderId,
+      DateTime? createdAt,
+    )?
+    messageReceived,
+    TResult Function(String roomId, String userId)? messageRead,
+    required TResult orElse(),
+  }) {
+    if (messageRead != null) {
+      return messageRead(roomId, userId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoadRequested value) loadRequested,
+    required TResult Function(RefreshRequested value) refreshRequested,
+    required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
+    required TResult Function(RoomListTypingStarted value) typingStarted,
+    required TResult Function(RoomListTypingStopped value) typingStopped,
+    required TResult Function(RoomListMessageReceived value) messageReceived,
+    required TResult Function(RoomListMessageRead value) messageRead,
+  }) {
+    return messageRead(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoadRequested value)? loadRequested,
+    TResult? Function(RefreshRequested value)? refreshRequested,
+    TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
+    TResult? Function(RoomListTypingStarted value)? typingStarted,
+    TResult? Function(RoomListTypingStopped value)? typingStopped,
+    TResult? Function(RoomListMessageReceived value)? messageReceived,
+    TResult? Function(RoomListMessageRead value)? messageRead,
+  }) {
+    return messageRead?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoadRequested value)? loadRequested,
+    TResult Function(RefreshRequested value)? refreshRequested,
+    TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
+    TResult Function(RoomListTypingStarted value)? typingStarted,
+    TResult Function(RoomListTypingStopped value)? typingStopped,
+    TResult Function(RoomListMessageReceived value)? messageReceived,
+    TResult Function(RoomListMessageRead value)? messageRead,
+    required TResult orElse(),
+  }) {
+    if (messageRead != null) {
+      return messageRead(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class RoomListMessageRead implements RoomListEvent {
+  const factory RoomListMessageRead({
+    required final String roomId,
+    required final String userId,
+  }) = _$RoomListMessageReadImpl;
+
+  String get roomId;
+  String get userId;
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RoomListMessageReadImplCopyWith<_$RoomListMessageReadImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
