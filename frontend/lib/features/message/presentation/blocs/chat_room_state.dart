@@ -19,6 +19,7 @@ class ChatRoomState with _$ChatRoomState {
     @Default({}) Map<String, String> typingUsers,
     @Default({}) Map<String, UserStatus> participantsStatus,
     @Default({}) Map<String, DateTime> participantsLastSeen,
+    @Default(false) bool roomRemoved, // true после успешного delete/leave — экран должен закрыться
   }) = _ChatRoomState;
 
   factory ChatRoomState.initial(String roomId) => ChatRoomState(roomId: roomId);
