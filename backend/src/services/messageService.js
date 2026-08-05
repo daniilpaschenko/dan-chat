@@ -40,4 +40,11 @@ async function createMessage({ roomId, senderId, text }) {
     return { ok: true, message };
 }
 
-module.exports = { createMessage, SENDER_PUBLIC_FIELDS };
+async function markMessagesAsRead({ roomId, userId }) {
+    await Message.updateMany(
+        { room: roomId, readBy: { $ne: userId }, isDeleted: false },
+        { $addToSet: { readBy: userId } },
+    );
+}
+
+module.exports = { createMessage, markMessagesAsRead, SENDER_PUBLIC_FIELDS };

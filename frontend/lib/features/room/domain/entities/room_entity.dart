@@ -21,6 +21,7 @@ class LastMessageEntity with _$LastMessageEntity {
     String? text,
     String? sender,
     DateTime? createdAt,
+    @Default([]) List<String> readBy,
   }) = _LastMessageEntity;
 }
 

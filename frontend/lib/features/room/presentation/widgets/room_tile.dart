@@ -13,6 +13,9 @@ class RoomTile extends StatelessWidget {
   final int unreadCount;
   final double gap;
   final VoidCallback onTap;
+  final DateTime? lastMessageAt;
+  final bool isLastMessageMine;
+  final bool isLastMessageRead;
 
   const RoomTile({
     super.key,
@@ -24,6 +27,9 @@ class RoomTile extends StatelessWidget {
     required this.unreadCount,
     required this.gap,
     required this.onTap,
+    this.lastMessageAt,
+    this.isLastMessageMine = false,
+    this.isLastMessageRead = false,
   });
 
   @override
@@ -64,25 +70,81 @@ class RoomTile extends StatelessWidget {
         style: TextStyle(fontSize: spacing.captionSize * 1.8, color: AppColors.textPrimary, fontWeight: FontWeight.w600),
       ),
       subtitle: subtitle != null
-          ? Text(
-              subtitle!, maxLines: 1, overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: spacing.captionSize * 1.25,
-                color: isTyping ? AppColors.primary : AppColors.textSecondary,
+        ? Text(
+            subtitle!,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: spacing.captionSize * 1.25,
+              color: isTyping ? AppColors.primary : AppColors.textSecondary,
+            ),
+          )
+        : null,
+      trailing: (lastMessageAt != null || unreadCount > 0 || isLastMessageMine)
+        ? SizedBox(
+            height: avatarSize, // например, высота как у аватара
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.max,
+                children: [
+                  if (lastMessageAt != null || isLastMessageMine)
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (isLastMessageMine) ...[
+                          Icon(
+                            isLastMessageRead ? Icons.done_all : Icons.done,
+                            size: spacing.captionSize * 1.2,
+                            color: isLastMessageRead
+                                ? AppColors.primary
+                                : AppColors.textSecondary,
+                          ),
+                          SizedBox(width: gap * 0.15),
+                        ],
+                        if (lastMessageAt != null)
+                          Text(
+                            _formatTime(lastMessageAt!),
+                            style: TextStyle(
+                              fontSize: spacing.captionSize * 1.1,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                      ],
+                    ),
+                  if (unreadCount > 0) ...[
+                    SizedBox(height: gap * 0.2),
+                    CircleAvatar(
+                      radius: gap * 0.5,
+                      backgroundColor: AppColors.textSecondary,
+                      child: Text(
+                        unreadCount > 99 ? '99+' : '$unreadCount',
+                        style: TextStyle(
+                          fontSize: spacing.captionSize * 1.2,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
               ),
-            )
-          : null,
-      // счётчик непрочитанных сообщений
-      trailing: unreadCount > 0
-          ? CircleAvatar(
-              radius: gap * 0.6,
-              backgroundColor: AppColors.textSecondary,
-              child: Text(
-                unreadCount > 99 ? '99+' : '$unreadCount',
-                style: TextStyle(fontSize: spacing.captionSize * 1.3, color: AppColors.textPrimary),
-              ),
-            )
-          : null,
+            ): null,
     );
+  }
+
+  String _formatTime(DateTime dateTime) {
+    final local = dateTime.toLocal();
+    final now = DateTime.now();
+    final isToday = local.year == now.year && local.month == now.month && local.day == now.day;
+
+    if (isToday) {
+      final hours = local.hour.toString().padLeft(2, '0');
+      final minutes = local.minute.toString().padLeft(2, '0');
+      return '$hours:$minutes';
+    }
+
+    final day = local.day.toString().padLeft(2, '0');
+    final month = local.month.toString().padLeft(2, '0');
+    return '$day.$month';
   }
 }
