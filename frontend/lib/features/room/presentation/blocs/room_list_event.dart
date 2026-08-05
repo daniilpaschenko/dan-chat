@@ -15,6 +15,9 @@ class RoomListEvent with _$RoomListEvent {
   // юзер открыл комнату из списка — обнуляем unreadCount на бэке
   const factory RoomListEvent.roomOpened(String roomId) = RoomOpened;
 
+  // юзер удалил комнату из списка
+  const factory RoomListEvent.roomRemoved(String roomId) = RoomListRoomRemoved;
+
   // внутреннее событие — обновление статуса участника из сокета
   const factory RoomListEvent.presenceUpdated({
     required String userId,
