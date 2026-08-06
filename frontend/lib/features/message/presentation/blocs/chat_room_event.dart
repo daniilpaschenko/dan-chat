@@ -28,4 +28,6 @@ class ChatRoomEvent with _$ChatRoomEvent {
     Map<String, UserStatus> statusMap,
     Map<String, DateTime> lastSeenMap,
   ) = ChatRoomParticipantsStatusSnapshotReceived;
+
+  const factory ChatRoomEvent.roomRemovedRemotely() = ChatRoomRoomRemovedRemotely;
 }
