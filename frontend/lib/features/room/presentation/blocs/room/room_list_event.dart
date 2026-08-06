@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../../user/domain/entities/user_entity.dart';
-import '../../domain/entities/room_entity.dart';
+import '../../../../user/domain/entities/user_entity.dart';
+import '../../../domain/entities/room_entity.dart';
 
 part 'room_list_event.freezed.dart';
 
