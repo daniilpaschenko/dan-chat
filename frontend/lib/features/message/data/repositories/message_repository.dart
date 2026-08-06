@@ -9,6 +9,7 @@ import '../../domain/interfaces/i_message_repository.dart';
 import '../datasources/message_remote_datasource.dart';
 import '../datasources/message_local_datasource.dart';
 import '../mappers/message_mapper.dart';
+import '../models/message.dart';
 
 class MessageRepository implements IMessageRepository {
   final MessageRemoteDatasource _remoteDatasource;
@@ -92,5 +93,10 @@ class MessageRepository implements IMessageRepository {
     } catch (e) {
       return Left(Failure.unexpected(e.toString()));
     }
+  }
+
+  @override
+  MessageEntity mapSocketMessage(Map<String, dynamic> json) {
+    return Message.fromJson(json).toEntity();
   }
 }
