@@ -98,6 +98,18 @@ class SocketService {
     _socket = null;
   }
 
+  // разрывает соединение, не сбрасывая токен
+  // в отличие от disconnect(), позволяет быстро восстановить сессию через resume()
+  void pause() {
+    _socket?.disconnect();
+  }
+
+  void resume() {
+    if (_currentToken != null && _socket != null) {
+      _socket!.connect();
+    }
+  }
+
   /// [onAck] вызовется с ответом сервера: {ok:true, participantsStatus:[...]} или {ok:false, message:'...'}
   void joinRoom(String roomId, {void Function(Map<String, dynamic> ack)? onAck}) {
     if (onAck == null) {
