@@ -25,4 +25,11 @@ abstract class IRoomRepository {
     required String roomId,
     required String userId,
   });
+
+  Future<Either<Failure, void>> leaveRoom(String roomId);
+
+  Future<Either<Failure, void>> deleteRoom(String roomId);
+
+  // синхронный маппинг сырых socket-данных в доменную сущность
+  RoomListItemEntity mapSocketRoom(Map<String, dynamic> json);
 }

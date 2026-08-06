@@ -5,11 +5,13 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/navigation/route_paths.dart';
 import '../../../../core/widgets/user_avatar.dart';
+import '../../../../core/widgets/confirm_dialog.dart';
 import '../../../room/domain/entities/room_display_info.dart';
 import '../../../room/domain/entities/room_entity.dart';
 import '../../../user/domain/entities/user_entity.dart';
 import '../blocs/chat_room_bloc.dart';
 import '../blocs/chat_room_state.dart';
+import '../blocs/chat_room_event.dart';
 
 // кастомный AppBar: своя стрелка назад, аватарка, название чата и подзаголовок
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -127,13 +129,57 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           ),
-
-          IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: () {},
-          ),
+          // три точки, описанные ниже
+          _buildMenu(context),
         ],
       ),
+    );
+  }
+  
+  Widget _buildMenu(BuildContext context) {
+    final isGroup = room?.type == RoomType.group;
+    final isOwner = room != null &&
+        room!.participants.any(
+          (p) => p.user.id == currentUserId && p.role == ParticipantRole.owner,
+        );
+    // в группе удалить может только owner, в личном чате — любой участник
+    final canDelete = room != null && (!isGroup || isOwner);
+
+    return PopupMenuButton<String>(
+      icon: const Icon(Icons.more_vert),
+      onSelected: (value) async {
+        switch (value) {
+          case 'delete':
+            final confirmed = await showConfirmDialog(
+              context,
+              title: 'Удалить чат?',
+              message: 'Это действие необратимо, история переписки будет удалена',
+            );
+            if (confirmed && context.mounted) {
+              context.read<ChatRoomBloc>().add(const ChatRoomEvent.deleteRoomRequested());
+            }
+            break;
+          case 'leave':
+            final confirmed = await showConfirmDialog(
+              context,
+              title: 'Покинуть чат?',
+              message: 'Вы сможете вернуться только если вас пригласят снова',
+              confirmText: 'Покинуть',
+            );
+            if (confirmed && context.mounted) {
+              context.read<ChatRoomBloc>().add(const ChatRoomEvent.leaveRoomRequested());
+            }
+            break;
+        }
+      },
+      itemBuilder: (context) => [
+        const PopupMenuItem(value: 'wip', child: Text('В разработке')),
+        if (canDelete)
+          const PopupMenuItem(value: 'delete', child: Text('Удалить чат')),
+        // если групповой чат, то добавить пункт "Покинуть чат"
+        if (isGroup)
+          const PopupMenuItem(value: 'leave', child: Text('Покинуть чат')),
+      ],
     );
   }
 }

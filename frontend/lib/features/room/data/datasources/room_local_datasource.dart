@@ -25,6 +25,12 @@ class RoomLocalDatasource {
     await _box.put(_myRoomsKey, raw);
   }
 
+  Future<void> clearCachedRoom(String roomId) async {
+    final cachedRooms = getCachedRooms() ?? [];
+    final updatedRooms = cachedRooms.where((r) => r.id != roomId).toList();
+    await cacheRooms(updatedRooms);
+  }
+
   Future<void> clear() async {
     await _box.delete(_myRoomsKey);
   }

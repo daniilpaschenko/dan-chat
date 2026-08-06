@@ -19,6 +19,10 @@ class SocketService {
   final _presenceUpdateController = StreamController<Map<String, dynamic>>.broadcast();
   // хранит поток событий прочтения сообщений
   final _messageReadController = StreamController<Map<String, dynamic>>.broadcast();
+  // хранит поток событий с комнатами
+  final _roomCreatedController = StreamController<Map<String, dynamic>>.broadcast();
+  final _roomUpdatedController = StreamController<Map<String, dynamic>>.broadcast();
+  final _roomDeletedController = StreamController<Map<String, dynamic>>.broadcast();
 
   // геттеры для потоков, чтобы подписчики могли слушать события
   // только слушать, не иметь доступа к контроллерам
@@ -27,6 +31,9 @@ class SocketService {
   Stream<Map<String, dynamic>> get typingStop$ => _typingStopController.stream;
   Stream<Map<String, dynamic>> get presenceUpdate$ => _presenceUpdateController.stream;
   Stream<Map<String, dynamic>> get messageRead$ => _messageReadController.stream;
+  Stream<Map<String, dynamic>> get roomCreated$ => _roomCreatedController.stream;
+  Stream<Map<String, dynamic>> get roomUpdated$ => _roomUpdatedController.stream;
+  Stream<Map<String, dynamic>> get roomDeleted$ => _roomDeletedController.stream;
 
   // проверка соединения
   bool get isConnected => _socket?.connected ?? false;
@@ -68,6 +75,12 @@ class SocketService {
           _typingStopController.add(Map<String, dynamic>.from(data as Map)))
       ..on('presence:update', (data) =>
           _presenceUpdateController.add(Map<String, dynamic>.from(data as Map)))
+      ..on('room:created', (data) =>
+          _roomCreatedController.add(Map<String, dynamic>.from(data as Map)))
+      ..on('room:updated', (data) =>
+          _roomUpdatedController.add(Map<String, dynamic>.from(data as Map)))
+      ..on('room:deleted', (data) =>
+          _roomDeletedController.add(Map<String, dynamic>.from(data as Map)))
       // после регистрации всех событий подключаемся к серверу
       ..connect();
   }
