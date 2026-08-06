@@ -5,6 +5,7 @@ import '../../../../core/errors/failures.dart';
 import '../../../../core/errors/dio_exception_mapper.dart';
 import '../../domain/entities/room_entity.dart';
 import '../../domain/interfaces/i_room_repository.dart';
+import '../models/room.dart';
 import '../datasources/room_remote_datasource.dart';
 import '../datasources/room_local_datasource.dart';
 import '../mappers/room_mapper.dart';
@@ -128,6 +129,37 @@ class RoomRepository implements IRoomRepository {
     } catch (e) {
       return Left(Failure.unexpected(e.toString()));
     }
+  }
+
+  @override
+  Future<Either<Failure, void>> leaveRoom(String roomId) async {
+    try {
+      await _remoteDatasource.leaveRoom(roomId);
+      await _localDatasource.clearCachedRoom(roomId);
+      return const Right(null);
+    } on DioException catch (e) {
+      return Left(_mapDioException(e));
+    } catch (e) {
+      return Left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteRoom(String roomId) async {
+    try {
+      await _remoteDatasource.deleteRoom(roomId);
+      await _localDatasource.clearCachedRoom(roomId);
+      return const Right(null);
+    } on DioException catch (e) {
+      return Left(_mapDioException(e));
+    } catch (e) {
+      return Left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
+  RoomListItemEntity mapSocketRoom(Map<String, dynamic> json) {
+    return RoomListItem.fromJson(json).toEntity();
   }
 
   Failure _mapDioException(DioException e) {

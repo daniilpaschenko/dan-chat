@@ -22,6 +22,9 @@ mixin _$RoomListEvent {
     required TResult Function() loadRequested,
     required TResult Function() refreshRequested,
     required TResult Function(String roomId) roomOpened,
+    required TResult Function(String roomId) roomRemoved,
+    required TResult Function(RoomListItemEntity room) roomCreated,
+    required TResult Function(RoomListItemEntity room) roomUpdated,
     required TResult Function(
       String userId,
       UserStatus status,
@@ -45,6 +48,9 @@ mixin _$RoomListEvent {
     TResult? Function()? loadRequested,
     TResult? Function()? refreshRequested,
     TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String roomId)? roomRemoved,
+    TResult? Function(RoomListItemEntity room)? roomCreated,
+    TResult? Function(RoomListItemEntity room)? roomUpdated,
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String roomId, String userId, String username)?
@@ -64,6 +70,9 @@ mixin _$RoomListEvent {
     TResult Function()? loadRequested,
     TResult Function()? refreshRequested,
     TResult Function(String roomId)? roomOpened,
+    TResult Function(String roomId)? roomRemoved,
+    TResult Function(RoomListItemEntity room)? roomCreated,
+    TResult Function(RoomListItemEntity room)? roomUpdated,
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String roomId, String userId, String username)?
@@ -84,6 +93,9 @@ mixin _$RoomListEvent {
     required TResult Function(LoadRequested value) loadRequested,
     required TResult Function(RefreshRequested value) refreshRequested,
     required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListRoomRemoved value) roomRemoved,
+    required TResult Function(RoomListRoomCreated value) roomCreated,
+    required TResult Function(RoomListRoomUpdated value) roomUpdated,
     required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
     required TResult Function(RoomListTypingStarted value) typingStarted,
     required TResult Function(RoomListTypingStopped value) typingStopped,
@@ -95,6 +107,9 @@ mixin _$RoomListEvent {
     TResult? Function(LoadRequested value)? loadRequested,
     TResult? Function(RefreshRequested value)? refreshRequested,
     TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult? Function(RoomListRoomCreated value)? roomCreated,
+    TResult? Function(RoomListRoomUpdated value)? roomUpdated,
     TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult? Function(RoomListTypingStarted value)? typingStarted,
     TResult? Function(RoomListTypingStopped value)? typingStopped,
@@ -106,6 +121,9 @@ mixin _$RoomListEvent {
     TResult Function(LoadRequested value)? loadRequested,
     TResult Function(RefreshRequested value)? refreshRequested,
     TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult Function(RoomListRoomCreated value)? roomCreated,
+    TResult Function(RoomListRoomUpdated value)? roomUpdated,
     TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult Function(RoomListTypingStarted value)? typingStarted,
     TResult Function(RoomListTypingStopped value)? typingStopped,
@@ -183,6 +201,9 @@ class _$LoadRequestedImpl implements LoadRequested {
     required TResult Function() loadRequested,
     required TResult Function() refreshRequested,
     required TResult Function(String roomId) roomOpened,
+    required TResult Function(String roomId) roomRemoved,
+    required TResult Function(RoomListItemEntity room) roomCreated,
+    required TResult Function(RoomListItemEntity room) roomUpdated,
     required TResult Function(
       String userId,
       UserStatus status,
@@ -210,6 +231,9 @@ class _$LoadRequestedImpl implements LoadRequested {
     TResult? Function()? loadRequested,
     TResult? Function()? refreshRequested,
     TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String roomId)? roomRemoved,
+    TResult? Function(RoomListItemEntity room)? roomCreated,
+    TResult? Function(RoomListItemEntity room)? roomUpdated,
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String roomId, String userId, String username)?
@@ -233,6 +257,9 @@ class _$LoadRequestedImpl implements LoadRequested {
     TResult Function()? loadRequested,
     TResult Function()? refreshRequested,
     TResult Function(String roomId)? roomOpened,
+    TResult Function(String roomId)? roomRemoved,
+    TResult Function(RoomListItemEntity room)? roomCreated,
+    TResult Function(RoomListItemEntity room)? roomUpdated,
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String roomId, String userId, String username)?
@@ -260,6 +287,9 @@ class _$LoadRequestedImpl implements LoadRequested {
     required TResult Function(LoadRequested value) loadRequested,
     required TResult Function(RefreshRequested value) refreshRequested,
     required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListRoomRemoved value) roomRemoved,
+    required TResult Function(RoomListRoomCreated value) roomCreated,
+    required TResult Function(RoomListRoomUpdated value) roomUpdated,
     required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
     required TResult Function(RoomListTypingStarted value) typingStarted,
     required TResult Function(RoomListTypingStopped value) typingStopped,
@@ -275,6 +305,9 @@ class _$LoadRequestedImpl implements LoadRequested {
     TResult? Function(LoadRequested value)? loadRequested,
     TResult? Function(RefreshRequested value)? refreshRequested,
     TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult? Function(RoomListRoomCreated value)? roomCreated,
+    TResult? Function(RoomListRoomUpdated value)? roomUpdated,
     TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult? Function(RoomListTypingStarted value)? typingStarted,
     TResult? Function(RoomListTypingStopped value)? typingStopped,
@@ -290,6 +323,9 @@ class _$LoadRequestedImpl implements LoadRequested {
     TResult Function(LoadRequested value)? loadRequested,
     TResult Function(RefreshRequested value)? refreshRequested,
     TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult Function(RoomListRoomCreated value)? roomCreated,
+    TResult Function(RoomListRoomUpdated value)? roomUpdated,
     TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult Function(RoomListTypingStarted value)? typingStarted,
     TResult Function(RoomListTypingStopped value)? typingStopped,
@@ -354,6 +390,9 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     required TResult Function() loadRequested,
     required TResult Function() refreshRequested,
     required TResult Function(String roomId) roomOpened,
+    required TResult Function(String roomId) roomRemoved,
+    required TResult Function(RoomListItemEntity room) roomCreated,
+    required TResult Function(RoomListItemEntity room) roomUpdated,
     required TResult Function(
       String userId,
       UserStatus status,
@@ -381,6 +420,9 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     TResult? Function()? loadRequested,
     TResult? Function()? refreshRequested,
     TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String roomId)? roomRemoved,
+    TResult? Function(RoomListItemEntity room)? roomCreated,
+    TResult? Function(RoomListItemEntity room)? roomUpdated,
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String roomId, String userId, String username)?
@@ -404,6 +446,9 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     TResult Function()? loadRequested,
     TResult Function()? refreshRequested,
     TResult Function(String roomId)? roomOpened,
+    TResult Function(String roomId)? roomRemoved,
+    TResult Function(RoomListItemEntity room)? roomCreated,
+    TResult Function(RoomListItemEntity room)? roomUpdated,
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String roomId, String userId, String username)?
@@ -431,6 +476,9 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     required TResult Function(LoadRequested value) loadRequested,
     required TResult Function(RefreshRequested value) refreshRequested,
     required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListRoomRemoved value) roomRemoved,
+    required TResult Function(RoomListRoomCreated value) roomCreated,
+    required TResult Function(RoomListRoomUpdated value) roomUpdated,
     required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
     required TResult Function(RoomListTypingStarted value) typingStarted,
     required TResult Function(RoomListTypingStopped value) typingStopped,
@@ -446,6 +494,9 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     TResult? Function(LoadRequested value)? loadRequested,
     TResult? Function(RefreshRequested value)? refreshRequested,
     TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult? Function(RoomListRoomCreated value)? roomCreated,
+    TResult? Function(RoomListRoomUpdated value)? roomUpdated,
     TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult? Function(RoomListTypingStarted value)? typingStarted,
     TResult? Function(RoomListTypingStopped value)? typingStopped,
@@ -461,6 +512,9 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     TResult Function(LoadRequested value)? loadRequested,
     TResult Function(RefreshRequested value)? refreshRequested,
     TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult Function(RoomListRoomCreated value)? roomCreated,
+    TResult Function(RoomListRoomUpdated value)? roomUpdated,
     TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult Function(RoomListTypingStarted value)? typingStarted,
     TResult Function(RoomListTypingStopped value)? typingStopped,
@@ -552,6 +606,9 @@ class _$RoomOpenedImpl implements RoomOpened {
     required TResult Function() loadRequested,
     required TResult Function() refreshRequested,
     required TResult Function(String roomId) roomOpened,
+    required TResult Function(String roomId) roomRemoved,
+    required TResult Function(RoomListItemEntity room) roomCreated,
+    required TResult Function(RoomListItemEntity room) roomUpdated,
     required TResult Function(
       String userId,
       UserStatus status,
@@ -579,6 +636,9 @@ class _$RoomOpenedImpl implements RoomOpened {
     TResult? Function()? loadRequested,
     TResult? Function()? refreshRequested,
     TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String roomId)? roomRemoved,
+    TResult? Function(RoomListItemEntity room)? roomCreated,
+    TResult? Function(RoomListItemEntity room)? roomUpdated,
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String roomId, String userId, String username)?
@@ -602,6 +662,9 @@ class _$RoomOpenedImpl implements RoomOpened {
     TResult Function()? loadRequested,
     TResult Function()? refreshRequested,
     TResult Function(String roomId)? roomOpened,
+    TResult Function(String roomId)? roomRemoved,
+    TResult Function(RoomListItemEntity room)? roomCreated,
+    TResult Function(RoomListItemEntity room)? roomUpdated,
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String roomId, String userId, String username)?
@@ -629,6 +692,9 @@ class _$RoomOpenedImpl implements RoomOpened {
     required TResult Function(LoadRequested value) loadRequested,
     required TResult Function(RefreshRequested value) refreshRequested,
     required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListRoomRemoved value) roomRemoved,
+    required TResult Function(RoomListRoomCreated value) roomCreated,
+    required TResult Function(RoomListRoomUpdated value) roomUpdated,
     required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
     required TResult Function(RoomListTypingStarted value) typingStarted,
     required TResult Function(RoomListTypingStopped value) typingStopped,
@@ -644,6 +710,9 @@ class _$RoomOpenedImpl implements RoomOpened {
     TResult? Function(LoadRequested value)? loadRequested,
     TResult? Function(RefreshRequested value)? refreshRequested,
     TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult? Function(RoomListRoomCreated value)? roomCreated,
+    TResult? Function(RoomListRoomUpdated value)? roomUpdated,
     TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult? Function(RoomListTypingStarted value)? typingStarted,
     TResult? Function(RoomListTypingStopped value)? typingStopped,
@@ -659,6 +728,9 @@ class _$RoomOpenedImpl implements RoomOpened {
     TResult Function(LoadRequested value)? loadRequested,
     TResult Function(RefreshRequested value)? refreshRequested,
     TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult Function(RoomListRoomCreated value)? roomCreated,
+    TResult Function(RoomListRoomUpdated value)? roomUpdated,
     TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult Function(RoomListTypingStarted value)? typingStarted,
     TResult Function(RoomListTypingStopped value)? typingStopped,
@@ -682,6 +754,714 @@ abstract class RoomOpened implements RoomListEvent {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RoomOpenedImplCopyWith<_$RoomOpenedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RoomListRoomRemovedImplCopyWith<$Res> {
+  factory _$$RoomListRoomRemovedImplCopyWith(
+    _$RoomListRoomRemovedImpl value,
+    $Res Function(_$RoomListRoomRemovedImpl) then,
+  ) = __$$RoomListRoomRemovedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String roomId});
+}
+
+/// @nodoc
+class __$$RoomListRoomRemovedImplCopyWithImpl<$Res>
+    extends _$RoomListEventCopyWithImpl<$Res, _$RoomListRoomRemovedImpl>
+    implements _$$RoomListRoomRemovedImplCopyWith<$Res> {
+  __$$RoomListRoomRemovedImplCopyWithImpl(
+    _$RoomListRoomRemovedImpl _value,
+    $Res Function(_$RoomListRoomRemovedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? roomId = null}) {
+    return _then(
+      _$RoomListRoomRemovedImpl(
+        null == roomId
+            ? _value.roomId
+            : roomId // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$RoomListRoomRemovedImpl implements RoomListRoomRemoved {
+  const _$RoomListRoomRemovedImpl(this.roomId);
+
+  @override
+  final String roomId;
+
+  @override
+  String toString() {
+    return 'RoomListEvent.roomRemoved(roomId: $roomId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RoomListRoomRemovedImpl &&
+            (identical(other.roomId, roomId) || other.roomId == roomId));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, roomId);
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RoomListRoomRemovedImplCopyWith<_$RoomListRoomRemovedImpl> get copyWith =>
+      __$$RoomListRoomRemovedImplCopyWithImpl<_$RoomListRoomRemovedImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loadRequested,
+    required TResult Function() refreshRequested,
+    required TResult Function(String roomId) roomOpened,
+    required TResult Function(String roomId) roomRemoved,
+    required TResult Function(RoomListItemEntity room) roomCreated,
+    required TResult Function(RoomListItemEntity room) roomUpdated,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
+    required TResult Function(String roomId, String userId, String username)
+    typingStarted,
+    required TResult Function(String roomId, String userId) typingStopped,
+    required TResult Function(
+      String roomId,
+      String text,
+      String senderId,
+      DateTime? createdAt,
+    )
+    messageReceived,
+    required TResult Function(String roomId, String userId) messageRead,
+  }) {
+    return roomRemoved(roomId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loadRequested,
+    TResult? Function()? refreshRequested,
+    TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String roomId)? roomRemoved,
+    TResult? Function(RoomListItemEntity room)? roomCreated,
+    TResult? Function(RoomListItemEntity room)? roomUpdated,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+    TResult? Function(String roomId, String userId, String username)?
+    typingStarted,
+    TResult? Function(String roomId, String userId)? typingStopped,
+    TResult? Function(
+      String roomId,
+      String text,
+      String senderId,
+      DateTime? createdAt,
+    )?
+    messageReceived,
+    TResult? Function(String roomId, String userId)? messageRead,
+  }) {
+    return roomRemoved?.call(roomId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loadRequested,
+    TResult Function()? refreshRequested,
+    TResult Function(String roomId)? roomOpened,
+    TResult Function(String roomId)? roomRemoved,
+    TResult Function(RoomListItemEntity room)? roomCreated,
+    TResult Function(RoomListItemEntity room)? roomUpdated,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+    TResult Function(String roomId, String userId, String username)?
+    typingStarted,
+    TResult Function(String roomId, String userId)? typingStopped,
+    TResult Function(
+      String roomId,
+      String text,
+      String senderId,
+      DateTime? createdAt,
+    )?
+    messageReceived,
+    TResult Function(String roomId, String userId)? messageRead,
+    required TResult orElse(),
+  }) {
+    if (roomRemoved != null) {
+      return roomRemoved(roomId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoadRequested value) loadRequested,
+    required TResult Function(RefreshRequested value) refreshRequested,
+    required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListRoomRemoved value) roomRemoved,
+    required TResult Function(RoomListRoomCreated value) roomCreated,
+    required TResult Function(RoomListRoomUpdated value) roomUpdated,
+    required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
+    required TResult Function(RoomListTypingStarted value) typingStarted,
+    required TResult Function(RoomListTypingStopped value) typingStopped,
+    required TResult Function(RoomListMessageReceived value) messageReceived,
+    required TResult Function(RoomListMessageRead value) messageRead,
+  }) {
+    return roomRemoved(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoadRequested value)? loadRequested,
+    TResult? Function(RefreshRequested value)? refreshRequested,
+    TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult? Function(RoomListRoomCreated value)? roomCreated,
+    TResult? Function(RoomListRoomUpdated value)? roomUpdated,
+    TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
+    TResult? Function(RoomListTypingStarted value)? typingStarted,
+    TResult? Function(RoomListTypingStopped value)? typingStopped,
+    TResult? Function(RoomListMessageReceived value)? messageReceived,
+    TResult? Function(RoomListMessageRead value)? messageRead,
+  }) {
+    return roomRemoved?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoadRequested value)? loadRequested,
+    TResult Function(RefreshRequested value)? refreshRequested,
+    TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult Function(RoomListRoomCreated value)? roomCreated,
+    TResult Function(RoomListRoomUpdated value)? roomUpdated,
+    TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
+    TResult Function(RoomListTypingStarted value)? typingStarted,
+    TResult Function(RoomListTypingStopped value)? typingStopped,
+    TResult Function(RoomListMessageReceived value)? messageReceived,
+    TResult Function(RoomListMessageRead value)? messageRead,
+    required TResult orElse(),
+  }) {
+    if (roomRemoved != null) {
+      return roomRemoved(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class RoomListRoomRemoved implements RoomListEvent {
+  const factory RoomListRoomRemoved(final String roomId) =
+      _$RoomListRoomRemovedImpl;
+
+  String get roomId;
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RoomListRoomRemovedImplCopyWith<_$RoomListRoomRemovedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RoomListRoomCreatedImplCopyWith<$Res> {
+  factory _$$RoomListRoomCreatedImplCopyWith(
+    _$RoomListRoomCreatedImpl value,
+    $Res Function(_$RoomListRoomCreatedImpl) then,
+  ) = __$$RoomListRoomCreatedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({RoomListItemEntity room});
+
+  $RoomListItemEntityCopyWith<$Res> get room;
+}
+
+/// @nodoc
+class __$$RoomListRoomCreatedImplCopyWithImpl<$Res>
+    extends _$RoomListEventCopyWithImpl<$Res, _$RoomListRoomCreatedImpl>
+    implements _$$RoomListRoomCreatedImplCopyWith<$Res> {
+  __$$RoomListRoomCreatedImplCopyWithImpl(
+    _$RoomListRoomCreatedImpl _value,
+    $Res Function(_$RoomListRoomCreatedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? room = null}) {
+    return _then(
+      _$RoomListRoomCreatedImpl(
+        null == room
+            ? _value.room
+            : room // ignore: cast_nullable_to_non_nullable
+                  as RoomListItemEntity,
+      ),
+    );
+  }
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $RoomListItemEntityCopyWith<$Res> get room {
+    return $RoomListItemEntityCopyWith<$Res>(_value.room, (value) {
+      return _then(_value.copyWith(room: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$RoomListRoomCreatedImpl implements RoomListRoomCreated {
+  const _$RoomListRoomCreatedImpl(this.room);
+
+  @override
+  final RoomListItemEntity room;
+
+  @override
+  String toString() {
+    return 'RoomListEvent.roomCreated(room: $room)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RoomListRoomCreatedImpl &&
+            (identical(other.room, room) || other.room == room));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, room);
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RoomListRoomCreatedImplCopyWith<_$RoomListRoomCreatedImpl> get copyWith =>
+      __$$RoomListRoomCreatedImplCopyWithImpl<_$RoomListRoomCreatedImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loadRequested,
+    required TResult Function() refreshRequested,
+    required TResult Function(String roomId) roomOpened,
+    required TResult Function(String roomId) roomRemoved,
+    required TResult Function(RoomListItemEntity room) roomCreated,
+    required TResult Function(RoomListItemEntity room) roomUpdated,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
+    required TResult Function(String roomId, String userId, String username)
+    typingStarted,
+    required TResult Function(String roomId, String userId) typingStopped,
+    required TResult Function(
+      String roomId,
+      String text,
+      String senderId,
+      DateTime? createdAt,
+    )
+    messageReceived,
+    required TResult Function(String roomId, String userId) messageRead,
+  }) {
+    return roomCreated(room);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loadRequested,
+    TResult? Function()? refreshRequested,
+    TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String roomId)? roomRemoved,
+    TResult? Function(RoomListItemEntity room)? roomCreated,
+    TResult? Function(RoomListItemEntity room)? roomUpdated,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+    TResult? Function(String roomId, String userId, String username)?
+    typingStarted,
+    TResult? Function(String roomId, String userId)? typingStopped,
+    TResult? Function(
+      String roomId,
+      String text,
+      String senderId,
+      DateTime? createdAt,
+    )?
+    messageReceived,
+    TResult? Function(String roomId, String userId)? messageRead,
+  }) {
+    return roomCreated?.call(room);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loadRequested,
+    TResult Function()? refreshRequested,
+    TResult Function(String roomId)? roomOpened,
+    TResult Function(String roomId)? roomRemoved,
+    TResult Function(RoomListItemEntity room)? roomCreated,
+    TResult Function(RoomListItemEntity room)? roomUpdated,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+    TResult Function(String roomId, String userId, String username)?
+    typingStarted,
+    TResult Function(String roomId, String userId)? typingStopped,
+    TResult Function(
+      String roomId,
+      String text,
+      String senderId,
+      DateTime? createdAt,
+    )?
+    messageReceived,
+    TResult Function(String roomId, String userId)? messageRead,
+    required TResult orElse(),
+  }) {
+    if (roomCreated != null) {
+      return roomCreated(room);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoadRequested value) loadRequested,
+    required TResult Function(RefreshRequested value) refreshRequested,
+    required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListRoomRemoved value) roomRemoved,
+    required TResult Function(RoomListRoomCreated value) roomCreated,
+    required TResult Function(RoomListRoomUpdated value) roomUpdated,
+    required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
+    required TResult Function(RoomListTypingStarted value) typingStarted,
+    required TResult Function(RoomListTypingStopped value) typingStopped,
+    required TResult Function(RoomListMessageReceived value) messageReceived,
+    required TResult Function(RoomListMessageRead value) messageRead,
+  }) {
+    return roomCreated(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoadRequested value)? loadRequested,
+    TResult? Function(RefreshRequested value)? refreshRequested,
+    TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult? Function(RoomListRoomCreated value)? roomCreated,
+    TResult? Function(RoomListRoomUpdated value)? roomUpdated,
+    TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
+    TResult? Function(RoomListTypingStarted value)? typingStarted,
+    TResult? Function(RoomListTypingStopped value)? typingStopped,
+    TResult? Function(RoomListMessageReceived value)? messageReceived,
+    TResult? Function(RoomListMessageRead value)? messageRead,
+  }) {
+    return roomCreated?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoadRequested value)? loadRequested,
+    TResult Function(RefreshRequested value)? refreshRequested,
+    TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult Function(RoomListRoomCreated value)? roomCreated,
+    TResult Function(RoomListRoomUpdated value)? roomUpdated,
+    TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
+    TResult Function(RoomListTypingStarted value)? typingStarted,
+    TResult Function(RoomListTypingStopped value)? typingStopped,
+    TResult Function(RoomListMessageReceived value)? messageReceived,
+    TResult Function(RoomListMessageRead value)? messageRead,
+    required TResult orElse(),
+  }) {
+    if (roomCreated != null) {
+      return roomCreated(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class RoomListRoomCreated implements RoomListEvent {
+  const factory RoomListRoomCreated(final RoomListItemEntity room) =
+      _$RoomListRoomCreatedImpl;
+
+  RoomListItemEntity get room;
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RoomListRoomCreatedImplCopyWith<_$RoomListRoomCreatedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RoomListRoomUpdatedImplCopyWith<$Res> {
+  factory _$$RoomListRoomUpdatedImplCopyWith(
+    _$RoomListRoomUpdatedImpl value,
+    $Res Function(_$RoomListRoomUpdatedImpl) then,
+  ) = __$$RoomListRoomUpdatedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({RoomListItemEntity room});
+
+  $RoomListItemEntityCopyWith<$Res> get room;
+}
+
+/// @nodoc
+class __$$RoomListRoomUpdatedImplCopyWithImpl<$Res>
+    extends _$RoomListEventCopyWithImpl<$Res, _$RoomListRoomUpdatedImpl>
+    implements _$$RoomListRoomUpdatedImplCopyWith<$Res> {
+  __$$RoomListRoomUpdatedImplCopyWithImpl(
+    _$RoomListRoomUpdatedImpl _value,
+    $Res Function(_$RoomListRoomUpdatedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? room = null}) {
+    return _then(
+      _$RoomListRoomUpdatedImpl(
+        null == room
+            ? _value.room
+            : room // ignore: cast_nullable_to_non_nullable
+                  as RoomListItemEntity,
+      ),
+    );
+  }
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $RoomListItemEntityCopyWith<$Res> get room {
+    return $RoomListItemEntityCopyWith<$Res>(_value.room, (value) {
+      return _then(_value.copyWith(room: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$RoomListRoomUpdatedImpl implements RoomListRoomUpdated {
+  const _$RoomListRoomUpdatedImpl(this.room);
+
+  @override
+  final RoomListItemEntity room;
+
+  @override
+  String toString() {
+    return 'RoomListEvent.roomUpdated(room: $room)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RoomListRoomUpdatedImpl &&
+            (identical(other.room, room) || other.room == room));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, room);
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RoomListRoomUpdatedImplCopyWith<_$RoomListRoomUpdatedImpl> get copyWith =>
+      __$$RoomListRoomUpdatedImplCopyWithImpl<_$RoomListRoomUpdatedImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loadRequested,
+    required TResult Function() refreshRequested,
+    required TResult Function(String roomId) roomOpened,
+    required TResult Function(String roomId) roomRemoved,
+    required TResult Function(RoomListItemEntity room) roomCreated,
+    required TResult Function(RoomListItemEntity room) roomUpdated,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
+    required TResult Function(String roomId, String userId, String username)
+    typingStarted,
+    required TResult Function(String roomId, String userId) typingStopped,
+    required TResult Function(
+      String roomId,
+      String text,
+      String senderId,
+      DateTime? createdAt,
+    )
+    messageReceived,
+    required TResult Function(String roomId, String userId) messageRead,
+  }) {
+    return roomUpdated(room);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loadRequested,
+    TResult? Function()? refreshRequested,
+    TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String roomId)? roomRemoved,
+    TResult? Function(RoomListItemEntity room)? roomCreated,
+    TResult? Function(RoomListItemEntity room)? roomUpdated,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+    TResult? Function(String roomId, String userId, String username)?
+    typingStarted,
+    TResult? Function(String roomId, String userId)? typingStopped,
+    TResult? Function(
+      String roomId,
+      String text,
+      String senderId,
+      DateTime? createdAt,
+    )?
+    messageReceived,
+    TResult? Function(String roomId, String userId)? messageRead,
+  }) {
+    return roomUpdated?.call(room);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loadRequested,
+    TResult Function()? refreshRequested,
+    TResult Function(String roomId)? roomOpened,
+    TResult Function(String roomId)? roomRemoved,
+    TResult Function(RoomListItemEntity room)? roomCreated,
+    TResult Function(RoomListItemEntity room)? roomUpdated,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+    TResult Function(String roomId, String userId, String username)?
+    typingStarted,
+    TResult Function(String roomId, String userId)? typingStopped,
+    TResult Function(
+      String roomId,
+      String text,
+      String senderId,
+      DateTime? createdAt,
+    )?
+    messageReceived,
+    TResult Function(String roomId, String userId)? messageRead,
+    required TResult orElse(),
+  }) {
+    if (roomUpdated != null) {
+      return roomUpdated(room);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoadRequested value) loadRequested,
+    required TResult Function(RefreshRequested value) refreshRequested,
+    required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListRoomRemoved value) roomRemoved,
+    required TResult Function(RoomListRoomCreated value) roomCreated,
+    required TResult Function(RoomListRoomUpdated value) roomUpdated,
+    required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
+    required TResult Function(RoomListTypingStarted value) typingStarted,
+    required TResult Function(RoomListTypingStopped value) typingStopped,
+    required TResult Function(RoomListMessageReceived value) messageReceived,
+    required TResult Function(RoomListMessageRead value) messageRead,
+  }) {
+    return roomUpdated(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoadRequested value)? loadRequested,
+    TResult? Function(RefreshRequested value)? refreshRequested,
+    TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult? Function(RoomListRoomCreated value)? roomCreated,
+    TResult? Function(RoomListRoomUpdated value)? roomUpdated,
+    TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
+    TResult? Function(RoomListTypingStarted value)? typingStarted,
+    TResult? Function(RoomListTypingStopped value)? typingStopped,
+    TResult? Function(RoomListMessageReceived value)? messageReceived,
+    TResult? Function(RoomListMessageRead value)? messageRead,
+  }) {
+    return roomUpdated?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoadRequested value)? loadRequested,
+    TResult Function(RefreshRequested value)? refreshRequested,
+    TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult Function(RoomListRoomCreated value)? roomCreated,
+    TResult Function(RoomListRoomUpdated value)? roomUpdated,
+    TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
+    TResult Function(RoomListTypingStarted value)? typingStarted,
+    TResult Function(RoomListTypingStopped value)? typingStopped,
+    TResult Function(RoomListMessageReceived value)? messageReceived,
+    TResult Function(RoomListMessageRead value)? messageRead,
+    required TResult orElse(),
+  }) {
+    if (roomUpdated != null) {
+      return roomUpdated(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class RoomListRoomUpdated implements RoomListEvent {
+  const factory RoomListRoomUpdated(final RoomListItemEntity room) =
+      _$RoomListRoomUpdatedImpl;
+
+  RoomListItemEntity get room;
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RoomListRoomUpdatedImplCopyWith<_$RoomListRoomUpdatedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -784,6 +1564,9 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
     required TResult Function() loadRequested,
     required TResult Function() refreshRequested,
     required TResult Function(String roomId) roomOpened,
+    required TResult Function(String roomId) roomRemoved,
+    required TResult Function(RoomListItemEntity room) roomCreated,
+    required TResult Function(RoomListItemEntity room) roomUpdated,
     required TResult Function(
       String userId,
       UserStatus status,
@@ -811,6 +1594,9 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
     TResult? Function()? loadRequested,
     TResult? Function()? refreshRequested,
     TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String roomId)? roomRemoved,
+    TResult? Function(RoomListItemEntity room)? roomCreated,
+    TResult? Function(RoomListItemEntity room)? roomUpdated,
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String roomId, String userId, String username)?
@@ -834,6 +1620,9 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
     TResult Function()? loadRequested,
     TResult Function()? refreshRequested,
     TResult Function(String roomId)? roomOpened,
+    TResult Function(String roomId)? roomRemoved,
+    TResult Function(RoomListItemEntity room)? roomCreated,
+    TResult Function(RoomListItemEntity room)? roomUpdated,
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String roomId, String userId, String username)?
@@ -861,6 +1650,9 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
     required TResult Function(LoadRequested value) loadRequested,
     required TResult Function(RefreshRequested value) refreshRequested,
     required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListRoomRemoved value) roomRemoved,
+    required TResult Function(RoomListRoomCreated value) roomCreated,
+    required TResult Function(RoomListRoomUpdated value) roomUpdated,
     required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
     required TResult Function(RoomListTypingStarted value) typingStarted,
     required TResult Function(RoomListTypingStopped value) typingStopped,
@@ -876,6 +1668,9 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
     TResult? Function(LoadRequested value)? loadRequested,
     TResult? Function(RefreshRequested value)? refreshRequested,
     TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult? Function(RoomListRoomCreated value)? roomCreated,
+    TResult? Function(RoomListRoomUpdated value)? roomUpdated,
     TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult? Function(RoomListTypingStarted value)? typingStarted,
     TResult? Function(RoomListTypingStopped value)? typingStopped,
@@ -891,6 +1686,9 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
     TResult Function(LoadRequested value)? loadRequested,
     TResult Function(RefreshRequested value)? refreshRequested,
     TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult Function(RoomListRoomCreated value)? roomCreated,
+    TResult Function(RoomListRoomUpdated value)? roomUpdated,
     TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult Function(RoomListTypingStarted value)? typingStarted,
     TResult Function(RoomListTypingStopped value)? typingStopped,
@@ -1023,6 +1821,9 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
     required TResult Function() loadRequested,
     required TResult Function() refreshRequested,
     required TResult Function(String roomId) roomOpened,
+    required TResult Function(String roomId) roomRemoved,
+    required TResult Function(RoomListItemEntity room) roomCreated,
+    required TResult Function(RoomListItemEntity room) roomUpdated,
     required TResult Function(
       String userId,
       UserStatus status,
@@ -1050,6 +1851,9 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
     TResult? Function()? loadRequested,
     TResult? Function()? refreshRequested,
     TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String roomId)? roomRemoved,
+    TResult? Function(RoomListItemEntity room)? roomCreated,
+    TResult? Function(RoomListItemEntity room)? roomUpdated,
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String roomId, String userId, String username)?
@@ -1073,6 +1877,9 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
     TResult Function()? loadRequested,
     TResult Function()? refreshRequested,
     TResult Function(String roomId)? roomOpened,
+    TResult Function(String roomId)? roomRemoved,
+    TResult Function(RoomListItemEntity room)? roomCreated,
+    TResult Function(RoomListItemEntity room)? roomUpdated,
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String roomId, String userId, String username)?
@@ -1100,6 +1907,9 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
     required TResult Function(LoadRequested value) loadRequested,
     required TResult Function(RefreshRequested value) refreshRequested,
     required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListRoomRemoved value) roomRemoved,
+    required TResult Function(RoomListRoomCreated value) roomCreated,
+    required TResult Function(RoomListRoomUpdated value) roomUpdated,
     required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
     required TResult Function(RoomListTypingStarted value) typingStarted,
     required TResult Function(RoomListTypingStopped value) typingStopped,
@@ -1115,6 +1925,9 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
     TResult? Function(LoadRequested value)? loadRequested,
     TResult? Function(RefreshRequested value)? refreshRequested,
     TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult? Function(RoomListRoomCreated value)? roomCreated,
+    TResult? Function(RoomListRoomUpdated value)? roomUpdated,
     TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult? Function(RoomListTypingStarted value)? typingStarted,
     TResult? Function(RoomListTypingStopped value)? typingStopped,
@@ -1130,6 +1943,9 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
     TResult Function(LoadRequested value)? loadRequested,
     TResult Function(RefreshRequested value)? refreshRequested,
     TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult Function(RoomListRoomCreated value)? roomCreated,
+    TResult Function(RoomListRoomUpdated value)? roomUpdated,
     TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult Function(RoomListTypingStarted value)? typingStarted,
     TResult Function(RoomListTypingStopped value)? typingStopped,
@@ -1249,6 +2065,9 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
     required TResult Function() loadRequested,
     required TResult Function() refreshRequested,
     required TResult Function(String roomId) roomOpened,
+    required TResult Function(String roomId) roomRemoved,
+    required TResult Function(RoomListItemEntity room) roomCreated,
+    required TResult Function(RoomListItemEntity room) roomUpdated,
     required TResult Function(
       String userId,
       UserStatus status,
@@ -1276,6 +2095,9 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
     TResult? Function()? loadRequested,
     TResult? Function()? refreshRequested,
     TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String roomId)? roomRemoved,
+    TResult? Function(RoomListItemEntity room)? roomCreated,
+    TResult? Function(RoomListItemEntity room)? roomUpdated,
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String roomId, String userId, String username)?
@@ -1299,6 +2121,9 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
     TResult Function()? loadRequested,
     TResult Function()? refreshRequested,
     TResult Function(String roomId)? roomOpened,
+    TResult Function(String roomId)? roomRemoved,
+    TResult Function(RoomListItemEntity room)? roomCreated,
+    TResult Function(RoomListItemEntity room)? roomUpdated,
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String roomId, String userId, String username)?
@@ -1326,6 +2151,9 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
     required TResult Function(LoadRequested value) loadRequested,
     required TResult Function(RefreshRequested value) refreshRequested,
     required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListRoomRemoved value) roomRemoved,
+    required TResult Function(RoomListRoomCreated value) roomCreated,
+    required TResult Function(RoomListRoomUpdated value) roomUpdated,
     required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
     required TResult Function(RoomListTypingStarted value) typingStarted,
     required TResult Function(RoomListTypingStopped value) typingStopped,
@@ -1341,6 +2169,9 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
     TResult? Function(LoadRequested value)? loadRequested,
     TResult? Function(RefreshRequested value)? refreshRequested,
     TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult? Function(RoomListRoomCreated value)? roomCreated,
+    TResult? Function(RoomListRoomUpdated value)? roomUpdated,
     TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult? Function(RoomListTypingStarted value)? typingStarted,
     TResult? Function(RoomListTypingStopped value)? typingStopped,
@@ -1356,6 +2187,9 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
     TResult Function(LoadRequested value)? loadRequested,
     TResult Function(RefreshRequested value)? refreshRequested,
     TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult Function(RoomListRoomCreated value)? roomCreated,
+    TResult Function(RoomListRoomUpdated value)? roomUpdated,
     TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult Function(RoomListTypingStarted value)? typingStarted,
     TResult Function(RoomListTypingStopped value)? typingStopped,
@@ -1496,6 +2330,9 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
     required TResult Function() loadRequested,
     required TResult Function() refreshRequested,
     required TResult Function(String roomId) roomOpened,
+    required TResult Function(String roomId) roomRemoved,
+    required TResult Function(RoomListItemEntity room) roomCreated,
+    required TResult Function(RoomListItemEntity room) roomUpdated,
     required TResult Function(
       String userId,
       UserStatus status,
@@ -1523,6 +2360,9 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
     TResult? Function()? loadRequested,
     TResult? Function()? refreshRequested,
     TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String roomId)? roomRemoved,
+    TResult? Function(RoomListItemEntity room)? roomCreated,
+    TResult? Function(RoomListItemEntity room)? roomUpdated,
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String roomId, String userId, String username)?
@@ -1546,6 +2386,9 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
     TResult Function()? loadRequested,
     TResult Function()? refreshRequested,
     TResult Function(String roomId)? roomOpened,
+    TResult Function(String roomId)? roomRemoved,
+    TResult Function(RoomListItemEntity room)? roomCreated,
+    TResult Function(RoomListItemEntity room)? roomUpdated,
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String roomId, String userId, String username)?
@@ -1573,6 +2416,9 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
     required TResult Function(LoadRequested value) loadRequested,
     required TResult Function(RefreshRequested value) refreshRequested,
     required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListRoomRemoved value) roomRemoved,
+    required TResult Function(RoomListRoomCreated value) roomCreated,
+    required TResult Function(RoomListRoomUpdated value) roomUpdated,
     required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
     required TResult Function(RoomListTypingStarted value) typingStarted,
     required TResult Function(RoomListTypingStopped value) typingStopped,
@@ -1588,6 +2434,9 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
     TResult? Function(LoadRequested value)? loadRequested,
     TResult? Function(RefreshRequested value)? refreshRequested,
     TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult? Function(RoomListRoomCreated value)? roomCreated,
+    TResult? Function(RoomListRoomUpdated value)? roomUpdated,
     TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult? Function(RoomListTypingStarted value)? typingStarted,
     TResult? Function(RoomListTypingStopped value)? typingStopped,
@@ -1603,6 +2452,9 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
     TResult Function(LoadRequested value)? loadRequested,
     TResult Function(RefreshRequested value)? refreshRequested,
     TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult Function(RoomListRoomCreated value)? roomCreated,
+    TResult Function(RoomListRoomUpdated value)? roomUpdated,
     TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult Function(RoomListTypingStarted value)? typingStarted,
     TResult Function(RoomListTypingStopped value)? typingStopped,
@@ -1720,6 +2572,9 @@ class _$RoomListMessageReadImpl implements RoomListMessageRead {
     required TResult Function() loadRequested,
     required TResult Function() refreshRequested,
     required TResult Function(String roomId) roomOpened,
+    required TResult Function(String roomId) roomRemoved,
+    required TResult Function(RoomListItemEntity room) roomCreated,
+    required TResult Function(RoomListItemEntity room) roomUpdated,
     required TResult Function(
       String userId,
       UserStatus status,
@@ -1747,6 +2602,9 @@ class _$RoomListMessageReadImpl implements RoomListMessageRead {
     TResult? Function()? loadRequested,
     TResult? Function()? refreshRequested,
     TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String roomId)? roomRemoved,
+    TResult? Function(RoomListItemEntity room)? roomCreated,
+    TResult? Function(RoomListItemEntity room)? roomUpdated,
     TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult? Function(String roomId, String userId, String username)?
@@ -1770,6 +2628,9 @@ class _$RoomListMessageReadImpl implements RoomListMessageRead {
     TResult Function()? loadRequested,
     TResult Function()? refreshRequested,
     TResult Function(String roomId)? roomOpened,
+    TResult Function(String roomId)? roomRemoved,
+    TResult Function(RoomListItemEntity room)? roomCreated,
+    TResult Function(RoomListItemEntity room)? roomUpdated,
     TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
     presenceUpdated,
     TResult Function(String roomId, String userId, String username)?
@@ -1797,6 +2658,9 @@ class _$RoomListMessageReadImpl implements RoomListMessageRead {
     required TResult Function(LoadRequested value) loadRequested,
     required TResult Function(RefreshRequested value) refreshRequested,
     required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListRoomRemoved value) roomRemoved,
+    required TResult Function(RoomListRoomCreated value) roomCreated,
+    required TResult Function(RoomListRoomUpdated value) roomUpdated,
     required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
     required TResult Function(RoomListTypingStarted value) typingStarted,
     required TResult Function(RoomListTypingStopped value) typingStopped,
@@ -1812,6 +2676,9 @@ class _$RoomListMessageReadImpl implements RoomListMessageRead {
     TResult? Function(LoadRequested value)? loadRequested,
     TResult? Function(RefreshRequested value)? refreshRequested,
     TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult? Function(RoomListRoomCreated value)? roomCreated,
+    TResult? Function(RoomListRoomUpdated value)? roomUpdated,
     TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult? Function(RoomListTypingStarted value)? typingStarted,
     TResult? Function(RoomListTypingStopped value)? typingStopped,
@@ -1827,6 +2694,9 @@ class _$RoomListMessageReadImpl implements RoomListMessageRead {
     TResult Function(LoadRequested value)? loadRequested,
     TResult Function(RefreshRequested value)? refreshRequested,
     TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult Function(RoomListRoomCreated value)? roomCreated,
+    TResult Function(RoomListRoomUpdated value)? roomUpdated,
     TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
     TResult Function(RoomListTypingStarted value)? typingStarted,
     TResult Function(RoomListTypingStopped value)? typingStopped,

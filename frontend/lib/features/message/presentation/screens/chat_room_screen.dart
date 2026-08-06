@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/navigation/auth_state_notifier.dart';
@@ -99,7 +100,9 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
       body: SafeArea(
         child: BlocConsumer<ChatRoomBloc, ChatRoomState>(
           // если ошибка изменилась, то вызвать listener
-          listenWhen: (previous, current) => previous.errorMessage != current.errorMessage,
+          listenWhen: (previous, current) =>
+              previous.errorMessage != current.errorMessage ||
+              previous.roomRemoved != current.roomRemoved,
           listener: (context, state) {
             // ошибка сервера, то
             if (state.errorMessage != null) {
@@ -107,6 +110,10 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
                 // показать снизу её содержимое
                 SnackBar(content: Text(state.errorMessage!)),
               );
+            }
+            // если чат был удал
+            if (state.roomRemoved) {
+              context.pop(); // возвращаемся в список чатов
             }
           },
           builder: (context, state) {

@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/network/socket_service.dart';
-import '../../../../core/services/read_sync_service.dart';
+import '../../../../core/services/room_sync_service.dart';
 import '../../../user/domain/entities/user_entity.dart';
 import '../../../room/domain/usecases/mark_room_as_read_usecase.dart';
+import '../../../room/domain/usecases/delete_room_usecase.dart';
+import '../../../room/domain/usecases/leave_room_usecase.dart';
 import '../../../user/domain/usecases/get_my_profile_usecase.dart';
 import '../../data/models/message.dart';
 import '../../data/mappers/message_mapper.dart';
@@ -16,8 +18,10 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   final GetRoomMessagesUseCase _getRoomMessagesUseCase;
   final GetMyProfileUseCase _getMyProfileUseCase;
   final MarkRoomAsReadUseCase _markRoomAsReadUseCase;
+  final DeleteRoomUseCase _deleteRoomUseCase;
+  final LeaveRoomUseCase _leaveRoomUseCase;
   final SocketService _socketService;
-  final ReadSyncService _readSyncService;
+  final RoomSyncService _roomSyncService;
   final String _currentUserId;
 
   UserEntity? _currentUser;
@@ -26,6 +30,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   StreamSubscription? _typingStopSub;
   StreamSubscription? _presenceSub;
   StreamSubscription? _messageReadSub;
+  StreamSubscription? _roomDeletedSub;
   Timer? _typingStopTimer;
   bool _isTypingSent = false;
 
@@ -33,19 +38,25 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     required GetRoomMessagesUseCase getRoomMessagesUseCase,
     required GetMyProfileUseCase getMyProfileUseCase,
     required MarkRoomAsReadUseCase markRoomAsReadUseCase,
+    required DeleteRoomUseCase deleteRoomUseCase,
+    required LeaveRoomUseCase leaveRoomUseCase,
     required SocketService socketService,
-    required ReadSyncService readSyncService,
+    required RoomSyncService roomSyncService,
     required String currentUserId,
   })  : _getRoomMessagesUseCase = getRoomMessagesUseCase,
         _getMyProfileUseCase = getMyProfileUseCase,
         _markRoomAsReadUseCase = markRoomAsReadUseCase,
+        _deleteRoomUseCase = deleteRoomUseCase,
+        _leaveRoomUseCase = leaveRoomUseCase,
         _socketService = socketService,
-        _readSyncService = readSyncService,
+        _roomSyncService = roomSyncService,
         _currentUserId = currentUserId,
         super(ChatRoomState.initial('')) {
     on<ChatRoomStarted>(_onStarted);
     on<LoadMoreRequested>(_onLoadMoreRequested);
     on<SendMessageRequested>(_onSendMessageRequested);
+    on<DeleteRoomRequested>(_onDeleteRoomRequested);
+    on<LeaveRoomRequested>(_onLeaveRoomRequested);
     on<SocketMessageReceived>(_onSocketMessageReceived);
     on<SocketAckReceived>(_onSocketAckReceived);
     on<TypingStarted>(_onTypingStarted);
@@ -54,6 +65,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     on<ChatRoomPresenceUpdated>(_onPresenceUpdated);
     on<ChatRoomParticipantsStatusSnapshotReceived>(_onParticipantsStatusSnapshot);
     on<SocketMessageRead>(_onSocketMessageRead);
+    on<ChatRoomRoomRemovedRemotely>((event, emit) => emit(state.copyWith(roomRemoved: true)));
   }
 
   Future<void> _onStarted(
@@ -130,13 +142,19 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
       ));
     });
 
-    _readSyncService.notifyRoomRead(event.roomId);
+    _roomSyncService.notifyRoomRead(event.roomId);
 
     _socketService.markRead(event.roomId);
 
     _messageReadSub = _socketService.messageRead$.listen((data) {
       if (data['roomId'] == event.roomId) {
         add(ChatRoomEvent.socketMessageRead(data['userId'] as String));
+      }
+    });
+
+    _roomDeletedSub = _socketService.roomDeleted$.listen((data) {
+      if (data['roomId'] == event.roomId) {
+        add(const ChatRoomEvent.roomRemovedRemotely());
       }
     });
   }
@@ -274,7 +292,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     // но только если сообщение не от нас самих (свои и так не влияют на unreadCount)
     if (incoming.sender.id != _currentUserId) {
       _markRoomAsReadUseCase(state.roomId); // обновить на бэкенде
-      _readSyncService.notifyRoomRead(state.roomId); // сообщить списку чатов
+      _roomSyncService.notifyRoomRead(state.roomId); // сообщить списку чатов
       _socketService.markRead(state.roomId);
     }
   }
@@ -342,6 +360,34 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     emit(state.copyWith(messages: updated));
   }
 
+  Future<void> _onDeleteRoomRequested(
+    DeleteRoomRequested event,
+    Emitter<ChatRoomState> emit,
+  ) async {
+    final result = await _deleteRoomUseCase(state.roomId);
+    result.fold(
+      (failure) => emit(state.copyWith(errorMessage: 'Не удалось удалить чат')),
+      (_) {
+        _roomSyncService.notifyRoomRemoved(state.roomId);
+        emit(state.copyWith(roomRemoved: true));
+      },
+    );
+  }
+
+  Future<void> _onLeaveRoomRequested(
+    LeaveRoomRequested event,
+    Emitter<ChatRoomState> emit,
+  ) async {
+    final result = await _leaveRoomUseCase(state.roomId);
+    result.fold(
+      (failure) => emit(state.copyWith(errorMessage: 'Не удалось покинуть чат')),
+      (_) {
+        _roomSyncService.notifyRoomRemoved(state.roomId);
+        emit(state.copyWith(roomRemoved: true));
+      },
+    );
+  }
+
   @override
   Future<void> close() {
     _messageSub?.cancel();
@@ -350,6 +396,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     _presenceSub?.cancel();
     _typingStopTimer?.cancel();
     _messageReadSub?.cancel();
+    _roomDeletedSub?.cancel();
     return super.close();
   }
 }
