@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../domain/entities/room_entity.dart';
+import '../../../domain/entities/room_entity.dart';
 
 part 'room_list_state.freezed.dart';
 

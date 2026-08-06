@@ -12,9 +12,9 @@ import '../../../../core/widgets/error_view.dart';
 import '../../domain/entities/room_display_info.dart';
 import '../../domain/entities/room_entity.dart';
 import '../../../user/domain/entities/user_entity.dart';
-import '../blocs/room_list_bloc.dart';
-import '../blocs/room_list_event.dart';
-import '../blocs/room_list_state.dart';
+import '../blocs/room/room_list_bloc.dart';
+import '../blocs/room/room_list_event.dart';
+import '../blocs/room/room_list_state.dart';
 import '../widgets/room_tile.dart';
 
 class RoomListScreen extends StatelessWidget {

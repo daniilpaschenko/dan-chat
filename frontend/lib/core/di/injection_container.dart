@@ -38,7 +38,7 @@ import '../../features/room/domain/usecases/remove_participant_usecase.dart';
 import '../../features/room/domain/usecases/delete_room_usecase.dart';
 import '../../features/room/domain/usecases/leave_room_usecase.dart';
 import '../../features/room/domain/usecases/parse_socket_room_usecase.dart';
-import '../../features/room/presentation/blocs/room_list_bloc.dart';
+import '../../features/room/presentation/blocs/room/room_list_bloc.dart';
 
 // USER
 import '../../features/user/data/datasources/user_remote_datasource.dart';
