@@ -83,8 +83,9 @@ class _RoomListViewState extends State<_RoomListView> {
     final currentUserId = getIt<AuthStateNotifier>().currentUserId;
 
     return Scaffold(
-      appBar: const AppBarWithConnectivity(
-        onlineTitle: 'Сообщения'
+      appBar: AppBarWithConnectivity(
+        onlineTitle: 'Сообщения',
+        actions: [_buildMenu(context)],
       ),
       body: SafeArea(
         child: Column(
@@ -192,6 +193,23 @@ class _RoomListViewState extends State<_RoomListView> {
                 );
               },
             ),
+    );
+  }
+
+  Widget _buildMenu(BuildContext context) {
+    return PopupMenuButton<String>(
+      icon: const Icon(Icons.more_vert),
+      onSelected: (value) {
+        switch (value) {
+          case 'create_group':
+            // сюда навигация на экран создания группы
+            break;
+        }
+      },
+      itemBuilder: (context) => [
+        const PopupMenuItem(value: 'wip', child: Text('В разработке')),
+        const PopupMenuItem(value: 'create_group', child: Text('Создать группу')),
+      ],
     );
   }
 }
