@@ -37,6 +37,7 @@ import '../../features/room/domain/usecases/add_participant_usecase.dart';
 import '../../features/room/domain/usecases/remove_participant_usecase.dart';
 import '../../features/room/domain/usecases/delete_room_usecase.dart';
 import '../../features/room/domain/usecases/leave_room_usecase.dart';
+import '../../features/room/domain/usecases/parse_socket_room_usecase.dart';
 import '../../features/room/presentation/blocs/room_list_bloc.dart';
 
 // USER
@@ -172,15 +173,17 @@ Future<void> setupDependencies() async {
   getIt.registerLazySingleton<LeaveRoomUseCase>(
     () => LeaveRoomUseCase(getIt<IRoomRepository>()),
   );
+  getIt.registerLazySingleton<ParseSocketRoomUseCase>(
+    () => ParseSocketRoomUseCase(getIt<IRoomRepository>()),
+  );
 
   // features/room/presentation
   // также нужен чистый Initial при заходе
   getIt.registerFactory<RoomListBloc>(
     () => RoomListBloc(
-      // только эти usecases относятся к RoomListBloc
-      // правильно single responsibility
       getMyRoomsUseCase: getIt<GetMyRoomsUseCase>(),
       markRoomAsReadUseCase: getIt<MarkRoomAsReadUseCase>(),
+      parseSocketRoomUseCase: getIt<ParseSocketRoomUseCase>(),
       socketService: getIt<SocketService>(),
       roomSyncService: getIt<RoomSyncService>(),
       currentUserId: getIt<AuthStateNotifier>().currentUserId,
