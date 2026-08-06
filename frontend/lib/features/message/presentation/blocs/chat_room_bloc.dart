@@ -30,6 +30,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   StreamSubscription? _typingStopSub;
   StreamSubscription? _presenceSub;
   StreamSubscription? _messageReadSub;
+  StreamSubscription? _roomDeletedSub;
   Timer? _typingStopTimer;
   bool _isTypingSent = false;
 
@@ -64,6 +65,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     on<ChatRoomPresenceUpdated>(_onPresenceUpdated);
     on<ChatRoomParticipantsStatusSnapshotReceived>(_onParticipantsStatusSnapshot);
     on<SocketMessageRead>(_onSocketMessageRead);
+    on<ChatRoomRoomRemovedRemotely>((event, emit) => emit(state.copyWith(roomRemoved: true)));
   }
 
   Future<void> _onStarted(
@@ -147,6 +149,12 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     _messageReadSub = _socketService.messageRead$.listen((data) {
       if (data['roomId'] == event.roomId) {
         add(ChatRoomEvent.socketMessageRead(data['userId'] as String));
+      }
+    });
+
+    _roomDeletedSub = _socketService.roomDeleted$.listen((data) {
+      if (data['roomId'] == event.roomId) {
+        add(const ChatRoomEvent.roomRemovedRemotely());
       }
     });
   }
@@ -388,6 +396,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     _presenceSub?.cancel();
     _typingStopTimer?.cancel();
     _messageReadSub?.cancel();
+    _roomDeletedSub?.cancel();
     return super.close();
   }
 }
