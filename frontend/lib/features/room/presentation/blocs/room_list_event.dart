@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../user/domain/entities/user_entity.dart';
+import '../../domain/entities/room_entity.dart';
 
 part 'room_list_event.freezed.dart';
 
@@ -17,6 +18,10 @@ class RoomListEvent with _$RoomListEvent {
 
   // юзер удалил комнату из списка
   const factory RoomListEvent.roomRemoved(String roomId) = RoomListRoomRemoved;
+
+  const factory RoomListEvent.roomCreated(RoomListItemEntity room) = RoomListRoomCreated;
+
+  const factory RoomListEvent.roomUpdated(RoomListItemEntity room) = RoomListRoomUpdated;
 
   // внутреннее событие — обновление статуса участника из сокета
   const factory RoomListEvent.presenceUpdated({
