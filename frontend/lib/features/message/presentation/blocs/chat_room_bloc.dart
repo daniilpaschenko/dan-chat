@@ -7,8 +7,7 @@ import '../../../room/domain/usecases/mark_room_as_read_usecase.dart';
 import '../../../room/domain/usecases/delete_room_usecase.dart';
 import '../../../room/domain/usecases/leave_room_usecase.dart';
 import '../../../user/domain/usecases/get_my_profile_usecase.dart';
-import '../../data/models/message.dart';
-import '../../data/mappers/message_mapper.dart';
+import '../../domain/usecases/parse_socket_message_usecase.dart';
 import '../../domain/entities/message_entity.dart';
 import '../../domain/usecases/get_room_messages_usecase.dart';
 import 'chat_room_event.dart';
@@ -20,6 +19,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   final MarkRoomAsReadUseCase _markRoomAsReadUseCase;
   final DeleteRoomUseCase _deleteRoomUseCase;
   final LeaveRoomUseCase _leaveRoomUseCase;
+  final ParseSocketMessageUseCase _parseSocketMessageUseCase;
   final SocketService _socketService;
   final RoomSyncService _roomSyncService;
   final String _currentUserId;
@@ -40,6 +40,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     required MarkRoomAsReadUseCase markRoomAsReadUseCase,
     required DeleteRoomUseCase deleteRoomUseCase,
     required LeaveRoomUseCase leaveRoomUseCase,
+    required ParseSocketMessageUseCase parseSocketMessageUseCase,
     required SocketService socketService,
     required RoomSyncService roomSyncService,
     required String currentUserId,
@@ -48,6 +49,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
         _markRoomAsReadUseCase = markRoomAsReadUseCase,
         _deleteRoomUseCase = deleteRoomUseCase,
         _leaveRoomUseCase = leaveRoomUseCase,
+        _parseSocketMessageUseCase = parseSocketMessageUseCase,
         _socketService = socketService,
         _roomSyncService = roomSyncService,
         _currentUserId = currentUserId,
@@ -116,7 +118,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     });
 
     _messageSub = _socketService.messageNew$.listen((data) {
-      final entity = Message.fromJson(data).toEntity();
+      final entity = _parseSocketMessageUseCase(data);
       if (entity.room == event.roomId) {
         add(ChatRoomEvent.socketMessageReceived(entity));
       }
@@ -242,9 +244,9 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
       return;
     }
 
-    final realMessage = Message.fromJson(
+    final realMessage = _parseSocketMessageUseCase(
       Map<String, dynamic>.from(event.ack['message'] as Map),
-    ).toEntity();
+    );
 
     // если реальное сообщение уже прилетело по message:new — просто убираем temp-дубликат
     final alreadyArrived = state.messages.any((m) => m.id == realMessage.id);

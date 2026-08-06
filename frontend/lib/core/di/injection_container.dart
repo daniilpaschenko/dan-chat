@@ -59,6 +59,7 @@ import '../../features/message/data/repositories/message_repository.dart';
 import '../../features/message/domain/interfaces/i_message_repository.dart';
 import '../../features/message/domain/usecases/get_room_messages_usecase.dart';
 import '../../features/message/domain/usecases/send_message_usecase.dart';
+import '../../features/message/domain/usecases/parse_socket_message_usecase.dart';
 import '../../features/message/presentation/blocs/chat_room_bloc.dart';
 
 final GetIt getIt = GetIt.instance;
@@ -253,6 +254,9 @@ Future<void> setupDependencies() async {
   getIt.registerLazySingleton<SendMessageUseCase>(
     () => SendMessageUseCase(getIt<IMessageRepository>()),
   );
+  getIt.registerLazySingleton<ParseSocketMessageUseCase>(
+    () => ParseSocketMessageUseCase(getIt<IMessageRepository>()),
+  );
 
   // features/message/presentation
   // также нужен чистый Initial при заходе
@@ -263,6 +267,7 @@ Future<void> setupDependencies() async {
       markRoomAsReadUseCase: getIt<MarkRoomAsReadUseCase>(),
       deleteRoomUseCase: getIt<DeleteRoomUseCase>(),
       leaveRoomUseCase: getIt<LeaveRoomUseCase>(),
+      parseSocketMessageUseCase: getIt<ParseSocketMessageUseCase>(),
       socketService: getIt<SocketService>(),
       roomSyncService: getIt<RoomSyncService>(),
       currentUserId: getIt<AuthStateNotifier>().currentUserId!,

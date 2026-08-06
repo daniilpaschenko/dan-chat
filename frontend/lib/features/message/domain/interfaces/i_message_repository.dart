@@ -13,4 +13,7 @@ abstract class IMessageRepository {
     required String roomId,
     required String text,
   });
+
+  // синхронный маппинг сырых данных т.к. presentation не должен трогать data-модели напрямую
+  MessageEntity mapSocketMessage(Map<String, dynamic> json);
 }
