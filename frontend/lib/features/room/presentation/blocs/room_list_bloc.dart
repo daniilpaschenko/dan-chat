@@ -8,6 +8,7 @@ import '../../../user/domain/entities/user_entity.dart';
 import '../../domain/entities/room_entity.dart';
 import '../../domain/usecases/get_my_rooms_usecase.dart';
 import '../../domain/usecases/mark_room_as_read_usecase.dart';
+import '../../domain/usecases/parse_socket_room_usecase.dart';
 
 import 'room_list_event.dart';
 import 'room_list_state.dart';
@@ -15,6 +16,7 @@ import 'room_list_state.dart';
 class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
   final GetMyRoomsUseCase _getMyRoomsUseCase;
   final MarkRoomAsReadUseCase _markRoomAsReadUseCase;
+  final ParseSocketRoomUseCase _parseSocketRoomUseCase;
   final SocketService _socketService;
   final RoomSyncService _roomSyncService;
   final String? _currentUserId;
@@ -26,15 +28,20 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
   StreamSubscription? _roomReadSub;
   StreamSubscription? _messageReadSub;
   StreamSubscription? _roomRemovedSub;
+  StreamSubscription? _roomCreatedSub;
+  StreamSubscription? _roomUpdatedSub;
+  StreamSubscription? _roomDeletedSub;
 
   RoomListBloc({
     required GetMyRoomsUseCase getMyRoomsUseCase,
     required MarkRoomAsReadUseCase markRoomAsReadUseCase,
+    required ParseSocketRoomUseCase parseSocketRoomUseCase,
     required SocketService socketService,
     required RoomSyncService roomSyncService,
     required String? currentUserId,
   }) : _getMyRoomsUseCase = getMyRoomsUseCase,
       _markRoomAsReadUseCase = markRoomAsReadUseCase,
+      _parseSocketRoomUseCase = parseSocketRoomUseCase,
       _socketService = socketService,
       _roomSyncService = roomSyncService,
       _currentUserId = currentUserId,
@@ -48,6 +55,8 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     on<RoomListMessageReceived>(_onMessageReceived);
     on<RoomListMessageRead>(_onMessageRead);
     on<RoomListRoomRemoved>(_onRoomRemoved);
+    on<RoomListRoomCreated>(_onRoomCreated);
+    on<RoomListRoomUpdated>(_onRoomUpdated);
 
     _messageReadSub = _socketService.messageRead$.listen((data) {
       add(RoomListEvent.messageRead(
@@ -118,6 +127,19 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     
     _roomRemovedSub = _roomSyncService.roomRemoved$.listen((roomId) {
       add(RoomListEvent.roomRemoved(roomId));
+    });
+
+    _roomCreatedSub = _socketService.roomCreated$.listen((data) {
+      add(RoomListEvent.roomCreated(_parseSocketRoomUseCase(data)));
+    });
+
+    _roomUpdatedSub = _socketService.roomUpdated$.listen((data) {
+      add(RoomListEvent.roomUpdated(_parseSocketRoomUseCase(data)));
+    });
+
+    _roomDeletedSub = _socketService.roomDeleted$.listen((data) {
+      final roomId = data['roomId'] as String?;
+      if (roomId != null) add(RoomListEvent.roomRemoved(roomId));
     });
   }
 
@@ -315,6 +337,24 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     _emit(emit, rooms: updatedRooms, typingByRoom: _currentTyping());
   }
 
+  void _onRoomCreated(RoomListRoomCreated event, Emitter<RoomListState> emit) {
+    final rooms = _currentRooms();
+    if (rooms == null) return;
+
+    // на случай дублей (например, если REST-refresh уже подтянул эту же комнату)
+    if (rooms.any((r) => r.id == event.room.id)) return;
+
+    _emit(emit, rooms: [event.room, ...rooms], typingByRoom: _currentTyping());
+  }
+
+  void _onRoomUpdated(RoomListRoomUpdated event, Emitter<RoomListState> emit) {
+    final rooms = _currentRooms();
+    if (rooms == null) return;
+
+    final updatedRooms = rooms.map((r) => r.id == event.room.id ? event.room : r).toList();
+    _emit(emit, rooms: updatedRooms, typingByRoom: _currentTyping());
+  }
+
   String _mapFailureToMessage(Failure failure) {
     return failure.maybeWhen(
       unexpected: (_) => 'Не удалось загрузить чаты',
@@ -331,6 +371,9 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     _roomReadSub?.cancel();
     _messageReadSub?.cancel();
     _roomRemovedSub?.cancel();
+    _roomCreatedSub?.cancel();
+    _roomUpdatedSub?.cancel();
+    _roomDeletedSub?.cancel();
     return super.close();
   }
 }
