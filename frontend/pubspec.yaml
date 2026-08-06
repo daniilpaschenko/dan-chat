@@ -52,7 +52,7 @@ flutter_launcher_icons:
 
 flutter_native_splash:
   color: "#040A20"
-  image: assets/icons/icon.png
+  image: assets/icons/icon_no_background_v2.png
   android_12:
     color: "#040A20"
-    image: assets/icons/icon.png
+    image: assets/icons/icon_no_background_v2.png
