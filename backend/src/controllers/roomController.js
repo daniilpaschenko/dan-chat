@@ -48,8 +48,12 @@ exports.createRoom = async (req, res) => {
             });
             await room.populate('participants.user', 'username avatarUrl status lastSeen');
 
-            io.in(`user:${otherId}`).socketsJoin(room.id);
-            io.to(`user:${otherId}`).emit('room:created', formatRoomForUser(room, otherId));
+            // уведомляем ОБОИХ участников, включая создателя — иначе у него
+            // новый чат появится в списке только после ручного refresh
+            [myId, otherId].forEach((id) => {
+                io.in(`user:${id}`).socketsJoin(room.id);
+                io.to(`user:${id}`).emit('room:created', formatRoomForUser(room, id));
+            });
 
             return res.status(201).json(room);
         }
@@ -70,7 +74,7 @@ exports.createRoom = async (req, res) => {
         // populate чтобы сделать однообразное поведения для удобства на фронтенде
         await room.populate('participants.user', 'username avatarUrl status lastSeen');
 
-        otherIds.forEach((id) => {
+        [myId, ...otherIds].forEach((id) => {
             io.in(`user:${id}`).socketsJoin(room.id);
             io.to(`user:${id}`).emit('room:created', formatRoomForUser(room, id));
         });
