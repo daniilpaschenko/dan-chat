@@ -202,7 +202,7 @@ class _RoomListViewState extends State<_RoomListView> {
       onSelected: (value) {
         switch (value) {
           case 'create_group':
-            // сюда навигация на экран создания группы
+            context.push(RoutePaths.createGroup);
             break;
         }
       },
