@@ -370,6 +370,8 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     result.fold(
       (failure) => emit(state.copyWith(errorMessage: 'Не удалось удалить чат')),
       (_) {
+        // явная отписка от сокета
+        _socketService.leaveRoom(state.roomId);
         _roomSyncService.notifyRoomRemoved(state.roomId);
         emit(state.copyWith(roomRemoved: true));
       },
@@ -384,6 +386,8 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     result.fold(
       (failure) => emit(state.copyWith(errorMessage: 'Не удалось покинуть чат')),
       (_) {
+        // явная отписка от сокета
+        _socketService.leaveRoom(state.roomId);
         _roomSyncService.notifyRoomRemoved(state.roomId);
         emit(state.copyWith(roomRemoved: true));
       },
