@@ -60,12 +60,6 @@ const roomSchema = new Schema(
 
         participants: {
             type: [participantSchema],
-            validate: {
-                validator(arr) {
-                    return arr.length >= 2;
-                },
-                message: 'В комнате должно быть минимум 2 участника',
-            },
         },
 
         createdBy: {
