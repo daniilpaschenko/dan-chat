@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/room/presentation/screens/room_list_screen.dart';
+import '../../features/room/presentation/screens/create_group_screen.dart';
 import '../../features/user/presentation/screens/search_screen.dart';
 import '../../features/message/presentation/screens/chat_room_screen.dart';
 import '../../features/user/presentation/screens/profile_screen.dart';
@@ -83,6 +84,11 @@ class AppRouter {
           path: RoutePaths.settings,
           parentNavigatorKey: _rootNavigatorKey,
           builder: (context, state) => const PlaceholderScreen(title: 'Настройки'),
+        ),
+        GoRoute(
+          path: RoutePaths.createGroup,
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) => const CreateGroupScreen(),
         ),
         // три вкладки с навбаром
         StatefulShellRoute.indexedStack(
