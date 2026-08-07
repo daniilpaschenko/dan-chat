@@ -68,10 +68,33 @@ class _RoomListViewState extends State<_RoomListView> {
     }).toList();
   }
 
-  // последнее сообщение в чате
-  String? _lastMessagePreview(RoomListItemEntity room) {
+  // последнее сообщение в чате (если группа, то еще и ник отправителя)
+  String? _lastMessagePreview(RoomListItemEntity room, String? currentUserId) {
     final lastMessage = room.lastMessage;
     if (lastMessage == null || lastMessage.text == null) return null;
+
+    if (room.type == RoomType.group) {
+      final senderId = lastMessage.sender;
+
+      String? nick;
+      if (senderId == currentUserId) {
+        nick = 'Вы';
+      } else if (senderId != null) {
+        try {
+          final participant = room.participants.firstWhere(
+            (p) => p.user.id == senderId,
+          );
+          nick = participant.user.username;
+        } catch (_) {
+          nick = null;
+        }
+      }
+
+      if (nick != null && nick.isNotEmpty) {
+        return '$nick: ${lastMessage.text}';
+      }
+    }
+
     return lastMessage.text;
   }
 
@@ -171,7 +194,7 @@ class _RoomListViewState extends State<_RoomListView> {
                             ? '${typingUsers.values.first} печатает...'
                             : 'печатают...')
                         : 'печатает...')
-                    : _lastMessagePreview(room);
+                    : _lastMessagePreview(room, currentUserId);
                 return RoomTile(
                   title: info.title,
                   subtitle: subtitle,
