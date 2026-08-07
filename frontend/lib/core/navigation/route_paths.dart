@@ -17,6 +17,9 @@ class RoutePaths {
   // SEARCH
   static const String search = '/search';
 
+  // GROUP
+  static const String createGroup = '/create-group';
+
   // SETTINGS
   static const String settings = '/settings';
 
