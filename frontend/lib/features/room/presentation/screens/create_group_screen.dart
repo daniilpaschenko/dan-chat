@@ -7,6 +7,8 @@ import '../../../../core/navigation/route_paths.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/small_loader.dart';
+import '../../../../core/navigation/auth_state_notifier.dart';
+import '../../domain/entities/room_entity.dart';
 import '../blocs/group/create_group_bloc.dart';
 import '../blocs/group/create_group_event.dart';
 import '../blocs/group/create_group_state.dart';
@@ -59,7 +61,11 @@ class _CreateGroupViewState extends State<_CreateGroupView> {
             );
           }
           if (state.createdRoom != null) {
-            context.go(RoutePaths.chatRoomPath(state.createdRoom!.id));
+            final currentUserId = getIt<AuthStateNotifier>().currentUserId;
+            context.go(
+              RoutePaths.chatRoomPath(state.createdRoom!.id),
+              extra: state.createdRoom!.toListItem(currentUserId),
+            );
           }
         },
         builder: (context, state) {
