@@ -9,7 +9,7 @@ const createRoomSchema = Joi.object({
     participantIds: Joi.array().items(objectId).min(1).required(),
 
     // название обязательно только для группы, для direct вообще не передаём
-    name: Joi.string().trim().min(1).max(100).when('type', {
+    name: Joi.string().trim().min(1).max(24).when('type', {
         is: 'group',
         then: Joi.required(),
         otherwise: Joi.forbidden(),
