@@ -228,7 +228,7 @@ exports.removeParticipant = async (req, res) => {
 
 exports.leaveRoom = async (req, res) => {
     try {
-        const { myId } = req.user.id;
+        const myId = req.user.id;
         const { roomId } = req.params;
         const io = req.app.get('io');
 
@@ -238,7 +238,7 @@ exports.leaveRoom = async (req, res) => {
         room.participants = room.participants.filter((p) => p.user.toString() !== myId);
 
         // удалить пустую комнату
-        if (room.participants.length == 0) {
+        if (room.participants.length === 0) {
             await room.deleteOne();
             io.to(`user:${myId}`).emit('room:deleted', { roomId });
             io.in(`user:${myId}`).socketsLeave(roomId);
