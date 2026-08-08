@@ -207,6 +207,7 @@ Future<void> setupDependencies() async {
       roomId: roomId,
       getRoomByIdUseCase: getIt<GetRoomByIdUseCase>(),
       removeParticipantUseCase: getIt<RemoveParticipantUseCase>(),
+      socketService: getIt<SocketService>(),
     ),
   );
 
