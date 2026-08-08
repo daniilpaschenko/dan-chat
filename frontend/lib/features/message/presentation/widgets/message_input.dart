@@ -35,8 +35,6 @@ class MessageInput extends StatelessWidget {
             Expanded(
               child: TextField(
                 controller: controller,
-                // меняет кнопку на клавиатуре
-                textInputAction: TextInputAction.send,
                 onSubmitted: (_) => onSend(),
                 onChanged: onChanged,
                 decoration: InputDecoration(
