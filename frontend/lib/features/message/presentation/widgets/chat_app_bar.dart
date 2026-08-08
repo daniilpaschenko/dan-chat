@@ -83,15 +83,18 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
             onPressed: () => context.pop(),
           ),
           SizedBox(width: spacing.small * 0.5),
-          // РАБОТАЕТ ТОЛЬКО ДЛЯ DIRECT-ЧАТОВ
+
           Expanded(
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: otherUser == null
-                  ? null
-                  : () => context.push(
-                        RoutePaths.userProfile.replaceFirst(':userId', otherUser.id),
-                      ),
+              onTap: () {
+                if (room == null) return;
+                if (room!.type == RoomType.group) {
+                  context.push(RoutePaths.groupProfilePath(room!.id));
+                } else if (otherUser != null) {
+                  context.push(RoutePaths.userProfile.replaceFirst(':userId', otherUser.id));
+                }
+              },
               child: Row(
                 children: [
                   UserAvatar(
