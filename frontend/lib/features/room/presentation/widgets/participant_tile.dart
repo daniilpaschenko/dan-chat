@@ -58,7 +58,19 @@ class ParticipantTile extends StatelessWidget {
     if (action != 'remove' || !context.mounted) return;
 
     // нельзя кикнуть владельца
-    if (participant.role == ParticipantRole.owner) return;
+    if (participant.role == ParticipantRole.owner) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: AppColors.surfaceVariant,
+          content: Text(
+            'Вы не можете выгнать Владельца группы',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColors.textPrimary),
+          )
+        ),
+      );
+      return;
+    }
 
     final confirmed = await showConfirmDialog(
       context,
