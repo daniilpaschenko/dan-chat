@@ -63,32 +63,46 @@ class MessageBubble extends StatelessWidget {
                 ),
               ),
             ),
-          Text(
-            message.text,
-            style: TextStyle(color: isMine ? Colors.white : AppColors.textPrimary),
-          ),
-          if (message.createdAt != null)
-            Padding(
-              padding: EdgeInsets.only(top: gap * 0.2),
-              // ширина колонки уже зафиксирована через IntrinsicWidth,
-              // поэтому просто прижимаем Row к правому краю
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    _formatTime(message.createdAt!),
-                    style: TextStyle(
-                      fontSize: spacing.captionSize,
-                      color: isMine ? Colors.white70 : AppColors.textSecondary,
+          // текст сообщения + время с галочками в конец текста через WidgetSpan,
+          // чтобы время не занимало отдельную строку, а стояло сразу после последнего символа
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: message.text,
+                  style: TextStyle(color: isMine ? Colors.white : AppColors.textPrimary),
+                ),
+                if (message.createdAt != null)
+                  WidgetSpan(
+                    // bottom = низ виджета совпадает с базовой линией строки,
+                    // плюс небольшой сдвиг вниз через Transform
+                    alignment: PlaceholderAlignment.bottom,
+                    child: Transform.translate(
+                      offset: Offset(0, gap * 0.2),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: gap * 0.5),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              _formatTime(message.createdAt!),
+                              style: TextStyle(
+                                fontSize: spacing.captionSize,
+                                color: isMine ? Colors.white70 : AppColors.textSecondary,
+                              ),
+                            ),
+                            if (isMine) ...[
+                              SizedBox(width: gap * 0.25),
+                              _buildStatusIcon(),
+                            ],
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                  if (isMine) ...[
-                    SizedBox(width: gap * 0.25),
-                    _buildStatusIcon(),
-                  ],
-                ],
-              ),
+              ],
             ),
+          ),
         ],
       ),
       ),
@@ -107,7 +121,7 @@ class MessageBubble extends StatelessWidget {
                   avatarUrl: message.sender.avatarUrl,
                   fallbackLetter: message.sender.username,
                   size: avatarSize,
-                  fontSize: spacing.captionSize * 1.7,
+                  fontSize: spacing.captionSize * 1.4,
                 ),
                 SizedBox(width: gap * 0.5),
                 Flexible(child: bubble),
