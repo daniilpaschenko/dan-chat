@@ -36,9 +36,16 @@ class _GroupProfileView extends StatelessWidget {
 
     return BlocConsumer<GroupProfileBloc, GroupProfileState>(
       listenWhen: (previous, current) =>
-          current is GroupProfileLoaded && current.errorMessage != null,
+          current is GroupProfileLoaded
+          && (current.errorMessage != null || current.removedRemotely),
       listener: (context, state) {
-        if (state is GroupProfileLoaded && state.errorMessage != null) {
+        if (state is! GroupProfileLoaded) return;
+        // нас выкинули из группы (или её удалил owner) — уход с экрана
+        if (state.removedRemotely) {
+          if (context.canPop()) context.pop();
+          return;
+        }
+        if (state.errorMessage != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.errorMessage!)),
           );
@@ -58,7 +65,7 @@ class _GroupProfileView extends StatelessWidget {
               ),
             ),
           ),
-          loaded: (room, isRemoving, errorMessage) => GroupProfileContent(
+          loaded: (room, isRemoving, errorMessage, removedRemotely) => GroupProfileContent(
             room: room,
             currentUserId: currentUserId,
             isRemoving: isRemoving,
