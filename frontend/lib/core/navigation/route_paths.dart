@@ -17,8 +17,15 @@ class RoutePaths {
   // SEARCH
   static const String search = '/search';
 
-  // GROUP
+  // GROUP CREATION
   static const String createGroup = '/create-group';
+
+  // GROUP PROFILE
+  static const String groupProfile = '/groups/:roomId';
+  static String groupProfilePath(String roomId) => '/groups/$roomId';
+
+  static const String addParticipants = '/groups/:roomId/add-participants';
+  static String addParticipantsPath(String roomId) => '/groups/$roomId/add-participants';
 
   // SETTINGS
   static const String settings = '/settings';
