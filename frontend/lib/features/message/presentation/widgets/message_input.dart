@@ -37,7 +37,7 @@ class MessageInput extends StatelessWidget {
               child: TextField(
                 controller: controller,
                 inputFormatters: [
-                    // лимит на длину в названии группы
+                    // лимит на длину в сообщении
                     LengthLimitingTextInputFormatter(300),
                   ],
                 onSubmitted: (_) => onSend(),
