@@ -8,6 +8,8 @@ import '../../features/room/presentation/screens/create_group_screen.dart';
 import '../../features/user/presentation/screens/search_screen.dart';
 import '../../features/message/presentation/screens/chat_room_screen.dart';
 import '../../features/user/presentation/screens/profile_screen.dart';
+import '../../features/room/presentation/screens/group_profile_screen.dart';
+import '../../features/room/presentation/screens/add_participants_screen.dart';
 import '../navigation/app_shell.dart';
 import '../widgets/placeholder_screen.dart';
 import '../widgets/splash_screen.dart';
@@ -89,6 +91,23 @@ class AppRouter {
           path: RoutePaths.createGroup,
           parentNavigatorKey: _rootNavigatorKey,
           builder: (context, state) => const CreateGroupScreen(),
+        ),
+        GoRoute(
+          path: RoutePaths.groupProfile,
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) {
+            final roomId = state.pathParameters['roomId']!;
+            return GroupProfileScreen(roomId: roomId);
+          },
+        ),
+        GoRoute(
+          path: RoutePaths.addParticipants,
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) {
+            final roomId = state.pathParameters['roomId']!;
+            final existingIds = (state.extra as Set<String>?) ?? const <String>{};
+            return AddParticipantsScreen(roomId: roomId, existingParticipantIds: existingIds);
+          },
         ),
         // три вкладки с навбаром
         StatefulShellRoute.indexedStack(
