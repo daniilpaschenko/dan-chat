@@ -12,9 +12,9 @@ import '../../../../core/widgets/error_view.dart';
 import '../../domain/entities/room_display_info.dart';
 import '../../domain/entities/room_entity.dart';
 import '../../../user/domain/entities/user_entity.dart';
-import '../blocs/room_list_bloc.dart';
-import '../blocs/room_list_event.dart';
-import '../blocs/room_list_state.dart';
+import '../blocs/room/room_list_bloc.dart';
+import '../blocs/room/room_list_event.dart';
+import '../blocs/room/room_list_state.dart';
 import '../widgets/room_tile.dart';
 
 class RoomListScreen extends StatelessWidget {
@@ -68,10 +68,33 @@ class _RoomListViewState extends State<_RoomListView> {
     }).toList();
   }
 
-  // последнее сообщение в чате
-  String? _lastMessagePreview(RoomListItemEntity room) {
+  // последнее сообщение в чате (если группа, то еще и ник отправителя)
+  String? _lastMessagePreview(RoomListItemEntity room, String? currentUserId) {
     final lastMessage = room.lastMessage;
     if (lastMessage == null || lastMessage.text == null) return null;
+
+    if (room.type == RoomType.group) {
+      final senderId = lastMessage.sender;
+
+      String? nick;
+      if (senderId == currentUserId) {
+        nick = 'Вы';
+      } else if (senderId != null) {
+        try {
+          final participant = room.participants.firstWhere(
+            (p) => p.user.id == senderId,
+          );
+          nick = participant.user.username;
+        } catch (_) {
+          nick = null;
+        }
+      }
+
+      if (nick != null && nick.isNotEmpty) {
+        return '$nick: ${lastMessage.text}';
+      }
+    }
+
     return lastMessage.text;
   }
 
@@ -83,8 +106,9 @@ class _RoomListViewState extends State<_RoomListView> {
     final currentUserId = getIt<AuthStateNotifier>().currentUserId;
 
     return Scaffold(
-      appBar: const AppBarWithConnectivity(
-        onlineTitle: 'Сообщения'
+      appBar: AppBarWithConnectivity(
+        onlineTitle: 'Сообщения',
+        actions: [_buildMenu(context)],
       ),
       body: SafeArea(
         child: Column(
@@ -170,7 +194,7 @@ class _RoomListViewState extends State<_RoomListView> {
                             ? '${typingUsers.values.first} печатает...'
                             : 'печатают...')
                         : 'печатает...')
-                    : _lastMessagePreview(room);
+                    : _lastMessagePreview(room, currentUserId);
                 return RoomTile(
                   title: info.title,
                   subtitle: subtitle,
@@ -192,6 +216,23 @@ class _RoomListViewState extends State<_RoomListView> {
                 );
               },
             ),
+    );
+  }
+
+  Widget _buildMenu(BuildContext context) {
+    return PopupMenuButton<String>(
+      icon: const Icon(Icons.more_vert),
+      onSelected: (value) {
+        switch (value) {
+          case 'create_group':
+            context.push(RoutePaths.createGroup);
+            break;
+        }
+      },
+      itemBuilder: (context) => [
+        const PopupMenuItem(value: 'wip', child: Text('В разработке')),
+        const PopupMenuItem(value: 'create_group', child: Text('Создать группу')),
+      ],
     );
   }
 }
