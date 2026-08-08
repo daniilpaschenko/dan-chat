@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/widgets/user_avatar.dart';
+import '../../../room/domain/entities/room_entity.dart';
 import '../../domain/entities/message_entity.dart';
 
 class MessageBubble extends StatelessWidget {
@@ -9,6 +11,7 @@ class MessageBubble extends StatelessWidget {
   final double gap;
   final AppSpacing spacing;
   final String? currentUserId;
+  final RoomType roomType;
 
   const MessageBubble({
     super.key,
@@ -17,70 +20,114 @@ class MessageBubble extends StatelessWidget {
     required this.gap,
     required this.spacing,
     required this.currentUserId,
+    required this.roomType,
   });
+
+  // имя отправителя показываем только в группе и только у чужих сообщений
+  bool get _showSenderName => !isMine && roomType == RoomType.group;
+
+  // аватарку слева от бабла показываем тоже только в группе у чужих сообщений
+  bool get _showAvatar => !isMine && roomType == RoomType.group;
 
   @override
   Widget build(BuildContext context) {
+    final avatarSize = spacing.medium;
+
+    final bubble = Container(
+      // расстояние между сообщениями
+      margin: EdgeInsets.symmetric(vertical: gap * 0.2),
+      padding: EdgeInsets.symmetric(horizontal: gap, vertical: gap * 0.5),
+      // пузырь не шире этого значения (для переносов)
+      constraints: BoxConstraints(maxWidth: spacing.bubbleMaxWidth),
+      decoration: BoxDecoration(
+        // если сообщение моё то цвет primary, иначе — surface
+        color: isMine ? AppColors.primary : AppColors.surface,
+        borderRadius: BorderRadius.circular(spacing.bubbleRadius),
+      ),
+      child: IntrinsicWidth(
+        child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        // занимает места ровно столько, сколько нужно потомкам
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // имя пользователя показываем только в группе у чужих сообщений
+          if (_showSenderName)
+            Padding(
+              padding: EdgeInsets.only(bottom: gap * 0.2),
+              child: Text(
+                message.sender.username,
+                style: TextStyle(
+                  fontSize: spacing.captionSize,
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          // текст сообщения + время с галочками в конец текста через WidgetSpan,
+          // чтобы время не занимало отдельную строку, а стояло сразу после последнего символа
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: message.text,
+                  style: TextStyle(color: isMine ? Colors.white : AppColors.textPrimary),
+                ),
+                if (message.createdAt != null)
+                  WidgetSpan(
+                    // bottom = низ виджета совпадает с базовой линией строки,
+                    // плюс небольшой сдвиг вниз через Transform
+                    alignment: PlaceholderAlignment.bottom,
+                    child: Transform.translate(
+                      offset: Offset(0, gap * 0.2),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: gap * 0.5),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              _formatTime(message.createdAt!),
+                              style: TextStyle(
+                                fontSize: spacing.captionSize,
+                                color: isMine ? Colors.white70 : AppColors.textSecondary,
+                              ),
+                            ),
+                            if (isMine) ...[
+                              SizedBox(width: gap * 0.25),
+                              _buildStatusIcon(),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      ),
+    );
+
     return Align(
       // если моё то справа, чужое — слева
       alignment: isMine ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        // расстояние между сообщениями
-        margin: EdgeInsets.symmetric(vertical: gap * 0.2),
-        padding: EdgeInsets.symmetric(horizontal: gap, vertical: gap * 0.5),
-        // пузырь не шире этого значения (для переносов)
-        constraints: BoxConstraints(maxWidth: spacing.bubbleMaxWidth),
-        decoration: BoxDecoration(
-          // если сообщение моё то цвет primary, иначе — surface
-          color: isMine ? AppColors.primary : AppColors.surface,
-          borderRadius: BorderRadius.circular(spacing.bubbleRadius),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          // занимает места ровно столько, сколько нужно потомкам
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // если не моё сообщение
-            if (!isMine)
-              Padding(
-                padding: EdgeInsets.only(bottom: gap * 0.2),
-                child: Text(
-                  // пишем еще и имя пользователя
-                  message.sender.username,
-                  style: TextStyle(
-                    fontSize: spacing.captionSize,
-                    color: AppColors.textSecondary,
-                    fontWeight: FontWeight.w600,
-                  ),
+      child: _showAvatar
+          // в группе у чужих сообщений добавляем аватарку слева от бабла
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                UserAvatar(
+                  avatarUrl: message.sender.avatarUrl,
+                  fallbackLetter: message.sender.username,
+                  size: avatarSize,
+                  fontSize: spacing.captionSize * 1.4,
                 ),
-              ),
-            Text(
-              message.text,
-              style: TextStyle(color: isMine ? Colors.white : AppColors.textPrimary),
-            ),
-            if (message.createdAt != null)
-              Padding(
-                padding: EdgeInsets.only(top: gap * 0.2),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      _formatTime(message.createdAt!),
-                      style: TextStyle(
-                        fontSize: spacing.captionSize,
-                        color: isMine ? Colors.white70 : AppColors.textSecondary,
-                      ),
-                    ),
-                    if (isMine) ...[
-                      SizedBox(width: gap * 0.25),
-                      _buildStatusIcon(),
-                    ],
-                  ],
-                ),
-              ),
-          ],
-        ),
-      ),
+                SizedBox(width: gap * 0.5),
+                Flexible(child: bubble),
+              ],
+            )
+          : bubble,
     );
   }
 
@@ -126,4 +173,3 @@ class MessageBubble extends StatelessWidget {
     }
   }
 }
-

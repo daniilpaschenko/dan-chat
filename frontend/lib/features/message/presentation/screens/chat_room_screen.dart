@@ -152,7 +152,14 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
                                 // по айди проверяем наше ли оно
                                 final isMine = message.sender.id == currentUserId;
                                 // передаём эти параметры в "пузырик" сообщения
-                                return MessageBubble(message: message, isMine: isMine, gap: spacing.small, spacing: spacing, currentUserId: currentUserId);
+                                return MessageBubble(
+                                  message: message,
+                                  isMine: isMine,
+                                  gap: spacing.small,
+                                  spacing: spacing,
+                                  currentUserId: currentUserId,
+                                  roomType: widget.room?.type ?? RoomType.direct
+                                );
                               },
                             ),
                 ),

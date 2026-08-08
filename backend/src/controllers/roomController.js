@@ -152,7 +152,6 @@ exports.markRoomAsRead = async (req, res) => {
 
 // POST /rooms/:roomId/participants
 // для group, только owner/admin
-// TODO: уведомление добавленного участника (чтобы он увидел комнату в списке)
 exports.addParticipant = async (req, res) => {
     try {
         const { error, value } = addParticipantSchema.validate(req.body);
@@ -164,6 +163,7 @@ exports.addParticipant = async (req, res) => {
         const myId = req.user.id;
         const { roomId } = req.params;
         const { userId } = value;
+        const io = req.app.get('io');
 
         const room = await findRoomIfMember(roomId, myId);
         if (!room) return res.status(403).json({ message: 'Нет доступа к этой комнате' });
@@ -184,6 +184,17 @@ exports.addParticipant = async (req, res) => {
         // populate чтобы сделать однообразное поведения для удобства на фронтенде
         await room.populate('participants.user', 'username avatarUrl status lastSeen');
 
+        // новому участнику — комната появляется в списке чатов, как при создании
+        io.in(`user:${userId}`).socketsJoin(room.id);
+        io.to(`user:${userId}`).emit('room:created', formatRoomForUser(room, userId));
+
+        // остальным участникам — обновляем данные комнаты (счётчик участников и т.д.)
+        room.participants.forEach((p) => {
+            const pid = p.user._id.toString();
+            if (pid === userId) return; // ему уже отправили room:created выше
+            io.to(`user:${pid}`).emit('room:updated', formatRoomForUser(room, pid));
+        });
+
         return res.json(room);
     } catch (err) {
         console.error('addParticipant error:', err);
@@ -193,11 +204,11 @@ exports.addParticipant = async (req, res) => {
 
 // DELETE /rooms/:roomId/participants/:userId
 // если свой userId в параметре, то выход из чата, чужой - кик (нужны права owner/admin)
-// TODO: уведомление удалённого участника (чтобы у него пропала комната из списка)
 exports.removeParticipant = async (req, res) => {
     try {
         const myId = req.user.id;
         const { roomId, userId } = req.params;
+        const io = req.app.get('io');
 
         const room = await findRoomIfMember(roomId, myId);
         if (!room) return res.status(403).json({ message: 'Нет доступа к этой комнате' });
@@ -219,6 +230,17 @@ exports.removeParticipant = async (req, res) => {
         // populate чтобы сделать однообразное поведения для удобства на фронтенде
         await room.populate('participants.user', 'username avatarUrl status lastSeen');
 
+        // кикнутому — комната пропадает из списка
+        // отключаем его сокеты от комнаты, которой для него больше не существует
+        io.to(`user:${userId}`).emit('room:deleted', { roomId });
+        io.in(`user:${userId}`).socketsLeave(roomId);
+
+        // оставшимся участникам — обновляем список участников (кто-то ушёл/кикнут)
+        room.participants.forEach((p) => {
+            const pid = p.user._id.toString();
+            io.to(`user:${pid}`).emit('room:updated', formatRoomForUser(room, pid));
+        });
+
         return res.json(room);
     } catch (err) {
         console.error('removeParticipant error:', err);
@@ -228,7 +250,7 @@ exports.removeParticipant = async (req, res) => {
 
 exports.leaveRoom = async (req, res) => {
     try {
-        const { myId } = req.user.id;
+        const myId = req.user.id;
         const { roomId } = req.params;
         const io = req.app.get('io');
 
@@ -238,7 +260,7 @@ exports.leaveRoom = async (req, res) => {
         room.participants = room.participants.filter((p) => p.user.toString() !== myId);
 
         // удалить пустую комнату
-        if (room.participants.length == 0) {
+        if (room.participants.length === 0) {
             await room.deleteOne();
             io.to(`user:${myId}`).emit('room:deleted', { roomId });
             io.in(`user:${myId}`).socketsLeave(roomId);

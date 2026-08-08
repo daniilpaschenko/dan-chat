@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/small_loader.dart';
@@ -35,8 +36,10 @@ class MessageInput extends StatelessWidget {
             Expanded(
               child: TextField(
                 controller: controller,
-                // меняет кнопку на клавиатуре
-                textInputAction: TextInputAction.send,
+                inputFormatters: [
+                    // лимит на длину в сообщении
+                    LengthLimitingTextInputFormatter(300),
+                  ],
                 onSubmitted: (_) => onSend(),
                 onChanged: onChanged,
                 decoration: InputDecoration(

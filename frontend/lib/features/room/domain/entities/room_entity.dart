@@ -60,3 +60,20 @@ class RoomListItemEntity with _$RoomListItemEntity {
     DateTime? updatedAt,
   }) = _RoomListItemEntity;
 }
+
+extension RoomEntityToListItem on RoomEntity {
+  RoomListItemEntity toListItem(String? currentUserId) {
+    return RoomListItemEntity(
+      id: id,
+      type: type,
+      name: name,
+      avatarUrl: avatarUrl,
+      participants: participants,
+      createdBy: createdBy,
+      lastMessage: lastMessage,
+      unreadCount: currentUserId != null ? (unreadCount[currentUserId] ?? 0) : 0,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+    );
+  }
+}
