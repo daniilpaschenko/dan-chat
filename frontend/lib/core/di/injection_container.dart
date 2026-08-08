@@ -41,6 +41,8 @@ import '../../features/room/domain/usecases/parse_socket_room_usecase.dart';
 import '../../features/room/presentation/blocs/room/room_list_bloc.dart';
 
 import '../../features/room/presentation/blocs/group/create_group_bloc.dart';
+import '../../features/room/presentation/blocs/group/group_profile_bloc.dart';
+import '../../features/room/presentation/blocs/group/add_participants_bloc.dart';
 
 // USER
 import '../../features/user/data/datasources/user_remote_datasource.dart';
@@ -197,6 +199,23 @@ Future<void> setupDependencies() async {
     () => CreateGroupBloc(
       searchUsersUseCase: getIt<SearchUsersUseCase>(),
       createRoomUseCase: getIt<CreateRoomUseCase>(),
+    ),
+  );
+
+  getIt.registerFactoryParam<GroupProfileBloc, String, void>(
+    (roomId, _) => GroupProfileBloc(
+      roomId: roomId,
+      getRoomByIdUseCase: getIt<GetRoomByIdUseCase>(),
+      removeParticipantUseCase: getIt<RemoveParticipantUseCase>(),
+    ),
+  );
+
+  getIt.registerFactoryParam<AddParticipantsBloc, String, Set<String>>(
+    (roomId, existingParticipantIds) => AddParticipantsBloc(
+      roomId: roomId,
+      existingParticipantIds: existingParticipantIds,
+      searchUsersUseCase: getIt<SearchUsersUseCase>(),
+      addParticipantUseCase: getIt<AddParticipantUseCase>(),
     ),
   );
 
