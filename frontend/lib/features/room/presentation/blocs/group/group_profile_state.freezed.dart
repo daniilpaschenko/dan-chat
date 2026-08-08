@@ -25,6 +25,7 @@ mixin _$GroupProfileState {
       RoomEntity room,
       bool isRemoving,
       String? errorMessage,
+      bool removedRemotely,
     )
     loaded,
     required TResult Function(String message) failure,
@@ -33,7 +34,12 @@ mixin _$GroupProfileState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(RoomEntity room, bool isRemoving, String? errorMessage)?
+    TResult? Function(
+      RoomEntity room,
+      bool isRemoving,
+      String? errorMessage,
+      bool removedRemotely,
+    )?
     loaded,
     TResult? Function(String message)? failure,
   }) => throw _privateConstructorUsedError;
@@ -41,7 +47,12 @@ mixin _$GroupProfileState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(RoomEntity room, bool isRemoving, String? errorMessage)?
+    TResult Function(
+      RoomEntity room,
+      bool isRemoving,
+      String? errorMessage,
+      bool removedRemotely,
+    )?
     loaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
@@ -142,6 +153,7 @@ class _$GroupProfileInitialImpl implements GroupProfileInitial {
       RoomEntity room,
       bool isRemoving,
       String? errorMessage,
+      bool removedRemotely,
     )
     loaded,
     required TResult Function(String message) failure,
@@ -154,7 +166,12 @@ class _$GroupProfileInitialImpl implements GroupProfileInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(RoomEntity room, bool isRemoving, String? errorMessage)?
+    TResult? Function(
+      RoomEntity room,
+      bool isRemoving,
+      String? errorMessage,
+      bool removedRemotely,
+    )?
     loaded,
     TResult? Function(String message)? failure,
   }) {
@@ -166,7 +183,12 @@ class _$GroupProfileInitialImpl implements GroupProfileInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(RoomEntity room, bool isRemoving, String? errorMessage)?
+    TResult Function(
+      RoomEntity room,
+      bool isRemoving,
+      String? errorMessage,
+      bool removedRemotely,
+    )?
     loaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
@@ -269,6 +291,7 @@ class _$GroupProfileLoadingImpl implements GroupProfileLoading {
       RoomEntity room,
       bool isRemoving,
       String? errorMessage,
+      bool removedRemotely,
     )
     loaded,
     required TResult Function(String message) failure,
@@ -281,7 +304,12 @@ class _$GroupProfileLoadingImpl implements GroupProfileLoading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(RoomEntity room, bool isRemoving, String? errorMessage)?
+    TResult? Function(
+      RoomEntity room,
+      bool isRemoving,
+      String? errorMessage,
+      bool removedRemotely,
+    )?
     loaded,
     TResult? Function(String message)? failure,
   }) {
@@ -293,7 +321,12 @@ class _$GroupProfileLoadingImpl implements GroupProfileLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(RoomEntity room, bool isRemoving, String? errorMessage)?
+    TResult Function(
+      RoomEntity room,
+      bool isRemoving,
+      String? errorMessage,
+      bool removedRemotely,
+    )?
     loaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
@@ -353,7 +386,12 @@ abstract class _$$GroupProfileLoadedImplCopyWith<$Res> {
     $Res Function(_$GroupProfileLoadedImpl) then,
   ) = __$$GroupProfileLoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({RoomEntity room, bool isRemoving, String? errorMessage});
+  $Res call({
+    RoomEntity room,
+    bool isRemoving,
+    String? errorMessage,
+    bool removedRemotely,
+  });
 
   $RoomEntityCopyWith<$Res> get room;
 }
@@ -375,6 +413,7 @@ class __$$GroupProfileLoadedImplCopyWithImpl<$Res>
     Object? room = null,
     Object? isRemoving = null,
     Object? errorMessage = freezed,
+    Object? removedRemotely = null,
   }) {
     return _then(
       _$GroupProfileLoadedImpl(
@@ -390,6 +429,10 @@ class __$$GroupProfileLoadedImplCopyWithImpl<$Res>
             ? _value.errorMessage
             : errorMessage // ignore: cast_nullable_to_non_nullable
                   as String?,
+        removedRemotely: null == removedRemotely
+            ? _value.removedRemotely
+            : removedRemotely // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -412,6 +455,7 @@ class _$GroupProfileLoadedImpl implements GroupProfileLoaded {
     required this.room,
     this.isRemoving = false,
     this.errorMessage,
+    this.removedRemotely = false,
   });
 
   @override
@@ -421,10 +465,15 @@ class _$GroupProfileLoadedImpl implements GroupProfileLoaded {
   final bool isRemoving;
   @override
   final String? errorMessage;
+  // одноразовое сообщение об ошибке кика
+  // одноразовый сигнал — нас удалили из группы (или её удалили) с другого устройства/владельцем
+  @override
+  @JsonKey()
+  final bool removedRemotely;
 
   @override
   String toString() {
-    return 'GroupProfileState.loaded(room: $room, isRemoving: $isRemoving, errorMessage: $errorMessage)';
+    return 'GroupProfileState.loaded(room: $room, isRemoving: $isRemoving, errorMessage: $errorMessage, removedRemotely: $removedRemotely)';
   }
 
   @override
@@ -436,11 +485,14 @@ class _$GroupProfileLoadedImpl implements GroupProfileLoaded {
             (identical(other.isRemoving, isRemoving) ||
                 other.isRemoving == isRemoving) &&
             (identical(other.errorMessage, errorMessage) ||
-                other.errorMessage == errorMessage));
+                other.errorMessage == errorMessage) &&
+            (identical(other.removedRemotely, removedRemotely) ||
+                other.removedRemotely == removedRemotely));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, room, isRemoving, errorMessage);
+  int get hashCode =>
+      Object.hash(runtimeType, room, isRemoving, errorMessage, removedRemotely);
 
   /// Create a copy of GroupProfileState
   /// with the given fields replaced by the non-null parameter values.
@@ -462,11 +514,12 @@ class _$GroupProfileLoadedImpl implements GroupProfileLoaded {
       RoomEntity room,
       bool isRemoving,
       String? errorMessage,
+      bool removedRemotely,
     )
     loaded,
     required TResult Function(String message) failure,
   }) {
-    return loaded(room, isRemoving, errorMessage);
+    return loaded(room, isRemoving, errorMessage, removedRemotely);
   }
 
   @override
@@ -474,11 +527,16 @@ class _$GroupProfileLoadedImpl implements GroupProfileLoaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(RoomEntity room, bool isRemoving, String? errorMessage)?
+    TResult? Function(
+      RoomEntity room,
+      bool isRemoving,
+      String? errorMessage,
+      bool removedRemotely,
+    )?
     loaded,
     TResult? Function(String message)? failure,
   }) {
-    return loaded?.call(room, isRemoving, errorMessage);
+    return loaded?.call(room, isRemoving, errorMessage, removedRemotely);
   }
 
   @override
@@ -486,13 +544,18 @@ class _$GroupProfileLoadedImpl implements GroupProfileLoaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(RoomEntity room, bool isRemoving, String? errorMessage)?
+    TResult Function(
+      RoomEntity room,
+      bool isRemoving,
+      String? errorMessage,
+      bool removedRemotely,
+    )?
     loaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(room, isRemoving, errorMessage);
+      return loaded(room, isRemoving, errorMessage, removedRemotely);
     }
     return orElse();
   }
@@ -540,11 +603,14 @@ abstract class GroupProfileLoaded implements GroupProfileState {
     required final RoomEntity room,
     final bool isRemoving,
     final String? errorMessage,
+    final bool removedRemotely,
   }) = _$GroupProfileLoadedImpl;
 
   RoomEntity get room;
   bool get isRemoving;
-  String? get errorMessage;
+  String? get errorMessage; // одноразовое сообщение об ошибке кика
+  // одноразовый сигнал — нас удалили из группы (или её удалили) с другого устройства/владельцем
+  bool get removedRemotely;
 
   /// Create a copy of GroupProfileState
   /// with the given fields replaced by the non-null parameter values.
@@ -632,6 +698,7 @@ class _$GroupProfileFailureImpl implements GroupProfileFailure {
       RoomEntity room,
       bool isRemoving,
       String? errorMessage,
+      bool removedRemotely,
     )
     loaded,
     required TResult Function(String message) failure,
@@ -644,7 +711,12 @@ class _$GroupProfileFailureImpl implements GroupProfileFailure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(RoomEntity room, bool isRemoving, String? errorMessage)?
+    TResult? Function(
+      RoomEntity room,
+      bool isRemoving,
+      String? errorMessage,
+      bool removedRemotely,
+    )?
     loaded,
     TResult? Function(String message)? failure,
   }) {
@@ -656,7 +728,12 @@ class _$GroupProfileFailureImpl implements GroupProfileFailure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(RoomEntity room, bool isRemoving, String? errorMessage)?
+    TResult Function(
+      RoomEntity room,
+      bool isRemoving,
+      String? errorMessage,
+      bool removedRemotely,
+    )?
     loaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
