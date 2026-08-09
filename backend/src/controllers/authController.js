@@ -168,7 +168,9 @@ exports.refresh = async (req, res) => {
 
         const accessToken = signAccessToken(user);
 
-        return respondWithTokens(req, res, 200, accessToken, newRawToken);
+        return respondWithTokens(req, res, 200, accessToken, newRawToken, {
+            user: toPublicUser(user),   // <-- добавили
+        });
     } catch (err) {
         console.error('refresh error:', err);
         return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
