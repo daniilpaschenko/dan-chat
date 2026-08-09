@@ -106,9 +106,8 @@ class _SearchViewState extends State<_SearchView> {
                           ),
                         );
                       }
-                      return ListView.separated(
+                      return ListView.builder(
                         itemCount: users.length,
-                        separatorBuilder: (_, _) => const Divider(height: 1),
                         itemBuilder: (context, index) {
                           final user = users[index];
                           return UserTile(
