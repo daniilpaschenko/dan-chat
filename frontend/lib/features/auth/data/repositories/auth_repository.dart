@@ -1,9 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/errors/dio_exception_mapper.dart';
 import '../../../../core/storage/secure_storage_service.dart';
+import '../../../../core/storage/web_token_holder.dart';
 import '../../domain/entities/auth_entity.dart';
 import '../../domain/interfaces/i_auth_repository.dart';
 import '../datasources/auth_remote_datasource.dart';
@@ -11,9 +13,14 @@ import '../mappers/auth_mapper.dart';
 
 class AuthRepository implements IAuthRepository {
   final AuthRemoteDatasource _remoteDatasource;
-  final SecureStorageService _secureStorageService;
+  final SecureStorageService _secureStorageService; // мобилка
+  final WebTokenHolder _webTokenHolder; // веб
 
-  const AuthRepository(this._remoteDatasource, this._secureStorageService);
+  const AuthRepository(
+    this._remoteDatasource,
+    this._secureStorageService,
+    this._webTokenHolder,
+  );
 
   @override
   Future<Either<Failure, AuthEntity>> login({
@@ -27,10 +34,7 @@ class AuthRepository implements IAuthRepository {
       );
 
       // при успехе сразу сохраняем токены
-      await _secureStorageService.saveTokens(
-        accessToken: authResponse.accessToken,
-        refreshToken: authResponse.refreshToken,
-      );
+      await _persistTokens(authResponse.accessToken, authResponse.refreshToken);
 
       // наружу отдаём доменную сущность, а не data-модель
       return Right(authResponse.toEntity());
@@ -54,10 +58,7 @@ class AuthRepository implements IAuthRepository {
         username: username,
       );
 
-      await _secureStorageService.saveTokens(
-        accessToken: authResponse.accessToken,
-        refreshToken: authResponse.refreshToken,
-      );
+      await _persistTokens(authResponse.accessToken, authResponse.refreshToken);
 
       return Right(authResponse.toEntity());
     } on DioException catch (e) {
@@ -70,21 +71,57 @@ class AuthRepository implements IAuthRepository {
   @override
   Future<Either<Failure, Unit>> logout() async {
     try {
-      final refreshToken = await _secureStorageService.getRefreshToken();
-
-      // если токена и так нет — локально уже разлогинены, ничего слать не нужно
-      if (refreshToken != null) {
+      if (kIsWeb) {
+        // refresh token нам недоступен (httpOnly cookie), просто дергаем /auth/logout
         try {
-          await _remoteDatasource.logout(refreshToken: refreshToken);
+          await _remoteDatasource.logout(refreshToken: null);
         } on DioException {
-          // игнор ошибки т.к. даже если бэкенд недоступен, юзер должен выйти локально
+          // игнор — юзер всё равно должен выйти локально
         }
+        _webTokenHolder.clear();
+      } else {
+        final refreshToken = await _secureStorageService.getRefreshToken();
+        if (refreshToken != null) {
+          try {
+            await _remoteDatasource.logout(refreshToken: refreshToken);
+          } on DioException {
+            // игнор
+          }
+        }
+        await _secureStorageService.deleteTokens();
       }
 
-      await _secureStorageService.deleteTokens();
       return const Right(unit);
     } catch (e) {
       return Left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> restoreWebSession() async {
+    try {
+      final refreshResponse = await _remoteDatasource.refresh(refreshToken: null);
+      _webTokenHolder.saveAccessToken(refreshResponse.accessToken);
+      return Right(refreshResponse.accessToken);
+    } on DioException catch (e) {
+      // 401 здесь — нормальный случай (нет активной сессии), не логируем как ошибку
+      return Left(_mapDioException(e));
+    } catch (e) {
+      return Left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  Future<void> _persistTokens(String accessToken, String? refreshToken) async {
+    if (kIsWeb) {
+      _webTokenHolder.saveAccessToken(accessToken);
+    } else {
+      if (refreshToken == null) {
+        throw Exception('Сервер не вернул Refresh token для мобильного клиента');
+      }
+      await _secureStorageService.saveTokens(
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      );
     }
   }
 
