@@ -15,6 +15,10 @@ const { toPublicUser } = require('../utils/userUtils');
 
 const SALT_ROUNDS = 12; // для bcrypt hashing
 
+function isWebClient(req) {
+    return req.headers['x-client-type'] === 'web';
+}
+
 // создаёт новую refresh-сессию в БД и возвращает сырой токен
 async function issueRefreshToken(userId) {
     const rawToken = generateRefreshToken();
