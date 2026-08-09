@@ -4,6 +4,7 @@ import '../../../../../core/errors/failure_mapper.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../../../../core/network/socket_service.dart';
 import '../../../../../core/services/room_sync_service.dart';
+import '../../../../../core/services/unread_rooms_counter.dart';
 import '../../../../user/domain/entities/user_entity.dart';
 import '../../../domain/entities/room_entity.dart';
 import '../../../domain/usecases/get_my_rooms_usecase.dart';
@@ -19,6 +20,7 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
   final ParseSocketRoomUseCase _parseSocketRoomUseCase;
   final SocketService _socketService;
   final RoomSyncService _roomSyncService;
+  final UnreadRoomsCounter _unreadRoomsCounter;
   final String? _currentUserId;
 
   StreamSubscription? _presenceSub;
@@ -38,12 +40,14 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     required ParseSocketRoomUseCase parseSocketRoomUseCase,
     required SocketService socketService,
     required RoomSyncService roomSyncService,
+    required UnreadRoomsCounter unreadRoomsCounter,
     required String? currentUserId,
   }) : _getMyRoomsUseCase = getMyRoomsUseCase,
       _markRoomAsReadUseCase = markRoomAsReadUseCase,
       _parseSocketRoomUseCase = parseSocketRoomUseCase,
       _socketService = socketService,
       _roomSyncService = roomSyncService,
+      _unreadRoomsCounter = unreadRoomsCounter,
       _currentUserId = currentUserId,
       super(const RoomListState.initial()) {
     on<LoadRequested>(_onLoadRequested);
@@ -164,6 +168,13 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
       refreshing: (_) =>
           emit(RoomListState.refreshing(rooms, typingByRoom: typingByRoom)),
     );
+
+    _updateUnreadCounter(rooms);
+  }
+
+  void _updateUnreadCounter(List<RoomListItemEntity> rooms) {
+    final unreadRoomsCount = rooms.where((r) => r.unreadCount > 0).length;
+    _unreadRoomsCounter.update(unreadRoomsCount);
   }
 
   Future<void> _onLoadRequested(
@@ -193,7 +204,10 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
 
     result.fold(
       (failure) => emit(RoomListState.failure(_mapFailureToMessage(failure))),
-      (rooms) => emit(RoomListState.loaded(rooms)),
+      (rooms) {
+        emit(RoomListState.loaded(rooms));
+        _updateUnreadCounter(rooms);
+      },
     );
   }
 
