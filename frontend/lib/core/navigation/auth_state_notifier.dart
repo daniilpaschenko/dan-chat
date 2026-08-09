@@ -64,7 +64,8 @@ class AuthStateNotifier extends ChangeNotifier {
     return result.fold(
       (failure) => false, // нет активной сессии — это нормально, просто не логиним
       (accessToken) {
-        _socketService.connect(accessToken);
+        _socketService.connect(accessToken.user.id);
+        _currentUserId = accessToken.user.id;
         return true;
       },
     );
