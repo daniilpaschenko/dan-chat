@@ -115,8 +115,9 @@ class RoomTile extends StatelessWidget {
                   if (unreadCount > 0) ...[
                     SizedBox(height: gap * 0.2),
                     CircleAvatar(
-                      radius: gap * 0.5,
-                      backgroundColor: AppColors.textSecondary,
+                      // чуток увеличиваем круг если двузначное число
+                      radius: unreadCount < 10 ? gap * 0.5 : gap * 0.53,
+                      backgroundColor: AppColors.error,
                       child: Text(
                         unreadCount > 99 ? '99+' : '$unreadCount',
                         style: TextStyle(
