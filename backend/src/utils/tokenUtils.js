@@ -30,10 +30,11 @@ function getRefreshExpiryDate() {
 }
 
 function getRefreshCookieOptions() {
+    const isDev = process.env.NODE_ENV !== 'production';
     return {
         httpOnly: true,
-        secure: true, // только по HTTPS
-        sameSite: 'none', // т.к. фронт и бэк на разных доменах
+        secure: !isDev, // false на localhost, true на проде
+        sameSite: isDev ? 'lax' : 'none', // 'none' требует secure:true, на деве это несовместимо
         maxAge: REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000,
         path: '/api/auth', // cookies уходят только на auth-эндпоинты
     };
