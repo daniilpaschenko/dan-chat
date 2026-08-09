@@ -14,3 +14,13 @@ extension AuthResponseMapper on AuthResponse {
     );
   }
 }
+
+extension RefreshResponseMapper on RefreshResponse {
+  AuthEntity toEntity() {
+    return AuthEntity(
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      user: user.toEntity(),
+    );
+  }
+}
