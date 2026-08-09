@@ -98,13 +98,12 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<Either<Failure, String>> restoreWebSession() async {
+  Future<Either<Failure, AuthEntity>> restoreWebSession() async {
     try {
       final refreshResponse = await _remoteDatasource.refresh(refreshToken: null);
       _webTokenHolder.saveAccessToken(refreshResponse.accessToken);
-      return Right(refreshResponse.accessToken);
+      return Right(refreshResponse.toEntity());
     } on DioException catch (e) {
-      // 401 здесь — нормальный случай (нет активной сессии), не логируем как ошибку
       return Left(_mapDioException(e));
     } catch (e) {
       return Left(Failure.unexpected(e.toString()));
