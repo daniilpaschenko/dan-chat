@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import '../storage/secure_storage_service.dart';
 import '../storage/hive_service.dart';
 import '../network/socket_service.dart';
+import '../services/unread_rooms_counter.dart';
 
 /// держит текущий статус авторизации и оповещает GoRouter
 /// (через refreshListenable) при login/logout, чтобы редиректы пересчитались
@@ -9,8 +10,9 @@ class AuthStateNotifier extends ChangeNotifier {
   final SecureStorageService _secureStorageService;
   final HiveService _hiveService;
   final SocketService _socketService;
+  final UnreadRoomsCounter _unreadRoomsCounter;
 
-  AuthStateNotifier(this._secureStorageService, this._hiveService, this._socketService);
+  AuthStateNotifier(this._secureStorageService, this._hiveService, this._socketService, this._unreadRoomsCounter);
 
   bool _isAuthenticated = false;
   bool _isInitialized = false;
@@ -32,6 +34,8 @@ class AuthStateNotifier extends ChangeNotifier {
     if (token != null) {
       _socketService.connect(token);
     }
+
+    _unreadRoomsCounter.reset();
 
     notifyListeners();
   }
@@ -65,6 +69,8 @@ class AuthStateNotifier extends ChangeNotifier {
 
     _isAuthenticated = false;
     _currentUserId = null;
+    _unreadRoomsCounter.reset();
+
     notifyListeners();
   }
 }
