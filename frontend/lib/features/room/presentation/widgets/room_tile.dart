@@ -135,16 +135,67 @@ class RoomTile extends StatelessWidget {
   String _formatTime(DateTime dateTime) {
     final local = dateTime.toLocal();
     final now = DateTime.now();
-    final isToday = local.year == now.year && local.month == now.month && local.day == now.day;
+
+    final isToday =
+        local.year == now.year &&
+        local.month == now.month &&
+        local.day == now.day;
 
     if (isToday) {
       final hours = local.hour.toString().padLeft(2, '0');
       final minutes = local.minute.toString().padLeft(2, '0');
+
       return '$hours:$minutes';
     }
 
+    final yesterday = now.subtract(const Duration(days: 1));
+
+    final isYesterday =
+        local.year == yesterday.year &&
+        local.month == yesterday.month &&
+        local.day == yesterday.day;
+
+    if (isYesterday) {
+      return 'вчера';
+    }
+
+    final localDate = DateTime(local.year, local.month, local.day);
+    final today = DateTime(now.year, now.month, now.day);
+    final daysDiff = today.difference(localDate).inDays;
+
+    // Последние 7 дней
+    if (daysDiff < 7) {
+      const weekdays = [
+        'пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс',
+      ];
+
+      return weekdays[local.weekday - 1];
+    }
+
+    // В этом году
+    if (local.year == now.year) {
+      const months = [
+        'янв.',
+        'февр.',
+        'мар.',
+        'апр.',
+        'мая',
+        'июн.',
+        'июл.',
+        'авг.',
+        'сент.',
+        'окт.',
+        'нояб.',
+        'дек.',
+      ];
+
+      return '${local.day} ${months[local.month - 1]}';
+    }
+
+    // прошлый год и раньше
     final day = local.day.toString().padLeft(2, '0');
     final month = local.month.toString().padLeft(2, '0');
-    return '$day.$month';
+
+    return '$day.$month.${local.year}';
   }
 }
