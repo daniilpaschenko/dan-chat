@@ -220,6 +220,7 @@ class _RoomListViewState extends State<_RoomListView> {
   }
 
   Widget _buildMenu(BuildContext context) {
+    final spacing = AppSpacing.of(context);
     return PopupMenuButton<String>(
       icon: const Icon(Icons.more_vert),
       onSelected: (value) {
@@ -230,8 +231,26 @@ class _RoomListViewState extends State<_RoomListView> {
         }
       },
       itemBuilder: (context) => [
-        const PopupMenuItem(value: 'wip', child: Text('В разработке')),
-        const PopupMenuItem(value: 'create_group', child: Text('Создать группу')),
+        PopupMenuItem(
+          value: 'wip',
+          child: Row(
+            children: [
+              Icon(Icons.construction_outlined),
+              SizedBox(width: spacing.buttonGap),
+              Text('В разработке'),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'create_group',
+          child: Row(
+            children: [
+              Icon(Icons.group_outlined),
+              SizedBox(width: spacing.buttonGap),
+              Text('Создать группу'),
+            ],
+          ),
+        ),
       ],
     );
   }

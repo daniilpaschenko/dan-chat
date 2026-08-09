@@ -1,7 +1,7 @@
 import '../../../user/domain/entities/user_entity.dart';
 import '../../../room/domain/entities/room_entity.dart' show RoomListItemEntity, RoomType;
 
-// вычисляет pаголовок чата, аватарку, собеседника в direct-чате и текстовый подзаголовок 
+// вычисляет заголовок чата, аватарку, собеседника в direct-чате и текстовый подзаголовок 
 class RoomDisplayInfo {
   final String title;
   final String? avatarUrl;
@@ -45,8 +45,7 @@ class RoomDisplayInfo {
     return presenceText(other.status, other.lastSeen);
   }
 
-  //принимает "сырые" status/lastSeen
-  // используется здесь и в ChatAppBar, чтобы не дублировать
+  // принимает "сырые" status/lastSeen
   static String presenceText(UserStatus? status, DateTime? lastSeen) {
     if (status == UserStatus.online) return 'в сети';
     if (lastSeen == null) return 'не в сети';
@@ -63,11 +62,61 @@ class RoomDisplayInfo {
   }
 
   static String _formatLastSeen(DateTime lastSeen) {
+    final local = lastSeen.toLocal();
     final now = DateTime.now();
-    final diff = now.difference(lastSeen);
+    final diff = now.difference(local);
+
     if (diff.inMinutes < 1) return 'только что';
     if (diff.inHours < 1) return '${diff.inMinutes} мин назад';
-    if (diff.inDays < 1) return '${diff.inHours} ч назад';
-    return '${lastSeen.day.toString().padLeft(2, '0')}.${lastSeen.month.toString().padLeft(2, '0')}';
+
+    final time =
+        '${local.hour.toString().padLeft(2, '0')}:'
+        '${local.minute.toString().padLeft(2, '0')}';
+
+    final isToday =
+        local.year == now.year &&
+        local.month == now.month &&
+        local.day == now.day;
+
+    if (isToday) {
+      return 'в $time';
+    }
+
+    final yesterday = now.subtract(const Duration(days: 1));
+
+    final isYesterday =
+        local.year == yesterday.year &&
+        local.month == yesterday.month &&
+        local.day == yesterday.day;
+
+    if (isYesterday) {
+      return 'вчера в $time';
+    }
+
+    // в этом году
+    if (local.year == now.year) {
+      const months = [
+        'янв.',
+        'февр.',
+        'мар.',
+        'апр.',
+        'мая',
+        'июн.',
+        'июл.',
+        'авг.',
+        'сент.',
+        'окт.',
+        'нояб.',
+        'дек.',
+      ];
+
+      return '${local.day} ${months[local.month - 1]} в $time';
+    }
+
+    // прошлый год и раньше
+    final day = local.day.toString().padLeft(2, '0');
+    final month = local.month.toString().padLeft(2, '0');
+
+    return '$day.$month.${local.year} в $time';
   }
 }

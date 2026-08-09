@@ -118,21 +118,28 @@ class _CreateGroupViewState extends State<_CreateGroupView> {
               Expanded(
                 child: state.isSearching
                     ? const Center(child: CircularProgressIndicator())
-                    : ListView.builder(
-                        itemCount: state.searchResults.length,
-                        itemBuilder: (context, index) {
-                          final user = state.searchResults[index];
-                          final isSelected = state.selectedUsers.containsKey(user.id);
-                          return SelectableUserTile(
-                            user: user,
-                            isSelected: isSelected,
-                            gap: spacing.form,
-                            onTap: () => context.read<CreateGroupBloc>().add(
-                                  CreateGroupEvent.userToggled(user),
-                                ),
-                          );
-                        },
-                      ),
+                    : state.searchResults.isEmpty
+                        ? const Center(
+                            child: Text(
+                              'Пользователи не найдены',
+                              style: TextStyle(color: AppColors.textSecondary),
+                            ),
+                          )
+                        : ListView.builder(
+                            itemCount: state.searchResults.length,
+                            itemBuilder: (context, index) {
+                              final user = state.searchResults[index];
+                              final isSelected = state.selectedUsers.containsKey(user.id);
+                              return SelectableUserTile(
+                                user: user,
+                                isSelected: isSelected,
+                                gap: spacing.form,
+                                onTap: () => context.read<CreateGroupBloc>().add(
+                                      CreateGroupEvent.userToggled(user),
+                                    ),
+                              );
+                            },
+                          ),
               ),
               Padding(
                 padding: EdgeInsets.all(spacing.form),

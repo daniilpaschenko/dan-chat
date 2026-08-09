@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/di/injection_container.dart';
@@ -54,6 +55,9 @@ class _SearchViewState extends State<_SearchView> {
               padding: EdgeInsets.symmetric(horizontal: spacing.form, vertical: spacing.small),
               child: TextField(
                 controller: _searchController,
+                inputFormatters: [
+                    LengthLimitingTextInputFormatter(16),
+                  ],
                 autofocus: true,
                 onChanged: (value) {
                   // просто пробрасываем каждое изменение в bloc — debounce и защита от гонки уже внутри SearchBloc
@@ -106,9 +110,8 @@ class _SearchViewState extends State<_SearchView> {
                           ),
                         );
                       }
-                      return ListView.separated(
+                      return ListView.builder(
                         itemCount: users.length,
-                        separatorBuilder: (_, _) => const Divider(height: 1),
                         itemBuilder: (context, index) {
                           final user = users[index];
                           return UserTile(
