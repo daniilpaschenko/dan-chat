@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import '../navigation/app_router.dart';
 import '../navigation/auth_state_notifier.dart';
 import '../navigation/bottom_nav_visibility.dart';
+import '../services/unread_rooms_counter.dart';
 import '../network/dio_client.dart';
 import '../network/socket_service.dart';
 import '../storage/hive_service.dart';
@@ -87,6 +88,7 @@ Future<void> setupDependencies() async {
       getIt<SecureStorageService>(),
       getIt<HiveService>(),
       getIt<SocketService>(),
+      getIt<UnreadRoomsCounter>(),
     ),
   );
 
@@ -103,6 +105,7 @@ Future<void> setupDependencies() async {
   );
 
   getIt.registerLazySingleton(() => BottomNavVisibility());
+  getIt.registerLazySingleton(() => UnreadRoomsCounter());
 
   getIt.registerLazySingleton<RoomSyncService>(() => RoomSyncService());
 
@@ -191,6 +194,7 @@ Future<void> setupDependencies() async {
       parseSocketRoomUseCase: getIt<ParseSocketRoomUseCase>(),
       socketService: getIt<SocketService>(),
       roomSyncService: getIt<RoomSyncService>(),
+      unreadRoomsCounter: getIt<UnreadRoomsCounter>(),
       currentUserId: getIt<AuthStateNotifier>().currentUserId,
     ),
   );

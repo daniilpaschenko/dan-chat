@@ -140,6 +140,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
   
   Widget _buildMenu(BuildContext context) {
+    final spacing = AppSpacing.of(context);
     final isGroup = room?.type == RoomType.group;
     final isOwner = room != null &&
         room!.participants.any(
@@ -176,12 +177,39 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
         }
       },
       itemBuilder: (context) => [
-        const PopupMenuItem(value: 'wip', child: Text('В разработке')),
+        PopupMenuItem(
+          value: 'wip',
+          child: Row(
+            children: [
+              Icon(Icons.construction_outlined),
+              SizedBox(width: spacing.buttonGap),
+              Text('В разработке'),
+            ],
+          ),
+        ),
         if (canDelete)
-          const PopupMenuItem(value: 'delete', child: Text('Удалить чат')),
+          PopupMenuItem(
+            value: 'delete',
+            child: Row(
+              children: [
+                Icon(Icons.delete_outlined),
+                SizedBox(width: spacing.buttonGap),
+                Text('Удалить чат'),
+              ],
+            ),
+          ),
         // если групповой чат, то добавить пункт "Покинуть чат"
         if (isGroup)
-          const PopupMenuItem(value: 'leave', child: Text('Покинуть чат')),
+          PopupMenuItem(
+            value: 'leave',
+            child: Row(
+              children: [
+                Icon(Icons.exit_to_app_outlined),
+                SizedBox(width: spacing.buttonGap),
+                Text('Покинуть чат'),
+              ],
+            ),
+          ),
       ],
     );
   }
