@@ -60,16 +60,16 @@ class AuthStateNotifier extends ChangeNotifier {
 
   // дергает /auth/refresh на старте веб-приложения. возвращает true если сессия восстановлена
   Future<bool> _tryRestoreWebSession() async {
-    final result = await _authRepository.restoreWebSession();
-    return result.fold(
-      (failure) => false, // нет активной сессии — это нормально, просто не логиним
-      (accessToken) {
-        _socketService.connect(accessToken.user.id);
-        _currentUserId = accessToken.user.id;
-        return true;
-      },
-    );
-  }
+  final result = await _authRepository.restoreWebSession();
+  return result.fold(
+    (failure) => false,
+    (authEntity) {
+      _socketService.connect(authEntity.accessToken);
+      _currentUserId = authEntity.user.id;
+      return true;
+    },
+  );
+}
 
   /// вызывается после успешного login/register
   Future<void> logIn({
