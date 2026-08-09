@@ -12,7 +12,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const app = express();
 
 app.use(cors({
-    origin: process.env.CLIENT_URL || '*', 
+    origin: process.env.CLIENT_URL, 
     credentials: true, // разрешить отправку/приём cookies
 }));
 
