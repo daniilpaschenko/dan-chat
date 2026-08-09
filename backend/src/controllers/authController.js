@@ -7,6 +7,8 @@ const {
     generateRefreshToken,
     hashToken,
     getRefreshExpiryDate,
+    getRefreshCookieOptions,
+    REFRESH_COOKIE_NAME,
 } = require('../utils/tokenUtils');
 const { toPublicUser } = require('../utils/userUtils');
 
@@ -22,6 +24,15 @@ async function issueRefreshToken(userId) {
         expiresAt: getRefreshExpiryDate(),
     });
     return rawToken;
+}
+
+// общая функция, чтобы не дублировать в register/login/refresh
+function respondWithTokens(req, res, status, accessToken, refreshToken, extra = {}) {
+    if (isWebClient(req)) {
+        res.cookie(REFRESH_COOKIE_NAME, refreshToken, getRefreshCookieOptions());
+        return res.status(status).json({ accessToken, ...extra }); // refreshToken НЕ в теле
+    }
+    return res.status(status).json({ accessToken, refreshToken, ...extra });
 }
 
 exports.register = async (req, res) => {
@@ -51,9 +62,7 @@ exports.register = async (req, res) => {
         const accessToken = signAccessToken(user);
         const refreshToken = await issueRefreshToken(user._id);
 
-        return res.status(201).json({
-            accessToken,
-            refreshToken,
+        return respondWithTokens(req, res, 201, accessToken, refreshToken, {
             user: toPublicUser(user),
         });
     } catch (err) {
@@ -91,9 +100,7 @@ exports.login = async (req, res) => {
         const accessToken = signAccessToken(user);
         const refreshToken = await issueRefreshToken(user._id);
 
-        return res.status(200).json({
-            accessToken,
-            refreshToken,
+        return respondWithTokens(req, res, 200, accessToken, refreshToken, {
             user: toPublicUser(user),
         });
     } catch (err) {
@@ -104,7 +111,9 @@ exports.login = async (req, res) => {
 
 exports.refresh = async (req, res) => {
     try {
-        const { refreshToken: rawToken } = req.body;
+        // для веба берём из httpOnly cookie, для мобилки из body
+        const rawToken = isWebClient(req) ? req.cookies?.[REFRESH_COOKIE_NAME] : req.body.refreshToken;
+
         if (!rawToken) {
             return res.status(401).json({ message: 'Refresh token отсутствует' });
         }
@@ -155,10 +164,7 @@ exports.refresh = async (req, res) => {
 
         const accessToken = signAccessToken(user);
 
-        return res.status(200).json({
-            accessToken,
-            refreshToken: newRawToken, // обязательно сохранить его вместо старого
-        });
+        return respondWithTokens(req, res, 200, accessToken, newRawToken);
     } catch (err) {
         console.error('refresh error:', err);
         return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
@@ -167,7 +173,8 @@ exports.refresh = async (req, res) => {
 
 exports.logout = async (req, res) => {
     try {
-        const { refreshToken: rawToken } = req.body;
+        const rawToken = isWebClient(req) ? req.cookies?.[REFRESH_COOKIE_NAME] : req.body.refreshToken;
+
         if (!rawToken) {
             return res.status(400).json({ message: 'Refresh token отсутствует' });
         }
@@ -180,6 +187,10 @@ exports.logout = async (req, res) => {
             { tokenHash, revoked: false },
             { revoked: true }
         );
+
+        if (isWebClient(req)) {
+            res.clearCookie('refreshToken', { path: '/api/auth' });
+        }
 
         // отвечаем 200 в любом случае, даже если токен не нашёлся в базе
         // (например, юзер уже разлогинен, или токен истёк) 
