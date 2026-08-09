@@ -13,6 +13,7 @@ import '../network/dio_client.dart';
 import '../network/socket_service.dart';
 import '../storage/hive_service.dart';
 import '../storage/secure_storage_service.dart';
+import '../storage/web_token_holder.dart';
 import '../services/room_sync_service.dart';
 
 
@@ -77,27 +78,43 @@ Future<void> setupDependencies() async {
   getIt.registerLazySingleton<SecureStorageService>(
     () => SecureStorageService(getIt<FlutterSecureStorage>()),
   );
+  getIt.registerLazySingleton<WebTokenHolder>(() => WebTokenHolder());
   getIt.registerLazySingleton<HiveService>(() => HiveService());
 
   getIt.registerLazySingleton<SocketService>(() => SocketService());
+
+  // core/network
+  getIt.registerLazySingleton<Dio>(
+    () => DioClient(
+      getIt<SecureStorageService>(),
+      getIt<WebTokenHolder>(),
+      onAuthFailure: () => getIt<AuthStateNotifier>().logOut(),
+    ).build(),
+  );
+
+  // features/auth/data — регистрируем раньше AuthStateNotifier, т.к. ему нужен IAuthRepository
+  getIt.registerLazySingleton<AuthRemoteDatasource>(
+    () => AuthRemoteDatasource(getIt<Dio>()),
+  );
+  getIt.registerLazySingleton<IAuthRepository>(
+    () => AuthRepository(
+      getIt<AuthRemoteDatasource>(),
+      getIt<SecureStorageService>(),
+      getIt<WebTokenHolder>(),
+    ),
+  );
 
   // core/navigation
   // регистрируем раньше Dio, т.к. DioClient дергает logOut() при провале refresh
   getIt.registerLazySingleton<AuthStateNotifier>(
     () => AuthStateNotifier(
       getIt<SecureStorageService>(),
+      getIt<WebTokenHolder>(),
       getIt<HiveService>(),
       getIt<SocketService>(),
       getIt<UnreadRoomsCounter>(),
+      getIt<IAuthRepository>(),
     ),
-  );
-
-  // core/network
-  getIt.registerLazySingleton<Dio>(
-    () => DioClient(
-      getIt<SecureStorageService>(),
-      onAuthFailure: () => getIt<AuthStateNotifier>().logOut(),
-    ).build(),
   );
 
   getIt.registerLazySingleton<GoRouter>(
@@ -108,17 +125,6 @@ Future<void> setupDependencies() async {
   getIt.registerLazySingleton(() => UnreadRoomsCounter());
 
   getIt.registerLazySingleton<RoomSyncService>(() => RoomSyncService());
-
-  // features/auth/data
-  getIt.registerLazySingleton<AuthRemoteDatasource>(
-    () => AuthRemoteDatasource(getIt<Dio>()),
-  );
-  getIt.registerLazySingleton<IAuthRepository>(
-    () => AuthRepository(
-      getIt<AuthRemoteDatasource>(),
-      getIt<SecureStorageService>(),
-    ),
-  );
 
   // features/auth/domain
   getIt.registerLazySingleton<LoginUseCase>(
