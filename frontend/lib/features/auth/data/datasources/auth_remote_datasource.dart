@@ -32,7 +32,16 @@ class AuthRemoteDatasource {
     }
 
     // выход
-    Future<void> logout({required String refreshToken}) async {
+    Future<void> logout({String? refreshToken}) async {
         await _dio.post('/auth/logout', data: {'refreshToken': refreshToken});
+    }
+
+    /// refreshToken == null на вебе, на мобилке — обязателен
+    Future<RefreshResponse> refresh({String? refreshToken}) async {
+        final response = await _dio.post(
+            '/auth/refresh',
+            data: refreshToken != null ? {'refreshToken': refreshToken} : null,
+        );
+        return RefreshResponse.fromJson(response.data);
     }
 }
