@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../di/injection_container.dart';
 import '../navigation/auth_state_notifier.dart';
 import '../navigation/route_paths.dart';
+import '../theme/app_spacing.dart';
 
 /// заглушка для экранов, которых ещё нет
 /// cдержит кнопку "Выйти"
@@ -14,8 +15,7 @@ class PlaceholderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double screenW = MediaQuery.of(context).size.width.clamp(0.0, 600.0);
-    final double titleSize = screenW * 0.05;
+    final spacing = AppSpacing.of(context);
 
     return Scaffold(
       appBar: AppBar(title: Text(title)),
@@ -25,9 +25,9 @@ class PlaceholderScreen extends StatelessWidget {
           children: [
             Text(
               'Экран в разработке',
-              style: TextStyle(fontSize: titleSize),
+              style: TextStyle(fontSize: spacing.titleSize),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: spacing.medium),
             ElevatedButton(
               onPressed: () {
                 if (context.canPop()) {
@@ -38,7 +38,7 @@ class PlaceholderScreen extends StatelessWidget {
               },
               child: const Text('Назад'),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: spacing.medium),
             ElevatedButton(
               onPressed: () async {
                 await getIt<AuthStateNotifier>().logOut();
