@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'api_constants.dart';
 
@@ -7,6 +8,9 @@ import 'api_constants.dart';
 class SocketService {
   io.Socket? _socket; // соединение с сервером, null если не подключены
   String? _currentToken; // под каким токеном подключены
+
+  StreamSubscription<List<ConnectivityResult>>? _connectivitySub;
+  bool _wasOffline = false; // чтобы не дёргать resume() на каждое событие, только на реальное восстановление
 
   // broadcast streams, чтобы несколько слушателей могли подписаться на события сокета
   // хранит поток новых сообщений
@@ -83,9 +87,11 @@ class SocketService {
           _roomDeletedController.add(Map<String, dynamic>.from(data as Map)))
       // после регистрации всех событий подключаемся к серверу
       ..connect();
+    _startConnectivityWatch();
   }
 
   void disconnect() {
+    _stopConnectivityWatch();
     _hardDisconnect();
     _currentToken = null;
   }
@@ -105,9 +111,33 @@ class SocketService {
   }
 
   void resume() {
-    if (_currentToken != null && _socket != null) {
+    if (_currentToken != null && _socket != null && !isConnected) {
       _socket!.connect();
     }
+  }
+
+  void _startConnectivityWatch() {
+    _connectivitySub?.cancel();
+    _connectivitySub = Connectivity().onConnectivityChanged.listen((results) {
+      final hasConnection = results.any((r) => r != ConnectivityResult.none);
+
+      if (!hasConnection) {
+        _wasOffline = true;
+        return;
+      }
+
+      // реагируем только на переход offline -> online
+      if (_wasOffline) {
+        _wasOffline = false;
+        resume();
+      }
+    });
+  }
+
+  void _stopConnectivityWatch() {
+    _connectivitySub?.cancel();
+    _connectivitySub = null;
+    _wasOffline = false;
   }
 
   /// [onAck] вызовется с ответом сервера: {ok:true, participantsStatus:[...]} или {ok:false, message:'...'}
