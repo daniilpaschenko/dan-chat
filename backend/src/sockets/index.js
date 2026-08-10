@@ -11,7 +11,7 @@ module.exports = function initSocket(server) {
         // для веба. возможно буду его собирать, так что пусть будет пока что
         cors: {
             // разрешает подключение только с клиента
-            origin: process.env.CLIENT_URL || '*',
+            origin: process.env.CLIENT_URL,
             credentials: true,
         },
     });

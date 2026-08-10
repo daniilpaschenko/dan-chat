@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$AuthEntity {
   String get accessToken => throw _privateConstructorUsedError;
-  String get refreshToken => throw _privateConstructorUsedError;
+  String? get refreshToken => throw _privateConstructorUsedError;
   UserEntity get user => throw _privateConstructorUsedError;
 
   /// Create a copy of AuthEntity
@@ -35,7 +35,7 @@ abstract class $AuthEntityCopyWith<$Res> {
     $Res Function(AuthEntity) then,
   ) = _$AuthEntityCopyWithImpl<$Res, AuthEntity>;
   @useResult
-  $Res call({String accessToken, String refreshToken, UserEntity user});
+  $Res call({String accessToken, String? refreshToken, UserEntity user});
 
   $UserEntityCopyWith<$Res> get user;
 }
@@ -56,7 +56,7 @@ class _$AuthEntityCopyWithImpl<$Res, $Val extends AuthEntity>
   @override
   $Res call({
     Object? accessToken = null,
-    Object? refreshToken = null,
+    Object? refreshToken = freezed,
     Object? user = null,
   }) {
     return _then(
@@ -65,10 +65,10 @@ class _$AuthEntityCopyWithImpl<$Res, $Val extends AuthEntity>
                 ? _value.accessToken
                 : accessToken // ignore: cast_nullable_to_non_nullable
                       as String,
-            refreshToken: null == refreshToken
+            refreshToken: freezed == refreshToken
                 ? _value.refreshToken
                 : refreshToken // ignore: cast_nullable_to_non_nullable
-                      as String,
+                      as String?,
             user: null == user
                 ? _value.user
                 : user // ignore: cast_nullable_to_non_nullable
@@ -98,7 +98,7 @@ abstract class _$$AuthEntityImplCopyWith<$Res>
   ) = __$$AuthEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String accessToken, String refreshToken, UserEntity user});
+  $Res call({String accessToken, String? refreshToken, UserEntity user});
 
   @override
   $UserEntityCopyWith<$Res> get user;
@@ -119,7 +119,7 @@ class __$$AuthEntityImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? accessToken = null,
-    Object? refreshToken = null,
+    Object? refreshToken = freezed,
     Object? user = null,
   }) {
     return _then(
@@ -128,10 +128,10 @@ class __$$AuthEntityImplCopyWithImpl<$Res>
             ? _value.accessToken
             : accessToken // ignore: cast_nullable_to_non_nullable
                   as String,
-        refreshToken: null == refreshToken
+        refreshToken: freezed == refreshToken
             ? _value.refreshToken
             : refreshToken // ignore: cast_nullable_to_non_nullable
-                  as String,
+                  as String?,
         user: null == user
             ? _value.user
             : user // ignore: cast_nullable_to_non_nullable
@@ -146,14 +146,14 @@ class __$$AuthEntityImplCopyWithImpl<$Res>
 class _$AuthEntityImpl implements _AuthEntity {
   const _$AuthEntityImpl({
     required this.accessToken,
-    required this.refreshToken,
+    this.refreshToken,
     required this.user,
   });
 
   @override
   final String accessToken;
   @override
-  final String refreshToken;
+  final String? refreshToken;
   @override
   final UserEntity user;
 
@@ -189,14 +189,14 @@ class _$AuthEntityImpl implements _AuthEntity {
 abstract class _AuthEntity implements AuthEntity {
   const factory _AuthEntity({
     required final String accessToken,
-    required final String refreshToken,
+    final String? refreshToken,
     required final UserEntity user,
   }) = _$AuthEntityImpl;
 
   @override
   String get accessToken;
   @override
-  String get refreshToken;
+  String? get refreshToken;
   @override
   UserEntity get user;
 
