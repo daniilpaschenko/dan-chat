@@ -1,19 +1,26 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import '../storage/secure_storage_service.dart';
+import '../storage/web_token_holder.dart';
 import 'api_constants.dart';
 import '../../features/auth/data/models/auth_response.dart';
 
 /// собирает готовый dio с baseUrl и interceptor'ом,
 /// который подставляет access token и делает refresh при 401
 class DioClient {
-  final SecureStorageService _secureStorageService;
+  final SecureStorageService _secureStorageService; // используется только на мобилке
+  final WebTokenHolder _webTokenHolder; // используется только на вебе
 
   /// вызывается, когда refresh не удался (например, обнаружено
   /// повторное использование токена) — UI должен разлогинить юзера
   final void Function()? onAuthFailure;
 
-  DioClient(this._secureStorageService, {this.onAuthFailure});
+    DioClient(
+      this._secureStorageService,
+      this._webTokenHolder, {
+      this.onAuthFailure,
+    });
 
   // отдельный dio без interceptor'ов — чтобы refresh-запрос не попадал в тот же перехватчик и не зациклился
   late final Dio _refreshDio = Dio(
@@ -21,11 +28,34 @@ class DioClient {
       baseUrl: ApiConstants.baseUrl,
       connectTimeout: ApiConstants.connectTimeout,
       receiveTimeout: ApiConstants.receiveTimeout,
+      extra: {'withCredentials': true}, // обязательно для cookies
     ),
   );
 
   bool _isRefreshing = false;
   final List<Completer<void>> _refreshWaiters = [];
+
+  Future<String?> _getAccessToken() {
+    return kIsWeb
+        ? Future.value(_webTokenHolder.getAccessToken())
+        : _secureStorageService.getAccessToken();
+  }
+
+  Future<void> _saveAccessToken(String token) async {
+    if (kIsWeb) {
+      _webTokenHolder.saveAccessToken(token);
+    } else {
+      await _secureStorageService.saveAccessToken(token);
+    }
+  }
+
+  Future<void> _clearTokens() async {
+    if (kIsWeb) {
+      _webTokenHolder.clear();
+    } else {
+      await _secureStorageService.deleteTokens();
+    }
+  }
 
   Dio build() {
     final dio = Dio(
@@ -33,14 +63,18 @@ class DioClient {
         baseUrl: ApiConstants.baseUrl,
         connectTimeout: ApiConstants.connectTimeout,
         receiveTimeout: ApiConstants.receiveTimeout,
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+          ApiConstants.clientTypeHeader: ApiConstants.clientType,
+        },
+        extra: {'withCredentials': true}, // не мешает мобилке, нужно вебу
       ),
     );
 
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          final token = await _secureStorageService.getAccessToken();
+          final token = await _getAccessToken();
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
           }
@@ -58,7 +92,7 @@ class DioClient {
           try {
             await _refreshTokenIfNeeded();
 
-            final newToken = await _secureStorageService.getAccessToken();
+            final newToken = await _getAccessToken();
             final requestOptions = error.requestOptions;
             requestOptions.headers['Authorization'] = 'Bearer $newToken';
             requestOptions.extra['isRetry'] = true;
@@ -66,7 +100,7 @@ class DioClient {
             final response = await dio.fetch(requestOptions);
             handler.resolve(response);
           } catch (e) {
-            await _secureStorageService.deleteTokens();
+            await _clearTokens();
             onAuthFailure?.call();
             handler.next(error);
           }
@@ -87,23 +121,42 @@ class DioClient {
 
     _isRefreshing = true;
     try {
-      final refreshToken = await _secureStorageService.getRefreshToken();
-      if (refreshToken == null) {
-        throw Exception('No refresh token');
-      }
+      late final Response response;
 
-      final response = await _refreshDio.post(
-        '/auth/refresh',
-        data: {'refreshToken': refreshToken},
-      );
+      if (kIsWeb) {
+        // refresh token не трогаем вообще — он в httpOnly cookie
+        response = await _refreshDio.post(
+          '/auth/refresh',
+          options: Options(
+            headers: {ApiConstants.clientTypeHeader: ApiConstants.clientType},
+          ),
+        );
+      } else {
+        final refreshToken = await _secureStorageService.getRefreshToken();
+        if (refreshToken == null) {
+          throw Exception('No refresh token');
+        }
+        response = await _refreshDio.post(
+          '/auth/refresh',
+          data: {'refreshToken': refreshToken},
+        );
+      }
 
       final refreshResponse = RefreshResponse.fromJson(response.data);
 
-      // бэкенд ротирует refresh token — старый становится невалидным сразу после использования, поэтому сохраняем оба
-      await _secureStorageService.saveTokens(
-        accessToken: refreshResponse.accessToken,
-        refreshToken: refreshResponse.refreshToken,
-      );
+      if (kIsWeb) {
+        // на вебе бэкенд не возвращает refreshToken в теле — только accessToken
+        await _saveAccessToken(refreshResponse.accessToken);
+      } else {
+        final refreshToken = refreshResponse.refreshToken;
+        if (refreshToken == null) {
+          throw Exception('Сервер не вернул refreshToken для мобильного клиента');
+        }
+        await _secureStorageService.saveTokens(
+          accessToken: refreshResponse.accessToken,
+          refreshToken: refreshToken,
+        );
+      }
 
       for (final waiter in _refreshWaiters) {
         waiter.complete();

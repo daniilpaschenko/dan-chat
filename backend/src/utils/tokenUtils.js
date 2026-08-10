@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 const ACCESS_EXPIRES_IN = '15m';
 const REFRESH_EXPIRES_DAYS = 30;
+const REFRESH_COOKIE_NAME = 'refreshToken';
 
 // генерирует access token (короткоживущий JWT)
 function signAccessToken(user) {
@@ -28,10 +29,23 @@ function getRefreshExpiryDate() {
     return new Date(Date.now() + REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000);
 }
 
+function getRefreshCookieOptions() {
+    const isDev = process.env.NODE_ENV !== 'production';
+    return {
+        httpOnly: true,
+        secure: !isDev, // false на localhost, true на проде
+        sameSite: isDev ? 'lax' : 'none', // 'none' требует secure:true, на деве это несовместимо
+        maxAge: REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000,
+        path: '/api/auth', // cookies уходят только на auth-эндпоинты
+    };
+}
+
 module.exports = {
     signAccessToken,
     generateRefreshToken,
     hashToken,
     getRefreshExpiryDate,
+    getRefreshCookieOptions,
+    REFRESH_COOKIE_NAME,
     REFRESH_EXPIRES_DAYS,
 };

@@ -18,4 +18,6 @@ abstract class IAuthRepository {
   });
 
   Future<Either<Failure, Unit>> logout();
+
+  Future<Either<Failure, AuthEntity>> restoreWebSession();
 }

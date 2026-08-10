@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'core/di/injection_container.dart';
 import 'core/navigation/auth_state_notifier.dart';
@@ -42,6 +43,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   // detached — приложение уничтожается
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (kIsWeb) return; // на вебе не рвём сокет по видимости вкладки
+    
     final socketService = getIt<SocketService>();
     switch (state) {
       case AppLifecycleState.paused:

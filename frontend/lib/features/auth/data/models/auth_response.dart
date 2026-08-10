@@ -8,7 +8,7 @@ part 'auth_response.g.dart';
 class AuthResponse with _$AuthResponse {
   const factory AuthResponse({
     required String accessToken,
-    required String refreshToken,
+    required String? refreshToken,
     required User user,
   }) = _AuthResponse;
 
@@ -16,12 +16,12 @@ class AuthResponse with _$AuthResponse {
       _$AuthResponseFromJson(json);
 }
 
-// отдельная модель для /auth/refresh — там нет user
 @freezed
 class RefreshResponse with _$RefreshResponse {
   const factory RefreshResponse({
     required String accessToken,
-    required String refreshToken,
+    required String? refreshToken,
+    required User user,
   }) = _RefreshResponse;
 
   factory RefreshResponse.fromJson(Map<String, dynamic> json) =>
