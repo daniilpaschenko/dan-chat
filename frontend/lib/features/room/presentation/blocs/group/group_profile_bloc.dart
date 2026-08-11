@@ -6,6 +6,7 @@ import '../../../../../core/errors/failures.dart';
 import '../../../../../core/network/socket_service.dart';
 import '../../../domain/usecases/get_room_by_id_usecase.dart';
 import '../../../domain/usecases/remove_participant_usecase.dart';
+import '../../../domain/usecases/update_participant_role_usecase.dart';
 import 'group_profile_event.dart';
 import 'group_profile_state.dart';
 
@@ -13,6 +14,7 @@ class GroupProfileBloc extends Bloc<GroupProfileEvent, GroupProfileState> {
   final String roomId;
   final GetRoomByIdUseCase _getRoomByIdUseCase;
   final RemoveParticipantUseCase _removeParticipantUseCase;
+  final UpdateParticipantRoleUseCase _updateParticipantRoleUseCase;
   final SocketService _socketService;
 
   StreamSubscription? _roomUpdatedSub;
@@ -22,13 +24,16 @@ class GroupProfileBloc extends Bloc<GroupProfileEvent, GroupProfileState> {
     required this.roomId,
     required GetRoomByIdUseCase getRoomByIdUseCase,
     required RemoveParticipantUseCase removeParticipantUseCase,
+    required UpdateParticipantRoleUseCase updateParticipantRoleUseCase,
     required SocketService socketService,
   })  : _getRoomByIdUseCase = getRoomByIdUseCase,
         _removeParticipantUseCase = removeParticipantUseCase,
+        _updateParticipantRoleUseCase = updateParticipantRoleUseCase,
         _socketService = socketService,
         super(const GroupProfileState.initial()) {
     on<GroupProfileStarted>(_onStarted);
     on<GroupProfileParticipantRemoveRequested>(_onParticipantRemoveRequested);
+    on<GroupProfileParticipantRoleChangeRequested>(_onParticipantRoleChangeRequested);
     on<GroupProfileParticipantsAdded>(_onParticipantsAdded);
     on<GroupProfileRoomUpdatedRemotely>(_onRoomUpdatedRemotely);
     on<GroupProfileRoomRemovedRemotely>(
@@ -65,7 +70,7 @@ class GroupProfileBloc extends Bloc<GroupProfileEvent, GroupProfileState> {
     Emitter<GroupProfileState> emit,
   ) async {
     final current = state;
-    if (current is! GroupProfileLoaded || current.isRemoving) return;
+    if (current is! GroupProfileLoaded || current.isRemoving || current.isChangingRole) return;
 
     emit(current.copyWith(isRemoving: true, errorMessage: null));
 
@@ -87,6 +92,29 @@ class GroupProfileBloc extends Bloc<GroupProfileEvent, GroupProfileState> {
     );
   }
 
+  Future<void> _onParticipantRoleChangeRequested(
+    GroupProfileParticipantRoleChangeRequested event,
+    Emitter<GroupProfileState> emit,
+  ) async {
+    final current = state;
+    if (current is! GroupProfileLoaded || current.isChangingRole || current.isRemoving) return;
+
+    emit(current.copyWith(isChangingRole: true, errorMessage: null));
+
+    final result = await _updateParticipantRoleUseCase(
+      roomId: roomId,
+      userId: event.userId,
+      role: event.role,
+    );
+    result.fold(
+      (failure) => emit(current.copyWith(
+        isChangingRole: false,
+        errorMessage: _mapFailureToMessage(failure),
+      )),
+      (room) => emit(GroupProfileState.loaded(room: room, isChangingRole: false)),
+    );
+  }
+
   void _onParticipantsAdded(GroupProfileParticipantsAdded event, Emitter<GroupProfileState> emit) {
     emit(GroupProfileState.loaded(room: event.room));
   }
@@ -95,13 +123,17 @@ class GroupProfileBloc extends Bloc<GroupProfileEvent, GroupProfileState> {
     GroupProfileRoomUpdatedRemotely event,
     Emitter<GroupProfileState> emit,
   ) async {
-    final current = state;
-    if (current is! GroupProfileLoaded) return;
+    if (state is! GroupProfileLoaded) return;
 
     final result = await _getRoomByIdUseCase(roomId);
     result.fold(
       (failure) {}, // тихо игнорируем — не хотим ломать текущий экран из-за фонового рефетча
-      (room) => emit(current.copyWith(room: room)),
+      (room) {
+        // важно брать АКТУАЛЬНЫЙ state именно сейчас, а не снэпшот до await
+        final latest = state;
+        if (latest is! GroupProfileLoaded) return;
+        emit(latest.copyWith(room: room));
+      },
     );
   }
 
