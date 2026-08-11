@@ -8,6 +8,9 @@ class GroupProfileEvent with _$GroupProfileEvent {
   const factory GroupProfileEvent.started() = GroupProfileStarted;
   const factory GroupProfileEvent.participantRemoveRequested(String userId) =
       GroupProfileParticipantRemoveRequested;
+  // owner повышает участника до админа / понижает админа до участника
+  const factory GroupProfileEvent.participantRoleChangeRequested(String userId, ParticipantRole role) =
+      GroupProfileParticipantRoleChangeRequested;
   // приходит после успешного возврата с экрана добавления участников
   const factory GroupProfileEvent.participantsAdded(RoomEntity room) =
       GroupProfileParticipantsAdded;
