@@ -21,6 +21,8 @@ mixin _$GroupProfileEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(String userId) participantRemoveRequested,
+    required TResult Function(String userId, ParticipantRole role)
+    participantRoleChangeRequested,
     required TResult Function(RoomEntity room) participantsAdded,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
@@ -29,6 +31,8 @@ mixin _$GroupProfileEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(String userId)? participantRemoveRequested,
+    TResult? Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
     TResult? Function(RoomEntity room)? participantsAdded,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
@@ -37,6 +41,8 @@ mixin _$GroupProfileEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(String userId)? participantRemoveRequested,
+    TResult Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
     TResult Function(RoomEntity room)? participantsAdded,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
@@ -47,6 +53,8 @@ mixin _$GroupProfileEvent {
     required TResult Function(GroupProfileStarted value) started,
     required TResult Function(GroupProfileParticipantRemoveRequested value)
     participantRemoveRequested,
+    required TResult Function(GroupProfileParticipantRoleChangeRequested value)
+    participantRoleChangeRequested,
     required TResult Function(GroupProfileParticipantsAdded value)
     participantsAdded,
     required TResult Function(GroupProfileRoomUpdatedRemotely value)
@@ -59,6 +67,8 @@ mixin _$GroupProfileEvent {
     TResult? Function(GroupProfileStarted value)? started,
     TResult? Function(GroupProfileParticipantRemoveRequested value)?
     participantRemoveRequested,
+    TResult? Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
     TResult? Function(GroupProfileParticipantsAdded value)? participantsAdded,
     TResult? Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
@@ -70,6 +80,8 @@ mixin _$GroupProfileEvent {
     TResult Function(GroupProfileStarted value)? started,
     TResult Function(GroupProfileParticipantRemoveRequested value)?
     participantRemoveRequested,
+    TResult Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
     TResult Function(GroupProfileParticipantsAdded value)? participantsAdded,
     TResult Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
@@ -147,6 +159,8 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(String userId) participantRemoveRequested,
+    required TResult Function(String userId, ParticipantRole role)
+    participantRoleChangeRequested,
     required TResult Function(RoomEntity room) participantsAdded,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
@@ -159,6 +173,8 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(String userId)? participantRemoveRequested,
+    TResult? Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
     TResult? Function(RoomEntity room)? participantsAdded,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
@@ -171,6 +187,8 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(String userId)? participantRemoveRequested,
+    TResult Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
     TResult Function(RoomEntity room)? participantsAdded,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
@@ -188,6 +206,8 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
     required TResult Function(GroupProfileStarted value) started,
     required TResult Function(GroupProfileParticipantRemoveRequested value)
     participantRemoveRequested,
+    required TResult Function(GroupProfileParticipantRoleChangeRequested value)
+    participantRoleChangeRequested,
     required TResult Function(GroupProfileParticipantsAdded value)
     participantsAdded,
     required TResult Function(GroupProfileRoomUpdatedRemotely value)
@@ -204,6 +224,8 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
     TResult? Function(GroupProfileStarted value)? started,
     TResult? Function(GroupProfileParticipantRemoveRequested value)?
     participantRemoveRequested,
+    TResult? Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
     TResult? Function(GroupProfileParticipantsAdded value)? participantsAdded,
     TResult? Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
@@ -219,6 +241,8 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
     TResult Function(GroupProfileStarted value)? started,
     TResult Function(GroupProfileParticipantRemoveRequested value)?
     participantRemoveRequested,
+    TResult Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
     TResult Function(GroupProfileParticipantsAdded value)? participantsAdded,
     TResult Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
@@ -319,6 +343,8 @@ class _$GroupProfileParticipantRemoveRequestedImpl
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(String userId) participantRemoveRequested,
+    required TResult Function(String userId, ParticipantRole role)
+    participantRoleChangeRequested,
     required TResult Function(RoomEntity room) participantsAdded,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
@@ -331,6 +357,8 @@ class _$GroupProfileParticipantRemoveRequestedImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(String userId)? participantRemoveRequested,
+    TResult? Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
     TResult? Function(RoomEntity room)? participantsAdded,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
@@ -343,6 +371,8 @@ class _$GroupProfileParticipantRemoveRequestedImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(String userId)? participantRemoveRequested,
+    TResult Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
     TResult Function(RoomEntity room)? participantsAdded,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
@@ -360,6 +390,8 @@ class _$GroupProfileParticipantRemoveRequestedImpl
     required TResult Function(GroupProfileStarted value) started,
     required TResult Function(GroupProfileParticipantRemoveRequested value)
     participantRemoveRequested,
+    required TResult Function(GroupProfileParticipantRoleChangeRequested value)
+    participantRoleChangeRequested,
     required TResult Function(GroupProfileParticipantsAdded value)
     participantsAdded,
     required TResult Function(GroupProfileRoomUpdatedRemotely value)
@@ -376,6 +408,8 @@ class _$GroupProfileParticipantRemoveRequestedImpl
     TResult? Function(GroupProfileStarted value)? started,
     TResult? Function(GroupProfileParticipantRemoveRequested value)?
     participantRemoveRequested,
+    TResult? Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
     TResult? Function(GroupProfileParticipantsAdded value)? participantsAdded,
     TResult? Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
@@ -391,6 +425,8 @@ class _$GroupProfileParticipantRemoveRequestedImpl
     TResult Function(GroupProfileStarted value)? started,
     TResult Function(GroupProfileParticipantRemoveRequested value)?
     participantRemoveRequested,
+    TResult Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
     TResult Function(GroupProfileParticipantsAdded value)? participantsAdded,
     TResult Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
@@ -417,6 +453,215 @@ abstract class GroupProfileParticipantRemoveRequested
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GroupProfileParticipantRemoveRequestedImplCopyWith<
     _$GroupProfileParticipantRemoveRequestedImpl
+  >
+  get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$GroupProfileParticipantRoleChangeRequestedImplCopyWith<$Res> {
+  factory _$$GroupProfileParticipantRoleChangeRequestedImplCopyWith(
+    _$GroupProfileParticipantRoleChangeRequestedImpl value,
+    $Res Function(_$GroupProfileParticipantRoleChangeRequestedImpl) then,
+  ) = __$$GroupProfileParticipantRoleChangeRequestedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String userId, ParticipantRole role});
+}
+
+/// @nodoc
+class __$$GroupProfileParticipantRoleChangeRequestedImplCopyWithImpl<$Res>
+    extends
+        _$GroupProfileEventCopyWithImpl<
+          $Res,
+          _$GroupProfileParticipantRoleChangeRequestedImpl
+        >
+    implements _$$GroupProfileParticipantRoleChangeRequestedImplCopyWith<$Res> {
+  __$$GroupProfileParticipantRoleChangeRequestedImplCopyWithImpl(
+    _$GroupProfileParticipantRoleChangeRequestedImpl _value,
+    $Res Function(_$GroupProfileParticipantRoleChangeRequestedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of GroupProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? userId = null, Object? role = null}) {
+    return _then(
+      _$GroupProfileParticipantRoleChangeRequestedImpl(
+        null == userId
+            ? _value.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        null == role
+            ? _value.role
+            : role // ignore: cast_nullable_to_non_nullable
+                  as ParticipantRole,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$GroupProfileParticipantRoleChangeRequestedImpl
+    implements GroupProfileParticipantRoleChangeRequested {
+  const _$GroupProfileParticipantRoleChangeRequestedImpl(
+    this.userId,
+    this.role,
+  );
+
+  @override
+  final String userId;
+  @override
+  final ParticipantRole role;
+
+  @override
+  String toString() {
+    return 'GroupProfileEvent.participantRoleChangeRequested(userId: $userId, role: $role)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GroupProfileParticipantRoleChangeRequestedImpl &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.role, role) || other.role == role));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, userId, role);
+
+  /// Create a copy of GroupProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GroupProfileParticipantRoleChangeRequestedImplCopyWith<
+    _$GroupProfileParticipantRoleChangeRequestedImpl
+  >
+  get copyWith =>
+      __$$GroupProfileParticipantRoleChangeRequestedImplCopyWithImpl<
+        _$GroupProfileParticipantRoleChangeRequestedImpl
+      >(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(String userId) participantRemoveRequested,
+    required TResult Function(String userId, ParticipantRole role)
+    participantRoleChangeRequested,
+    required TResult Function(RoomEntity room) participantsAdded,
+    required TResult Function() roomUpdatedRemotely,
+    required TResult Function() roomRemovedRemotely,
+  }) {
+    return participantRoleChangeRequested(userId, role);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(String userId)? participantRemoveRequested,
+    TResult? Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
+    TResult? Function(RoomEntity room)? participantsAdded,
+    TResult? Function()? roomUpdatedRemotely,
+    TResult? Function()? roomRemovedRemotely,
+  }) {
+    return participantRoleChangeRequested?.call(userId, role);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(String userId)? participantRemoveRequested,
+    TResult Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
+    TResult Function(RoomEntity room)? participantsAdded,
+    TResult Function()? roomUpdatedRemotely,
+    TResult Function()? roomRemovedRemotely,
+    required TResult orElse(),
+  }) {
+    if (participantRoleChangeRequested != null) {
+      return participantRoleChangeRequested(userId, role);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GroupProfileStarted value) started,
+    required TResult Function(GroupProfileParticipantRemoveRequested value)
+    participantRemoveRequested,
+    required TResult Function(GroupProfileParticipantRoleChangeRequested value)
+    participantRoleChangeRequested,
+    required TResult Function(GroupProfileParticipantsAdded value)
+    participantsAdded,
+    required TResult Function(GroupProfileRoomUpdatedRemotely value)
+    roomUpdatedRemotely,
+    required TResult Function(GroupProfileRoomRemovedRemotely value)
+    roomRemovedRemotely,
+  }) {
+    return participantRoleChangeRequested(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GroupProfileStarted value)? started,
+    TResult? Function(GroupProfileParticipantRemoveRequested value)?
+    participantRemoveRequested,
+    TResult? Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
+    TResult? Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult? Function(GroupProfileRoomUpdatedRemotely value)?
+    roomUpdatedRemotely,
+    TResult? Function(GroupProfileRoomRemovedRemotely value)?
+    roomRemovedRemotely,
+  }) {
+    return participantRoleChangeRequested?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GroupProfileStarted value)? started,
+    TResult Function(GroupProfileParticipantRemoveRequested value)?
+    participantRemoveRequested,
+    TResult Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
+    TResult Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult Function(GroupProfileRoomUpdatedRemotely value)?
+    roomUpdatedRemotely,
+    TResult Function(GroupProfileRoomRemovedRemotely value)?
+    roomRemovedRemotely,
+    required TResult orElse(),
+  }) {
+    if (participantRoleChangeRequested != null) {
+      return participantRoleChangeRequested(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GroupProfileParticipantRoleChangeRequested
+    implements GroupProfileEvent {
+  const factory GroupProfileParticipantRoleChangeRequested(
+    final String userId,
+    final ParticipantRole role,
+  ) = _$GroupProfileParticipantRoleChangeRequestedImpl;
+
+  String get userId;
+  ParticipantRole get role;
+
+  /// Create a copy of GroupProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GroupProfileParticipantRoleChangeRequestedImplCopyWith<
+    _$GroupProfileParticipantRoleChangeRequestedImpl
   >
   get copyWith => throw _privateConstructorUsedError;
 }
@@ -515,6 +760,8 @@ class _$GroupProfileParticipantsAddedImpl
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(String userId) participantRemoveRequested,
+    required TResult Function(String userId, ParticipantRole role)
+    participantRoleChangeRequested,
     required TResult Function(RoomEntity room) participantsAdded,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
@@ -527,6 +774,8 @@ class _$GroupProfileParticipantsAddedImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(String userId)? participantRemoveRequested,
+    TResult? Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
     TResult? Function(RoomEntity room)? participantsAdded,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
@@ -539,6 +788,8 @@ class _$GroupProfileParticipantsAddedImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(String userId)? participantRemoveRequested,
+    TResult Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
     TResult Function(RoomEntity room)? participantsAdded,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
@@ -556,6 +807,8 @@ class _$GroupProfileParticipantsAddedImpl
     required TResult Function(GroupProfileStarted value) started,
     required TResult Function(GroupProfileParticipantRemoveRequested value)
     participantRemoveRequested,
+    required TResult Function(GroupProfileParticipantRoleChangeRequested value)
+    participantRoleChangeRequested,
     required TResult Function(GroupProfileParticipantsAdded value)
     participantsAdded,
     required TResult Function(GroupProfileRoomUpdatedRemotely value)
@@ -572,6 +825,8 @@ class _$GroupProfileParticipantsAddedImpl
     TResult? Function(GroupProfileStarted value)? started,
     TResult? Function(GroupProfileParticipantRemoveRequested value)?
     participantRemoveRequested,
+    TResult? Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
     TResult? Function(GroupProfileParticipantsAdded value)? participantsAdded,
     TResult? Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
@@ -587,6 +842,8 @@ class _$GroupProfileParticipantsAddedImpl
     TResult Function(GroupProfileStarted value)? started,
     TResult Function(GroupProfileParticipantRemoveRequested value)?
     participantRemoveRequested,
+    TResult Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
     TResult Function(GroupProfileParticipantsAdded value)? participantsAdded,
     TResult Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
@@ -667,6 +924,8 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(String userId) participantRemoveRequested,
+    required TResult Function(String userId, ParticipantRole role)
+    participantRoleChangeRequested,
     required TResult Function(RoomEntity room) participantsAdded,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
@@ -679,6 +938,8 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(String userId)? participantRemoveRequested,
+    TResult? Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
     TResult? Function(RoomEntity room)? participantsAdded,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
@@ -691,6 +952,8 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(String userId)? participantRemoveRequested,
+    TResult Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
     TResult Function(RoomEntity room)? participantsAdded,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
@@ -708,6 +971,8 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
     required TResult Function(GroupProfileStarted value) started,
     required TResult Function(GroupProfileParticipantRemoveRequested value)
     participantRemoveRequested,
+    required TResult Function(GroupProfileParticipantRoleChangeRequested value)
+    participantRoleChangeRequested,
     required TResult Function(GroupProfileParticipantsAdded value)
     participantsAdded,
     required TResult Function(GroupProfileRoomUpdatedRemotely value)
@@ -724,6 +989,8 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
     TResult? Function(GroupProfileStarted value)? started,
     TResult? Function(GroupProfileParticipantRemoveRequested value)?
     participantRemoveRequested,
+    TResult? Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
     TResult? Function(GroupProfileParticipantsAdded value)? participantsAdded,
     TResult? Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
@@ -739,6 +1006,8 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
     TResult Function(GroupProfileStarted value)? started,
     TResult Function(GroupProfileParticipantRemoveRequested value)?
     participantRemoveRequested,
+    TResult Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
     TResult Function(GroupProfileParticipantsAdded value)? participantsAdded,
     TResult Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
@@ -809,6 +1078,8 @@ class _$GroupProfileRoomRemovedRemotelyImpl
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(String userId) participantRemoveRequested,
+    required TResult Function(String userId, ParticipantRole role)
+    participantRoleChangeRequested,
     required TResult Function(RoomEntity room) participantsAdded,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
@@ -821,6 +1092,8 @@ class _$GroupProfileRoomRemovedRemotelyImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(String userId)? participantRemoveRequested,
+    TResult? Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
     TResult? Function(RoomEntity room)? participantsAdded,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
@@ -833,6 +1106,8 @@ class _$GroupProfileRoomRemovedRemotelyImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(String userId)? participantRemoveRequested,
+    TResult Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
     TResult Function(RoomEntity room)? participantsAdded,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
@@ -850,6 +1125,8 @@ class _$GroupProfileRoomRemovedRemotelyImpl
     required TResult Function(GroupProfileStarted value) started,
     required TResult Function(GroupProfileParticipantRemoveRequested value)
     participantRemoveRequested,
+    required TResult Function(GroupProfileParticipantRoleChangeRequested value)
+    participantRoleChangeRequested,
     required TResult Function(GroupProfileParticipantsAdded value)
     participantsAdded,
     required TResult Function(GroupProfileRoomUpdatedRemotely value)
@@ -866,6 +1143,8 @@ class _$GroupProfileRoomRemovedRemotelyImpl
     TResult? Function(GroupProfileStarted value)? started,
     TResult? Function(GroupProfileParticipantRemoveRequested value)?
     participantRemoveRequested,
+    TResult? Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
     TResult? Function(GroupProfileParticipantsAdded value)? participantsAdded,
     TResult? Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
@@ -881,6 +1160,8 @@ class _$GroupProfileRoomRemovedRemotelyImpl
     TResult Function(GroupProfileStarted value)? started,
     TResult Function(GroupProfileParticipantRemoveRequested value)?
     participantRemoveRequested,
+    TResult Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
     TResult Function(GroupProfileParticipantsAdded value)? participantsAdded,
     TResult Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
