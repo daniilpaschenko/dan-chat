@@ -73,6 +73,19 @@ class RoomRemoteDatasource {
     return Room.fromJson(data);
   }
 
+  // PATCH /rooms/:roomId/participants/:userId/role
+  Future<Room> updateParticipantRole({
+    required String roomId,
+    required String userId,
+    required String role,
+  }) async {
+    final response = await _dio.patch(
+      '/rooms/$roomId/participants/$userId/role',
+      data: {'role': role},
+    );
+    return Room.fromJson(response.data as Map<String, dynamic>);
+  }
+
   Future<void> leaveRoom(String roomId) async {
     await _dio.post('/rooms/$roomId/leave');
   }
