@@ -132,6 +132,26 @@ class RoomRepository implements IRoomRepository {
   }
 
   @override
+  Future<Either<Failure, RoomEntity>> updateParticipantRole({
+    required String roomId,
+    required String userId,
+    required ParticipantRole role,
+  }) async {
+    try {
+      final room = await _remoteDatasource.updateParticipantRole(
+        roomId: roomId,
+        userId: userId,
+        role: role.name, // enum = строка 'admin'/'member'
+      );
+      return Right(room.toEntity());
+    } on DioException catch (e) {
+      return Left(_mapDioException(e));
+    } catch (e) {
+      return Left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> leaveRoom(String roomId) async {
     try {
       await _remoteDatasource.leaveRoom(roomId);
