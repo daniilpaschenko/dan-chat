@@ -1,5 +1,5 @@
 const Room = require('../models/Room');
-const { createRoomSchema, addParticipantSchema } = require('../validators/roomValidator');
+const { createRoomSchema, addParticipantSchema, updateParticipantRoleSchema } = require('../validators/roomValidator');
 const { findRoomIfMember, getParticipant, formatRoomForUser } = require('../services/roomService');
 
 // POST /rooms
@@ -244,6 +244,70 @@ exports.removeParticipant = async (req, res) => {
         return res.json(room);
     } catch (err) {
         console.error('removeParticipant error:', err);
+        return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
+    }
+};
+
+// PATCH /rooms/:roomId/participants/:userId/role
+// body: { role: 'admin'|'member' }
+// повысить участника до admin/понизить обратно до member
+// только owner, только в group, роль owner'а менять нельзя (и самого себя тоже)
+exports.updateParticipantRole = async (req, res) => {
+    try {
+        const { error, value } = updateParticipantRoleSchema.validate(req.body);
+        if (error) {
+            // обязательно return чтобы код дальше не выполнился
+            return res.status(400).json({ message: error.details[0].message });
+        }
+
+        const myId = req.user.id;
+        const { roomId, userId } = req.params;
+        const { role } = value;
+        const io = req.app.get('io');
+
+        const room = await findRoomIfMember(roomId, myId);
+        if (!room) return res.status(403).json({ message: 'Нет доступа к этой комнате' });
+        if (room.type !== 'group') {
+            return res.status(400).json({ message: 'Роли доступны только в групповом чате' });
+        }
+
+        const me = getParticipant(room, myId);
+        if (me.role !== 'owner') {
+            return res.status(403).json({ message: 'Недостаточно прав' });
+        }
+
+        if (userId === myId) {
+            return res.status(400).json({ message: 'Нельзя менять свою собственную роль' });
+        }
+
+        const target = getParticipant(room, userId);
+        if (!target) {
+            return res.status(404).json({ message: 'Пользователь не найден в этой комнате' });
+        }
+        if (target.role === 'owner') {
+            return res.status(400).json({ message: 'Нельзя менять роль владельца' });
+        }
+
+        if (target.role === role) {
+            // уже нужная роль — не считаем ошибкой, просто отдаём комнату как есть
+            await room.populate('participants.user', 'username avatarUrl status lastSeen');
+            return res.json(room);
+        }
+
+        target.role = role;
+        await room.save();
+        // populate чтобы сделать однообразное поведения для удобства на фронтенде
+        await room.populate('participants.user', 'username avatarUrl status lastSeen');
+
+        // уведомляем всех участников об изменении роли
+        room.participants.forEach((p) => {
+            const pid = p.user._id.toString();
+            io.to(`user:${pid}`).emit('room:updated', formatRoomForUser(room, pid));
+        });
+
+        return res.json(room);
+    } catch (err) {
+        console.error('updateParticipantRole error:', err);
         return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
     }
 };
