@@ -8,6 +8,7 @@ const {
     markRoomAsRead,
     addParticipant,
     removeParticipant,
+    updateParticipantRole,
     leaveRoom,
     deleteRoom,
 } = require('../controllers/roomController');
@@ -22,6 +23,7 @@ router.get('/:roomId', getRoomById);
 router.post('/:roomId/read', markRoomAsRead);
 router.post('/:roomId/participants', addParticipant);
 router.delete('/:roomId/participants/:userId', removeParticipant);
+router.patch('/:roomId/participants/:userId/role', updateParticipantRole);
 router.post('/:roomId/leave', leaveRoom);
 router.delete('/:roomId', deleteRoom);
 
