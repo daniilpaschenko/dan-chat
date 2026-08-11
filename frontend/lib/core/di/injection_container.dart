@@ -37,6 +37,7 @@ import '../../features/room/domain/usecases/create_room_usecase.dart';
 import '../../features/room/domain/usecases/mark_room_as_read_usecase.dart';
 import '../../features/room/domain/usecases/add_participant_usecase.dart';
 import '../../features/room/domain/usecases/remove_participant_usecase.dart';
+import '../../features/room/domain/usecases/update_participant_role_usecase.dart';
 import '../../features/room/domain/usecases/delete_room_usecase.dart';
 import '../../features/room/domain/usecases/leave_room_usecase.dart';
 import '../../features/room/domain/usecases/parse_socket_room_usecase.dart';
@@ -181,6 +182,9 @@ Future<void> setupDependencies() async {
   getIt.registerLazySingleton<RemoveParticipantUseCase>(
     () => RemoveParticipantUseCase(getIt<IRoomRepository>()),
   );
+  getIt.registerLazySingleton<UpdateParticipantRoleUseCase>(
+    () => UpdateParticipantRoleUseCase(getIt<IRoomRepository>()),
+  );
   getIt.registerLazySingleton<DeleteRoomUseCase>(
     () => DeleteRoomUseCase(getIt<IRoomRepository>()),
   );
@@ -217,6 +221,7 @@ Future<void> setupDependencies() async {
       roomId: roomId,
       getRoomByIdUseCase: getIt<GetRoomByIdUseCase>(),
       removeParticipantUseCase: getIt<RemoveParticipantUseCase>(),
+      updateParticipantRoleUseCase: getIt<UpdateParticipantRoleUseCase>(),
       socketService: getIt<SocketService>(),
     ),
   );
