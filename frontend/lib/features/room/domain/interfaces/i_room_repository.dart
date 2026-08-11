@@ -26,6 +26,12 @@ abstract class IRoomRepository {
     required String userId,
   });
 
+  Future<Either<Failure, RoomEntity>> updateParticipantRole({
+    required String roomId,
+    required String userId,
+    required ParticipantRole role,
+  });
+
   Future<Either<Failure, void>> leaveRoom(String roomId);
 
   Future<Either<Failure, void>> deleteRoom(String roomId);
