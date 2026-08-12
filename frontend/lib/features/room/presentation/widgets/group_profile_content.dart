@@ -14,6 +14,7 @@ class GroupProfileContent extends StatelessWidget {
   final bool isRemoving;
   final ValueChanged<String> onRemoveParticipant;
   final VoidCallback onAddParticipants;
+  final void Function(String userId, ParticipantRole newRole) onChangeParticipantRole;
 
   const GroupProfileContent({
     super.key,
@@ -22,6 +23,7 @@ class GroupProfileContent extends StatelessWidget {
     required this.isRemoving,
     required this.onRemoveParticipant,
     required this.onAddParticipants,
+    required this.onChangeParticipantRole,
   });
 
   ParticipantEntity? get _me {
@@ -34,6 +36,8 @@ class GroupProfileContent extends StatelessWidget {
 
   bool get _canManage =>
       _me != null && (_me!.role == ParticipantRole.owner || _me!.role == ParticipantRole.admin);
+
+  bool get _isOwner => _me != null && _me!.role == ParticipantRole.owner;
 
   @override
   Widget build(BuildContext context) {
@@ -114,8 +118,10 @@ class GroupProfileContent extends StatelessWidget {
             (p) => ParticipantTile(
               participant: p,
               canManage: _canManage,
+              isOwner: _isOwner,
               isMe: p.user.id == currentUserId,
               onRemove: isRemoving ? (_) {} : onRemoveParticipant,
+              onChangeRole: onChangeParticipantRole,
             ),
           ),
           SizedBox(height: spacing.pagePadding),

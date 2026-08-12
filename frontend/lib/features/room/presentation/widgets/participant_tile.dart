@@ -10,15 +10,19 @@ import '../../domain/entities/room_entity.dart';
 class ParticipantTile extends StatelessWidget {
   final ParticipantEntity participant;
   final bool canManage; // может ли текущий юзер кикать (owner/admin)
+  final bool isOwner; // может ли текущий юзер менять роли (только owner)
   final bool isMe;
   final ValueChanged<String> onRemove; // userId
+  final void Function(String userId, ParticipantRole newRole) onChangeRole;
 
   const ParticipantTile({
     super.key,
     required this.participant,
     required this.canManage,
+    required this.isOwner,
     required this.isMe,
     required this.onRemove,
+    required this.onChangeRole,
   });
 
   String get _roleLabel {
@@ -33,37 +37,13 @@ class ParticipantTile extends StatelessWidget {
   }
 
   Future<void> _onLongPress(BuildContext context) async {
-    // кикнуть можно только чужого участника + если ты admin/owner
-    if (!canManage || isMe) return;
-
-    final action = await showModalBottomSheet<String>(
-      context: context,
-      builder: (context) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              title: const Text('В разработке'),
-              onTap: () => Navigator.pop(context, 'wip'),
-            ),
-            ListTile(
-              title: Text('Удалить из группы', style: TextStyle(color: AppColors.error)),
-              onTap: () => Navigator.pop(context, 'remove'),
-            ),
-          ],
-        ),
-      ),
-    );
-
-    if (action != 'remove' || !context.mounted) return;
-
-    // нельзя кикнуть владельца
-    if (participant.role == ParticipantRole.owner) {
+    // нельзя ничего сделать с собой
+    if (isMe) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: AppColors.surfaceVariant,
           content: Text(
-            'Вы не можете выгнать Владельца группы',
+            'Это Вы',
             textAlign: TextAlign.center,
             style: TextStyle(color: AppColors.textPrimary),
           )
@@ -72,9 +52,62 @@ class ParticipantTile extends StatelessWidget {
       return;
     }
 
+    // меню не открывается если нет прав
+    if (!canManage && !isOwner) return;
+
+    // нельзя ничего сделать с владельцем — ни кикнуть, ни поменять роль
+    if (participant.role == ParticipantRole.owner) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: AppColors.surfaceVariant,
+          content: Text(
+            'Вы не можете повлиять на владельца группы',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColors.textPrimary),
+          )
+        ),
+      );
+      return;
+    }
+
+    // сменой роли распоряжается только owner
+    final canChangeRole = isOwner;
+    final promote = participant.role == ParticipantRole.member;
+
+    final action = await showModalBottomSheet<String>(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (canChangeRole)
+              ListTile(
+                title: Text(promote ? 'Повысить до админа' : 'Понизить до участника'),
+                onTap: () => Navigator.pop(context, 'role'),
+              ),
+            if (canManage)
+              ListTile(
+                title: Text('Удалить из группы', style: TextStyle(color: AppColors.error)),
+                onTap: () => Navigator.pop(context, 'remove'),
+              ),
+          ],
+        ),
+      ),
+    );
+
+    if (!context.mounted) return;
+
+    if (action == 'role') {
+      final newRole = promote ? ParticipantRole.admin : ParticipantRole.member;
+      onChangeRole(participant.user.id, newRole);
+      return;
+    }
+
+    if (action != 'remove') return;
+
     final confirmed = await showConfirmDialog(
       context,
-      title: 'Удалить участника?',
+      title: 'Удалить пользователя?',
       message: '${participant.user.username} будет удалён(а) из группы',
       confirmText: 'Удалить',
     );

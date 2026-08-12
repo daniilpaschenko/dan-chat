@@ -22,4 +22,8 @@ const addParticipantSchema = Joi.object({
     userId: objectId.required(),
 });
 
-module.exports = { createRoomSchema, addParticipantSchema };
+const updateParticipantRoleSchema = Joi.object({
+    role: Joi.string().valid('admin', 'member').required(),
+});
+
+module.exports = { createRoomSchema, addParticipantSchema, updateParticipantRoleSchema };
