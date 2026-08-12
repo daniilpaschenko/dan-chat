@@ -40,6 +40,21 @@ async function createMessage({ roomId, senderId, text }) {
     return { ok: true, message };
 }
 
+// actorId — кто выполнил действие (для 'participant_left' совпадает с targetId)
+// targetId — над кем выполнено действие
+async function createSystemMessage({ roomId, action, actorId, targetId }) {
+    const message = await Message.create({
+        room: roomId,
+        sender: actorId,
+        type: 'system',
+        systemData: { action, target: targetId },
+    });
+
+    await message.populate('sender', SENDER_PUBLIC_FIELDS);
+    await message.populate('systemData.target', SENDER_PUBLIC_FIELDS);
+
+}
+
 async function markMessagesAsRead({ roomId, userId }) {
     await Message.updateMany(
         { room: roomId, readBy: { $ne: userId }, isDeleted: false },
@@ -47,4 +62,4 @@ async function markMessagesAsRead({ roomId, userId }) {
     );
 }
 
-module.exports = { createMessage, markMessagesAsRead, SENDER_PUBLIC_FIELDS };
+module.exports = { createMessage, createSystemMessage, markMessagesAsRead, SENDER_PUBLIC_FIELDS };
