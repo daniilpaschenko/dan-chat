@@ -6,6 +6,26 @@ part of 'message.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+_$SystemDataImpl _$$SystemDataImplFromJson(Map<String, dynamic> json) =>
+    _$SystemDataImpl(
+      action: $enumDecode(_$SystemActionEnumMap, json['action']),
+      target: PartialUser.fromJson(json['target'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$SystemDataImplToJson(_$SystemDataImpl instance) =>
+    <String, dynamic>{
+      'action': _$SystemActionEnumMap[instance.action]!,
+      'target': instance.target,
+    };
+
+const _$SystemActionEnumMap = {
+  SystemAction.participantAdded: 'participant_added',
+  SystemAction.participantRemoved: 'participant_removed',
+  SystemAction.participantLeft: 'participant_left',
+  SystemAction.participantPromoted: 'participant_promoted',
+  SystemAction.participantDemoted: 'participant_demoted',
+};
+
 _$AttachmentImpl _$$AttachmentImplFromJson(Map<String, dynamic> json) =>
     _$AttachmentImpl(
       url: json['url'] as String,
@@ -55,6 +75,12 @@ _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
       updatedAt: json['updatedAt'] == null
           ? null
           : DateTime.parse(json['updatedAt'] as String),
+      type:
+          $enumDecodeNullable(_$MessageTypeEnumMap, json['type']) ??
+          MessageType.text,
+      systemData: json['systemData'] == null
+          ? null
+          : SystemData.fromJson(json['systemData'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
@@ -69,4 +95,11 @@ Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
       'isDeleted': instance.isDeleted,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
+      'type': _$MessageTypeEnumMap[instance.type]!,
+      'systemData': instance.systemData,
     };
+
+const _$MessageTypeEnumMap = {
+  MessageType.text: 'text',
+  MessageType.system: 'system',
+};
