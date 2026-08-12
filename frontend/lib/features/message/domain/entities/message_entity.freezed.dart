@@ -226,6 +226,9 @@ mixin _$MessageEntity {
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   MessageSendStatus get sendStatus => throw _privateConstructorUsedError;
+  MessageTypeEntity get type => throw _privateConstructorUsedError;
+  SystemMessageAction? get systemAction => throw _privateConstructorUsedError;
+  PartialUserEntity? get systemTarget => throw _privateConstructorUsedError;
 
   /// Create a copy of MessageEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -253,9 +256,13 @@ abstract class $MessageEntityCopyWith<$Res> {
     DateTime? createdAt,
     DateTime? updatedAt,
     MessageSendStatus sendStatus,
+    MessageTypeEntity type,
+    SystemMessageAction? systemAction,
+    PartialUserEntity? systemTarget,
   });
 
   $PartialUserEntityCopyWith<$Res> get sender;
+  $PartialUserEntityCopyWith<$Res>? get systemTarget;
 }
 
 /// @nodoc
@@ -284,6 +291,9 @@ class _$MessageEntityCopyWithImpl<$Res, $Val extends MessageEntity>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? sendStatus = null,
+    Object? type = null,
+    Object? systemAction = freezed,
+    Object? systemTarget = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -331,6 +341,18 @@ class _$MessageEntityCopyWithImpl<$Res, $Val extends MessageEntity>
                 ? _value.sendStatus
                 : sendStatus // ignore: cast_nullable_to_non_nullable
                       as MessageSendStatus,
+            type: null == type
+                ? _value.type
+                : type // ignore: cast_nullable_to_non_nullable
+                      as MessageTypeEntity,
+            systemAction: freezed == systemAction
+                ? _value.systemAction
+                : systemAction // ignore: cast_nullable_to_non_nullable
+                      as SystemMessageAction?,
+            systemTarget: freezed == systemTarget
+                ? _value.systemTarget
+                : systemTarget // ignore: cast_nullable_to_non_nullable
+                      as PartialUserEntity?,
           )
           as $Val,
     );
@@ -343,6 +365,20 @@ class _$MessageEntityCopyWithImpl<$Res, $Val extends MessageEntity>
   $PartialUserEntityCopyWith<$Res> get sender {
     return $PartialUserEntityCopyWith<$Res>(_value.sender, (value) {
       return _then(_value.copyWith(sender: value) as $Val);
+    });
+  }
+
+  /// Create a copy of MessageEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $PartialUserEntityCopyWith<$Res>? get systemTarget {
+    if (_value.systemTarget == null) {
+      return null;
+    }
+
+    return $PartialUserEntityCopyWith<$Res>(_value.systemTarget!, (value) {
+      return _then(_value.copyWith(systemTarget: value) as $Val);
     });
   }
 }
@@ -368,10 +404,15 @@ abstract class _$$MessageEntityImplCopyWith<$Res>
     DateTime? createdAt,
     DateTime? updatedAt,
     MessageSendStatus sendStatus,
+    MessageTypeEntity type,
+    SystemMessageAction? systemAction,
+    PartialUserEntity? systemTarget,
   });
 
   @override
   $PartialUserEntityCopyWith<$Res> get sender;
+  @override
+  $PartialUserEntityCopyWith<$Res>? get systemTarget;
 }
 
 /// @nodoc
@@ -399,6 +440,9 @@ class __$$MessageEntityImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? sendStatus = null,
+    Object? type = null,
+    Object? systemAction = freezed,
+    Object? systemTarget = freezed,
   }) {
     return _then(
       _$MessageEntityImpl(
@@ -446,6 +490,18 @@ class __$$MessageEntityImplCopyWithImpl<$Res>
             ? _value.sendStatus
             : sendStatus // ignore: cast_nullable_to_non_nullable
                   as MessageSendStatus,
+        type: null == type
+            ? _value.type
+            : type // ignore: cast_nullable_to_non_nullable
+                  as MessageTypeEntity,
+        systemAction: freezed == systemAction
+            ? _value.systemAction
+            : systemAction // ignore: cast_nullable_to_non_nullable
+                  as SystemMessageAction?,
+        systemTarget: freezed == systemTarget
+            ? _value.systemTarget
+            : systemTarget // ignore: cast_nullable_to_non_nullable
+                  as PartialUserEntity?,
       ),
     );
   }
@@ -466,6 +522,9 @@ class _$MessageEntityImpl implements _MessageEntity {
     this.createdAt,
     this.updatedAt,
     this.sendStatus = MessageSendStatus.sent,
+    this.type = MessageTypeEntity.text,
+    this.systemAction,
+    this.systemTarget,
   }) : _attachments = attachments,
        _readBy = readBy;
 
@@ -508,10 +567,17 @@ class _$MessageEntityImpl implements _MessageEntity {
   @override
   @JsonKey()
   final MessageSendStatus sendStatus;
+  @override
+  @JsonKey()
+  final MessageTypeEntity type;
+  @override
+  final SystemMessageAction? systemAction;
+  @override
+  final PartialUserEntity? systemTarget;
 
   @override
   String toString() {
-    return 'MessageEntity(id: $id, room: $room, sender: $sender, text: $text, attachments: $attachments, readBy: $readBy, editedAt: $editedAt, isDeleted: $isDeleted, createdAt: $createdAt, updatedAt: $updatedAt, sendStatus: $sendStatus)';
+    return 'MessageEntity(id: $id, room: $room, sender: $sender, text: $text, attachments: $attachments, readBy: $readBy, editedAt: $editedAt, isDeleted: $isDeleted, createdAt: $createdAt, updatedAt: $updatedAt, sendStatus: $sendStatus, type: $type, systemAction: $systemAction, systemTarget: $systemTarget)';
   }
 
   @override
@@ -537,7 +603,12 @@ class _$MessageEntityImpl implements _MessageEntity {
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.sendStatus, sendStatus) ||
-                other.sendStatus == sendStatus));
+                other.sendStatus == sendStatus) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.systemAction, systemAction) ||
+                other.systemAction == systemAction) &&
+            (identical(other.systemTarget, systemTarget) ||
+                other.systemTarget == systemTarget));
   }
 
   @override
@@ -554,6 +625,9 @@ class _$MessageEntityImpl implements _MessageEntity {
     createdAt,
     updatedAt,
     sendStatus,
+    type,
+    systemAction,
+    systemTarget,
   );
 
   /// Create a copy of MessageEntity
@@ -578,6 +652,9 @@ abstract class _MessageEntity implements MessageEntity {
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final MessageSendStatus sendStatus,
+    final MessageTypeEntity type,
+    final SystemMessageAction? systemAction,
+    final PartialUserEntity? systemTarget,
   }) = _$MessageEntityImpl;
 
   @override
@@ -602,6 +679,12 @@ abstract class _MessageEntity implements MessageEntity {
   DateTime? get updatedAt;
   @override
   MessageSendStatus get sendStatus;
+  @override
+  MessageTypeEntity get type;
+  @override
+  SystemMessageAction? get systemAction;
+  @override
+  PartialUserEntity? get systemTarget;
 
   /// Create a copy of MessageEntity
   /// with the given fields replaced by the non-null parameter values.
