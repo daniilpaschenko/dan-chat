@@ -53,6 +53,7 @@ async function createSystemMessage({ roomId, action, actorId, targetId }) {
     await message.populate('sender', SENDER_PUBLIC_FIELDS);
     await message.populate('systemData.target', SENDER_PUBLIC_FIELDS);
 
+    return message;
 }
 
 async function markMessagesAsRead({ roomId, userId }) {
