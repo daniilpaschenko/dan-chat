@@ -65,12 +65,15 @@ class _GroupProfileView extends StatelessWidget {
               ),
             ),
           ),
-          loaded: (room, isRemoving, errorMessage, removedRemotely) => GroupProfileContent(
+          loaded: (room, isRemoving, isChangingRole, errorMessage, removedRemotely) => GroupProfileContent(
             room: room,
             currentUserId: currentUserId,
             isRemoving: isRemoving,
             onRemoveParticipant: (userId) =>
                 context.read<GroupProfileBloc>().add(GroupProfileEvent.participantRemoveRequested(userId)),
+            onChangeParticipantRole: (userId, newRole) => context
+                .read<GroupProfileBloc>()
+                .add(GroupProfileEvent.participantRoleChangeRequested(userId, newRole)),
             onAddParticipants: () async {
               final existingIds = room.participants.map((p) => p.user.id).toSet();
               final updatedRoom = await context.push<RoomEntity>(

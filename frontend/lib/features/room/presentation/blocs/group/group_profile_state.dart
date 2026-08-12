@@ -11,6 +11,7 @@ class GroupProfileState with _$GroupProfileState {
   const factory GroupProfileState.loaded({
     required RoomEntity room,
     @Default(false) bool isRemoving,
+    @Default(false) bool isChangingRole,
     String? errorMessage, // одноразовое сообщение об ошибке кика
     // одноразовый сигнал — нас удалили из группы (или её удалили) с другого устройства/владельцем
     @Default(false) bool removedRemotely,
