@@ -20,6 +20,36 @@ extension AttachmentMapper on Attachment {
   }
 }
 
+// маппинг enum'ов type/action data -> domain (имена совпадают 1 в 1, но слои разделены сознательно —
+// domain не должен знать про data-модели)
+extension _MessageTypeMapper on MessageType {
+  MessageTypeEntity toEntity() {
+    switch (this) {
+      case MessageType.text:
+        return MessageTypeEntity.text;
+      case MessageType.system:
+        return MessageTypeEntity.system;
+    }
+  }
+}
+
+extension _SystemActionMapper on SystemAction {
+  SystemMessageAction toEntity() {
+    switch (this) {
+      case SystemAction.participantAdded:
+        return SystemMessageAction.participantAdded;
+      case SystemAction.participantRemoved:
+        return SystemMessageAction.participantRemoved;
+      case SystemAction.participantLeft:
+        return SystemMessageAction.participantLeft;
+      case SystemAction.participantPromoted:
+        return SystemMessageAction.participantPromoted;
+      case SystemAction.participantDemoted:
+        return SystemMessageAction.participantDemoted;
+    }
+  }
+}
+
 extension MessageMapper on Message {
   MessageEntity toEntity() {
     return MessageEntity(
@@ -33,6 +63,9 @@ extension MessageMapper on Message {
       isDeleted: isDeleted,
       createdAt: createdAt,
       updatedAt: updatedAt,
+      type: type.toEntity(),
+      systemAction: systemData?.action.toEntity(),
+      systemTarget: systemData?.target.toEntity(),
     );
   }
 }
