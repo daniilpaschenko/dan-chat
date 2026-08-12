@@ -5,6 +5,40 @@ import '../../domain/entities/message_entity.dart' show AttachmentType;
 part 'message.freezed.dart';
 part 'message.g.dart';
 
+// соответствует enum'у type в Message.js: 'text' | 'system'
+enum MessageType {
+  @JsonValue('text')
+  text,
+  @JsonValue('system')
+  system,
+}
+
+// соответствует enum'у systemData.action в Message.js
+enum SystemAction {
+  @JsonValue('participant_added')
+  participantAdded,
+  @JsonValue('participant_removed')
+  participantRemoved,
+  @JsonValue('participant_left')
+  participantLeft,
+  @JsonValue('participant_promoted')
+  participantPromoted,
+  @JsonValue('participant_demoted')
+  participantDemoted,
+}
+
+// соответствует под-схеме systemData — присутствует только когда type == system
+@freezed
+class SystemData with _$SystemData {
+  const factory SystemData({
+    required SystemAction action,
+    required PartialUser target,
+  }) = _SystemData;
+
+  factory SystemData.fromJson(Map<String, dynamic> json) =>
+      _$SystemDataFromJson(json);
+}
+
 // под-схема для прикреплённого файла к сообщению
 @freezed
 class Attachment with _$Attachment {
@@ -32,6 +66,8 @@ class Message with _$Message {
     @Default(false) bool isDeleted,
     DateTime? createdAt,
     DateTime? updatedAt,
+    @Default(MessageType.text) MessageType type,
+    SystemData? systemData,
   }) = _Message;
 
   factory Message.fromJson(Map<String, dynamic> json) => _$MessageFromJson(json);
