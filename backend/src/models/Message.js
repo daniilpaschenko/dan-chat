@@ -58,6 +58,23 @@ const messageSchema = new Schema(
             type: Boolean,
             default: false,
         },
+        // 'text' — обычное сообщение, 'system' — служебное (кик/добавление/выход и т.д.)
+        type: {
+            type: String,
+            enum: ['text', 'system'],
+            default: 'text',
+        },
+        // заполняется только когда type === 'system'
+        systemData: {
+            action: {
+                type: String,
+                enum: [
+                    'participant_added', 'participant_removed', 'participant_left',
+                    'participant_promoted', 'participant_demoted'
+                ],
+            },
+            target: { type: Schema.Types.ObjectId, ref: 'User' },
+        },
     },
     {
         timestamps: true,
