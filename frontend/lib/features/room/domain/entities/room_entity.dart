@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../user/domain/entities/user_entity.dart';
+import '../../../message/domain/entities/message_entity.dart' show MessageTypeEntity, SystemMessageAction;
 
 part 'room_entity.freezed.dart';
 
@@ -22,6 +23,10 @@ class LastMessageEntity with _$LastMessageEntity {
     String? sender,
     DateTime? createdAt,
     @Default([]) List<String> readBy,
+    @Default(MessageTypeEntity.text) MessageTypeEntity type,
+    SystemMessageAction? systemAction,
+    String? systemActorUsername,
+    String? systemTargetUsername,
   }) = _LastMessageEntity;
 }
 
