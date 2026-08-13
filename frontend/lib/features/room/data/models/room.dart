@@ -17,12 +17,37 @@ class Participant with _$Participant {
       _$ParticipantFromJson(json);
 }
 
+// dto-enum'ы только для парсинга JSON с бэка (snake_case)
+enum LastMessageTypeDto {
+  @JsonValue('text')
+  text,
+  @JsonValue('system')
+  system,
+}
+
+enum LastMessageSystemActionDto {
+  @JsonValue('participant_added')
+  participantAdded,
+  @JsonValue('participant_removed')
+  participantRemoved,
+  @JsonValue('participant_left')
+  participantLeft,
+  @JsonValue('participant_promoted')
+  participantPromoted,
+  @JsonValue('participant_demoted')
+  participantDemoted,
+}
+
 @freezed
 class LastMessage with _$LastMessage {
   const factory LastMessage({
     String? text,
     String? sender, // ObjectId-строка, не populate'ится нигде
     DateTime? createdAt,
+    @Default(LastMessageTypeDto.text) LastMessageTypeDto type,
+    LastMessageSystemActionDto? systemAction,
+    String? systemActorUsername,
+    String? systemTargetUsername,
   }) = _LastMessage;
 
   factory LastMessage.fromJson(Map<String, dynamic> json) =>

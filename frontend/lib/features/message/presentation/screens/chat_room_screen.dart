@@ -1,3 +1,4 @@
+import 'package:dan_chat/features/message/domain/entities/message_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,7 @@ import '../blocs/chat_room_state.dart';
 import '../widgets/chat_app_bar.dart';
 import '../widgets/message_bubble.dart';
 import '../widgets/message_input.dart';
+import '../widgets/system_message_bubble.dart';
 
 class ChatRoomScreen extends StatelessWidget {
   final String roomId;
@@ -149,6 +151,15 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
                                 }
                                 // получаем сообщение
                                 final message = state.messages[state.messages.length - 1 - index];
+
+                                if (message.type == MessageTypeEntity.system) {
+                                  return SystemMessageBubble(
+                                    message: message,
+                                    currentUserId: currentUserId,
+                                    spacing: spacing,
+                                  );
+                                }
+
                                 // по айди проверяем наше ли оно
                                 final isMine = message.sender.id == currentUserId;
                                 // передаём эти параметры в "пузырик" сообщения

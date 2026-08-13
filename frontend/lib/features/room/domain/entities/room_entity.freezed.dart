@@ -217,6 +217,10 @@ mixin _$LastMessageEntity {
   String? get sender => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   List<String> get readBy => throw _privateConstructorUsedError;
+  MessageTypeEntity get type => throw _privateConstructorUsedError;
+  SystemMessageAction? get systemAction => throw _privateConstructorUsedError;
+  String? get systemActorUsername => throw _privateConstructorUsedError;
+  String? get systemTargetUsername => throw _privateConstructorUsedError;
 
   /// Create a copy of LastMessageEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -237,6 +241,10 @@ abstract class $LastMessageEntityCopyWith<$Res> {
     String? sender,
     DateTime? createdAt,
     List<String> readBy,
+    MessageTypeEntity type,
+    SystemMessageAction? systemAction,
+    String? systemActorUsername,
+    String? systemTargetUsername,
   });
 }
 
@@ -259,6 +267,10 @@ class _$LastMessageEntityCopyWithImpl<$Res, $Val extends LastMessageEntity>
     Object? sender = freezed,
     Object? createdAt = freezed,
     Object? readBy = null,
+    Object? type = null,
+    Object? systemAction = freezed,
+    Object? systemActorUsername = freezed,
+    Object? systemTargetUsername = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -278,6 +290,22 @@ class _$LastMessageEntityCopyWithImpl<$Res, $Val extends LastMessageEntity>
                 ? _value.readBy
                 : readBy // ignore: cast_nullable_to_non_nullable
                       as List<String>,
+            type: null == type
+                ? _value.type
+                : type // ignore: cast_nullable_to_non_nullable
+                      as MessageTypeEntity,
+            systemAction: freezed == systemAction
+                ? _value.systemAction
+                : systemAction // ignore: cast_nullable_to_non_nullable
+                      as SystemMessageAction?,
+            systemActorUsername: freezed == systemActorUsername
+                ? _value.systemActorUsername
+                : systemActorUsername // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            systemTargetUsername: freezed == systemTargetUsername
+                ? _value.systemTargetUsername
+                : systemTargetUsername // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -298,6 +326,10 @@ abstract class _$$LastMessageEntityImplCopyWith<$Res>
     String? sender,
     DateTime? createdAt,
     List<String> readBy,
+    MessageTypeEntity type,
+    SystemMessageAction? systemAction,
+    String? systemActorUsername,
+    String? systemTargetUsername,
   });
 }
 
@@ -319,6 +351,10 @@ class __$$LastMessageEntityImplCopyWithImpl<$Res>
     Object? sender = freezed,
     Object? createdAt = freezed,
     Object? readBy = null,
+    Object? type = null,
+    Object? systemAction = freezed,
+    Object? systemActorUsername = freezed,
+    Object? systemTargetUsername = freezed,
   }) {
     return _then(
       _$LastMessageEntityImpl(
@@ -338,6 +374,22 @@ class __$$LastMessageEntityImplCopyWithImpl<$Res>
             ? _value._readBy
             : readBy // ignore: cast_nullable_to_non_nullable
                   as List<String>,
+        type: null == type
+            ? _value.type
+            : type // ignore: cast_nullable_to_non_nullable
+                  as MessageTypeEntity,
+        systemAction: freezed == systemAction
+            ? _value.systemAction
+            : systemAction // ignore: cast_nullable_to_non_nullable
+                  as SystemMessageAction?,
+        systemActorUsername: freezed == systemActorUsername
+            ? _value.systemActorUsername
+            : systemActorUsername // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        systemTargetUsername: freezed == systemTargetUsername
+            ? _value.systemTargetUsername
+            : systemTargetUsername // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -351,6 +403,10 @@ class _$LastMessageEntityImpl implements _LastMessageEntity {
     this.sender,
     this.createdAt,
     final List<String> readBy = const [],
+    this.type = MessageTypeEntity.text,
+    this.systemAction,
+    this.systemActorUsername,
+    this.systemTargetUsername,
   }) : _readBy = readBy;
 
   @override
@@ -369,8 +425,18 @@ class _$LastMessageEntityImpl implements _LastMessageEntity {
   }
 
   @override
+  @JsonKey()
+  final MessageTypeEntity type;
+  @override
+  final SystemMessageAction? systemAction;
+  @override
+  final String? systemActorUsername;
+  @override
+  final String? systemTargetUsername;
+
+  @override
   String toString() {
-    return 'LastMessageEntity(text: $text, sender: $sender, createdAt: $createdAt, readBy: $readBy)';
+    return 'LastMessageEntity(text: $text, sender: $sender, createdAt: $createdAt, readBy: $readBy, type: $type, systemAction: $systemAction, systemActorUsername: $systemActorUsername, systemTargetUsername: $systemTargetUsername)';
   }
 
   @override
@@ -382,7 +448,14 @@ class _$LastMessageEntityImpl implements _LastMessageEntity {
             (identical(other.sender, sender) || other.sender == sender) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            const DeepCollectionEquality().equals(other._readBy, _readBy));
+            const DeepCollectionEquality().equals(other._readBy, _readBy) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.systemAction, systemAction) ||
+                other.systemAction == systemAction) &&
+            (identical(other.systemActorUsername, systemActorUsername) ||
+                other.systemActorUsername == systemActorUsername) &&
+            (identical(other.systemTargetUsername, systemTargetUsername) ||
+                other.systemTargetUsername == systemTargetUsername));
   }
 
   @override
@@ -392,6 +465,10 @@ class _$LastMessageEntityImpl implements _LastMessageEntity {
     sender,
     createdAt,
     const DeepCollectionEquality().hash(_readBy),
+    type,
+    systemAction,
+    systemActorUsername,
+    systemTargetUsername,
   );
 
   /// Create a copy of LastMessageEntity
@@ -412,6 +489,10 @@ abstract class _LastMessageEntity implements LastMessageEntity {
     final String? sender,
     final DateTime? createdAt,
     final List<String> readBy,
+    final MessageTypeEntity type,
+    final SystemMessageAction? systemAction,
+    final String? systemActorUsername,
+    final String? systemTargetUsername,
   }) = _$LastMessageEntityImpl;
 
   @override
@@ -422,6 +503,14 @@ abstract class _LastMessageEntity implements LastMessageEntity {
   DateTime? get createdAt;
   @override
   List<String> get readBy;
+  @override
+  MessageTypeEntity get type;
+  @override
+  SystemMessageAction? get systemAction;
+  @override
+  String? get systemActorUsername;
+  @override
+  String? get systemTargetUsername;
 
   /// Create a copy of LastMessageEntity
   /// with the given fields replaced by the non-null parameter values.

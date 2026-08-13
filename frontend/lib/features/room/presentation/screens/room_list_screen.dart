@@ -11,6 +11,7 @@ import '../../../../core/widgets/empty_state_text.dart';
 import '../../../../core/widgets/error_view.dart';
 import '../../domain/entities/room_display_info.dart';
 import '../../domain/entities/room_entity.dart';
+import '../../../message/domain/entities/message_entity.dart' show SystemMessageAction, MessageTypeEntity;
 import '../../../user/domain/entities/user_entity.dart';
 import '../blocs/room/room_list_bloc.dart';
 import '../blocs/room/room_list_event.dart';
@@ -71,7 +72,13 @@ class _RoomListViewState extends State<_RoomListView> {
   // последнее сообщение в чате (если группа, то еще и ник отправителя)
   String? _lastMessagePreview(RoomListItemEntity room, String? currentUserId) {
     final lastMessage = room.lastMessage;
-    if (lastMessage == null || lastMessage.text == null) return null;
+    if (lastMessage == null) return null;
+
+    if (lastMessage.type == MessageTypeEntity.system) {
+      return _systemLastMessageText(lastMessage, currentUserId);
+    }
+
+    if (lastMessage.text == null) return null;
 
     if (room.type == RoomType.group) {
       final senderId = lastMessage.sender;
@@ -81,21 +88,36 @@ class _RoomListViewState extends State<_RoomListView> {
         nick = 'Вы';
       } else if (senderId != null) {
         try {
-          final participant = room.participants.firstWhere(
-            (p) => p.user.id == senderId,
-          );
+          final participant = room.participants.firstWhere((p) => p.user.id == senderId);
           nick = participant.user.username;
         } catch (_) {
           nick = null;
         }
       }
-
-      if (nick != null && nick.isNotEmpty) {
-        return '$nick: ${lastMessage.text}';
-      }
+      if (nick != null && nick.isNotEmpty) return '$nick: ${lastMessage.text}';
     }
 
     return lastMessage.text;
+  }
+
+  String _systemLastMessageText(LastMessageEntity lastMessage, String? currentUserId) {
+    final actor = lastMessage.systemActorUsername ?? '';
+    final target = lastMessage.systemTargetUsername ?? '';
+
+    switch (lastMessage.systemAction) {
+      case SystemMessageAction.participantAdded:
+        return '$actor добавил(а) $target';
+      case SystemMessageAction.participantRemoved:
+        return '$actor удалил(а) $target';
+      case SystemMessageAction.participantLeft:
+        return '$actor вышел(а) из группы';
+      case SystemMessageAction.participantPromoted:
+        return '$actor назначил(а) $target администратором';
+      case SystemMessageAction.participantDemoted:
+        return '$actor понизил(а) $target до участника';
+      case null:
+        return '';
+    }
   }
 
   @override

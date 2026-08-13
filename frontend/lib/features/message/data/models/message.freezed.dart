@@ -15,6 +15,189 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
+SystemData _$SystemDataFromJson(Map<String, dynamic> json) {
+  return _SystemData.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SystemData {
+  SystemAction get action => throw _privateConstructorUsedError;
+  PartialUser get target => throw _privateConstructorUsedError;
+
+  /// Serializes this SystemData to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of SystemData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $SystemDataCopyWith<SystemData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SystemDataCopyWith<$Res> {
+  factory $SystemDataCopyWith(
+    SystemData value,
+    $Res Function(SystemData) then,
+  ) = _$SystemDataCopyWithImpl<$Res, SystemData>;
+  @useResult
+  $Res call({SystemAction action, PartialUser target});
+
+  $PartialUserCopyWith<$Res> get target;
+}
+
+/// @nodoc
+class _$SystemDataCopyWithImpl<$Res, $Val extends SystemData>
+    implements $SystemDataCopyWith<$Res> {
+  _$SystemDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of SystemData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? action = null, Object? target = null}) {
+    return _then(
+      _value.copyWith(
+            action: null == action
+                ? _value.action
+                : action // ignore: cast_nullable_to_non_nullable
+                      as SystemAction,
+            target: null == target
+                ? _value.target
+                : target // ignore: cast_nullable_to_non_nullable
+                      as PartialUser,
+          )
+          as $Val,
+    );
+  }
+
+  /// Create a copy of SystemData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $PartialUserCopyWith<$Res> get target {
+    return $PartialUserCopyWith<$Res>(_value.target, (value) {
+      return _then(_value.copyWith(target: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$SystemDataImplCopyWith<$Res>
+    implements $SystemDataCopyWith<$Res> {
+  factory _$$SystemDataImplCopyWith(
+    _$SystemDataImpl value,
+    $Res Function(_$SystemDataImpl) then,
+  ) = __$$SystemDataImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({SystemAction action, PartialUser target});
+
+  @override
+  $PartialUserCopyWith<$Res> get target;
+}
+
+/// @nodoc
+class __$$SystemDataImplCopyWithImpl<$Res>
+    extends _$SystemDataCopyWithImpl<$Res, _$SystemDataImpl>
+    implements _$$SystemDataImplCopyWith<$Res> {
+  __$$SystemDataImplCopyWithImpl(
+    _$SystemDataImpl _value,
+    $Res Function(_$SystemDataImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of SystemData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? action = null, Object? target = null}) {
+    return _then(
+      _$SystemDataImpl(
+        action: null == action
+            ? _value.action
+            : action // ignore: cast_nullable_to_non_nullable
+                  as SystemAction,
+        target: null == target
+            ? _value.target
+            : target // ignore: cast_nullable_to_non_nullable
+                  as PartialUser,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SystemDataImpl implements _SystemData {
+  const _$SystemDataImpl({required this.action, required this.target});
+
+  factory _$SystemDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SystemDataImplFromJson(json);
+
+  @override
+  final SystemAction action;
+  @override
+  final PartialUser target;
+
+  @override
+  String toString() {
+    return 'SystemData(action: $action, target: $target)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SystemDataImpl &&
+            (identical(other.action, action) || other.action == action) &&
+            (identical(other.target, target) || other.target == target));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, action, target);
+
+  /// Create a copy of SystemData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SystemDataImplCopyWith<_$SystemDataImpl> get copyWith =>
+      __$$SystemDataImplCopyWithImpl<_$SystemDataImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SystemDataImplToJson(this);
+  }
+}
+
+abstract class _SystemData implements SystemData {
+  const factory _SystemData({
+    required final SystemAction action,
+    required final PartialUser target,
+  }) = _$SystemDataImpl;
+
+  factory _SystemData.fromJson(Map<String, dynamic> json) =
+      _$SystemDataImpl.fromJson;
+
+  @override
+  SystemAction get action;
+  @override
+  PartialUser get target;
+
+  /// Create a copy of SystemData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SystemDataImplCopyWith<_$SystemDataImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 Attachment _$AttachmentFromJson(Map<String, dynamic> json) {
   return _Attachment.fromJson(json);
 }
@@ -246,6 +429,8 @@ mixin _$Message {
   bool get isDeleted => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
+  MessageType get type => throw _privateConstructorUsedError;
+  SystemData? get systemData => throw _privateConstructorUsedError;
 
   /// Serializes this Message to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -272,9 +457,12 @@ abstract class $MessageCopyWith<$Res> {
     bool isDeleted,
     DateTime? createdAt,
     DateTime? updatedAt,
+    MessageType type,
+    SystemData? systemData,
   });
 
   $PartialUserCopyWith<$Res> get sender;
+  $SystemDataCopyWith<$Res>? get systemData;
 }
 
 /// @nodoc
@@ -302,6 +490,8 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
     Object? isDeleted = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? type = null,
+    Object? systemData = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -345,6 +535,14 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
                 ? _value.updatedAt
                 : updatedAt // ignore: cast_nullable_to_non_nullable
                       as DateTime?,
+            type: null == type
+                ? _value.type
+                : type // ignore: cast_nullable_to_non_nullable
+                      as MessageType,
+            systemData: freezed == systemData
+                ? _value.systemData
+                : systemData // ignore: cast_nullable_to_non_nullable
+                      as SystemData?,
           )
           as $Val,
     );
@@ -357,6 +555,20 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
   $PartialUserCopyWith<$Res> get sender {
     return $PartialUserCopyWith<$Res>(_value.sender, (value) {
       return _then(_value.copyWith(sender: value) as $Val);
+    });
+  }
+
+  /// Create a copy of Message
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SystemDataCopyWith<$Res>? get systemData {
+    if (_value.systemData == null) {
+      return null;
+    }
+
+    return $SystemDataCopyWith<$Res>(_value.systemData!, (value) {
+      return _then(_value.copyWith(systemData: value) as $Val);
     });
   }
 }
@@ -380,10 +592,14 @@ abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
     bool isDeleted,
     DateTime? createdAt,
     DateTime? updatedAt,
+    MessageType type,
+    SystemData? systemData,
   });
 
   @override
   $PartialUserCopyWith<$Res> get sender;
+  @override
+  $SystemDataCopyWith<$Res>? get systemData;
 }
 
 /// @nodoc
@@ -410,6 +626,8 @@ class __$$MessageImplCopyWithImpl<$Res>
     Object? isDeleted = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? type = null,
+    Object? systemData = freezed,
   }) {
     return _then(
       _$MessageImpl(
@@ -453,6 +671,14 @@ class __$$MessageImplCopyWithImpl<$Res>
             ? _value.updatedAt
             : updatedAt // ignore: cast_nullable_to_non_nullable
                   as DateTime?,
+        type: null == type
+            ? _value.type
+            : type // ignore: cast_nullable_to_non_nullable
+                  as MessageType,
+        systemData: freezed == systemData
+            ? _value.systemData
+            : systemData // ignore: cast_nullable_to_non_nullable
+                  as SystemData?,
       ),
     );
   }
@@ -472,6 +698,8 @@ class _$MessageImpl implements _Message {
     this.isDeleted = false,
     this.createdAt,
     this.updatedAt,
+    this.type = MessageType.text,
+    this.systemData,
   }) : _attachments = attachments,
        _readBy = readBy;
 
@@ -515,10 +743,15 @@ class _$MessageImpl implements _Message {
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
+  @override
+  @JsonKey()
+  final MessageType type;
+  @override
+  final SystemData? systemData;
 
   @override
   String toString() {
-    return 'Message(id: $id, room: $room, sender: $sender, text: $text, attachments: $attachments, readBy: $readBy, editedAt: $editedAt, isDeleted: $isDeleted, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Message(id: $id, room: $room, sender: $sender, text: $text, attachments: $attachments, readBy: $readBy, editedAt: $editedAt, isDeleted: $isDeleted, createdAt: $createdAt, updatedAt: $updatedAt, type: $type, systemData: $systemData)';
   }
 
   @override
@@ -542,7 +775,10 @@ class _$MessageImpl implements _Message {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.systemData, systemData) ||
+                other.systemData == systemData));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -559,6 +795,8 @@ class _$MessageImpl implements _Message {
     isDeleted,
     createdAt,
     updatedAt,
+    type,
+    systemData,
   );
 
   /// Create a copy of Message
@@ -587,6 +825,8 @@ abstract class _Message implements Message {
     final bool isDeleted,
     final DateTime? createdAt,
     final DateTime? updatedAt,
+    final MessageType type,
+    final SystemData? systemData,
   }) = _$MessageImpl;
 
   factory _Message.fromJson(Map<String, dynamic> json) = _$MessageImpl.fromJson;
@@ -611,6 +851,10 @@ abstract class _Message implements Message {
   DateTime? get createdAt;
   @override
   DateTime? get updatedAt;
+  @override
+  MessageType get type;
+  @override
+  SystemData? get systemData;
 
   /// Create a copy of Message
   /// with the given fields replaced by the non-null parameter values.
