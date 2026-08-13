@@ -193,6 +193,15 @@ exports.addParticipant = async (req, res) => {
             targetId: userId,
         });
 
+        room.lastMessage = {
+            sender: myId,
+            createdAt: systemMessage.createdAt,
+            type: 'system',
+            systemAction: 'participant_added',
+            systemActorUsername: systemMessage.sender.username,
+            systemTargetUsername: systemMessage.systemData.target.username,
+        };
+
         // новому участнику — комната появляется в списке чатов, как при создании
         io.in(`user:${userId}`).socketsJoin(room.id);
         io.to(`user:${userId}`).emit('room:created', formatRoomForUser(room, userId));
@@ -250,6 +259,16 @@ exports.removeParticipant = async (req, res) => {
             actorId: myId, // при isSelf это тот же userId
             targetId: userId,
         });
+
+        room.lastMessage = {
+            sender: myId,
+            createdAt: systemMessage.createdAt,
+            type: 'system',
+            systemAction: 'participant_removed',
+            systemActorUsername: systemMessage.sender.username,
+            systemTargetUsername: systemMessage.systemData.target.username,
+        };
+
         io.to(roomId).emit('message:new', systemMessage.toJSON());
 
         // кикнутому — комната пропадает из списка
@@ -328,6 +347,16 @@ exports.updateParticipantRole = async (req, res) => {
             actorId: myId,
             targetId: userId,
         });
+
+        room.lastMessage = {
+            sender: myId,
+            createdAt: systemMessage.createdAt,
+            type: 'system',
+            systemAction: role === 'admin' ? 'participant_promoted' : 'participant_demoted',
+            systemActorUsername: systemMessage.sender.username,
+            systemTargetUsername: systemMessage.systemData.target.username,
+        };
+        console.log(room.lastMessage);
         io.to(roomId).emit('message:new', systemMessage.toJSON());
 
         // уведомляем всех участников об изменении роли
@@ -369,6 +398,16 @@ exports.leaveRoom = async (req, res) => {
             actorId: myId,
             targetId: myId,
         });
+
+        room.lastMessage = {
+            sender: myId,
+            createdAt: systemMessage.createdAt,
+            type: 'system',
+            systemAction: 'participant_left',
+            systemActorUsername: systemMessage.sender.username,
+            systemTargetUsername: systemMessage.systemData.target.username,
+        };
+
         io.to(roomId).emit('message:new', systemMessage.toJSON());
 
         await room.save();
