@@ -1,4 +1,5 @@
 const Message = require('../models/Message');
+const Room = require('../models/Room');
 const { findRoomIfMember } = require('./roomService');
 
 const SENDER_PUBLIC_FIELDS = 'username avatarUrl';
@@ -40,6 +41,34 @@ async function createMessage({ roomId, senderId, text }) {
     return { ok: true, message };
 }
 
+// actorId — кто выполнил действие (для 'participant_left' совпадает с targetId)
+// targetId — над кем выполнено действие
+async function createSystemMessage({ roomId, action, actorId, targetId }) {
+    const message = await Message.create({
+        room: roomId,
+        sender: actorId,
+        type: 'system',
+        systemData: { action, target: targetId },
+    });
+
+    await message.populate('sender', SENDER_PUBLIC_FIELDS);
+    await message.populate('systemData.target', SENDER_PUBLIC_FIELDS);
+
+    // обновляем превью комнаты
+    await Room.findByIdAndUpdate(roomId, {
+        lastMessage: {
+            sender: actorId,
+            createdAt: message.createdAt,
+            type: 'system',
+            systemAction: action,
+            systemActorUsername: message.sender.username,
+            systemTargetUsername: message.systemData.target.username,
+        },
+    });
+
+    return message;
+}
+
 async function markMessagesAsRead({ roomId, userId }) {
     await Message.updateMany(
         { room: roomId, readBy: { $ne: userId }, isDeleted: false },
@@ -47,4 +76,4 @@ async function markMessagesAsRead({ roomId, userId }) {
     );
 }
 
-module.exports = { createMessage, markMessagesAsRead, SENDER_PUBLIC_FIELDS };
+module.exports = { createMessage, createSystemMessage, markMessagesAsRead, SENDER_PUBLIC_FIELDS };

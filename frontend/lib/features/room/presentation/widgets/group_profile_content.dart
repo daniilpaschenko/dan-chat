@@ -79,6 +79,7 @@ class GroupProfileContent extends StatelessWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: AppColors.surfaceVariant,
+                          duration: const Duration(seconds: 1),
                           content: Text(
                           'Добавлять участников может только Владелец или Админ',
                           textAlign: TextAlign.center,

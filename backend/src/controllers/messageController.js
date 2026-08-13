@@ -33,6 +33,7 @@ exports.getRoomMessages = async (req, res) => {
             .sort({ _id: -1 }) // от новых к старым
             .limit(limit + 1) // на 1 сообщение больше, чем нужно отдать
             .populate('sender', 'username avatarUrl')
+            .populate('systemData.target', 'username avatarUrl')
 
         const hasMore = messages.length > limit; // есть ли больше сообщений
         const page = hasMore ? messages.slice(0, limit) : messages;

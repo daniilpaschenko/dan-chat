@@ -5,6 +5,15 @@ part 'message_entity.freezed.dart';
 
 enum AttachmentType { image, file }
 enum MessageSendStatus { sending, sent, failed }
+enum MessageTypeEntity { text, system }
+
+enum SystemMessageAction {
+  participantAdded,
+  participantRemoved,
+  participantLeft,
+  participantPromoted,
+  participantDemoted
+}
 
 // доменная под-сущность для прикреплённого файла
 @freezed
@@ -31,5 +40,8 @@ class MessageEntity with _$MessageEntity {
     DateTime? createdAt,
     DateTime? updatedAt,
     @Default(MessageSendStatus.sent) MessageSendStatus sendStatus,
+    @Default(MessageTypeEntity.text) MessageTypeEntity type,
+    SystemMessageAction? systemAction,
+    PartialUserEntity? systemTarget,
   }) = _MessageEntity;
 }
