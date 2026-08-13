@@ -237,6 +237,11 @@ mixin _$LastMessage {
   String? get sender =>
       throw _privateConstructorUsedError; // ObjectId-строка, не populate'ится нигде
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  LastMessageTypeDto get type => throw _privateConstructorUsedError;
+  LastMessageSystemActionDto? get systemAction =>
+      throw _privateConstructorUsedError;
+  String? get systemActorUsername => throw _privateConstructorUsedError;
+  String? get systemTargetUsername => throw _privateConstructorUsedError;
 
   /// Serializes this LastMessage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -255,7 +260,15 @@ abstract class $LastMessageCopyWith<$Res> {
     $Res Function(LastMessage) then,
   ) = _$LastMessageCopyWithImpl<$Res, LastMessage>;
   @useResult
-  $Res call({String? text, String? sender, DateTime? createdAt});
+  $Res call({
+    String? text,
+    String? sender,
+    DateTime? createdAt,
+    LastMessageTypeDto type,
+    LastMessageSystemActionDto? systemAction,
+    String? systemActorUsername,
+    String? systemTargetUsername,
+  });
 }
 
 /// @nodoc
@@ -276,6 +289,10 @@ class _$LastMessageCopyWithImpl<$Res, $Val extends LastMessage>
     Object? text = freezed,
     Object? sender = freezed,
     Object? createdAt = freezed,
+    Object? type = null,
+    Object? systemAction = freezed,
+    Object? systemActorUsername = freezed,
+    Object? systemTargetUsername = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -291,6 +308,22 @@ class _$LastMessageCopyWithImpl<$Res, $Val extends LastMessage>
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
                       as DateTime?,
+            type: null == type
+                ? _value.type
+                : type // ignore: cast_nullable_to_non_nullable
+                      as LastMessageTypeDto,
+            systemAction: freezed == systemAction
+                ? _value.systemAction
+                : systemAction // ignore: cast_nullable_to_non_nullable
+                      as LastMessageSystemActionDto?,
+            systemActorUsername: freezed == systemActorUsername
+                ? _value.systemActorUsername
+                : systemActorUsername // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            systemTargetUsername: freezed == systemTargetUsername
+                ? _value.systemTargetUsername
+                : systemTargetUsername // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -306,7 +339,15 @@ abstract class _$$LastMessageImplCopyWith<$Res>
   ) = __$$LastMessageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? text, String? sender, DateTime? createdAt});
+  $Res call({
+    String? text,
+    String? sender,
+    DateTime? createdAt,
+    LastMessageTypeDto type,
+    LastMessageSystemActionDto? systemAction,
+    String? systemActorUsername,
+    String? systemTargetUsername,
+  });
 }
 
 /// @nodoc
@@ -326,6 +367,10 @@ class __$$LastMessageImplCopyWithImpl<$Res>
     Object? text = freezed,
     Object? sender = freezed,
     Object? createdAt = freezed,
+    Object? type = null,
+    Object? systemAction = freezed,
+    Object? systemActorUsername = freezed,
+    Object? systemTargetUsername = freezed,
   }) {
     return _then(
       _$LastMessageImpl(
@@ -341,6 +386,22 @@ class __$$LastMessageImplCopyWithImpl<$Res>
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
                   as DateTime?,
+        type: null == type
+            ? _value.type
+            : type // ignore: cast_nullable_to_non_nullable
+                  as LastMessageTypeDto,
+        systemAction: freezed == systemAction
+            ? _value.systemAction
+            : systemAction // ignore: cast_nullable_to_non_nullable
+                  as LastMessageSystemActionDto?,
+        systemActorUsername: freezed == systemActorUsername
+            ? _value.systemActorUsername
+            : systemActorUsername // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        systemTargetUsername: freezed == systemTargetUsername
+            ? _value.systemTargetUsername
+            : systemTargetUsername // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -349,7 +410,15 @@ class __$$LastMessageImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$LastMessageImpl implements _LastMessage {
-  const _$LastMessageImpl({this.text, this.sender, this.createdAt});
+  const _$LastMessageImpl({
+    this.text,
+    this.sender,
+    this.createdAt,
+    this.type = LastMessageTypeDto.text,
+    this.systemAction,
+    this.systemActorUsername,
+    this.systemTargetUsername,
+  });
 
   factory _$LastMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$LastMessageImplFromJson(json);
@@ -361,10 +430,19 @@ class _$LastMessageImpl implements _LastMessage {
   // ObjectId-строка, не populate'ится нигде
   @override
   final DateTime? createdAt;
+  @override
+  @JsonKey()
+  final LastMessageTypeDto type;
+  @override
+  final LastMessageSystemActionDto? systemAction;
+  @override
+  final String? systemActorUsername;
+  @override
+  final String? systemTargetUsername;
 
   @override
   String toString() {
-    return 'LastMessage(text: $text, sender: $sender, createdAt: $createdAt)';
+    return 'LastMessage(text: $text, sender: $sender, createdAt: $createdAt, type: $type, systemAction: $systemAction, systemActorUsername: $systemActorUsername, systemTargetUsername: $systemTargetUsername)';
   }
 
   @override
@@ -375,12 +453,28 @@ class _$LastMessageImpl implements _LastMessage {
             (identical(other.text, text) || other.text == text) &&
             (identical(other.sender, sender) || other.sender == sender) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.systemAction, systemAction) ||
+                other.systemAction == systemAction) &&
+            (identical(other.systemActorUsername, systemActorUsername) ||
+                other.systemActorUsername == systemActorUsername) &&
+            (identical(other.systemTargetUsername, systemTargetUsername) ||
+                other.systemTargetUsername == systemTargetUsername));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, text, sender, createdAt);
+  int get hashCode => Object.hash(
+    runtimeType,
+    text,
+    sender,
+    createdAt,
+    type,
+    systemAction,
+    systemActorUsername,
+    systemTargetUsername,
+  );
 
   /// Create a copy of LastMessage
   /// with the given fields replaced by the non-null parameter values.
@@ -401,6 +495,10 @@ abstract class _LastMessage implements LastMessage {
     final String? text,
     final String? sender,
     final DateTime? createdAt,
+    final LastMessageTypeDto type,
+    final LastMessageSystemActionDto? systemAction,
+    final String? systemActorUsername,
+    final String? systemTargetUsername,
   }) = _$LastMessageImpl;
 
   factory _LastMessage.fromJson(Map<String, dynamic> json) =
@@ -412,6 +510,14 @@ abstract class _LastMessage implements LastMessage {
   String? get sender; // ObjectId-строка, не populate'ится нигде
   @override
   DateTime? get createdAt;
+  @override
+  LastMessageTypeDto get type;
+  @override
+  LastMessageSystemActionDto? get systemAction;
+  @override
+  String? get systemActorUsername;
+  @override
+  String? get systemTargetUsername;
 
   /// Create a copy of LastMessage
   /// with the given fields replaced by the non-null parameter values.
