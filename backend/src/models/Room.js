@@ -32,6 +32,20 @@ const lastMessageSchema = new Schema(
         text: { type: String },
         sender: { type: Schema.Types.ObjectId, ref: 'User' },
         createdAt: { type: Date },
+        type: {
+            type: String,
+            enum: ['text', 'system'],
+            default: 'text',
+        },
+        systemAction: {
+            type: String,
+            enum: [
+                'participant_added', 'participant_removed', 'participant_left',
+                'participant_promoted', 'participant_demoted'
+            ],
+        },
+        systemActorUsername: { type: String },
+        systemTargetUsername: { type: String },
     },
     { _id: false } // отключение автогенерации т.к. не будет использоваться
 );
