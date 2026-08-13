@@ -36,12 +36,11 @@ class ParticipantTile extends StatelessWidget {
     }
   }
 
-  Future<void> _onLongPress(BuildContext context) async {
-    // нельзя ничего сделать с собой
-    if (isMe) {
-      ScaffoldMessenger.of(context).showSnackBar(
+  void _itsYou(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: AppColors.surfaceVariant,
+          duration: const Duration(seconds: 1),
           content: Text(
             'Это Вы',
             textAlign: TextAlign.center,
@@ -49,6 +48,12 @@ class ParticipantTile extends StatelessWidget {
           )
         ),
       );
+  }
+
+  Future<void> _onLongPress(BuildContext context) async {
+    // нельзя ничего сделать с собой
+    if (isMe) {
+      _itsYou(context);
       return;
     }
 
@@ -118,9 +123,11 @@ class ParticipantTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final spacing = AppSpacing.of(context);
     return ListTile(
-      onTap: () => context.push(
+      onTap: !isMe
+    ? () => context.push(
         RoutePaths.userProfile.replaceFirst(':userId', participant.user.id),
-      ),
+      )
+    : () => _itsYou(context),
       onLongPress: () => _onLongPress(context),
       contentPadding: EdgeInsets.symmetric(horizontal: spacing.pagePadding, vertical: spacing.small * 0.15),
       leading: UserAvatar(
