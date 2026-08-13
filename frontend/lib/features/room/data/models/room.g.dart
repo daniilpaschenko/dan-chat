@@ -37,14 +37,41 @@ _$LastMessageImpl _$$LastMessageImplFromJson(Map<String, dynamic> json) =>
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
+      type:
+          $enumDecodeNullable(_$LastMessageTypeDtoEnumMap, json['type']) ??
+          LastMessageTypeDto.text,
+      systemAction: $enumDecodeNullable(
+        _$LastMessageSystemActionDtoEnumMap,
+        json['systemAction'],
+      ),
+      systemActorUsername: json['systemActorUsername'] as String?,
+      systemTargetUsername: json['systemTargetUsername'] as String?,
     );
 
-Map<String, dynamic> _$$LastMessageImplToJson(_$LastMessageImpl instance) =>
-    <String, dynamic>{
-      'text': instance.text,
-      'sender': instance.sender,
-      'createdAt': instance.createdAt?.toIso8601String(),
-    };
+Map<String, dynamic> _$$LastMessageImplToJson(
+  _$LastMessageImpl instance,
+) => <String, dynamic>{
+  'text': instance.text,
+  'sender': instance.sender,
+  'createdAt': instance.createdAt?.toIso8601String(),
+  'type': _$LastMessageTypeDtoEnumMap[instance.type]!,
+  'systemAction': _$LastMessageSystemActionDtoEnumMap[instance.systemAction],
+  'systemActorUsername': instance.systemActorUsername,
+  'systemTargetUsername': instance.systemTargetUsername,
+};
+
+const _$LastMessageTypeDtoEnumMap = {
+  LastMessageTypeDto.text: 'text',
+  LastMessageTypeDto.system: 'system',
+};
+
+const _$LastMessageSystemActionDtoEnumMap = {
+  LastMessageSystemActionDto.participantAdded: 'participant_added',
+  LastMessageSystemActionDto.participantRemoved: 'participant_removed',
+  LastMessageSystemActionDto.participantLeft: 'participant_left',
+  LastMessageSystemActionDto.participantPromoted: 'participant_promoted',
+  LastMessageSystemActionDto.participantDemoted: 'participant_demoted',
+};
 
 _$RoomImpl _$$RoomImplFromJson(Map<String, dynamic> json) => _$RoomImpl(
   id: json['id'] as String,
