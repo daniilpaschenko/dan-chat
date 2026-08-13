@@ -1,4 +1,5 @@
 const Message = require('../models/Message');
+const Room = require('../models/Room');
 const { findRoomIfMember } = require('./roomService');
 
 const SENDER_PUBLIC_FIELDS = 'username avatarUrl';
@@ -52,6 +53,18 @@ async function createSystemMessage({ roomId, action, actorId, targetId }) {
 
     await message.populate('sender', SENDER_PUBLIC_FIELDS);
     await message.populate('systemData.target', SENDER_PUBLIC_FIELDS);
+
+    // обновляем превью комнаты
+    await Room.findByIdAndUpdate(roomId, {
+        lastMessage: {
+            sender: actorId,
+            createdAt: message.createdAt,
+            type: 'system',
+            systemAction: action,
+            systemActorUsername: message.sender.username,
+            systemTargetUsername: message.systemData.target.username,
+        },
+    });
 
     return message;
 }
