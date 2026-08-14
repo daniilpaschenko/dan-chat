@@ -110,15 +110,18 @@ class GroupProfileContent extends StatelessWidget {
             ),
           ),
         ),
-        ...room.participants.map(
-          (p) => ParticipantTile(
-            participant: p,
-            canManage: _canManage,
-            isOwner: _isOwner,
-            isMe: p.user.id == currentUserId,
-            onRemove: isRemoving ? (_) {} : onRemoveParticipant,
-            onChangeRole: onChangeParticipantRole,
-          ),
+        ...room.participants.expand(
+          (p) => [
+            ParticipantTile(
+              participant: p,
+              canManage: _canManage,
+              isOwner: _isOwner,
+              isMe: p.user.id == currentUserId,
+              onRemove: isRemoving ? (_) {} : onRemoveParticipant,
+              onChangeRole: onChangeParticipantRole,
+            ),
+            if (isDesktop) SizedBox(height: spacing.small * 0.5),
+          ],
         ),
         SizedBox(height: spacing.pagePadding),
       ],

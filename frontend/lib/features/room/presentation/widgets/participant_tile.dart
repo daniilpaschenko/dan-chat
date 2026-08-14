@@ -9,10 +9,10 @@ import '../../domain/entities/room_entity.dart';
 
 class ParticipantTile extends StatelessWidget {
   final ParticipantEntity participant;
-  final bool canManage; // может ли текущий юзер кикать (owner/admin)
-  final bool isOwner; // может ли текущий юзер менять роли (только owner)
+  final bool canManage;
+  final bool isOwner;
   final bool isMe;
-  final ValueChanged<String> onRemove; // userId
+  final ValueChanged<String> onRemove;
   final void Function(String userId, ParticipantRole newRole) onChangeRole;
 
   const ParticipantTile({
@@ -122,12 +122,14 @@ class ParticipantTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final spacing = AppSpacing.of(context);
-    return ListTile(
+    final isDesktop = spacing.isDesktop;
+
+    final tile = ListTile(
       onTap: !isMe
-    ? () => context.push(
-        RoutePaths.userProfile.replaceFirst(':userId', participant.user.id),
-      )
-    : () => _itsYou(context),
+          ? () => context.push(
+              RoutePaths.userProfile.replaceFirst(':userId', participant.user.id),
+            )
+          : () => _itsYou(context),
       onLongPress: () => _onLongPress(context),
       contentPadding: EdgeInsets.symmetric(horizontal: spacing.pagePadding, vertical: spacing.small * 0.15),
       leading: UserAvatar(
@@ -146,6 +148,18 @@ class ParticipantTile extends StatelessWidget {
         _roleLabel,
         style: TextStyle(fontSize: spacing.captionSize * 1.2, color: AppColors.textSecondary),
       ),
+    );
+
+    if (!isDesktop) return tile;
+
+    // на десктопе — та же плашка, просто с рамкой для разделения
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.divider),
+        borderRadius: BorderRadius.circular(spacing.infoRadius),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: tile,
     );
   }
 }
