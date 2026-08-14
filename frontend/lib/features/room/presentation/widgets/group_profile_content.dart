@@ -42,6 +42,7 @@ class GroupProfileContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final spacing = AppSpacing.of(context);
+    final isDesktop = spacing.isDesktop;
     final screenH = MediaQuery.of(context).size.height;
     final appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
     final photoHeight = (screenH * 0.5) - appBarHeight;
@@ -50,84 +51,95 @@ class GroupProfileContent extends StatelessWidget {
     final listItem = room.toListItem(currentUserId);
     final info = RoomDisplayInfo.from(listItem, currentUserId, includeSubtitle: true);
 
+    Widget listContent = ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        HeroPhoto(
+          avatarUrl: info.avatarUrl,
+          fallbackLetter: info.title,
+          height: photoHeight > 0 ? photoHeight : screenH * 0.35,
+          isUploading: false,
+          statusText: info.subtitle,
+          isDesktop: isDesktop,
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(spacing.pagePadding, spacing.medium / 2, spacing.pagePadding, 0),
+          child: Row(
+            children: [
+              Expanded(
+                child: ActionButton(
+                  icon: Icons.person_add_outlined,
+                  label: 'Добавить',
+                  onTap: _canManage ? onAddParticipants : () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: AppColors.surfaceVariant,
+                        duration: const Duration(seconds: 1),
+                        content: Text(
+                        'Добавлять участников может только Владелец или Админ',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: AppColors.textPrimary),
+                        )
+                      ),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(width: spacing.buttonGap),
+              Expanded(
+                child: ActionButton(
+                  icon: Icons.settings_outlined,
+                  label: 'Настройки',
+                  onTap: () {},
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(spacing.pagePadding, spacing.pagePadding, spacing.pagePadding, spacing.small),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Участники',
+              style: TextStyle(
+                fontSize: spacing.captionSize * 1.4,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textSecondary,
+              ),
+            ),
+          ),
+        ),
+        ...room.participants.map(
+          (p) => ParticipantTile(
+            participant: p,
+            canManage: _canManage,
+            isOwner: _isOwner,
+            isMe: p.user.id == currentUserId,
+            onRemove: isRemoving ? (_) {} : onRemoveParticipant,
+            onChangeRole: onChangeParticipantRole,
+          ),
+        ),
+        SizedBox(height: spacing.pagePadding),
+      ],
+    );
+
+    if (isDesktop) {
+      listContent = Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: listContent,
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
       ),
-      body: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          HeroPhoto(
-            avatarUrl: info.avatarUrl,
-            fallbackLetter: info.title,
-            height: photoHeight > 0 ? photoHeight : screenH * 0.35,
-            isUploading: false,
-            statusText: info.subtitle,
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(spacing.pagePadding, spacing.medium / 2, spacing.pagePadding, 0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: ActionButton(
-                    icon: Icons.person_add_outlined,
-                    label: 'Добавить',
-                    // кнопку могут нажать только owner/admin
-                    onTap: _canManage ? onAddParticipants : () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: AppColors.surfaceVariant,
-                          duration: const Duration(seconds: 1),
-                          content: Text(
-                          'Добавлять участников может только Владелец или Админ',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: AppColors.textPrimary),
-                          )
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(width: spacing.buttonGap),
-                Expanded(
-                  child: ActionButton(
-                    icon: Icons.settings_outlined,
-                    label: 'Настройки',
-                    onTap: () {},
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(spacing.pagePadding, spacing.pagePadding, spacing.pagePadding, spacing.small),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Участники',
-                style: TextStyle(
-                  fontSize: spacing.captionSize * 1.4,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-            ),
-          ),
-          ...room.participants.map(
-            (p) => ParticipantTile(
-              participant: p,
-              canManage: _canManage,
-              isOwner: _isOwner,
-              isMe: p.user.id == currentUserId,
-              onRemove: isRemoving ? (_) {} : onRemoveParticipant,
-              onChangeRole: onChangeParticipantRole,
-            ),
-          ),
-          SizedBox(height: spacing.pagePadding),
-        ],
-      ),
+      body: listContent,
     );
   }
 }

@@ -47,6 +47,7 @@ class _CreateGroupViewState extends State<_CreateGroupView> {
   @override
   Widget build(BuildContext context) {
     final spacing = AppSpacing.of(context);
+    final isDesktop = spacing.isDesktop;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Новая группа')),
@@ -72,7 +73,7 @@ class _CreateGroupViewState extends State<_CreateGroupView> {
           // если есть название группы, выбран хотя бы 1 участник и процесс создания группы еще не запущен
           final canCreate = _nameController.text.trim().isNotEmpty && !state.isCreating && state.selectedUsers.isNotEmpty;
 
-          return Column(
+          Widget column = Column(
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: spacing.form, vertical: spacing.small),
@@ -82,7 +83,7 @@ class _CreateGroupViewState extends State<_CreateGroupView> {
                     // лимит на длину в названии группы
                     LengthLimitingTextInputFormatter(24),
                   ],
-                  onChanged: (_) => setState(() {}), // чтобы пересчитать canCreate
+                  onChanged: (_) => setState(() {}),
                   decoration: const InputDecoration(hintText: 'Название группы'),
                 ),
               ),
@@ -159,6 +160,17 @@ class _CreateGroupViewState extends State<_CreateGroupView> {
               ),
             ],
           );
+
+          if (isDesktop) {
+            column = Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 600),
+                child: column,
+              ),
+            );
+          }
+
+          return column;
         },
       ),
     );
