@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // responsive отступы, зависящие от ширины экрана
 class AppSpacing {
   final double screenW;
+  final bool isDesktop;
 
   final double titleSize;
   final double small;
@@ -35,6 +36,7 @@ class AppSpacing {
 
   const AppSpacing._({
     required this.screenW,
+    required this.isDesktop,
     required this.titleSize,
     required this.small,
     required this.medium,
@@ -64,10 +66,13 @@ class AppSpacing {
   });
 
   factory AppSpacing.of(BuildContext context) {
-    final screenW = MediaQuery.of(context).size.width.clamp(0.0, 600.0);
+    final rawW = MediaQuery.of(context).size.width;
+    final isDesktop = rawW > 600; // порог для веб/десктопа
+    final screenW = rawW.clamp(0.0, 450.0);
 
     return AppSpacing._(
       screenW: screenW,
+      isDesktop: isDesktop,
 
       titleSize: screenW * .05,
       small: screenW * .03,
