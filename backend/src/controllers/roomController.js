@@ -356,7 +356,6 @@ exports.updateParticipantRole = async (req, res) => {
             systemActorUsername: systemMessage.sender.username,
             systemTargetUsername: systemMessage.systemData.target.username,
         };
-        console.log(room.lastMessage);
         io.to(roomId).emit('message:new', systemMessage.toJSON());
 
         // уведомляем всех участников об изменении роли
