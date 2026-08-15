@@ -254,6 +254,7 @@ class _RoomListViewState extends State<_RoomListView> {
     final spacing = AppSpacing.of(context);
     return PopupMenuButton<String>(
       icon: const Icon(Icons.more_vert),
+      tooltip: 'Действия',
       onSelected: (value) {
         switch (value) {
           case 'create_group':
