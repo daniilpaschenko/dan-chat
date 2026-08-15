@@ -31,7 +31,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
             .firstWhere((p) => p.user.id != currentUserId)
             .user;
       } catch (_) {
-        return null; // не нашли (например, чат сам с собой) или групповой чат
+        return null;
       }
     }
 
@@ -62,6 +62,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final spacing = AppSpacing.of(context);
+    final isDesktop = spacing.isDesktop;
     final double avatarSize = spacing.medium * 1.3;
 
     final info = RoomDisplayInfo.from(room, currentUserId, includeSubtitle: true);
@@ -71,74 +72,83 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
     final subtitle = _liveSubtitle(chatState, otherUser, info.subtitle);
     final isTyping = subtitle == 'печатает...' || (subtitle?.contains('печатают') ?? false);
 
+    Widget titleRow = Row(
+      children: [
+        IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.pop(),
+        ),
+        SizedBox(width: spacing.small * 0.5),
+
+        Expanded(
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              if (room == null) return;
+              if (room!.type == RoomType.group) {
+                context.push(RoutePaths.groupProfilePath(room!.id));
+              } else if (otherUser != null) {
+                context.push(RoutePaths.userProfile.replaceFirst(':userId', otherUser.id));
+              }
+            },
+            child: Row(
+              children: [
+                UserAvatar(
+                  avatarUrl: info.avatarUrl,
+                  fallbackLetter: info.title,
+                  size: avatarSize,
+                  fontSize: spacing.captionSize * 1.7,
+                ),
+                SizedBox(width: spacing.small),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        info.title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: spacing.captionSize * 1.7, fontWeight: FontWeight.w600),
+                      ),
+                      if (subtitle != null)
+                        Text(
+                          subtitle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: spacing.captionSize * 1.2,
+                            color: isTyping ? AppColors.primary : AppColors.textSecondary,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        _buildMenu(context),
+      ],
+    );
+
+    if (isDesktop) {
+      titleRow = Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 800),
+          child: titleRow,
+        ),
+      );
+    }
+
     return AppBar(
       // выключаем стандартную кнопку назад — рисуем всё сами
       automaticallyImplyLeading: false,
       titleSpacing: 0,
-      title: Row(
-        children: [
-          // стрелка назад -> в chatList
-          IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => context.pop(),
-          ),
-          SizedBox(width: spacing.small * 0.5),
-
-          Expanded(
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-                if (room == null) return;
-                if (room!.type == RoomType.group) {
-                  context.push(RoutePaths.groupProfilePath(room!.id));
-                } else if (otherUser != null) {
-                  context.push(RoutePaths.userProfile.replaceFirst(':userId', otherUser.id));
-                }
-              },
-              child: Row(
-                children: [
-                  UserAvatar(
-                    avatarUrl: info.avatarUrl,
-                    fallbackLetter: info.title,
-                    size: avatarSize,
-                    fontSize: spacing.captionSize * 1.7,
-                  ),
-                  SizedBox(width: spacing.small),
-                  Expanded(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          info.title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: spacing.captionSize * 1.7, fontWeight: FontWeight.w600),
-                        ),
-                        if (subtitle != null)
-                          Text(
-                            subtitle,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: spacing.captionSize * 1.2,
-                              color: isTyping ? AppColors.primary : AppColors.textSecondary,
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          // три точки, описанные ниже
-          _buildMenu(context),
-        ],
-      ),
+      title: titleRow,
     );
   }
-  
+
   Widget _buildMenu(BuildContext context) {
     final spacing = AppSpacing.of(context);
     final isGroup = room?.type == RoomType.group;
@@ -151,6 +161,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return PopupMenuButton<String>(
       icon: const Icon(Icons.more_vert),
+      tooltip: 'Действия',
       onSelected: (value) async {
         switch (value) {
           case 'delete':

@@ -114,18 +114,27 @@ class RoomTile extends StatelessWidget {
                     ),
                   if (unreadCount > 0) ...[
                     SizedBox(height: gap * 0.2),
-                    CircleAvatar(
-                      // чуток увеличиваем круг если двузначное число
-                      radius: unreadCount < 10 ? gap * 0.5 : gap * 0.53,
-                      backgroundColor: AppColors.error,
+                    Container(
+                      height: gap * 0.7,
+                      width: unreadCount < 10
+                          ? gap * 0.7
+                          : unreadCount > 99
+                              ? gap * 1.15
+                              : gap * 0.95,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: AppColors.error,
+                        borderRadius: BorderRadius.circular(999), // полностью скруглённый
+                      ),
                       child: Text(
                         unreadCount > 99 ? '99+' : '$unreadCount',
                         style: TextStyle(
-                          fontSize: spacing.captionSize * 1.2,
+                          fontSize: spacing.captionSize * 1.15,
                           color: AppColors.textPrimary,
+                          height: 1.0,
                         ),
                       ),
-                    ),
+                    )
                   ],
                 ],
               ),

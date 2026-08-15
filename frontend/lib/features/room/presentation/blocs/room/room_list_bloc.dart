@@ -106,6 +106,10 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
       final roomId = data['room'] as String?;
       if (roomId == null) return;
 
+      // системные сообщения приходят в полном виде через room:updated/room:created —
+      // здесь их обрабатывать не нужно
+      if (data['type'] == 'system') return;
+
       final senderRaw = data['sender'];
       final senderId = senderRaw is Map
           ? (senderRaw['id'] ?? senderRaw['_id'])?.toString()
