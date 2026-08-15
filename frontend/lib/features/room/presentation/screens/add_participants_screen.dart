@@ -134,7 +134,7 @@ class _AddParticipantsViewState extends State<_AddParticipantsView> {
           if (isDesktop) {
             column = Center(
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 600),
+                constraints: const BoxConstraints(maxWidth: 800),
                 child: column,
               ),
             );

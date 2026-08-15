@@ -130,7 +130,7 @@ class GroupProfileContent extends StatelessWidget {
     if (isDesktop) {
       listContent = Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 600),
+          constraints: const BoxConstraints(maxWidth: 800),
           child: listContent,
         ),
       );
