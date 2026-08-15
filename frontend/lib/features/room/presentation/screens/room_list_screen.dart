@@ -123,54 +123,64 @@ class _RoomListViewState extends State<_RoomListView> {
   @override
   Widget build(BuildContext context) {
     final spacing = AppSpacing.of(context);
+    final isDesktop = spacing.isDesktop;
 
     // currentUserId читаем напрямую из AuthStateNotifier
     final currentUserId = getIt<AuthStateNotifier>().currentUserId;
+
+    Widget column = Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: spacing.form, vertical: spacing.small),
+          child: TextField(
+            controller: _searchController,
+            onChanged: (value) => setState(() => _query = value),
+            decoration: InputDecoration(
+              hintText: 'Поиск чатов',
+              prefixIcon: const Icon(Icons.search),
+              fillColor: AppColors.surface,
+            ),
+          ),
+        ),
+        Expanded(
+          child: BlocBuilder<RoomListBloc, RoomListState>(
+            builder: (context, state) {
+              return state.when(
+                initial: () => const SizedBox.shrink(),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                failure: (message) => ErrorView(
+                  message: message,
+                  gap: spacing.medium,
+                  onRetry: () => context
+                      .read<RoomListBloc>()
+                      .add(const RoomListEvent.loadRequested()),
+                ),
+                loaded: (rooms, typingByRoom) =>
+                  _buildList(context, rooms, typingByRoom, currentUserId, formGap: spacing.form),
+                refreshing: (rooms, typingByRoom) =>
+                  _buildList(context, rooms, typingByRoom, currentUserId, formGap: spacing.form),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+
+    if (isDesktop) {
+      column = Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 800),
+          child: column,
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBarWithConnectivity(
         onlineTitle: 'Сообщения',
         actions: [_buildMenu(context)],
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: spacing.form, vertical: spacing.small),
-              child: TextField(
-                controller: _searchController,
-                onChanged: (value) => setState(() => _query = value),
-                decoration: InputDecoration(
-                  hintText: 'Поиск чатов',
-                  prefixIcon: const Icon(Icons.search),
-                  fillColor: AppColors.surface,
-                ),
-              ),
-            ),
-            Expanded(
-              child: BlocBuilder<RoomListBloc, RoomListState>(
-                builder: (context, state) {
-                  return state.when(
-                    initial: () => const SizedBox.shrink(),
-                    loading: () => const Center(child: CircularProgressIndicator()),
-                    failure: (message) => ErrorView(
-                      message: message,
-                      gap: spacing.medium,
-                      onRetry: () => context
-                          .read<RoomListBloc>()
-                          .add(const RoomListEvent.loadRequested()),
-                    ),
-                    loaded: (rooms, typingByRoom) =>
-                      _buildList(context, rooms, typingByRoom, currentUserId, formGap: spacing.form),
-                    refreshing: (rooms, typingByRoom) =>
-                      _buildList(context, rooms, typingByRoom, currentUserId, formGap: spacing.form),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: SafeArea(child: column),
     );
   }
 
@@ -194,7 +204,6 @@ class _RoomListViewState extends State<_RoomListView> {
               message: rooms.isEmpty ? 'У вас пока нет чатов' : 'Ничего не найдено',
               fillHeight: true,
             )
-          // автоматически вставляет разделитель между чатами
           : ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
               itemCount: filtered.length,
