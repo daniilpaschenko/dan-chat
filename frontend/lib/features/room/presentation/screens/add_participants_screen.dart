@@ -49,6 +49,7 @@ class _AddParticipantsViewState extends State<_AddParticipantsView> {
   @override
   Widget build(BuildContext context) {
     final spacing = AppSpacing.of(context);
+    final isDesktop = spacing.isDesktop;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Добавить участников')),
@@ -69,7 +70,7 @@ class _AddParticipantsViewState extends State<_AddParticipantsView> {
         builder: (context, state) {
           final canSubmit = state.selectedUsers.isNotEmpty && !state.isSubmitting;
 
-          return Column(
+          Widget column = Column(
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: spacing.form, vertical: spacing.small),
@@ -129,6 +130,17 @@ class _AddParticipantsViewState extends State<_AddParticipantsView> {
               ),
             ],
           );
+
+          if (isDesktop) {
+            column = Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 800),
+                child: column,
+              ),
+            );
+          }
+
+          return column;
         },
       ),
     );

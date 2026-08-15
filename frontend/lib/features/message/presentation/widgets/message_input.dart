@@ -93,10 +93,9 @@ class _MessageInputState extends State<MessageInput> {
                   onChanged: widget.onChanged,
                   minLines: 1,
                   maxLines: 5,
-                  // на мобилках Enter = новая строка, на десктопе Enter обрабатываем сами
-                  textInputAction: _isMobile
-                      ? TextInputAction.newline
-                      : TextInputAction.send,
+                  textInputAction: TextInputAction.newline,
+                  onSubmitted: (_) {},
+                  onEditingComplete: () {},
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
                     hintText: 'Сообщение',
