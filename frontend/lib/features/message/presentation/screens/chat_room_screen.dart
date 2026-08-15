@@ -95,6 +95,7 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
   @override
   Widget build(BuildContext context) {
     final spacing = AppSpacing.of(context);
+    final isDesktop = spacing.isDesktop;
     final currentUserId = getIt<AuthStateNotifier>().currentUserId;
 
     return Scaffold(
@@ -119,7 +120,7 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
             }
           },
           builder: (context, state) {
-            return Column(
+            Widget column = Column(
               children: [
                 Expanded( // занимает всё свободное место
                   child: state.isInitialLoading
@@ -184,6 +185,17 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
                 ),
               ],
             );
+
+            if (isDesktop) {
+              column = Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 800),
+                  child: column,
+                ),
+              );
+            }
+
+            return column;
           },
         ),
       ),
