@@ -161,6 +161,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return PopupMenuButton<String>(
       icon: const Icon(Icons.more_vert),
+      tooltip: 'Действия',
       onSelected: (value) async {
         switch (value) {
           case 'delete':
