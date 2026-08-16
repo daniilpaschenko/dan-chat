@@ -15,6 +15,7 @@ import '../storage/hive_service.dart';
 import '../storage/secure_storage_service.dart';
 import '../storage/web_token_holder.dart';
 import '../services/room_sync_service.dart';
+import '../services/push_service.dart';
 
 
 // AUTH
@@ -56,6 +57,8 @@ import '../../features/user/domain/usecases/search_users_usecase.dart';
 import '../../features/user/domain/usecases/get_my_profile_usecase.dart';
 import '../../features/user/domain/usecases/get_user_profile_usecase.dart';
 import '../../features/user/domain/usecases/upload_avatar_usecase.dart';
+import '../../features/user/domain/usecases/save_device_token_usecase.dart';
+import '../../features/user/domain/usecases/remove_device_token_usecase.dart';
 import '../../features/user/presentation/blocs/search/search_bloc.dart';
 import '../../features/user/presentation/blocs/profile/profile_bloc.dart';
 
@@ -105,8 +108,23 @@ Future<void> setupDependencies() async {
     ),
   );
 
-  // core/navigation
-  // регистрируем раньше Dio, т.к. DioClient дергает logOut() при провале refresh
+  getIt.registerLazySingleton<PushService>(() => PushService());
+
+  getIt.registerLazySingleton<UserRemoteDatasource>(
+    () => UserRemoteDatasource(getIt<Dio>()),
+  );
+  getIt.registerLazySingleton(() => UserLocalDatasource());
+  getIt.registerLazySingleton<IUserRepository>(
+    () => UserRepository(getIt<UserRemoteDatasource>(), getIt<UserLocalDatasource>()),
+  );
+  getIt.registerLazySingleton<SaveDeviceTokenUseCase>(
+    () => SaveDeviceTokenUseCase(getIt<IUserRepository>()),
+  );
+  getIt.registerLazySingleton<RemoveDeviceTokenUseCase>(
+    () => RemoveDeviceTokenUseCase(getIt<IUserRepository>()),
+  );
+
+  // AuthStateNotifier — добавить 2 новых параметра в конструктор
   getIt.registerLazySingleton<AuthStateNotifier>(
     () => AuthStateNotifier(
       getIt<SecureStorageService>(),
@@ -115,6 +133,9 @@ Future<void> setupDependencies() async {
       getIt<SocketService>(),
       getIt<UnreadRoomsCounter>(),
       getIt<IAuthRepository>(),
+      getIt<PushService>(),
+      getIt<SaveDeviceTokenUseCase>(),
+      getIt<RemoveDeviceTokenUseCase>(),
     ),
   );
 
@@ -233,15 +254,6 @@ Future<void> setupDependencies() async {
       searchUsersUseCase: getIt<SearchUsersUseCase>(),
       addParticipantUseCase: getIt<AddParticipantUseCase>(),
     ),
-  );
-
-  // features/user/data
-  getIt.registerLazySingleton<UserRemoteDatasource>(
-    () => UserRemoteDatasource(getIt<Dio>()),
-  );
-  getIt.registerLazySingleton(() => UserLocalDatasource());
-  getIt.registerLazySingleton<IUserRepository>(
-    () => UserRepository(getIt<UserRemoteDatasource>(), getIt<UserLocalDatasource>()),
   );
 
   // features/user/domain
