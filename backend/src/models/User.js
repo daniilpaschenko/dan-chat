@@ -1,6 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+// массив токенов устройств пользователя
+const deviceTokenSchema = new Schema({
+    token: { type: String, required: true },
+    platform: { type: String, enum: ['ios', 'android', 'web'], required: true },
+    updatedAt: { type: Date, default: Date.now },
+}, { _id: false });
+
 const userSchema = new Schema({
     username: {
         type: String,
@@ -36,6 +43,10 @@ const userSchema = new Schema({
         type: Date,
         default: Date.now,
     },
+    deviceTokens: {
+        type: [deviceTokenSchema],
+        default: [],
+    },
 }, {
     timestamps: true, 
     toJSON: {
@@ -44,6 +55,7 @@ const userSchema = new Schema({
             delete ret._id;
             delete ret.__v;
             delete ret.passwordHash; // удаляем passwordHash
+            delete ret.deviceTokens; // не отдаём токены
             return ret;
         },
     },
