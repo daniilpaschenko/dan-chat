@@ -124,7 +124,6 @@ Future<void> setupDependencies() async {
     () => RemoveDeviceTokenUseCase(getIt<IUserRepository>()),
   );
 
-  // AuthStateNotifier — добавить 2 новых параметра в конструктор
   getIt.registerLazySingleton<AuthStateNotifier>(
     () => AuthStateNotifier(
       getIt<SecureStorageService>(),
