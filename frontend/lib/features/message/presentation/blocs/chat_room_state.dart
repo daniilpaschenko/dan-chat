@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/message_entity.dart';
 import '../../../user/domain/entities/user_entity.dart';
+import '../../../room/domain/entities/room_entity.dart';
 
 part 'chat_room_state.freezed.dart';
 
@@ -20,6 +21,7 @@ class ChatRoomState with _$ChatRoomState {
     @Default({}) Map<String, UserStatus> participantsStatus,
     @Default({}) Map<String, DateTime> participantsLastSeen,
     @Default(false) bool roomRemoved, // true после успешного delete/leave — экран должен закрыться
+    RoomListItemEntity? room,
   }) = _ChatRoomState;
 
   factory ChatRoomState.initial(String roomId) => ChatRoomState(roomId: roomId);
