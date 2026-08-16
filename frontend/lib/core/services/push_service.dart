@@ -1,9 +1,13 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:io' show Platform;
+import 'local_notification_service.dart';
 
 class PushService {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+  final LocalNotificationService _localNotificationService;
+
+  PushService(this._localNotificationService);
 
   Future<void> init({
     required Future<void> Function(String token, String platform) onTokenReady,
@@ -21,6 +25,17 @@ class PushService {
 
     // если токен обновится (например, после переустановки) — тоже шлём на бэк
     _messaging.onTokenRefresh.listen((newToken) => onTokenReady(newToken, _currentPlatform));
+
+    // приложение открыто — сами рисуем баннер через local_notifications
+    FirebaseMessaging.onMessage.listen((message) {
+      final notification = message.notification;
+      if (notification != null) {
+        _localNotificationService.show(
+          title: notification.title ?? '',
+          body: notification.body ?? '',
+        );
+      }
+    });
   }
 
   String get _currentPlatform {
