@@ -7,7 +7,7 @@ const { sendPushToUsers } = require('./pushService');
 const SENDER_PUBLIC_FIELDS = 'username avatarUrl';
 
 // возвращает { ok: true, message } либо { ok: false, status, message: текст ошибки }
-async function createMessage({ roomId, senderId, text }) {
+async function createMessage({ roomId, senderId, text, io }) {
     if (!text || !text.trim()) {
         return { ok: false, status: 400, error: 'Пустое сообщение' };
     }
