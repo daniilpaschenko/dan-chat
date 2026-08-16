@@ -28,16 +28,15 @@ class ChatRoomScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<ChatRoomBloc>()..add(ChatRoomEvent.started(roomId)),
-      child: _ChatRoomView(room: room),
+      create: (_) => getIt<ChatRoomBloc>()..add(ChatRoomEvent.started(roomId, room: room)),
+      child: const _ChatRoomView(),
     );
   }
 }
 
 class _ChatRoomView extends StatefulWidget {
-  final RoomListItemEntity? room;
 
-  const _ChatRoomView({required this.room});
+  const _ChatRoomView();
 
   @override
   State<_ChatRoomView> createState() => _ChatRoomViewState();
@@ -99,7 +98,13 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
     final currentUserId = getIt<AuthStateNotifier>().currentUserId;
 
     return Scaffold(
-      appBar: ChatAppBar(room: widget.room, currentUserId: currentUserId),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: BlocBuilder<ChatRoomBloc, ChatRoomState>(
+          buildWhen: (previous, current) => previous.room != current.room,
+          builder: (context, state) => ChatAppBar(room: state.room, currentUserId: currentUserId),
+        ),
+      ),
       body: SafeArea(
         child: BlocConsumer<ChatRoomBloc, ChatRoomState>(
           // если ошибка изменилась, то вызвать listener
@@ -170,7 +175,7 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
                                   gap: spacing.small,
                                   spacing: spacing,
                                   currentUserId: currentUserId,
-                                  roomType: widget.room?.type ?? RoomType.direct
+                                  roomType: state.room?.type ?? RoomType.direct,
                                 );
                               },
                             ),
