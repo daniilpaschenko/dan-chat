@@ -40,7 +40,7 @@ module.exports = function registerChatHandlers(io, socket) {
             // разбираем присланные данные на roomId и text
             const { roomId, text } = data || {};
             // создаём сообщение
-            const result = await createMessage({ roomId, senderId: userId, text });
+            const result = await createMessage({ roomId, senderId: userId, text, io });
             if (!result.ok) {
                 return callback?.({ ok: false, message: result.error });
             }
