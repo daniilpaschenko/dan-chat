@@ -4,7 +4,10 @@ import '../storage/web_token_holder.dart';
 import '../storage/hive_service.dart';
 import '../network/socket_service.dart';
 import '../services/unread_rooms_counter.dart';
+import '../services/push_service.dart';
 import '../../features/auth/domain/interfaces/i_auth_repository.dart';
+import '../../features/user/domain/usecases/save_device_token_usecase.dart';
+import '../../features/user/domain/usecases/remove_device_token_usecase.dart';
 
 /// держит текущий статус авторизации и оповещает GoRouter
 /// (через refreshListenable) при login/logout, чтобы редиректы пересчитались
@@ -15,6 +18,9 @@ class AuthStateNotifier extends ChangeNotifier {
   final SocketService _socketService;
   final UnreadRoomsCounter _unreadRoomsCounter;
   final IAuthRepository _authRepository;
+  final PushService _pushService;
+  final SaveDeviceTokenUseCase _saveDeviceTokenUseCase;
+  final RemoveDeviceTokenUseCase _removeDeviceTokenUseCase;
 
   AuthStateNotifier(
     this._secureStorageService,
@@ -23,6 +29,9 @@ class AuthStateNotifier extends ChangeNotifier {
     this._socketService,
     this._unreadRoomsCounter,
     this._authRepository,
+    this._pushService,
+    this._saveDeviceTokenUseCase,
+    this._removeDeviceTokenUseCase,
   );
 
   bool _isAuthenticated = false;
@@ -32,6 +41,20 @@ class AuthStateNotifier extends ChangeNotifier {
   bool get isAuthenticated => _isAuthenticated;
   bool get isInitialized => _isInitialized;
   String? get currentUserId => _currentUserId;
+
+  // инициализация push-уведомлений: получаем токен и сохраняем на бэкенде
+  // вынес в отдельный метод
+  void _initPush() {
+    _pushService.init(
+      onTokenReady: (token, platform) async {
+        final result = await _saveDeviceTokenUseCase(token: token, platform: platform);
+        result.fold(
+          (failure) => debugPrint('push token save failed: $failure'),
+          (_) => null,
+        );
+      },
+    );
+  }
 
   /// вызывается один раз при старте приложения
   Future<void> init() async {
@@ -49,6 +72,7 @@ class AuthStateNotifier extends ChangeNotifier {
       // если юзер уже был залогинен (токен есть) — поднимаем сокет сразу при старте
       if (token != null) {
         _socketService.connect(token);
+        _initPush();
       }
     }
 
@@ -60,16 +84,17 @@ class AuthStateNotifier extends ChangeNotifier {
 
   // дергает /auth/refresh на старте веб-приложения. возвращает true если сессия восстановлена
   Future<bool> _tryRestoreWebSession() async {
-  final result = await _authRepository.restoreWebSession();
-  return result.fold(
-    (failure) => false,
-    (authEntity) {
-      _socketService.connect(authEntity.accessToken);
-      _currentUserId = authEntity.user.id;
-      return true;
-    },
-  );
-}
+    final result = await _authRepository.restoreWebSession();
+    return result.fold(
+      (failure) => false,
+      (authEntity) {
+        _socketService.connect(authEntity.accessToken);
+        _currentUserId = authEntity.user.id;
+        _initPush();
+        return true;
+      },
+    );
+  }
 
   /// вызывается после успешного login/register
   Future<void> logIn({
@@ -93,10 +118,18 @@ class AuthStateNotifier extends ChangeNotifier {
     _isAuthenticated = true;
     _currentUserId = userId;
     _socketService.connect(accessToken);
+    _initPush();
     notifyListeners();
   }
 
   Future<void> logOut() async {
+    // забираем push-токен и чистим его на бэкенде ДО очистки локального хранилища,
+    // иначе после logout юзер продолжит получать чужие уведомления на этом устройстве
+    final deviceToken = await _pushService.getCurrentToken();
+    if (deviceToken != null) {
+      await _removeDeviceTokenUseCase(deviceToken);
+    }
+
     if (kIsWeb) {
       _webTokenHolder.clear();
       // серверный logout (очистка cookie) дергается отдельно
