@@ -127,7 +127,7 @@ exports.saveDeviceToken = async (req, res) => {
     try {
         const { token, platform } = req.body;
 
-        if (!token || !['ios', 'android'].includes(platform)) {
+        if (!token || !['ios', 'android', 'web'].includes(platform)) {
             return res.status(400).json({ message: 'Некорректные данные токена' });
         }
 
