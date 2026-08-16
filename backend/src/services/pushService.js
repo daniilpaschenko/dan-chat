@@ -1,12 +1,15 @@
-const admin = require('firebase-admin');
+const { initializeApp, cert } = require('firebase-admin/app');
+const { getMessaging } = require('firebase-admin/messaging');
 const User = require('../models/User');
 
 const serviceAccount = require('../../serviceAccountKey.json');
 
 // инициализация Firebase Admin SDK
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+initializeApp({
+    credential: cert(serviceAccount),
 });
+
+const messaging = getMessaging();
 
 // userIds: string[] — кому слать
 // payload: { title, body, data? }
@@ -35,7 +38,7 @@ async function sendPushToUsers(userIds, { title, body, data = {} }) {
     };
 
     // возвращает результат по каждому токену отдельно (успех/ошибка)
-    const response = await admin.messaging().sendEachForMulticast(message);
+    const response = await messaging.sendEachForMulticast(message);
 
     // чистим протухшие/невалидные токены
     const invalidTokens = [];
