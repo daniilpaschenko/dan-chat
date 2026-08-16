@@ -324,6 +324,7 @@ Future<void> setupDependencies() async {
       markRoomAsReadUseCase: getIt<MarkRoomAsReadUseCase>(),
       deleteRoomUseCase: getIt<DeleteRoomUseCase>(),
       leaveRoomUseCase: getIt<LeaveRoomUseCase>(),
+      getRoomByIdUseCase: getIt<GetRoomByIdUseCase>(),
       parseSocketMessageUseCase: getIt<ParseSocketMessageUseCase>(),
       socketService: getIt<SocketService>(),
       roomSyncService: getIt<RoomSyncService>(),
