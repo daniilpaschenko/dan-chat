@@ -73,4 +73,31 @@ class UserRepository implements IUserRepository {
       return Left(Failure.unexpected(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> saveDeviceToken({
+    required String token,
+    required String platform,
+  }) async {
+    try {
+      await _remoteDatasource.saveDeviceToken(token: token, platform: platform);
+      return const Right(unit);
+    } on DioException catch (e) {
+      return Left(mapDioExceptionToFailure(e));
+    } catch (e) {
+      return Left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> removeDeviceToken(String token) async {
+    try {
+      await _remoteDatasource.removeDeviceToken(token);
+      return const Right(unit);
+    } on DioException catch (e) {
+      return Left(mapDioExceptionToFailure(e));
+    } catch (e) {
+      return Left(Failure.unexpected(e.toString()));
+    }
+  }
 }
