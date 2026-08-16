@@ -16,6 +16,7 @@ import '../storage/secure_storage_service.dart';
 import '../storage/web_token_holder.dart';
 import '../services/room_sync_service.dart';
 import '../services/push_service.dart';
+import '../services/local_notification_service.dart';
 
 
 // AUTH
@@ -108,7 +109,8 @@ Future<void> setupDependencies() async {
     ),
   );
 
-  getIt.registerLazySingleton<PushService>(() => PushService());
+  getIt.registerLazySingleton<LocalNotificationService>(() => LocalNotificationService());
+  getIt.registerLazySingleton<PushService>(() => PushService(getIt<LocalNotificationService>()));
 
   getIt.registerLazySingleton<UserRemoteDatasource>(
     () => UserRemoteDatasource(getIt<Dio>()),
