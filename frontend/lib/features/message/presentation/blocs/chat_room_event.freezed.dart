@@ -19,7 +19,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ChatRoomEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String roomId) started,
+    required TResult Function(String roomId, RoomListItemEntity? room) started,
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function() deleteRoomRequested,
@@ -46,7 +46,7 @@ mixin _$ChatRoomEvent {
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String roomId)? started,
+    TResult? Function(String roomId, RoomListItemEntity? room)? started,
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function()? deleteRoomRequested,
@@ -69,7 +69,7 @@ mixin _$ChatRoomEvent {
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String roomId)? started,
+    TResult Function(String roomId, RoomListItemEntity? room)? started,
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function()? deleteRoomRequested,
@@ -179,7 +179,9 @@ abstract class _$$ChatRoomStartedImplCopyWith<$Res> {
     $Res Function(_$ChatRoomStartedImpl) then,
   ) = __$$ChatRoomStartedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String roomId});
+  $Res call({String roomId, RoomListItemEntity? room});
+
+  $RoomListItemEntityCopyWith<$Res>? get room;
 }
 
 /// @nodoc
@@ -195,29 +197,49 @@ class __$$ChatRoomStartedImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? roomId = null}) {
+  $Res call({Object? roomId = null, Object? room = freezed}) {
     return _then(
       _$ChatRoomStartedImpl(
         null == roomId
             ? _value.roomId
             : roomId // ignore: cast_nullable_to_non_nullable
                   as String,
+        room: freezed == room
+            ? _value.room
+            : room // ignore: cast_nullable_to_non_nullable
+                  as RoomListItemEntity?,
       ),
     );
+  }
+
+  /// Create a copy of ChatRoomEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $RoomListItemEntityCopyWith<$Res>? get room {
+    if (_value.room == null) {
+      return null;
+    }
+
+    return $RoomListItemEntityCopyWith<$Res>(_value.room!, (value) {
+      return _then(_value.copyWith(room: value));
+    });
   }
 }
 
 /// @nodoc
 
 class _$ChatRoomStartedImpl implements ChatRoomStarted {
-  const _$ChatRoomStartedImpl(this.roomId);
+  const _$ChatRoomStartedImpl(this.roomId, {this.room});
 
   @override
   final String roomId;
+  @override
+  final RoomListItemEntity? room;
 
   @override
   String toString() {
-    return 'ChatRoomEvent.started(roomId: $roomId)';
+    return 'ChatRoomEvent.started(roomId: $roomId, room: $room)';
   }
 
   @override
@@ -225,11 +247,12 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatRoomStartedImpl &&
-            (identical(other.roomId, roomId) || other.roomId == roomId));
+            (identical(other.roomId, roomId) || other.roomId == roomId) &&
+            (identical(other.room, room) || other.room == room));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, roomId);
+  int get hashCode => Object.hash(runtimeType, roomId, room);
 
   /// Create a copy of ChatRoomEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -245,7 +268,7 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String roomId) started,
+    required TResult Function(String roomId, RoomListItemEntity? room) started,
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function() deleteRoomRequested,
@@ -270,13 +293,13 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     participantsStatusSnapshotReceived,
     required TResult Function() roomRemovedRemotely,
   }) {
-    return started(roomId);
+    return started(roomId, room);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String roomId)? started,
+    TResult? Function(String roomId, RoomListItemEntity? room)? started,
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function()? deleteRoomRequested,
@@ -297,13 +320,13 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     participantsStatusSnapshotReceived,
     TResult? Function()? roomRemovedRemotely,
   }) {
-    return started?.call(roomId);
+    return started?.call(roomId, room);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String roomId)? started,
+    TResult Function(String roomId, RoomListItemEntity? room)? started,
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function()? deleteRoomRequested,
@@ -326,7 +349,7 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     required TResult orElse(),
   }) {
     if (started != null) {
-      return started(roomId);
+      return started(roomId, room);
     }
     return orElse();
   }
@@ -405,9 +428,13 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
 }
 
 abstract class ChatRoomStarted implements ChatRoomEvent {
-  const factory ChatRoomStarted(final String roomId) = _$ChatRoomStartedImpl;
+  const factory ChatRoomStarted(
+    final String roomId, {
+    final RoomListItemEntity? room,
+  }) = _$ChatRoomStartedImpl;
 
   String get roomId;
+  RoomListItemEntity? get room;
 
   /// Create a copy of ChatRoomEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -459,7 +486,7 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String roomId) started,
+    required TResult Function(String roomId, RoomListItemEntity? room) started,
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function() deleteRoomRequested,
@@ -490,7 +517,7 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String roomId)? started,
+    TResult? Function(String roomId, RoomListItemEntity? room)? started,
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function()? deleteRoomRequested,
@@ -517,7 +544,7 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String roomId)? started,
+    TResult Function(String roomId, RoomListItemEntity? room)? started,
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function()? deleteRoomRequested,
@@ -696,7 +723,7 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String roomId) started,
+    required TResult Function(String roomId, RoomListItemEntity? room) started,
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function() deleteRoomRequested,
@@ -727,7 +754,7 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String roomId)? started,
+    TResult? Function(String roomId, RoomListItemEntity? room)? started,
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function()? deleteRoomRequested,
@@ -754,7 +781,7 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String roomId)? started,
+    TResult Function(String roomId, RoomListItemEntity? room)? started,
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function()? deleteRoomRequested,
@@ -912,7 +939,7 @@ class _$DeleteRoomRequestedImpl implements DeleteRoomRequested {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String roomId) started,
+    required TResult Function(String roomId, RoomListItemEntity? room) started,
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function() deleteRoomRequested,
@@ -943,7 +970,7 @@ class _$DeleteRoomRequestedImpl implements DeleteRoomRequested {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String roomId)? started,
+    TResult? Function(String roomId, RoomListItemEntity? room)? started,
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function()? deleteRoomRequested,
@@ -970,7 +997,7 @@ class _$DeleteRoomRequestedImpl implements DeleteRoomRequested {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String roomId)? started,
+    TResult Function(String roomId, RoomListItemEntity? room)? started,
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function()? deleteRoomRequested,
@@ -1118,7 +1145,7 @@ class _$LeaveRoomRequestedImpl implements LeaveRoomRequested {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String roomId) started,
+    required TResult Function(String roomId, RoomListItemEntity? room) started,
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function() deleteRoomRequested,
@@ -1149,7 +1176,7 @@ class _$LeaveRoomRequestedImpl implements LeaveRoomRequested {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String roomId)? started,
+    TResult? Function(String roomId, RoomListItemEntity? room)? started,
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function()? deleteRoomRequested,
@@ -1176,7 +1203,7 @@ class _$LeaveRoomRequestedImpl implements LeaveRoomRequested {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String roomId)? started,
+    TResult Function(String roomId, RoomListItemEntity? room)? started,
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function()? deleteRoomRequested,
@@ -1367,7 +1394,7 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String roomId) started,
+    required TResult Function(String roomId, RoomListItemEntity? room) started,
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function() deleteRoomRequested,
@@ -1398,7 +1425,7 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String roomId)? started,
+    TResult? Function(String roomId, RoomListItemEntity? room)? started,
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function()? deleteRoomRequested,
@@ -1425,7 +1452,7 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String roomId)? started,
+    TResult Function(String roomId, RoomListItemEntity? room)? started,
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function()? deleteRoomRequested,
@@ -1612,7 +1639,7 @@ class _$SocketMessageReadImpl implements SocketMessageRead {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String roomId) started,
+    required TResult Function(String roomId, RoomListItemEntity? room) started,
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function() deleteRoomRequested,
@@ -1643,7 +1670,7 @@ class _$SocketMessageReadImpl implements SocketMessageRead {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String roomId)? started,
+    TResult? Function(String roomId, RoomListItemEntity? room)? started,
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function()? deleteRoomRequested,
@@ -1670,7 +1697,7 @@ class _$SocketMessageReadImpl implements SocketMessageRead {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String roomId)? started,
+    TResult Function(String roomId, RoomListItemEntity? room)? started,
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function()? deleteRoomRequested,
@@ -1874,7 +1901,7 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String roomId) started,
+    required TResult Function(String roomId, RoomListItemEntity? room) started,
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function() deleteRoomRequested,
@@ -1905,7 +1932,7 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String roomId)? started,
+    TResult? Function(String roomId, RoomListItemEntity? room)? started,
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function()? deleteRoomRequested,
@@ -1932,7 +1959,7 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String roomId)? started,
+    TResult Function(String roomId, RoomListItemEntity? room)? started,
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function()? deleteRoomRequested,
@@ -2127,7 +2154,7 @@ class _$TypingStartedImpl implements TypingStarted {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String roomId) started,
+    required TResult Function(String roomId, RoomListItemEntity? room) started,
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function() deleteRoomRequested,
@@ -2158,7 +2185,7 @@ class _$TypingStartedImpl implements TypingStarted {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String roomId)? started,
+    TResult? Function(String roomId, RoomListItemEntity? room)? started,
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function()? deleteRoomRequested,
@@ -2185,7 +2212,7 @@ class _$TypingStartedImpl implements TypingStarted {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String roomId)? started,
+    TResult Function(String roomId, RoomListItemEntity? room)? started,
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function()? deleteRoomRequested,
@@ -2370,7 +2397,7 @@ class _$TypingStoppedImpl implements TypingStopped {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String roomId) started,
+    required TResult Function(String roomId, RoomListItemEntity? room) started,
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function() deleteRoomRequested,
@@ -2401,7 +2428,7 @@ class _$TypingStoppedImpl implements TypingStopped {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String roomId)? started,
+    TResult? Function(String roomId, RoomListItemEntity? room)? started,
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function()? deleteRoomRequested,
@@ -2428,7 +2455,7 @@ class _$TypingStoppedImpl implements TypingStopped {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String roomId)? started,
+    TResult Function(String roomId, RoomListItemEntity? room)? started,
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function()? deleteRoomRequested,
@@ -2633,7 +2660,7 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String roomId) started,
+    required TResult Function(String roomId, RoomListItemEntity? room) started,
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function() deleteRoomRequested,
@@ -2664,7 +2691,7 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String roomId)? started,
+    TResult? Function(String roomId, RoomListItemEntity? room)? started,
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function()? deleteRoomRequested,
@@ -2691,7 +2718,7 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String roomId)? started,
+    TResult Function(String roomId, RoomListItemEntity? room)? started,
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function()? deleteRoomRequested,
@@ -2883,7 +2910,7 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String roomId) started,
+    required TResult Function(String roomId, RoomListItemEntity? room) started,
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function() deleteRoomRequested,
@@ -2914,7 +2941,7 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String roomId)? started,
+    TResult? Function(String roomId, RoomListItemEntity? room)? started,
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function()? deleteRoomRequested,
@@ -2941,7 +2968,7 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String roomId)? started,
+    TResult Function(String roomId, RoomListItemEntity? room)? started,
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function()? deleteRoomRequested,
@@ -3169,7 +3196,7 @@ class _$ChatRoomParticipantsStatusSnapshotReceivedImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String roomId) started,
+    required TResult Function(String roomId, RoomListItemEntity? room) started,
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function() deleteRoomRequested,
@@ -3200,7 +3227,7 @@ class _$ChatRoomParticipantsStatusSnapshotReceivedImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String roomId)? started,
+    TResult? Function(String roomId, RoomListItemEntity? room)? started,
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function()? deleteRoomRequested,
@@ -3227,7 +3254,7 @@ class _$ChatRoomParticipantsStatusSnapshotReceivedImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String roomId)? started,
+    TResult Function(String roomId, RoomListItemEntity? room)? started,
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function()? deleteRoomRequested,
@@ -3391,7 +3418,7 @@ class _$ChatRoomRoomRemovedRemotelyImpl implements ChatRoomRoomRemovedRemotely {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String roomId) started,
+    required TResult Function(String roomId, RoomListItemEntity? room) started,
     required TResult Function() loadMoreRequested,
     required TResult Function(String text) sendMessageRequested,
     required TResult Function() deleteRoomRequested,
@@ -3422,7 +3449,7 @@ class _$ChatRoomRoomRemovedRemotelyImpl implements ChatRoomRoomRemovedRemotely {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String roomId)? started,
+    TResult? Function(String roomId, RoomListItemEntity? room)? started,
     TResult? Function()? loadMoreRequested,
     TResult? Function(String text)? sendMessageRequested,
     TResult? Function()? deleteRoomRequested,
@@ -3449,7 +3476,7 @@ class _$ChatRoomRoomRemovedRemotelyImpl implements ChatRoomRoomRemovedRemotely {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String roomId)? started,
+    TResult Function(String roomId, RoomListItemEntity? room)? started,
     TResult Function()? loadMoreRequested,
     TResult Function(String text)? sendMessageRequested,
     TResult Function()? deleteRoomRequested,
