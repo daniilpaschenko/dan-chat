@@ -37,3 +37,8 @@ pids/
 *.pid
 *.seed
 *.pid.lock
+
+# Firebase
+serviceAccountKey.json
+**/serviceAccountKey.json
+*.json.bak
