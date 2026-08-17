@@ -42,6 +42,17 @@ class AuthStateNotifier extends ChangeNotifier {
   bool get isInitialized => _isInitialized;
   String? get currentUserId => _currentUserId;
 
+  // защита от повторных вызовов init() — на вебе без гварда
+  // каждый вызов запускал бы свой поход за /auth/refresh
+  Future<void>? _initFuture;
+
+  // защита от повторных параллельных вызовов restore — если несколько мест
+  // одновременно попросят восстановить сессию, реальный запрос уйдёт один раз
+  Future<bool>? _restoreSessionFuture;
+
+  // защита от рекурсии: onAuthFailure -> logOut()
+  bool _isLoggingOut = false;
+
   // инициализация push-уведомлений: получаем токен и сохраняем на бэкенде
   // вынес в отдельный метод
   void _initPush() {
@@ -57,7 +68,12 @@ class AuthStateNotifier extends ChangeNotifier {
   }
 
   /// вызывается один раз при старте приложения
-  Future<void> init() async {
+  Future<void> init() {
+    // если init() уже запущен (или завершён) — отдаём тот же Future, а не стартуем процесс заново
+    return _initFuture ??= _doInit();
+  }
+
+  Future<void> _doInit() async {
     if (kIsWeb) {
       // WebTokenHolder пуст после перезагрузки страницы (живёт только в памяти),
       // поэтому пробуем восстановить сессию через httpOnly refresh cookie
@@ -83,7 +99,11 @@ class AuthStateNotifier extends ChangeNotifier {
   }
 
   // дергает /auth/refresh на старте веб-приложения. возвращает true если сессия восстановлена
-  Future<bool> _tryRestoreWebSession() async {
+  Future<bool> _tryRestoreWebSession() {
+    return _restoreSessionFuture ??= _doTryRestoreWebSession();
+  }
+
+  Future<bool> _doTryRestoreWebSession() async {
     final result = await _authRepository.restoreWebSession();
     return result.fold(
       (failure) => false,
@@ -123,30 +143,50 @@ class AuthStateNotifier extends ChangeNotifier {
   }
 
   Future<void> logOut() async {
-    // забираем push-токен и чистим его на бэкенде ДО очистки локального хранилища,
-    // иначе после logout юзер продолжит получать чужие уведомления на этом устройстве
-    final deviceToken = await _pushService.getCurrentToken();
-    if (deviceToken != null) {
-      await _removeDeviceTokenUseCase(deviceToken);
+    // если мы и так не залогинены – не лезем в сеть за удалением push-токена
+    // чтобы не словить 401 и не зациклиться через onAuthFailure -> logOut()
+    if (!_isAuthenticated) return;
+
+    // защита от повторного/рекурсивного входа, если logOut() дёрнут ещё раз, пока предыдущий вызов ещё не завершился
+    if (_isLoggingOut) return;
+    _isLoggingOut = true;
+
+    try {
+      // забираем push-токен и чистим его на бэкенде ДО очистки локального хранилища,
+      // иначе после logout юзер продолжит получать чужие уведомления на этом устройстве
+      final deviceToken = await _pushService.getCurrentToken();
+      if (deviceToken != null) {
+        try {
+          await _removeDeviceTokenUseCase(deviceToken);
+        } catch (_) {
+          // не блокируем сам логаут, если чистка push-токена не удалась —
+          // локальное состояние всё равно должно очиститься
+        }
+      }
+
+      if (kIsWeb) {
+        _webTokenHolder.clear();
+        // серверный logout (очистка cookie) дергается отдельно
+      } else {
+        await _secureStorageService.deleteTokens();
+      }
+
+      _socketService.disconnect();
+
+      // чистим локальный кэш, чтобы при входе другого юзера на этом же устройстве
+      // не мелькнули чужие данные до первого успешного запроса к серверу
+      await _hiveService.clearAll();
+
+      _isAuthenticated = false;
+      _currentUserId = null;
+      _unreadRoomsCounter.reset();
+
+      // сбрасываем кэш restore-сессии, чтобы следующий init() мог восстановить сессию заново
+      _restoreSessionFuture = null;
+
+      notifyListeners();
+    } finally {
+      _isLoggingOut = false;
     }
-
-    if (kIsWeb) {
-      _webTokenHolder.clear();
-      // серверный logout (очистка cookie) дергается отдельно
-    } else {
-      await _secureStorageService.deleteTokens();
-    }
-
-    _socketService.disconnect();
-
-    // чистим локальный кэш, чтобы при входе другого юзера на этом же устройстве
-    // не мелькнули чужие данные до первого успешного запроса к серверу
-    await _hiveService.clearAll();
-
-    _isAuthenticated = false;
-    _currentUserId = null;
-    _unreadRoomsCounter.reset();
-
-    notifyListeners();
   }
 }
