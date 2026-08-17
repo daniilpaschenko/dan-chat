@@ -7,9 +7,11 @@ import '../../../room/domain/usecases/mark_room_as_read_usecase.dart';
 import '../../../room/domain/usecases/delete_room_usecase.dart';
 import '../../../room/domain/usecases/leave_room_usecase.dart';
 import '../../../user/domain/usecases/get_my_profile_usecase.dart';
+import '../../../room/domain/usecases/get_room_by_id_usecase.dart';
 import '../../domain/usecases/parse_socket_message_usecase.dart';
 import '../../domain/entities/message_entity.dart';
 import '../../domain/usecases/get_room_messages_usecase.dart';
+import '../../../room/domain/entities/room_entity.dart';
 import 'chat_room_event.dart';
 import 'chat_room_state.dart';
 
@@ -19,6 +21,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   final MarkRoomAsReadUseCase _markRoomAsReadUseCase;
   final DeleteRoomUseCase _deleteRoomUseCase;
   final LeaveRoomUseCase _leaveRoomUseCase;
+  final GetRoomByIdUseCase _getRoomByIdUseCase;
   final ParseSocketMessageUseCase _parseSocketMessageUseCase;
   final SocketService _socketService;
   final RoomSyncService _roomSyncService;
@@ -31,6 +34,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   StreamSubscription? _presenceSub;
   StreamSubscription? _messageReadSub;
   StreamSubscription? _roomDeletedSub;
+  StreamSubscription? _reconnectSub;
   Timer? _typingStopTimer;
   bool _isTypingSent = false;
 
@@ -40,6 +44,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     required MarkRoomAsReadUseCase markRoomAsReadUseCase,
     required DeleteRoomUseCase deleteRoomUseCase,
     required LeaveRoomUseCase leaveRoomUseCase,
+    required GetRoomByIdUseCase getRoomByIdUseCase,
     required ParseSocketMessageUseCase parseSocketMessageUseCase,
     required SocketService socketService,
     required RoomSyncService roomSyncService,
@@ -49,6 +54,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
         _markRoomAsReadUseCase = markRoomAsReadUseCase,
         _deleteRoomUseCase = deleteRoomUseCase,
         _leaveRoomUseCase = leaveRoomUseCase,
+        _getRoomByIdUseCase = getRoomByIdUseCase,
         _parseSocketMessageUseCase = parseSocketMessageUseCase,
         _socketService = socketService,
         _roomSyncService = roomSyncService,
@@ -68,6 +74,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     on<ChatRoomParticipantsStatusSnapshotReceived>(_onParticipantsStatusSnapshot);
     on<SocketMessageRead>(_onSocketMessageRead);
     on<ChatRoomRoomRemovedRemotely>((event, emit) => emit(state.copyWith(roomRemoved: true)));
+    on<ChatRoomReconnected>(_onReconnected);
   }
 
   Future<void> _onStarted(
@@ -75,13 +82,25 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     Emitter<ChatRoomState> emit,
   ) async {
     // эмит состояния initial где isInitialLoading: true (был false)
-    emit(ChatRoomState.initial(event.roomId).copyWith(isInitialLoading: true));
+    emit(ChatRoomState.initial(event.roomId).copyWith(
+      isInitialLoading: true,
+      room: event.room, // сразу кладём если было передано снаружи
+    ));
 
     final profileResult = await _getMyProfileUseCase();
     profileResult.fold(
       (_) {},
       (user) => _currentUser = user,
     );
+
+  // если room не был передан снаружи (переход по пушу) — грузим сами
+  if (event.room == null) {
+    final roomResult = await _getRoomByIdUseCase(event.roomId);
+    roomResult.fold(
+      (failure) {}, // не критично — просто останется без шапки/пустая, ниже поймём если нужно error-состояние
+      (fetchedRoom) => emit(state.copyWith(room: fetchedRoom.toListItem(_currentUserId))),
+    );
+  }
 
     final pageResult = await _getRoomMessagesUseCase(roomId: event.roomId);
     pageResult.fold(
@@ -158,6 +177,10 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
       if (data['roomId'] == event.roomId) {
         add(const ChatRoomEvent.roomRemovedRemotely());
       }
+    });
+
+    _reconnectSub = _socketService.connect$.listen((_) {
+      add(const ChatRoomEvent.reconnected());
     });
   }
 
@@ -394,6 +417,32 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     );
   }
 
+  Future<void> _onReconnected(
+    ChatRoomReconnected event,
+    Emitter<ChatRoomState> emit,
+  ) async {
+    // подтягиваем самую свежую страницу (без before — сервер отдаёт последние N сообщений)
+    final result = await _getRoomMessagesUseCase(roomId: state.roomId);
+
+    result.fold(
+      (failure) {}, // не критично — просто останемся с тем, что уже есть
+      (page) {
+        final existingIds = state.messages.map((m) => m.id).toSet();
+        final newOnes = page.messages.where((m) => !existingIds.contains(m.id));
+
+        final merged = [...state.messages, ...newOnes]
+          ..sort((a, b) =>
+              (a.createdAt ?? DateTime.now()).compareTo(b.createdAt ?? DateTime.now()));
+
+        emit(state.copyWith(messages: merged));
+      },
+    );
+
+    // раз юзер вернулся и видит чат — помечаем прочитанным, как и при обычном входе
+    _socketService.markRead(state.roomId);
+    _roomSyncService.notifyRoomRead(state.roomId);
+  }
+
   @override
   Future<void> close() {
     _messageSub?.cancel();
@@ -403,6 +452,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     _typingStopTimer?.cancel();
     _messageReadSub?.cancel();
     _roomDeletedSub?.cancel();
+    _reconnectSub?.cancel();
     return super.close();
   }
 }

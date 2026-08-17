@@ -11,4 +11,11 @@ abstract class IUserRepository {
   Future<Either<Failure, PartialUserEntity>> getUserProfile(String userId);
 
   Future<Either<Failure, UserEntity>> uploadAvatar(File file);
+
+  Future<Either<Failure, Unit>> saveDeviceToken({
+    required String token,
+    required String platform,
+  });
+
+  Future<Either<Failure, Unit>> removeDeviceToken(String token);
 }

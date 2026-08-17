@@ -1,11 +1,13 @@
 const Message = require('../models/Message');
 const Room = require('../models/Room');
 const { findRoomIfMember } = require('./roomService');
+const { isUserOnline } = require('../sockets/presenceHelper');
+const { sendPushToUsers } = require('./pushService');
 
 const SENDER_PUBLIC_FIELDS = 'username avatarUrl';
 
 // возвращает { ok: true, message } либо { ok: false, status, message: текст ошибки }
-async function createMessage({ roomId, senderId, text }) {
+async function createMessage({ roomId, senderId, text, io }) {
     if (!text || !text.trim()) {
         return { ok: false, status: 400, error: 'Пустое сообщение' };
     }
@@ -37,6 +39,22 @@ async function createMessage({ roomId, senderId, text }) {
 
     await room.save();
     await message.populate('sender', SENDER_PUBLIC_FIELDS);
+
+    // пуши шлём только тем, кто оффлайн (иначе получат и сокет-событие, и пуш)
+    if (io) {
+        const offlineRecipients = room.participants
+            .map((p) => p.user.toString())
+            .filter((id) => id !== senderId && !isUserOnline(io, id));
+
+        if (offlineRecipients.length > 0) {
+            // не блокируем ответ пользователю ожиданием отправки пушей
+            sendPushToUsers(offlineRecipients, {
+                title: message.sender.username,
+                body: message.text,
+                data: { type: 'message', roomId },
+            }).catch((err) => console.error('push send error:', err));
+        }
+    }
 
     return { ok: true, message };
 }

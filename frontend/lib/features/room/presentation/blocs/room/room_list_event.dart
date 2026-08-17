@@ -52,4 +52,6 @@ class RoomListEvent with _$RoomListEvent {
     required String roomId,
     required String userId,
   }) = RoomListMessageRead;
+
+  const factory RoomListEvent.reconnected() = RoomListReconnected;
 }

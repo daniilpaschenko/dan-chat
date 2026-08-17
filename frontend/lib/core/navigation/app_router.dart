@@ -22,14 +22,14 @@ class AppRouter {
   AppRouter(this._authStateNotifier);
 
   // root — для splash/auth/модальных экранов вне навбара, остальные — по одному на каждую вкладку боттом навбара
-  static final _rootNavigatorKey = GlobalKey<NavigatorState>();
+  static final rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _chatsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'chats');
   static final _searchNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'search');
   static final _profileNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
 
   GoRouter build() {
     return GoRouter(
-      navigatorKey: _rootNavigatorKey,
+      navigatorKey: rootNavigatorKey,
       initialLocation: RoutePaths.splash,
       refreshListenable: _authStateNotifier,
       redirect: (context, state) {
@@ -75,7 +75,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutePaths.userProfile, // например, '/users/:userId'
-          parentNavigatorKey: _rootNavigatorKey,
+          parentNavigatorKey: rootNavigatorKey,
           builder: (context, state) {
             // извлекаем userId из pathParameters
             final userId = state.pathParameters['userId'];
@@ -84,17 +84,17 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutePaths.settings,
-          parentNavigatorKey: _rootNavigatorKey,
+          parentNavigatorKey: rootNavigatorKey,
           builder: (context, state) => const PlaceholderScreen(title: 'Настройки'),
         ),
         GoRoute(
           path: RoutePaths.createGroup,
-          parentNavigatorKey: _rootNavigatorKey,
+          parentNavigatorKey: rootNavigatorKey,
           builder: (context, state) => const CreateGroupScreen(),
         ),
         GoRoute(
           path: RoutePaths.groupProfile,
-          parentNavigatorKey: _rootNavigatorKey,
+          parentNavigatorKey: rootNavigatorKey,
           builder: (context, state) {
             final roomId = state.pathParameters['roomId']!;
             return GroupProfileScreen(roomId: roomId);
@@ -102,7 +102,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutePaths.addParticipants,
-          parentNavigatorKey: _rootNavigatorKey,
+          parentNavigatorKey: rootNavigatorKey,
           builder: (context, state) {
             final roomId = state.pathParameters['roomId']!;
             final existingIds = (state.extra as Set<String>?) ?? const <String>{};

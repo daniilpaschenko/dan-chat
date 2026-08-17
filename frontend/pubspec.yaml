@@ -29,6 +29,9 @@ dependencies:
   bloc_concurrency: ^0.3.0
   stream_transform: ^2.1.1
   connectivity_plus: ^7.3.1
+  firebase_core: ^4.13.0
+  firebase_messaging: ^16.5.0
+  flutter_local_notifications: ^22.3.0
 
 dev_dependencies:
   flutter_test:
@@ -48,6 +51,8 @@ flutter:
 flutter_launcher_icons:
   android: true
   ios: true
+  web:
+    generate: true
   image_path: "assets/icons/icon.png"
 
 flutter_native_splash:
