@@ -31,4 +31,6 @@ class ChatRoomEvent with _$ChatRoomEvent {
   ) = ChatRoomParticipantsStatusSnapshotReceived;
 
   const factory ChatRoomEvent.roomRemovedRemotely() = ChatRoomRoomRemovedRemotely;
+
+  const factory ChatRoomEvent.reconnected() = ChatRoomReconnected;
 }
