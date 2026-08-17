@@ -43,6 +43,7 @@ mixin _$ChatRoomEvent {
     )
     participantsStatusSnapshotReceived,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function() reconnected,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -66,6 +67,7 @@ mixin _$ChatRoomEvent {
     )?
     participantsStatusSnapshotReceived,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function()? reconnected,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -89,6 +91,7 @@ mixin _$ChatRoomEvent {
     )?
     participantsStatusSnapshotReceived,
     TResult Function()? roomRemovedRemotely,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -110,6 +113,7 @@ mixin _$ChatRoomEvent {
     participantsStatusSnapshotReceived,
     required TResult Function(ChatRoomRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(ChatRoomReconnected value) reconnected,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -128,6 +132,7 @@ mixin _$ChatRoomEvent {
     TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult? Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult? Function(ChatRoomReconnected value)? reconnected,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -146,6 +151,7 @@ mixin _$ChatRoomEvent {
     TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult Function(ChatRoomReconnected value)? reconnected,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -292,6 +298,7 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     )
     participantsStatusSnapshotReceived,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function() reconnected,
   }) {
     return started(roomId, room);
   }
@@ -319,6 +326,7 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     )?
     participantsStatusSnapshotReceived,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function()? reconnected,
   }) {
     return started?.call(roomId, room);
   }
@@ -346,6 +354,7 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     )?
     participantsStatusSnapshotReceived,
     TResult Function()? roomRemovedRemotely,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -374,6 +383,7 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     participantsStatusSnapshotReceived,
     required TResult Function(ChatRoomRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(ChatRoomReconnected value) reconnected,
   }) {
     return started(this);
   }
@@ -396,6 +406,7 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult? Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult? Function(ChatRoomReconnected value)? reconnected,
   }) {
     return started?.call(this);
   }
@@ -418,6 +429,7 @@ class _$ChatRoomStartedImpl implements ChatRoomStarted {
     TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult Function(ChatRoomReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -510,6 +522,7 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     )
     participantsStatusSnapshotReceived,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function() reconnected,
   }) {
     return loadMoreRequested();
   }
@@ -537,6 +550,7 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     )?
     participantsStatusSnapshotReceived,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function()? reconnected,
   }) {
     return loadMoreRequested?.call();
   }
@@ -564,6 +578,7 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     )?
     participantsStatusSnapshotReceived,
     TResult Function()? roomRemovedRemotely,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (loadMoreRequested != null) {
@@ -592,6 +607,7 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     participantsStatusSnapshotReceived,
     required TResult Function(ChatRoomRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(ChatRoomReconnected value) reconnected,
   }) {
     return loadMoreRequested(this);
   }
@@ -614,6 +630,7 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult? Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult? Function(ChatRoomReconnected value)? reconnected,
   }) {
     return loadMoreRequested?.call(this);
   }
@@ -636,6 +653,7 @@ class _$LoadMoreRequestedImpl implements LoadMoreRequested {
     TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult Function(ChatRoomReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (loadMoreRequested != null) {
@@ -747,6 +765,7 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     )
     participantsStatusSnapshotReceived,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function() reconnected,
   }) {
     return sendMessageRequested(text);
   }
@@ -774,6 +793,7 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     )?
     participantsStatusSnapshotReceived,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function()? reconnected,
   }) {
     return sendMessageRequested?.call(text);
   }
@@ -801,6 +821,7 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     )?
     participantsStatusSnapshotReceived,
     TResult Function()? roomRemovedRemotely,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (sendMessageRequested != null) {
@@ -829,6 +850,7 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     participantsStatusSnapshotReceived,
     required TResult Function(ChatRoomRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(ChatRoomReconnected value) reconnected,
   }) {
     return sendMessageRequested(this);
   }
@@ -851,6 +873,7 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult? Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult? Function(ChatRoomReconnected value)? reconnected,
   }) {
     return sendMessageRequested?.call(this);
   }
@@ -873,6 +896,7 @@ class _$SendMessageRequestedImpl implements SendMessageRequested {
     TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult Function(ChatRoomReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (sendMessageRequested != null) {
@@ -963,6 +987,7 @@ class _$DeleteRoomRequestedImpl implements DeleteRoomRequested {
     )
     participantsStatusSnapshotReceived,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function() reconnected,
   }) {
     return deleteRoomRequested();
   }
@@ -990,6 +1015,7 @@ class _$DeleteRoomRequestedImpl implements DeleteRoomRequested {
     )?
     participantsStatusSnapshotReceived,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function()? reconnected,
   }) {
     return deleteRoomRequested?.call();
   }
@@ -1017,6 +1043,7 @@ class _$DeleteRoomRequestedImpl implements DeleteRoomRequested {
     )?
     participantsStatusSnapshotReceived,
     TResult Function()? roomRemovedRemotely,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (deleteRoomRequested != null) {
@@ -1045,6 +1072,7 @@ class _$DeleteRoomRequestedImpl implements DeleteRoomRequested {
     participantsStatusSnapshotReceived,
     required TResult Function(ChatRoomRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(ChatRoomReconnected value) reconnected,
   }) {
     return deleteRoomRequested(this);
   }
@@ -1067,6 +1095,7 @@ class _$DeleteRoomRequestedImpl implements DeleteRoomRequested {
     TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult? Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult? Function(ChatRoomReconnected value)? reconnected,
   }) {
     return deleteRoomRequested?.call(this);
   }
@@ -1089,6 +1118,7 @@ class _$DeleteRoomRequestedImpl implements DeleteRoomRequested {
     TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult Function(ChatRoomReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (deleteRoomRequested != null) {
@@ -1169,6 +1199,7 @@ class _$LeaveRoomRequestedImpl implements LeaveRoomRequested {
     )
     participantsStatusSnapshotReceived,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function() reconnected,
   }) {
     return leaveRoomRequested();
   }
@@ -1196,6 +1227,7 @@ class _$LeaveRoomRequestedImpl implements LeaveRoomRequested {
     )?
     participantsStatusSnapshotReceived,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function()? reconnected,
   }) {
     return leaveRoomRequested?.call();
   }
@@ -1223,6 +1255,7 @@ class _$LeaveRoomRequestedImpl implements LeaveRoomRequested {
     )?
     participantsStatusSnapshotReceived,
     TResult Function()? roomRemovedRemotely,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (leaveRoomRequested != null) {
@@ -1251,6 +1284,7 @@ class _$LeaveRoomRequestedImpl implements LeaveRoomRequested {
     participantsStatusSnapshotReceived,
     required TResult Function(ChatRoomRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(ChatRoomReconnected value) reconnected,
   }) {
     return leaveRoomRequested(this);
   }
@@ -1273,6 +1307,7 @@ class _$LeaveRoomRequestedImpl implements LeaveRoomRequested {
     TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult? Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult? Function(ChatRoomReconnected value)? reconnected,
   }) {
     return leaveRoomRequested?.call(this);
   }
@@ -1295,6 +1330,7 @@ class _$LeaveRoomRequestedImpl implements LeaveRoomRequested {
     TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult Function(ChatRoomReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (leaveRoomRequested != null) {
@@ -1418,6 +1454,7 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     )
     participantsStatusSnapshotReceived,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function() reconnected,
   }) {
     return socketMessageReceived(message);
   }
@@ -1445,6 +1482,7 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     )?
     participantsStatusSnapshotReceived,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function()? reconnected,
   }) {
     return socketMessageReceived?.call(message);
   }
@@ -1472,6 +1510,7 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     )?
     participantsStatusSnapshotReceived,
     TResult Function()? roomRemovedRemotely,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (socketMessageReceived != null) {
@@ -1500,6 +1539,7 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     participantsStatusSnapshotReceived,
     required TResult Function(ChatRoomRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(ChatRoomReconnected value) reconnected,
   }) {
     return socketMessageReceived(this);
   }
@@ -1522,6 +1562,7 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult? Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult? Function(ChatRoomReconnected value)? reconnected,
   }) {
     return socketMessageReceived?.call(this);
   }
@@ -1544,6 +1585,7 @@ class _$SocketMessageReceivedImpl implements SocketMessageReceived {
     TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult Function(ChatRoomReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (socketMessageReceived != null) {
@@ -1663,6 +1705,7 @@ class _$SocketMessageReadImpl implements SocketMessageRead {
     )
     participantsStatusSnapshotReceived,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function() reconnected,
   }) {
     return socketMessageRead(userId);
   }
@@ -1690,6 +1733,7 @@ class _$SocketMessageReadImpl implements SocketMessageRead {
     )?
     participantsStatusSnapshotReceived,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function()? reconnected,
   }) {
     return socketMessageRead?.call(userId);
   }
@@ -1717,6 +1761,7 @@ class _$SocketMessageReadImpl implements SocketMessageRead {
     )?
     participantsStatusSnapshotReceived,
     TResult Function()? roomRemovedRemotely,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (socketMessageRead != null) {
@@ -1745,6 +1790,7 @@ class _$SocketMessageReadImpl implements SocketMessageRead {
     participantsStatusSnapshotReceived,
     required TResult Function(ChatRoomRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(ChatRoomReconnected value) reconnected,
   }) {
     return socketMessageRead(this);
   }
@@ -1767,6 +1813,7 @@ class _$SocketMessageReadImpl implements SocketMessageRead {
     TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult? Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult? Function(ChatRoomReconnected value)? reconnected,
   }) {
     return socketMessageRead?.call(this);
   }
@@ -1789,6 +1836,7 @@ class _$SocketMessageReadImpl implements SocketMessageRead {
     TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult Function(ChatRoomReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (socketMessageRead != null) {
@@ -1925,6 +1973,7 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     )
     participantsStatusSnapshotReceived,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function() reconnected,
   }) {
     return socketAckReceived(tempId, ack);
   }
@@ -1952,6 +2001,7 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     )?
     participantsStatusSnapshotReceived,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function()? reconnected,
   }) {
     return socketAckReceived?.call(tempId, ack);
   }
@@ -1979,6 +2029,7 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     )?
     participantsStatusSnapshotReceived,
     TResult Function()? roomRemovedRemotely,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (socketAckReceived != null) {
@@ -2007,6 +2058,7 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     participantsStatusSnapshotReceived,
     required TResult Function(ChatRoomRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(ChatRoomReconnected value) reconnected,
   }) {
     return socketAckReceived(this);
   }
@@ -2029,6 +2081,7 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult? Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult? Function(ChatRoomReconnected value)? reconnected,
   }) {
     return socketAckReceived?.call(this);
   }
@@ -2051,6 +2104,7 @@ class _$SocketAckReceivedImpl implements SocketAckReceived {
     TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult Function(ChatRoomReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (socketAckReceived != null) {
@@ -2178,6 +2232,7 @@ class _$TypingStartedImpl implements TypingStarted {
     )
     participantsStatusSnapshotReceived,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function() reconnected,
   }) {
     return typingStarted(userId, username);
   }
@@ -2205,6 +2260,7 @@ class _$TypingStartedImpl implements TypingStarted {
     )?
     participantsStatusSnapshotReceived,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function()? reconnected,
   }) {
     return typingStarted?.call(userId, username);
   }
@@ -2232,6 +2288,7 @@ class _$TypingStartedImpl implements TypingStarted {
     )?
     participantsStatusSnapshotReceived,
     TResult Function()? roomRemovedRemotely,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (typingStarted != null) {
@@ -2260,6 +2317,7 @@ class _$TypingStartedImpl implements TypingStarted {
     participantsStatusSnapshotReceived,
     required TResult Function(ChatRoomRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(ChatRoomReconnected value) reconnected,
   }) {
     return typingStarted(this);
   }
@@ -2282,6 +2340,7 @@ class _$TypingStartedImpl implements TypingStarted {
     TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult? Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult? Function(ChatRoomReconnected value)? reconnected,
   }) {
     return typingStarted?.call(this);
   }
@@ -2304,6 +2363,7 @@ class _$TypingStartedImpl implements TypingStarted {
     TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult Function(ChatRoomReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (typingStarted != null) {
@@ -2421,6 +2481,7 @@ class _$TypingStoppedImpl implements TypingStopped {
     )
     participantsStatusSnapshotReceived,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function() reconnected,
   }) {
     return typingStopped(userId);
   }
@@ -2448,6 +2509,7 @@ class _$TypingStoppedImpl implements TypingStopped {
     )?
     participantsStatusSnapshotReceived,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function()? reconnected,
   }) {
     return typingStopped?.call(userId);
   }
@@ -2475,6 +2537,7 @@ class _$TypingStoppedImpl implements TypingStopped {
     )?
     participantsStatusSnapshotReceived,
     TResult Function()? roomRemovedRemotely,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (typingStopped != null) {
@@ -2503,6 +2566,7 @@ class _$TypingStoppedImpl implements TypingStopped {
     participantsStatusSnapshotReceived,
     required TResult Function(ChatRoomRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(ChatRoomReconnected value) reconnected,
   }) {
     return typingStopped(this);
   }
@@ -2525,6 +2589,7 @@ class _$TypingStoppedImpl implements TypingStopped {
     TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult? Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult? Function(ChatRoomReconnected value)? reconnected,
   }) {
     return typingStopped?.call(this);
   }
@@ -2547,6 +2612,7 @@ class _$TypingStoppedImpl implements TypingStopped {
     TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult Function(ChatRoomReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (typingStopped != null) {
@@ -2684,6 +2750,7 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     )
     participantsStatusSnapshotReceived,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function() reconnected,
   }) {
     return presenceUpdated(userId, status, lastSeen);
   }
@@ -2711,6 +2778,7 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     )?
     participantsStatusSnapshotReceived,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function()? reconnected,
   }) {
     return presenceUpdated?.call(userId, status, lastSeen);
   }
@@ -2738,6 +2806,7 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     )?
     participantsStatusSnapshotReceived,
     TResult Function()? roomRemovedRemotely,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (presenceUpdated != null) {
@@ -2766,6 +2835,7 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     participantsStatusSnapshotReceived,
     required TResult Function(ChatRoomRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(ChatRoomReconnected value) reconnected,
   }) {
     return presenceUpdated(this);
   }
@@ -2788,6 +2858,7 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult? Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult? Function(ChatRoomReconnected value)? reconnected,
   }) {
     return presenceUpdated?.call(this);
   }
@@ -2810,6 +2881,7 @@ class _$ChatRoomPresenceUpdatedImpl implements ChatRoomPresenceUpdated {
     TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult Function(ChatRoomReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (presenceUpdated != null) {
@@ -2934,6 +3006,7 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     )
     participantsStatusSnapshotReceived,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function() reconnected,
   }) {
     return typingTextChanged(text);
   }
@@ -2961,6 +3034,7 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     )?
     participantsStatusSnapshotReceived,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function()? reconnected,
   }) {
     return typingTextChanged?.call(text);
   }
@@ -2988,6 +3062,7 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     )?
     participantsStatusSnapshotReceived,
     TResult Function()? roomRemovedRemotely,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (typingTextChanged != null) {
@@ -3016,6 +3091,7 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     participantsStatusSnapshotReceived,
     required TResult Function(ChatRoomRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(ChatRoomReconnected value) reconnected,
   }) {
     return typingTextChanged(this);
   }
@@ -3038,6 +3114,7 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult? Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult? Function(ChatRoomReconnected value)? reconnected,
   }) {
     return typingTextChanged?.call(this);
   }
@@ -3060,6 +3137,7 @@ class _$TypingTextChangedImpl implements TypingTextChanged {
     TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult Function(ChatRoomReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (typingTextChanged != null) {
@@ -3220,6 +3298,7 @@ class _$ChatRoomParticipantsStatusSnapshotReceivedImpl
     )
     participantsStatusSnapshotReceived,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function() reconnected,
   }) {
     return participantsStatusSnapshotReceived(statusMap, lastSeenMap);
   }
@@ -3247,6 +3326,7 @@ class _$ChatRoomParticipantsStatusSnapshotReceivedImpl
     )?
     participantsStatusSnapshotReceived,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function()? reconnected,
   }) {
     return participantsStatusSnapshotReceived?.call(statusMap, lastSeenMap);
   }
@@ -3274,6 +3354,7 @@ class _$ChatRoomParticipantsStatusSnapshotReceivedImpl
     )?
     participantsStatusSnapshotReceived,
     TResult Function()? roomRemovedRemotely,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (participantsStatusSnapshotReceived != null) {
@@ -3302,6 +3383,7 @@ class _$ChatRoomParticipantsStatusSnapshotReceivedImpl
     participantsStatusSnapshotReceived,
     required TResult Function(ChatRoomRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(ChatRoomReconnected value) reconnected,
   }) {
     return participantsStatusSnapshotReceived(this);
   }
@@ -3324,6 +3406,7 @@ class _$ChatRoomParticipantsStatusSnapshotReceivedImpl
     TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult? Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult? Function(ChatRoomReconnected value)? reconnected,
   }) {
     return participantsStatusSnapshotReceived?.call(this);
   }
@@ -3346,6 +3429,7 @@ class _$ChatRoomParticipantsStatusSnapshotReceivedImpl
     TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult Function(ChatRoomReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (participantsStatusSnapshotReceived != null) {
@@ -3442,6 +3526,7 @@ class _$ChatRoomRoomRemovedRemotelyImpl implements ChatRoomRoomRemovedRemotely {
     )
     participantsStatusSnapshotReceived,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function() reconnected,
   }) {
     return roomRemovedRemotely();
   }
@@ -3469,6 +3554,7 @@ class _$ChatRoomRoomRemovedRemotelyImpl implements ChatRoomRoomRemovedRemotely {
     )?
     participantsStatusSnapshotReceived,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function()? reconnected,
   }) {
     return roomRemovedRemotely?.call();
   }
@@ -3496,6 +3582,7 @@ class _$ChatRoomRoomRemovedRemotelyImpl implements ChatRoomRoomRemovedRemotely {
     )?
     participantsStatusSnapshotReceived,
     TResult Function()? roomRemovedRemotely,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (roomRemovedRemotely != null) {
@@ -3524,6 +3611,7 @@ class _$ChatRoomRoomRemovedRemotelyImpl implements ChatRoomRoomRemovedRemotely {
     participantsStatusSnapshotReceived,
     required TResult Function(ChatRoomRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(ChatRoomReconnected value) reconnected,
   }) {
     return roomRemovedRemotely(this);
   }
@@ -3546,6 +3634,7 @@ class _$ChatRoomRoomRemovedRemotelyImpl implements ChatRoomRoomRemovedRemotely {
     TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult? Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult? Function(ChatRoomReconnected value)? reconnected,
   }) {
     return roomRemovedRemotely?.call(this);
   }
@@ -3568,6 +3657,7 @@ class _$ChatRoomRoomRemovedRemotelyImpl implements ChatRoomRoomRemovedRemotely {
     TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
     participantsStatusSnapshotReceived,
     TResult Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult Function(ChatRoomReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (roomRemovedRemotely != null) {
@@ -3580,4 +3670,217 @@ class _$ChatRoomRoomRemovedRemotelyImpl implements ChatRoomRoomRemovedRemotely {
 abstract class ChatRoomRoomRemovedRemotely implements ChatRoomEvent {
   const factory ChatRoomRoomRemovedRemotely() =
       _$ChatRoomRoomRemovedRemotelyImpl;
+}
+
+/// @nodoc
+abstract class _$$ChatRoomReconnectedImplCopyWith<$Res> {
+  factory _$$ChatRoomReconnectedImplCopyWith(
+    _$ChatRoomReconnectedImpl value,
+    $Res Function(_$ChatRoomReconnectedImpl) then,
+  ) = __$$ChatRoomReconnectedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ChatRoomReconnectedImplCopyWithImpl<$Res>
+    extends _$ChatRoomEventCopyWithImpl<$Res, _$ChatRoomReconnectedImpl>
+    implements _$$ChatRoomReconnectedImplCopyWith<$Res> {
+  __$$ChatRoomReconnectedImplCopyWithImpl(
+    _$ChatRoomReconnectedImpl _value,
+    $Res Function(_$ChatRoomReconnectedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of ChatRoomEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$ChatRoomReconnectedImpl implements ChatRoomReconnected {
+  const _$ChatRoomReconnectedImpl();
+
+  @override
+  String toString() {
+    return 'ChatRoomEvent.reconnected()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChatRoomReconnectedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String roomId, RoomListItemEntity? room) started,
+    required TResult Function() loadMoreRequested,
+    required TResult Function(String text) sendMessageRequested,
+    required TResult Function() deleteRoomRequested,
+    required TResult Function() leaveRoomRequested,
+    required TResult Function(MessageEntity message) socketMessageReceived,
+    required TResult Function(String userId) socketMessageRead,
+    required TResult Function(String tempId, Map<String, dynamic> ack)
+    socketAckReceived,
+    required TResult Function(String userId, String username) typingStarted,
+    required TResult Function(String userId) typingStopped,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
+    required TResult Function(String text) typingTextChanged,
+    required TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )
+    participantsStatusSnapshotReceived,
+    required TResult Function() roomRemovedRemotely,
+    required TResult Function() reconnected,
+  }) {
+    return reconnected();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String roomId, RoomListItemEntity? room)? started,
+    TResult? Function()? loadMoreRequested,
+    TResult? Function(String text)? sendMessageRequested,
+    TResult? Function()? deleteRoomRequested,
+    TResult? Function()? leaveRoomRequested,
+    TResult? Function(MessageEntity message)? socketMessageReceived,
+    TResult? Function(String userId)? socketMessageRead,
+    TResult? Function(String tempId, Map<String, dynamic> ack)?
+    socketAckReceived,
+    TResult? Function(String userId, String username)? typingStarted,
+    TResult? Function(String userId)? typingStopped,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+    TResult? Function(String text)? typingTextChanged,
+    TResult? Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
+    TResult? Function()? roomRemovedRemotely,
+    TResult? Function()? reconnected,
+  }) {
+    return reconnected?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String roomId, RoomListItemEntity? room)? started,
+    TResult Function()? loadMoreRequested,
+    TResult Function(String text)? sendMessageRequested,
+    TResult Function()? deleteRoomRequested,
+    TResult Function()? leaveRoomRequested,
+    TResult Function(MessageEntity message)? socketMessageReceived,
+    TResult Function(String userId)? socketMessageRead,
+    TResult Function(String tempId, Map<String, dynamic> ack)?
+    socketAckReceived,
+    TResult Function(String userId, String username)? typingStarted,
+    TResult Function(String userId)? typingStopped,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+    TResult Function(String text)? typingTextChanged,
+    TResult Function(
+      Map<String, UserStatus> statusMap,
+      Map<String, DateTime> lastSeenMap,
+    )?
+    participantsStatusSnapshotReceived,
+    TResult Function()? roomRemovedRemotely,
+    TResult Function()? reconnected,
+    required TResult orElse(),
+  }) {
+    if (reconnected != null) {
+      return reconnected();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChatRoomStarted value) started,
+    required TResult Function(LoadMoreRequested value) loadMoreRequested,
+    required TResult Function(SendMessageRequested value) sendMessageRequested,
+    required TResult Function(DeleteRoomRequested value) deleteRoomRequested,
+    required TResult Function(LeaveRoomRequested value) leaveRoomRequested,
+    required TResult Function(SocketMessageReceived value)
+    socketMessageReceived,
+    required TResult Function(SocketMessageRead value) socketMessageRead,
+    required TResult Function(SocketAckReceived value) socketAckReceived,
+    required TResult Function(TypingStarted value) typingStarted,
+    required TResult Function(TypingStopped value) typingStopped,
+    required TResult Function(ChatRoomPresenceUpdated value) presenceUpdated,
+    required TResult Function(TypingTextChanged value) typingTextChanged,
+    required TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)
+    participantsStatusSnapshotReceived,
+    required TResult Function(ChatRoomRoomRemovedRemotely value)
+    roomRemovedRemotely,
+    required TResult Function(ChatRoomReconnected value) reconnected,
+  }) {
+    return reconnected(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChatRoomStarted value)? started,
+    TResult? Function(LoadMoreRequested value)? loadMoreRequested,
+    TResult? Function(SendMessageRequested value)? sendMessageRequested,
+    TResult? Function(DeleteRoomRequested value)? deleteRoomRequested,
+    TResult? Function(LeaveRoomRequested value)? leaveRoomRequested,
+    TResult? Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult? Function(SocketMessageRead value)? socketMessageRead,
+    TResult? Function(SocketAckReceived value)? socketAckReceived,
+    TResult? Function(TypingStarted value)? typingStarted,
+    TResult? Function(TypingStopped value)? typingStopped,
+    TResult? Function(ChatRoomPresenceUpdated value)? presenceUpdated,
+    TResult? Function(TypingTextChanged value)? typingTextChanged,
+    TResult? Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
+    TResult? Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult? Function(ChatRoomReconnected value)? reconnected,
+  }) {
+    return reconnected?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChatRoomStarted value)? started,
+    TResult Function(LoadMoreRequested value)? loadMoreRequested,
+    TResult Function(SendMessageRequested value)? sendMessageRequested,
+    TResult Function(DeleteRoomRequested value)? deleteRoomRequested,
+    TResult Function(LeaveRoomRequested value)? leaveRoomRequested,
+    TResult Function(SocketMessageReceived value)? socketMessageReceived,
+    TResult Function(SocketMessageRead value)? socketMessageRead,
+    TResult Function(SocketAckReceived value)? socketAckReceived,
+    TResult Function(TypingStarted value)? typingStarted,
+    TResult Function(TypingStopped value)? typingStopped,
+    TResult Function(ChatRoomPresenceUpdated value)? presenceUpdated,
+    TResult Function(TypingTextChanged value)? typingTextChanged,
+    TResult Function(ChatRoomParticipantsStatusSnapshotReceived value)?
+    participantsStatusSnapshotReceived,
+    TResult Function(ChatRoomRoomRemovedRemotely value)? roomRemovedRemotely,
+    TResult Function(ChatRoomReconnected value)? reconnected,
+    required TResult orElse(),
+  }) {
+    if (reconnected != null) {
+      return reconnected(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ChatRoomReconnected implements ChatRoomEvent {
+  const factory ChatRoomReconnected() = _$ChatRoomReconnectedImpl;
 }
