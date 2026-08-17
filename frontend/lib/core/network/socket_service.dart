@@ -27,7 +27,9 @@ class SocketService {
   final _roomCreatedController = StreamController<Map<String, dynamic>>.broadcast();
   final _roomUpdatedController = StreamController<Map<String, dynamic>>.broadcast();
   final _roomDeletedController = StreamController<Map<String, dynamic>>.broadcast();
-
+  
+  final _connectController = StreamController<void>.broadcast();
+  
   // геттеры для потоков, чтобы подписчики могли слушать события
   // только слушать, не иметь доступа к контроллерам
   Stream<Map<String, dynamic>> get messageNew$ => _messageNewController.stream;
@@ -38,6 +40,7 @@ class SocketService {
   Stream<Map<String, dynamic>> get roomCreated$ => _roomCreatedController.stream;
   Stream<Map<String, dynamic>> get roomUpdated$ => _roomUpdatedController.stream;
   Stream<Map<String, dynamic>> get roomDeleted$ => _roomDeletedController.stream;
+  Stream<void> get connect$ => _connectController.stream;
 
   // проверка соединения
   bool get isConnected => _socket?.connected ?? false;
@@ -65,7 +68,7 @@ class SocketService {
 
     // регистрация событий сокета
     _socket!
-      //..onConnect((_) => print('[socket] connected'))
+      ..onConnect((_) => _connectController.add(null))
       //..onDisconnect((_) => print('[socket] disconnected'))
       //..onConnectError((err) => print('[socket] connect_error: $err'))
       // реагирует на события, отправленные севрером, и добавляет их в соответствующие стримы
