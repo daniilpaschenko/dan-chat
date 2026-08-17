@@ -1,17 +1,23 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:io' show Platform;
 import 'local_notification_service.dart';
+import '../network/socket_service.dart';
 import '../navigation/app_router.dart';
 import '../navigation/route_paths.dart';
 
 class PushService {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   final LocalNotificationService _localNotificationService;
+  final SocketService _socketService;
+  final String? Function() _getCurrentUserId; // геттер, а не значение — читаем лениво на момент события
 
-  PushService(this._localNotificationService);
+  StreamSubscription<Map<String, dynamic>>? _messageNewSub;
+
+  PushService(this._localNotificationService, this._socketService, this._getCurrentUserId);
 
   Future<void> init({
     required Future<void> Function(String token, String platform) onTokenReady,
@@ -40,6 +46,30 @@ class PushService {
           data: message.data,
         );
       }
+    });
+
+    // бэкенд намеренно не шлёт push тем, кто онлайн по сокету
+    // поэтому для онлайн-юзеров локальное уведомление рисуем сами по сокет-событию
+    _messageNewSub = _socketService.messageNew$.listen((data) {
+      // TODO: не показывать, если сейчас открыт именно этот roomId (экран чата)
+      final sender = data['sender'] as Map<String, dynamic>?;
+      final senderId = (sender?['_id'] ?? sender?['id'])?.toString();
+      final currentUserId = _getCurrentUserId();
+
+      // сервер шлёт message:new всем участникам комнаты, включая самого отправителя
+      // (чтобы у него тоже обновился список сообщений) — уведомление ему самому не нужно
+      if (senderId != null && senderId == currentUserId) return;
+
+      final roomId = (data['room'] ?? data['roomId'])?.toString();
+
+      _localNotificationService.show(
+        title: sender?['username']?.toString() ?? '',
+        body: data['text']?.toString() ?? '',
+        data: {
+          'type': 'message',
+          'roomId': roomId,
+        },
+      );
     });
 
     _localNotificationService.onNotificationTap = (payload) {
@@ -82,4 +112,8 @@ class PushService {
   }
 
   Future<void> deleteToken() => _messaging.deleteToken();
+
+  void dispose() {
+    _messageNewSub?.cancel();
+  }
 }
