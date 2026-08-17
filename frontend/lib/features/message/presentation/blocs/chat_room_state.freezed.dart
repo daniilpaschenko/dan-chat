@@ -32,7 +32,9 @@ mixin _$ChatRoomState {
       throw _privateConstructorUsedError;
   Map<String, DateTime> get participantsLastSeen =>
       throw _privateConstructorUsedError;
-  bool get roomRemoved => throw _privateConstructorUsedError;
+  bool get roomRemoved =>
+      throw _privateConstructorUsedError; // true после успешного delete/leave — экран должен закрыться
+  RoomListItemEntity? get room => throw _privateConstructorUsedError;
 
   /// Create a copy of ChatRoomState
   /// with the given fields replaced by the non-null parameter values.
@@ -61,7 +63,10 @@ abstract class $ChatRoomStateCopyWith<$Res> {
     Map<String, UserStatus> participantsStatus,
     Map<String, DateTime> participantsLastSeen,
     bool roomRemoved,
+    RoomListItemEntity? room,
   });
+
+  $RoomListItemEntityCopyWith<$Res>? get room;
 }
 
 /// @nodoc
@@ -91,6 +96,7 @@ class _$ChatRoomStateCopyWithImpl<$Res, $Val extends ChatRoomState>
     Object? participantsStatus = null,
     Object? participantsLastSeen = null,
     Object? roomRemoved = null,
+    Object? room = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -142,9 +148,27 @@ class _$ChatRoomStateCopyWithImpl<$Res, $Val extends ChatRoomState>
                 ? _value.roomRemoved
                 : roomRemoved // ignore: cast_nullable_to_non_nullable
                       as bool,
+            room: freezed == room
+                ? _value.room
+                : room // ignore: cast_nullable_to_non_nullable
+                      as RoomListItemEntity?,
           )
           as $Val,
     );
+  }
+
+  /// Create a copy of ChatRoomState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $RoomListItemEntityCopyWith<$Res>? get room {
+    if (_value.room == null) {
+      return null;
+    }
+
+    return $RoomListItemEntityCopyWith<$Res>(_value.room!, (value) {
+      return _then(_value.copyWith(room: value) as $Val);
+    });
   }
 }
 
@@ -170,7 +194,11 @@ abstract class _$$ChatRoomStateImplCopyWith<$Res>
     Map<String, UserStatus> participantsStatus,
     Map<String, DateTime> participantsLastSeen,
     bool roomRemoved,
+    RoomListItemEntity? room,
   });
+
+  @override
+  $RoomListItemEntityCopyWith<$Res>? get room;
 }
 
 /// @nodoc
@@ -199,6 +227,7 @@ class __$$ChatRoomStateImplCopyWithImpl<$Res>
     Object? participantsStatus = null,
     Object? participantsLastSeen = null,
     Object? roomRemoved = null,
+    Object? room = freezed,
   }) {
     return _then(
       _$ChatRoomStateImpl(
@@ -250,6 +279,10 @@ class __$$ChatRoomStateImplCopyWithImpl<$Res>
             ? _value.roomRemoved
             : roomRemoved // ignore: cast_nullable_to_non_nullable
                   as bool,
+        room: freezed == room
+            ? _value.room
+            : room // ignore: cast_nullable_to_non_nullable
+                  as RoomListItemEntity?,
       ),
     );
   }
@@ -271,6 +304,7 @@ class _$ChatRoomStateImpl implements _ChatRoomState {
     final Map<String, UserStatus> participantsStatus = const {},
     final Map<String, DateTime> participantsLastSeen = const {},
     this.roomRemoved = false,
+    this.room,
   }) : _messages = messages,
        _typingUsers = typingUsers,
        _participantsStatus = participantsStatus,
@@ -338,10 +372,13 @@ class _$ChatRoomStateImpl implements _ChatRoomState {
   @override
   @JsonKey()
   final bool roomRemoved;
+  // true после успешного delete/leave — экран должен закрыться
+  @override
+  final RoomListItemEntity? room;
 
   @override
   String toString() {
-    return 'ChatRoomState(roomId: $roomId, messages: $messages, isInitialLoading: $isInitialLoading, isLoadingMore: $isLoadingMore, isSending: $isSending, nextCursor: $nextCursor, hasMore: $hasMore, errorMessage: $errorMessage, typingUsers: $typingUsers, participantsStatus: $participantsStatus, participantsLastSeen: $participantsLastSeen, roomRemoved: $roomRemoved)';
+    return 'ChatRoomState(roomId: $roomId, messages: $messages, isInitialLoading: $isInitialLoading, isLoadingMore: $isLoadingMore, isSending: $isSending, nextCursor: $nextCursor, hasMore: $hasMore, errorMessage: $errorMessage, typingUsers: $typingUsers, participantsStatus: $participantsStatus, participantsLastSeen: $participantsLastSeen, roomRemoved: $roomRemoved, room: $room)';
   }
 
   @override
@@ -375,7 +412,8 @@ class _$ChatRoomStateImpl implements _ChatRoomState {
               _participantsLastSeen,
             ) &&
             (identical(other.roomRemoved, roomRemoved) ||
-                other.roomRemoved == roomRemoved));
+                other.roomRemoved == roomRemoved) &&
+            (identical(other.room, room) || other.room == room));
   }
 
   @override
@@ -393,6 +431,7 @@ class _$ChatRoomStateImpl implements _ChatRoomState {
     const DeepCollectionEquality().hash(_participantsStatus),
     const DeepCollectionEquality().hash(_participantsLastSeen),
     roomRemoved,
+    room,
   );
 
   /// Create a copy of ChatRoomState
@@ -418,6 +457,7 @@ abstract class _ChatRoomState implements ChatRoomState {
     final Map<String, UserStatus> participantsStatus,
     final Map<String, DateTime> participantsLastSeen,
     final bool roomRemoved,
+    final RoomListItemEntity? room,
   }) = _$ChatRoomStateImpl;
 
   @override
@@ -443,7 +483,9 @@ abstract class _ChatRoomState implements ChatRoomState {
   @override
   Map<String, DateTime> get participantsLastSeen;
   @override
-  bool get roomRemoved;
+  bool get roomRemoved; // true после успешного delete/leave — экран должен закрыться
+  @override
+  RoomListItemEntity? get room;
 
   /// Create a copy of ChatRoomState
   /// with the given fields replaced by the non-null parameter values.

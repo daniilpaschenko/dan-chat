@@ -33,6 +33,7 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
   StreamSubscription? _roomCreatedSub;
   StreamSubscription? _roomUpdatedSub;
   StreamSubscription? _roomDeletedSub;
+  StreamSubscription? _reconnectSub;
 
   RoomListBloc({
     required GetMyRoomsUseCase getMyRoomsUseCase,
@@ -61,6 +62,7 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     on<RoomListRoomRemoved>(_onRoomRemoved);
     on<RoomListRoomCreated>(_onRoomCreated);
     on<RoomListRoomUpdated>(_onRoomUpdated);
+    on<RoomListReconnected>(_onReconnected);
 
     _messageReadSub = _socketService.messageRead$.listen((data) {
       add(RoomListEvent.messageRead(
@@ -148,6 +150,10 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     _roomDeletedSub = _socketService.roomDeleted$.listen((data) {
       final roomId = data['roomId'] as String?;
       if (roomId != null) add(RoomListEvent.roomRemoved(roomId));
+    });
+
+    _reconnectSub = _socketService.connect$.listen((_) {
+      add(const RoomListEvent.reconnected());
     });
   }
 
@@ -373,6 +379,26 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     _emit(emit, rooms: updatedRooms, typingByRoom: _currentTyping());
   }
 
+  Future<void> _onReconnected(
+    RoomListReconnected event,
+    Emitter<RoomListState> emit,
+  ) async {
+    // синхронизируемся только если список уже был загружен
+    final currentRooms = _currentRooms();
+    if (currentRooms == null) return;
+
+    final result = await _getMyRoomsUseCase();
+
+    result.fold(
+      (failure) {}, // не критично — список останется как был
+      (freshRooms) {
+        // сервер — источник правды по lastMessage/unreadCount/participants,
+        // поэтому просто заменяем список целиком, но typing оставляем как был
+        _emit(emit, rooms: freshRooms, typingByRoom: _currentTyping());
+      },
+    );
+  }
+
   String _mapFailureToMessage(Failure failure) {
     return failure.maybeWhen(
       unexpected: (_) => 'Не удалось загрузить чаты',
@@ -392,6 +418,7 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     _roomCreatedSub?.cancel();
     _roomUpdatedSub?.cancel();
     _roomDeletedSub?.cancel();
+    _reconnectSub?.cancel();
     return super.close();
   }
 }

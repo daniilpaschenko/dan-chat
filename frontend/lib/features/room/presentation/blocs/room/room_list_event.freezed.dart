@@ -42,6 +42,7 @@ mixin _$RoomListEvent {
     )
     messageReceived,
     required TResult Function(String roomId, String userId) messageRead,
+    required TResult Function() reconnected,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -64,6 +65,7 @@ mixin _$RoomListEvent {
     )?
     messageReceived,
     TResult? Function(String roomId, String userId)? messageRead,
+    TResult? Function()? reconnected,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -86,6 +88,7 @@ mixin _$RoomListEvent {
     )?
     messageReceived,
     TResult Function(String roomId, String userId)? messageRead,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -101,6 +104,7 @@ mixin _$RoomListEvent {
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
     required TResult Function(RoomListMessageRead value) messageRead,
+    required TResult Function(RoomListReconnected value) reconnected,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -115,6 +119,7 @@ mixin _$RoomListEvent {
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
     TResult? Function(RoomListMessageRead value)? messageRead,
+    TResult? Function(RoomListReconnected value)? reconnected,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -129,6 +134,7 @@ mixin _$RoomListEvent {
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
     TResult Function(RoomListMessageRead value)? messageRead,
+    TResult Function(RoomListReconnected value)? reconnected,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -221,6 +227,7 @@ class _$LoadRequestedImpl implements LoadRequested {
     )
     messageReceived,
     required TResult Function(String roomId, String userId) messageRead,
+    required TResult Function() reconnected,
   }) {
     return loadRequested();
   }
@@ -247,6 +254,7 @@ class _$LoadRequestedImpl implements LoadRequested {
     )?
     messageReceived,
     TResult? Function(String roomId, String userId)? messageRead,
+    TResult? Function()? reconnected,
   }) {
     return loadRequested?.call();
   }
@@ -273,6 +281,7 @@ class _$LoadRequestedImpl implements LoadRequested {
     )?
     messageReceived,
     TResult Function(String roomId, String userId)? messageRead,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (loadRequested != null) {
@@ -295,6 +304,7 @@ class _$LoadRequestedImpl implements LoadRequested {
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
     required TResult Function(RoomListMessageRead value) messageRead,
+    required TResult Function(RoomListReconnected value) reconnected,
   }) {
     return loadRequested(this);
   }
@@ -313,6 +323,7 @@ class _$LoadRequestedImpl implements LoadRequested {
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
     TResult? Function(RoomListMessageRead value)? messageRead,
+    TResult? Function(RoomListReconnected value)? reconnected,
   }) {
     return loadRequested?.call(this);
   }
@@ -331,6 +342,7 @@ class _$LoadRequestedImpl implements LoadRequested {
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
     TResult Function(RoomListMessageRead value)? messageRead,
+    TResult Function(RoomListReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (loadRequested != null) {
@@ -410,6 +422,7 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     )
     messageReceived,
     required TResult Function(String roomId, String userId) messageRead,
+    required TResult Function() reconnected,
   }) {
     return refreshRequested();
   }
@@ -436,6 +449,7 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     )?
     messageReceived,
     TResult? Function(String roomId, String userId)? messageRead,
+    TResult? Function()? reconnected,
   }) {
     return refreshRequested?.call();
   }
@@ -462,6 +476,7 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     )?
     messageReceived,
     TResult Function(String roomId, String userId)? messageRead,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (refreshRequested != null) {
@@ -484,6 +499,7 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
     required TResult Function(RoomListMessageRead value) messageRead,
+    required TResult Function(RoomListReconnected value) reconnected,
   }) {
     return refreshRequested(this);
   }
@@ -502,6 +518,7 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
     TResult? Function(RoomListMessageRead value)? messageRead,
+    TResult? Function(RoomListReconnected value)? reconnected,
   }) {
     return refreshRequested?.call(this);
   }
@@ -520,6 +537,7 @@ class _$RefreshRequestedImpl implements RefreshRequested {
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
     TResult Function(RoomListMessageRead value)? messageRead,
+    TResult Function(RoomListReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (refreshRequested != null) {
@@ -626,6 +644,7 @@ class _$RoomOpenedImpl implements RoomOpened {
     )
     messageReceived,
     required TResult Function(String roomId, String userId) messageRead,
+    required TResult Function() reconnected,
   }) {
     return roomOpened(roomId);
   }
@@ -652,6 +671,7 @@ class _$RoomOpenedImpl implements RoomOpened {
     )?
     messageReceived,
     TResult? Function(String roomId, String userId)? messageRead,
+    TResult? Function()? reconnected,
   }) {
     return roomOpened?.call(roomId);
   }
@@ -678,6 +698,7 @@ class _$RoomOpenedImpl implements RoomOpened {
     )?
     messageReceived,
     TResult Function(String roomId, String userId)? messageRead,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (roomOpened != null) {
@@ -700,6 +721,7 @@ class _$RoomOpenedImpl implements RoomOpened {
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
     required TResult Function(RoomListMessageRead value) messageRead,
+    required TResult Function(RoomListReconnected value) reconnected,
   }) {
     return roomOpened(this);
   }
@@ -718,6 +740,7 @@ class _$RoomOpenedImpl implements RoomOpened {
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
     TResult? Function(RoomListMessageRead value)? messageRead,
+    TResult? Function(RoomListReconnected value)? reconnected,
   }) {
     return roomOpened?.call(this);
   }
@@ -736,6 +759,7 @@ class _$RoomOpenedImpl implements RoomOpened {
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
     TResult Function(RoomListMessageRead value)? messageRead,
+    TResult Function(RoomListReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (roomOpened != null) {
@@ -853,6 +877,7 @@ class _$RoomListRoomRemovedImpl implements RoomListRoomRemoved {
     )
     messageReceived,
     required TResult Function(String roomId, String userId) messageRead,
+    required TResult Function() reconnected,
   }) {
     return roomRemoved(roomId);
   }
@@ -879,6 +904,7 @@ class _$RoomListRoomRemovedImpl implements RoomListRoomRemoved {
     )?
     messageReceived,
     TResult? Function(String roomId, String userId)? messageRead,
+    TResult? Function()? reconnected,
   }) {
     return roomRemoved?.call(roomId);
   }
@@ -905,6 +931,7 @@ class _$RoomListRoomRemovedImpl implements RoomListRoomRemoved {
     )?
     messageReceived,
     TResult Function(String roomId, String userId)? messageRead,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (roomRemoved != null) {
@@ -927,6 +954,7 @@ class _$RoomListRoomRemovedImpl implements RoomListRoomRemoved {
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
     required TResult Function(RoomListMessageRead value) messageRead,
+    required TResult Function(RoomListReconnected value) reconnected,
   }) {
     return roomRemoved(this);
   }
@@ -945,6 +973,7 @@ class _$RoomListRoomRemovedImpl implements RoomListRoomRemoved {
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
     TResult? Function(RoomListMessageRead value)? messageRead,
+    TResult? Function(RoomListReconnected value)? reconnected,
   }) {
     return roomRemoved?.call(this);
   }
@@ -963,6 +992,7 @@ class _$RoomListRoomRemovedImpl implements RoomListRoomRemoved {
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
     TResult Function(RoomListMessageRead value)? messageRead,
+    TResult Function(RoomListReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (roomRemoved != null) {
@@ -1093,6 +1123,7 @@ class _$RoomListRoomCreatedImpl implements RoomListRoomCreated {
     )
     messageReceived,
     required TResult Function(String roomId, String userId) messageRead,
+    required TResult Function() reconnected,
   }) {
     return roomCreated(room);
   }
@@ -1119,6 +1150,7 @@ class _$RoomListRoomCreatedImpl implements RoomListRoomCreated {
     )?
     messageReceived,
     TResult? Function(String roomId, String userId)? messageRead,
+    TResult? Function()? reconnected,
   }) {
     return roomCreated?.call(room);
   }
@@ -1145,6 +1177,7 @@ class _$RoomListRoomCreatedImpl implements RoomListRoomCreated {
     )?
     messageReceived,
     TResult Function(String roomId, String userId)? messageRead,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (roomCreated != null) {
@@ -1167,6 +1200,7 @@ class _$RoomListRoomCreatedImpl implements RoomListRoomCreated {
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
     required TResult Function(RoomListMessageRead value) messageRead,
+    required TResult Function(RoomListReconnected value) reconnected,
   }) {
     return roomCreated(this);
   }
@@ -1185,6 +1219,7 @@ class _$RoomListRoomCreatedImpl implements RoomListRoomCreated {
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
     TResult? Function(RoomListMessageRead value)? messageRead,
+    TResult? Function(RoomListReconnected value)? reconnected,
   }) {
     return roomCreated?.call(this);
   }
@@ -1203,6 +1238,7 @@ class _$RoomListRoomCreatedImpl implements RoomListRoomCreated {
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
     TResult Function(RoomListMessageRead value)? messageRead,
+    TResult Function(RoomListReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (roomCreated != null) {
@@ -1333,6 +1369,7 @@ class _$RoomListRoomUpdatedImpl implements RoomListRoomUpdated {
     )
     messageReceived,
     required TResult Function(String roomId, String userId) messageRead,
+    required TResult Function() reconnected,
   }) {
     return roomUpdated(room);
   }
@@ -1359,6 +1396,7 @@ class _$RoomListRoomUpdatedImpl implements RoomListRoomUpdated {
     )?
     messageReceived,
     TResult? Function(String roomId, String userId)? messageRead,
+    TResult? Function()? reconnected,
   }) {
     return roomUpdated?.call(room);
   }
@@ -1385,6 +1423,7 @@ class _$RoomListRoomUpdatedImpl implements RoomListRoomUpdated {
     )?
     messageReceived,
     TResult Function(String roomId, String userId)? messageRead,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (roomUpdated != null) {
@@ -1407,6 +1446,7 @@ class _$RoomListRoomUpdatedImpl implements RoomListRoomUpdated {
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
     required TResult Function(RoomListMessageRead value) messageRead,
+    required TResult Function(RoomListReconnected value) reconnected,
   }) {
     return roomUpdated(this);
   }
@@ -1425,6 +1465,7 @@ class _$RoomListRoomUpdatedImpl implements RoomListRoomUpdated {
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
     TResult? Function(RoomListMessageRead value)? messageRead,
+    TResult? Function(RoomListReconnected value)? reconnected,
   }) {
     return roomUpdated?.call(this);
   }
@@ -1443,6 +1484,7 @@ class _$RoomListRoomUpdatedImpl implements RoomListRoomUpdated {
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
     TResult Function(RoomListMessageRead value)? messageRead,
+    TResult Function(RoomListReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (roomUpdated != null) {
@@ -1584,6 +1626,7 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
     )
     messageReceived,
     required TResult Function(String roomId, String userId) messageRead,
+    required TResult Function() reconnected,
   }) {
     return presenceUpdated(userId, status, lastSeen);
   }
@@ -1610,6 +1653,7 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
     )?
     messageReceived,
     TResult? Function(String roomId, String userId)? messageRead,
+    TResult? Function()? reconnected,
   }) {
     return presenceUpdated?.call(userId, status, lastSeen);
   }
@@ -1636,6 +1680,7 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
     )?
     messageReceived,
     TResult Function(String roomId, String userId)? messageRead,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (presenceUpdated != null) {
@@ -1658,6 +1703,7 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
     required TResult Function(RoomListMessageRead value) messageRead,
+    required TResult Function(RoomListReconnected value) reconnected,
   }) {
     return presenceUpdated(this);
   }
@@ -1676,6 +1722,7 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
     TResult? Function(RoomListMessageRead value)? messageRead,
+    TResult? Function(RoomListReconnected value)? reconnected,
   }) {
     return presenceUpdated?.call(this);
   }
@@ -1694,6 +1741,7 @@ class _$RoomListPresenceUpdatedImpl implements RoomListPresenceUpdated {
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
     TResult Function(RoomListMessageRead value)? messageRead,
+    TResult Function(RoomListReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (presenceUpdated != null) {
@@ -1841,6 +1889,7 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
     )
     messageReceived,
     required TResult Function(String roomId, String userId) messageRead,
+    required TResult Function() reconnected,
   }) {
     return typingStarted(roomId, userId, username);
   }
@@ -1867,6 +1916,7 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
     )?
     messageReceived,
     TResult? Function(String roomId, String userId)? messageRead,
+    TResult? Function()? reconnected,
   }) {
     return typingStarted?.call(roomId, userId, username);
   }
@@ -1893,6 +1943,7 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
     )?
     messageReceived,
     TResult Function(String roomId, String userId)? messageRead,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (typingStarted != null) {
@@ -1915,6 +1966,7 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
     required TResult Function(RoomListMessageRead value) messageRead,
+    required TResult Function(RoomListReconnected value) reconnected,
   }) {
     return typingStarted(this);
   }
@@ -1933,6 +1985,7 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
     TResult? Function(RoomListMessageRead value)? messageRead,
+    TResult? Function(RoomListReconnected value)? reconnected,
   }) {
     return typingStarted?.call(this);
   }
@@ -1951,6 +2004,7 @@ class _$RoomListTypingStartedImpl implements RoomListTypingStarted {
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
     TResult Function(RoomListMessageRead value)? messageRead,
+    TResult Function(RoomListReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (typingStarted != null) {
@@ -2085,6 +2139,7 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
     )
     messageReceived,
     required TResult Function(String roomId, String userId) messageRead,
+    required TResult Function() reconnected,
   }) {
     return typingStopped(roomId, userId);
   }
@@ -2111,6 +2166,7 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
     )?
     messageReceived,
     TResult? Function(String roomId, String userId)? messageRead,
+    TResult? Function()? reconnected,
   }) {
     return typingStopped?.call(roomId, userId);
   }
@@ -2137,6 +2193,7 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
     )?
     messageReceived,
     TResult Function(String roomId, String userId)? messageRead,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (typingStopped != null) {
@@ -2159,6 +2216,7 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
     required TResult Function(RoomListMessageRead value) messageRead,
+    required TResult Function(RoomListReconnected value) reconnected,
   }) {
     return typingStopped(this);
   }
@@ -2177,6 +2235,7 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
     TResult? Function(RoomListMessageRead value)? messageRead,
+    TResult? Function(RoomListReconnected value)? reconnected,
   }) {
     return typingStopped?.call(this);
   }
@@ -2195,6 +2254,7 @@ class _$RoomListTypingStoppedImpl implements RoomListTypingStopped {
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
     TResult Function(RoomListMessageRead value)? messageRead,
+    TResult Function(RoomListReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (typingStopped != null) {
@@ -2350,6 +2410,7 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
     )
     messageReceived,
     required TResult Function(String roomId, String userId) messageRead,
+    required TResult Function() reconnected,
   }) {
     return messageReceived(roomId, text, senderId, createdAt);
   }
@@ -2376,6 +2437,7 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
     )?
     messageReceived,
     TResult? Function(String roomId, String userId)? messageRead,
+    TResult? Function()? reconnected,
   }) {
     return messageReceived?.call(roomId, text, senderId, createdAt);
   }
@@ -2402,6 +2464,7 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
     )?
     messageReceived,
     TResult Function(String roomId, String userId)? messageRead,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (messageReceived != null) {
@@ -2424,6 +2487,7 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
     required TResult Function(RoomListMessageRead value) messageRead,
+    required TResult Function(RoomListReconnected value) reconnected,
   }) {
     return messageReceived(this);
   }
@@ -2442,6 +2506,7 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
     TResult? Function(RoomListMessageRead value)? messageRead,
+    TResult? Function(RoomListReconnected value)? reconnected,
   }) {
     return messageReceived?.call(this);
   }
@@ -2460,6 +2525,7 @@ class _$RoomListMessageReceivedImpl implements RoomListMessageReceived {
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
     TResult Function(RoomListMessageRead value)? messageRead,
+    TResult Function(RoomListReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (messageReceived != null) {
@@ -2592,6 +2658,7 @@ class _$RoomListMessageReadImpl implements RoomListMessageRead {
     )
     messageReceived,
     required TResult Function(String roomId, String userId) messageRead,
+    required TResult Function() reconnected,
   }) {
     return messageRead(roomId, userId);
   }
@@ -2618,6 +2685,7 @@ class _$RoomListMessageReadImpl implements RoomListMessageRead {
     )?
     messageReceived,
     TResult? Function(String roomId, String userId)? messageRead,
+    TResult? Function()? reconnected,
   }) {
     return messageRead?.call(roomId, userId);
   }
@@ -2644,6 +2712,7 @@ class _$RoomListMessageReadImpl implements RoomListMessageRead {
     )?
     messageReceived,
     TResult Function(String roomId, String userId)? messageRead,
+    TResult Function()? reconnected,
     required TResult orElse(),
   }) {
     if (messageRead != null) {
@@ -2666,6 +2735,7 @@ class _$RoomListMessageReadImpl implements RoomListMessageRead {
     required TResult Function(RoomListTypingStopped value) typingStopped,
     required TResult Function(RoomListMessageReceived value) messageReceived,
     required TResult Function(RoomListMessageRead value) messageRead,
+    required TResult Function(RoomListReconnected value) reconnected,
   }) {
     return messageRead(this);
   }
@@ -2684,6 +2754,7 @@ class _$RoomListMessageReadImpl implements RoomListMessageRead {
     TResult? Function(RoomListTypingStopped value)? typingStopped,
     TResult? Function(RoomListMessageReceived value)? messageReceived,
     TResult? Function(RoomListMessageRead value)? messageRead,
+    TResult? Function(RoomListReconnected value)? reconnected,
   }) {
     return messageRead?.call(this);
   }
@@ -2702,6 +2773,7 @@ class _$RoomListMessageReadImpl implements RoomListMessageRead {
     TResult Function(RoomListTypingStopped value)? typingStopped,
     TResult Function(RoomListMessageReceived value)? messageReceived,
     TResult Function(RoomListMessageRead value)? messageRead,
+    TResult Function(RoomListReconnected value)? reconnected,
     required TResult orElse(),
   }) {
     if (messageRead != null) {
@@ -2725,4 +2797,200 @@ abstract class RoomListMessageRead implements RoomListEvent {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RoomListMessageReadImplCopyWith<_$RoomListMessageReadImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RoomListReconnectedImplCopyWith<$Res> {
+  factory _$$RoomListReconnectedImplCopyWith(
+    _$RoomListReconnectedImpl value,
+    $Res Function(_$RoomListReconnectedImpl) then,
+  ) = __$$RoomListReconnectedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$RoomListReconnectedImplCopyWithImpl<$Res>
+    extends _$RoomListEventCopyWithImpl<$Res, _$RoomListReconnectedImpl>
+    implements _$$RoomListReconnectedImplCopyWith<$Res> {
+  __$$RoomListReconnectedImplCopyWithImpl(
+    _$RoomListReconnectedImpl _value,
+    $Res Function(_$RoomListReconnectedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of RoomListEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$RoomListReconnectedImpl implements RoomListReconnected {
+  const _$RoomListReconnectedImpl();
+
+  @override
+  String toString() {
+    return 'RoomListEvent.reconnected()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RoomListReconnectedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loadRequested,
+    required TResult Function() refreshRequested,
+    required TResult Function(String roomId) roomOpened,
+    required TResult Function(String roomId) roomRemoved,
+    required TResult Function(RoomListItemEntity room) roomCreated,
+    required TResult Function(RoomListItemEntity room) roomUpdated,
+    required TResult Function(
+      String userId,
+      UserStatus status,
+      DateTime? lastSeen,
+    )
+    presenceUpdated,
+    required TResult Function(String roomId, String userId, String username)
+    typingStarted,
+    required TResult Function(String roomId, String userId) typingStopped,
+    required TResult Function(
+      String roomId,
+      String text,
+      String senderId,
+      DateTime? createdAt,
+    )
+    messageReceived,
+    required TResult Function(String roomId, String userId) messageRead,
+    required TResult Function() reconnected,
+  }) {
+    return reconnected();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loadRequested,
+    TResult? Function()? refreshRequested,
+    TResult? Function(String roomId)? roomOpened,
+    TResult? Function(String roomId)? roomRemoved,
+    TResult? Function(RoomListItemEntity room)? roomCreated,
+    TResult? Function(RoomListItemEntity room)? roomUpdated,
+    TResult? Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+    TResult? Function(String roomId, String userId, String username)?
+    typingStarted,
+    TResult? Function(String roomId, String userId)? typingStopped,
+    TResult? Function(
+      String roomId,
+      String text,
+      String senderId,
+      DateTime? createdAt,
+    )?
+    messageReceived,
+    TResult? Function(String roomId, String userId)? messageRead,
+    TResult? Function()? reconnected,
+  }) {
+    return reconnected?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loadRequested,
+    TResult Function()? refreshRequested,
+    TResult Function(String roomId)? roomOpened,
+    TResult Function(String roomId)? roomRemoved,
+    TResult Function(RoomListItemEntity room)? roomCreated,
+    TResult Function(RoomListItemEntity room)? roomUpdated,
+    TResult Function(String userId, UserStatus status, DateTime? lastSeen)?
+    presenceUpdated,
+    TResult Function(String roomId, String userId, String username)?
+    typingStarted,
+    TResult Function(String roomId, String userId)? typingStopped,
+    TResult Function(
+      String roomId,
+      String text,
+      String senderId,
+      DateTime? createdAt,
+    )?
+    messageReceived,
+    TResult Function(String roomId, String userId)? messageRead,
+    TResult Function()? reconnected,
+    required TResult orElse(),
+  }) {
+    if (reconnected != null) {
+      return reconnected();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoadRequested value) loadRequested,
+    required TResult Function(RefreshRequested value) refreshRequested,
+    required TResult Function(RoomOpened value) roomOpened,
+    required TResult Function(RoomListRoomRemoved value) roomRemoved,
+    required TResult Function(RoomListRoomCreated value) roomCreated,
+    required TResult Function(RoomListRoomUpdated value) roomUpdated,
+    required TResult Function(RoomListPresenceUpdated value) presenceUpdated,
+    required TResult Function(RoomListTypingStarted value) typingStarted,
+    required TResult Function(RoomListTypingStopped value) typingStopped,
+    required TResult Function(RoomListMessageReceived value) messageReceived,
+    required TResult Function(RoomListMessageRead value) messageRead,
+    required TResult Function(RoomListReconnected value) reconnected,
+  }) {
+    return reconnected(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoadRequested value)? loadRequested,
+    TResult? Function(RefreshRequested value)? refreshRequested,
+    TResult? Function(RoomOpened value)? roomOpened,
+    TResult? Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult? Function(RoomListRoomCreated value)? roomCreated,
+    TResult? Function(RoomListRoomUpdated value)? roomUpdated,
+    TResult? Function(RoomListPresenceUpdated value)? presenceUpdated,
+    TResult? Function(RoomListTypingStarted value)? typingStarted,
+    TResult? Function(RoomListTypingStopped value)? typingStopped,
+    TResult? Function(RoomListMessageReceived value)? messageReceived,
+    TResult? Function(RoomListMessageRead value)? messageRead,
+    TResult? Function(RoomListReconnected value)? reconnected,
+  }) {
+    return reconnected?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoadRequested value)? loadRequested,
+    TResult Function(RefreshRequested value)? refreshRequested,
+    TResult Function(RoomOpened value)? roomOpened,
+    TResult Function(RoomListRoomRemoved value)? roomRemoved,
+    TResult Function(RoomListRoomCreated value)? roomCreated,
+    TResult Function(RoomListRoomUpdated value)? roomUpdated,
+    TResult Function(RoomListPresenceUpdated value)? presenceUpdated,
+    TResult Function(RoomListTypingStarted value)? typingStarted,
+    TResult Function(RoomListTypingStopped value)? typingStopped,
+    TResult Function(RoomListMessageReceived value)? messageReceived,
+    TResult Function(RoomListMessageRead value)? messageRead,
+    TResult Function(RoomListReconnected value)? reconnected,
+    required TResult orElse(),
+  }) {
+    if (reconnected != null) {
+      return reconnected(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class RoomListReconnected implements RoomListEvent {
+  const factory RoomListReconnected() = _$RoomListReconnectedImpl;
 }
