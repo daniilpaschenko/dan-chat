@@ -43,4 +43,21 @@ class UserRemoteDatasource {
     final response = await _dio.post('/users/me/avatar', data: formData);
     return User.fromJson(response.data['user'] as Map<String, dynamic>);
   }
+
+  Future<void> saveDeviceToken({
+    required String token,
+    required String platform,
+  }) async {
+    await _dio.post(
+      '/users/device-token',
+      data: {'token': token, 'platform': platform},
+    );
+  }
+
+  Future<void> removeDeviceToken(String token) async {
+    await _dio.delete(
+      '/users/device-token',
+      data: {'token': token},
+    );
+  }
 }

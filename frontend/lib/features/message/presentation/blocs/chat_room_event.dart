@@ -1,12 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/message_entity.dart';
 import '../../../user/domain/entities/user_entity.dart';
+import '../../../room/domain/entities/room_entity.dart';
 
 part 'chat_room_event.freezed.dart';
 
 @freezed
 class ChatRoomEvent with _$ChatRoomEvent {
-  const factory ChatRoomEvent.started(String roomId) = ChatRoomStarted;
+  const factory ChatRoomEvent.started(String roomId, {RoomListItemEntity? room}) = ChatRoomStarted;
   const factory ChatRoomEvent.loadMoreRequested() = LoadMoreRequested;
   const factory ChatRoomEvent.sendMessageRequested(String text) = SendMessageRequested;
 
@@ -30,4 +31,6 @@ class ChatRoomEvent with _$ChatRoomEvent {
   ) = ChatRoomParticipantsStatusSnapshotReceived;
 
   const factory ChatRoomEvent.roomRemovedRemotely() = ChatRoomRoomRemovedRemotely;
+
+  const factory ChatRoomEvent.reconnected() = ChatRoomReconnected;
 }

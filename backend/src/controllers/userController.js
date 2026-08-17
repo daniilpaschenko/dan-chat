@@ -120,3 +120,50 @@ exports.getUserById = async (req, res) => {
         return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
     }
 };
+
+// POST /users/device-token
+// body: { token: string, platform: 'ios'|'android' }
+exports.saveDeviceToken = async (req, res) => {
+    try {
+        const { token, platform } = req.body;
+
+        if (!token || !['ios', 'android', 'web'].includes(platform)) {
+            return res.status(400).json({ message: 'Некорректные данные токена' });
+        }
+
+        // сначала убираем этот токен у ВСЕХ юзеров — на случай если он был
+        // выдан на этом устройстве другому аккаунту раньше (logout/login под другим юзером)
+        await User.updateMany(
+            { 'deviceTokens.token': token },
+            { $pull: { deviceTokens: { token } } }
+        );
+
+        // затем добавляем текущему юзеру
+        await User.findByIdAndUpdate(req.user.id, {
+            $push: { deviceTokens: { token, platform, updatedAt: new Date() } },
+        });
+
+        return res.status(200).json({ message: 'Токен сохранён' });
+    } catch (err) {
+        console.error('saveDeviceToken error:', err);
+        return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
+    }
+};
+
+// DELETE /users/device-token
+// body: { token: string } — вызывать при logout
+exports.removeDeviceToken = async (req, res) => {
+    try {
+        const { token } = req.body;
+        if (!token) return res.status(400).json({ message: 'Токен обязателен' });
+
+        await User.findByIdAndUpdate(req.user.id, {
+            $pull: { deviceTokens: { token } },
+        });
+
+        return res.status(200).json({ message: 'Токен удалён' });
+    } catch (err) {
+        console.error('removeDeviceToken error:', err);
+        return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
+    }
+};

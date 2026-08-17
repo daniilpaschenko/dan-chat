@@ -62,6 +62,7 @@ exports.createMessage = async (req, res) => {
             roomId: req.params.roomId,
             senderId: req.user.id,
             text: value.text,
+            io: req.app.get('io'),
         });
 
         if (!result.ok) {
