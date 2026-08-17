@@ -34,6 +34,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   StreamSubscription? _presenceSub;
   StreamSubscription? _messageReadSub;
   StreamSubscription? _roomDeletedSub;
+  StreamSubscription? _reconnectSub;
   Timer? _typingStopTimer;
   bool _isTypingSent = false;
 
@@ -73,6 +74,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     on<ChatRoomParticipantsStatusSnapshotReceived>(_onParticipantsStatusSnapshot);
     on<SocketMessageRead>(_onSocketMessageRead);
     on<ChatRoomRoomRemovedRemotely>((event, emit) => emit(state.copyWith(roomRemoved: true)));
+    on<ChatRoomReconnected>(_onReconnected);
   }
 
   Future<void> _onStarted(
@@ -175,6 +177,10 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
       if (data['roomId'] == event.roomId) {
         add(const ChatRoomEvent.roomRemovedRemotely());
       }
+    });
+
+    _reconnectSub = _socketService.connect$.listen((_) {
+      add(const ChatRoomEvent.reconnected());
     });
   }
 
@@ -411,6 +417,32 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     );
   }
 
+  Future<void> _onReconnected(
+    ChatRoomReconnected event,
+    Emitter<ChatRoomState> emit,
+  ) async {
+    // подтягиваем самую свежую страницу (без before — сервер отдаёт последние N сообщений)
+    final result = await _getRoomMessagesUseCase(roomId: state.roomId);
+
+    result.fold(
+      (failure) {}, // не критично — просто останемся с тем, что уже есть
+      (page) {
+        final existingIds = state.messages.map((m) => m.id).toSet();
+        final newOnes = page.messages.where((m) => !existingIds.contains(m.id));
+
+        final merged = [...state.messages, ...newOnes]
+          ..sort((a, b) =>
+              (a.createdAt ?? DateTime.now()).compareTo(b.createdAt ?? DateTime.now()));
+
+        emit(state.copyWith(messages: merged));
+      },
+    );
+
+    // раз юзер вернулся и видит чат — помечаем прочитанным, как и при обычном входе
+    _socketService.markRead(state.roomId);
+    _roomSyncService.notifyRoomRead(state.roomId);
+  }
+
   @override
   Future<void> close() {
     _messageSub?.cancel();
@@ -420,6 +452,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     _typingStopTimer?.cancel();
     _messageReadSub?.cancel();
     _roomDeletedSub?.cancel();
+    _reconnectSub?.cancel();
     return super.close();
   }
 }
