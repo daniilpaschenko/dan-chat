@@ -110,7 +110,13 @@ Future<void> setupDependencies() async {
   );
 
   getIt.registerLazySingleton<LocalNotificationService>(() => LocalNotificationService());
-  getIt.registerLazySingleton<PushService>(() => PushService(getIt<LocalNotificationService>()));
+  getIt.registerLazySingleton<PushService>(
+    () => PushService(
+      getIt<LocalNotificationService>(),
+      getIt<SocketService>(),
+      () => getIt<AuthStateNotifier>().currentUserId,
+    ),
+  );
 
   getIt.registerLazySingleton<UserRemoteDatasource>(
     () => UserRemoteDatasource(getIt<Dio>()),
