@@ -17,7 +17,24 @@ class PushService {
 
   StreamSubscription<Map<String, dynamic>>? _messageNewSub;
 
+  // id комнаты, чей экран чата сейчас открыт (или null, если пользователь не в чате).
+  // Устанавливается снаружи через enterChatRoom()/leaveChatRoom().
+  String? _openRoomId;
+
   PushService(this._localNotificationService, this._socketService, this._getCurrentUserId);
+
+  void enterChatRoom(String roomId) {
+    _openRoomId = roomId;
+    // на случай, если уведомление по этой комнате уже успело показаться —
+    // прячем его, раз юзер и так сейчас в чате
+    _localNotificationService.cancelForRoom(roomId);
+  }
+
+  void leaveChatRoom(String roomId) {
+    if (_openRoomId == roomId) {
+      _openRoomId = null;
+    }
+  }
 
   Future<void> init({
     required Future<void> Function(String token, String platform) onTokenReady,
@@ -39,19 +56,22 @@ class PushService {
     // приложение открыто — сами рисуем баннер через local_notifications
     FirebaseMessaging.onMessage.listen((message) {
       final notification = message.notification;
-      if (notification != null) {
-        _localNotificationService.show(
-          title: notification.title ?? '',
-          body: notification.body ?? '',
-          data: message.data,
-        );
-      }
+      if (notification == null) return;
+
+      final roomId = message.data['roomId']?.toString();
+      // не показываем, если юзер сейчас и так сидит в этом чате
+      if (roomId != null && roomId == _openRoomId) return;
+
+      _localNotificationService.show(
+        title: notification.title ?? '',
+        body: notification.body ?? '',
+        data: message.data,
+      );
     });
 
     // бэкенд намеренно не шлёт push тем, кто онлайн по сокету
     // поэтому для онлайн-юзеров локальное уведомление рисуем сами по сокет-событию
     _messageNewSub = _socketService.messageNew$.listen((data) {
-      // TODO: не показывать, если сейчас открыт именно этот roomId (экран чата)
       final sender = data['sender'] as Map<String, dynamic>?;
       final senderId = (sender?['_id'] ?? sender?['id'])?.toString();
       final currentUserId = _getCurrentUserId();
@@ -61,6 +81,9 @@ class PushService {
       if (senderId != null && senderId == currentUserId) return;
 
       final roomId = (data['room'] ?? data['roomId'])?.toString();
+
+      // не показываем, если сейчас открыт именно этот roomId (экран чата)
+      if (roomId != null && roomId == _openRoomId) return;
 
       _localNotificationService.show(
         title: sender?['username']?.toString() ?? '',
