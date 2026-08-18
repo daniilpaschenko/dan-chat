@@ -1,13 +1,39 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:go_router/go_router.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/widgets.dart' show WidgetsFlutterBinding;
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'dart:io' show Platform;
 import 'local_notification_service.dart';
 import '../network/socket_service.dart';
 import '../navigation/app_router.dart';
 import '../navigation/route_paths.dart';
+import '../../firebase_options.dart';
+
+// отдельный top-level handler для пушей, пришедших пока приложение свёрнуто/убито
+// Firebase запускает его в своём изолейте — там недоступны getIt/DI и состояние основного изолейта 
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Hive.initFlutter(); // отдельный изолейт
+
+  // data-only пуш: title/body лежат в data, а не в message.notification
+  final title = message.data['title']?.toString();
+  final body = message.data['body']?.toString();
+  if (title == null && body == null) return;
+
+  final localNotificationService = LocalNotificationService();
+  await localNotificationService.init();
+  await localNotificationService.show(
+    title: title ?? '',
+    body: body ?? '',
+    data: message.data,
+  );
+}
 
 class PushService {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
@@ -39,6 +65,11 @@ class PushService {
   Future<void> init({
     required Future<void> Function(String token, String platform) onTokenReady,
   }) async {
+    // регистрируем background handler до requestPermission()
+    if (!kIsWeb) {
+      FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+    }
+
     final settings = await _messaging.requestPermission();
     if (settings.authorizationStatus != AuthorizationStatus.authorized) return;
 
@@ -55,16 +86,18 @@ class PushService {
 
     // приложение открыто — сами рисуем баннер через local_notifications
     FirebaseMessaging.onMessage.listen((message) {
-      final notification = message.notification;
-      if (notification == null) return;
+      // data-only пуш: title/body лежат в data, а не в message.notification
+      final title = message.data['title']?.toString();
+      final body = message.data['body']?.toString();
+      if (title == null && body == null) return;
 
       final roomId = message.data['roomId']?.toString();
       // не показываем, если юзер сейчас и так сидит в этом чате
       if (roomId != null && roomId == _openRoomId) return;
 
       _localNotificationService.show(
-        title: notification.title ?? '',
-        body: notification.body ?? '',
+        title: title ?? '',
+        body: body ?? '',
         data: message.data,
       );
     });
