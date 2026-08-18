@@ -5,6 +5,10 @@ class LocalNotificationService {
   final _plugin = FlutterLocalNotificationsPlugin();
   void Function(String payload)? onNotificationTap; // колбэк
 
+  // копим строки сообщений по комнате, чтобы показывать их одним "стопкой"-уведомлением
+  // (InboxStyle), а не затирать предыдущее новым
+  final Map<String, List<String>> _linesByRoom = {};
+
   static const _channel = AndroidNotificationChannel(
     'messages_channel', // id канала
     'Сообщения', // видимое юзеру название в настройках Android
@@ -30,10 +34,33 @@ class LocalNotificationService {
   }
 
   Future<void> show({required String title, required String body, Map<String, dynamic>? data}) async {
+    final roomId = data?['roomId']?.toString();
+
+    // если уведомление привязано к комнате — используем детерминированный id (хэш roomId),
+    // тогда несколько уведомлений из одной комнаты попадут в одну "стопку" вместо новой пуш-карточки
+    // если roomId нет — используем время, чтобы не схлопывать разные уведомления между собой.
+    final id = roomId != null ? _idForRoom(roomId) : DateTime.now().millisecondsSinceEpoch ~/ 1000;
+
+    StyleInformation? style;
+    if (roomId != null) {
+      // копим строки для этой комнаты, пока юзер их не увидел (не зашёл в чат)
+      final lines = _linesByRoom.putIfAbsent(roomId, () => []);
+      lines.add(body);
+
+      style = InboxStyleInformation(
+        lines, // каждое сообщение — отдельная строка в развёрнутом виде
+        contentTitle: title,
+        summaryText: lines.length > 1 ? '${lines.length} новых сообщений' : null,
+      );
+    }
+
     await _plugin.show(
-      id: DateTime.now().millisecondsSinceEpoch ~/ 1000, // уникальный id
+      id: id,
       title: title,
-      body: body,
+      // в свёрнутом виде показываем последнее сообщение, либо счётчик, если их несколько
+      body: roomId != null && (_linesByRoom[roomId]?.length ?? 0) > 1
+          ? '${_linesByRoom[roomId]!.length} новых сообщений'
+          : body,
       notificationDetails: NotificationDetails(
         android: AndroidNotificationDetails(
           _channel.id,
@@ -41,9 +68,19 @@ class LocalNotificationService {
           channelDescription: _channel.description,
           importance: Importance.high,
           priority: Priority.high,
+          styleInformation: style,
         ),
       ),
       payload: data != null ? jsonEncode(data) : null,
     );
   }
+
+  // скрыть уведомление, относящееся к комнате roomId, и забыть накопленные строки
+  Future<void> cancelForRoom(String roomId) async {
+    await _plugin.cancel(id: _idForRoom(roomId));
+    _linesByRoom.remove(roomId);
+  }
+
+  // детерминированный id уведомления для комнаты
+  int _idForRoom(String roomId) => roomId.hashCode & 0x7fffffff; // положительный int32
 }
