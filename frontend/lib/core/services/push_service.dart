@@ -14,7 +14,7 @@ import '../navigation/route_paths.dart';
 import '../../firebase_options.dart';
 
 // отдельный top-level handler для пушей, пришедших пока приложение свёрнуто/убито
-// Firebase запускает его в своём изолейте — там недоступны getIt/DI и состояние основного изолейта 
+// Firebase запускает его в своём изолейте — там недоступны getIt/DI и состояние основного изолейта
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,6 +62,31 @@ class PushService {
     }
   }
 
+  String _systemMessageText(Map<String, dynamic> data) {
+    final sender = data['sender'] as Map<String, dynamic>?;
+    final systemData = data['systemData'] as Map<String, dynamic>?;
+    final target = systemData?['target'] as Map<String, dynamic>?;
+
+    final actor = sender?['username']?.toString() ?? '';
+    final targetName = target?['username']?.toString() ?? '';
+    final action = systemData?['action']?.toString();
+
+    switch (action) {
+      case 'participant_added':
+        return '$actor добавил(а) $targetName';
+      case 'participant_removed':
+        return '$actor удалил(а) $targetName';
+      case 'participant_left':
+        return '$actor вышел(а) из группы';
+      case 'participant_promoted':
+        return '$actor назначил(а) $targetName администратором';
+      case 'participant_demoted':
+        return '$actor понизил(а) $targetName до участника';
+      default:
+        return '';
+    }
+  }
+
   Future<void> init({
     required Future<void> Function(String token, String platform) onTokenReady,
   }) async {
@@ -74,7 +99,10 @@ class PushService {
     if (settings.authorizationStatus != AuthorizationStatus.authorized) return;
 
     final token = kIsWeb
-        ? await _messaging.getToken(vapidKey: 'BODa1Hp83ONdgK-hhQ2VB1yWZz8-EzMnPwLZnihHCNND7RVZ1zDEQGGAPBfZm_tcMTnnq5gNmPkzQomv6ePT4pY')
+        ? await _messaging.getToken(
+            vapidKey:
+                'BODa1Hp83ONdgK-hhQ2VB1yWZz8-EzMnPwLZnihHCNND7RVZ1zDEQGGAPBfZm_tcMTnnq5gNmPkzQomv6ePT4pY',
+          )
         : await _messaging.getToken();
 
     if (token != null) {
@@ -82,7 +110,9 @@ class PushService {
     }
 
     // если токен обновится (например, после переустановки) — тоже шлём на бэк
-    _messaging.onTokenRefresh.listen((newToken) => onTokenReady(newToken, _currentPlatform));
+    _messaging.onTokenRefresh.listen(
+      (newToken) => onTokenReady(newToken, _currentPlatform),
+    );
 
     // приложение открыто — сами рисуем баннер через local_notifications
     FirebaseMessaging.onMessage.listen((message) {
@@ -109,22 +139,38 @@ class PushService {
       final senderId = (sender?['_id'] ?? sender?['id'])?.toString();
       final currentUserId = _getCurrentUserId();
 
-      // сервер шлёт message:new всем участникам комнаты, включая самого отправителя
-      // (чтобы у него тоже обновился список сообщений) — уведомление ему самому не нужно
-      if (senderId != null && senderId == currentUserId) return;
-
       final roomId = (data['room'] ?? data['roomId'])?.toString();
-
-      // не показываем, если сейчас открыт именно этот roomId (экран чата)
       if (roomId != null && roomId == _openRoomId) return;
 
+      final roomType = data['roomType']?.toString();
+      final roomName = data['roomName']?.toString();
+      final title = roomType == 'group'
+          ? (roomName ?? '')
+          : (sender?['username']?.toString() ?? '');
+
+      final isSystem = data['type']?.toString() == 'system';
+
+      if (isSystem && senderId == currentUserId) return; // не уведомляем актора о его же действии
+
+      if (isSystem) {
+        final body = _systemMessageText(data);
+        if (body.isEmpty) return;
+
+        _localNotificationService.show(
+          title: title,
+          body: body,
+          data: {'type': 'message', 'roomId': roomId},
+        );
+        return;
+      }
+
+      // обычное текстовое сообщение — прежняя логика
+      if (senderId != null && senderId == currentUserId) return;
+
       _localNotificationService.show(
-        title: sender?['username']?.toString() ?? '',
+        title: title,
         body: data['text']?.toString() ?? '',
-        data: {
-          'type': 'message',
-          'roomId': roomId,
-        },
+        data: {'type': 'message', 'roomId': roomId},
       );
     });
 
@@ -163,7 +209,10 @@ class PushService {
 
   Future<String?> getCurrentToken() {
     return kIsWeb
-        ? _messaging.getToken(vapidKey: 'BODa1Hp83ONdgK-hhQ2VB1yWZz8-EzMnPwLZnihHCNND7RVZ1zDEQGGAPBfZm_tcMTnnq5gNmPkzQomv6ePT4pY')
+        ? _messaging.getToken(
+            vapidKey:
+                'BODa1Hp83ONdgK-hhQ2VB1yWZz8-EzMnPwLZnihHCNND7RVZ1zDEQGGAPBfZm_tcMTnnq5gNmPkzQomv6ePT4pY',
+          )
         : _messaging.getToken();
   }
 
