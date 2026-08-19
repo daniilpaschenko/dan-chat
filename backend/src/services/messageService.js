@@ -49,14 +49,14 @@ async function createMessage({ roomId, senderId, text, io }) {
         if (offlineRecipients.length > 0) {
             // не блокируем ответ пользователю ожиданием отправки пушей
             sendPushToUsers(offlineRecipients, {
-                title: message.sender.username,
+                title: room.type == 'direct' ? message.sender.username : room.name,
                 body: message.text,
                 data: { type: 'message', roomId },
             }).catch((err) => console.error('push send error:', err));
         }
     }
 
-    return { ok: true, message };
+    return { ok: true, message, room };
 }
 
 // actorId — кто выполнил действие (для 'participant_left' совпадает с targetId)
@@ -94,4 +94,12 @@ async function markMessagesAsRead({ roomId, userId }) {
     );
 }
 
-module.exports = { createMessage, createSystemMessage, markMessagesAsRead, SENDER_PUBLIC_FIELDS };
+function buildMessageNewPayload(message, room) {
+    return {
+        ...message.toJSON(),
+        roomType: room.type,
+        roomName: room.type === 'group' ? room.name : undefined,
+    };
+}
+
+module.exports = { createMessage, createSystemMessage, markMessagesAsRead, buildMessageNewPayload, SENDER_PUBLIC_FIELDS };
