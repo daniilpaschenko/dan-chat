@@ -187,21 +187,12 @@ exports.addParticipant = async (req, res) => {
 
         // системное сообщение "X добавил(а) Y" — видно всем участникам, включая нового
         const systemMessage = await createSystemMessage({
-            roomId,
+            room,
             action: 'participant_added',
             actorId: myId,
             targetId: userId,
             io
         });
-
-        room.lastMessage = {
-            sender: myId,
-            createdAt: systemMessage.createdAt,
-            type: 'system',
-            systemAction: 'participant_added',
-            systemActorUsername: systemMessage.sender.username,
-            systemTargetUsername: systemMessage.systemData.target.username,
-        };
 
         // новому участнику — комната появляется в списке чатов, как при создании
         io.in(`user:${userId}`).socketsJoin(room.id);
@@ -255,21 +246,12 @@ exports.removeParticipant = async (req, res) => {
         // системное сообщение — до того как кикнутый сокет покинет комнату,
         // чтобы оставшиеся участники увидели его сразу
         const systemMessage = await createSystemMessage({
-            roomId,
+            room,
             action: isSelf ? 'participant_left' : 'participant_removed',
             actorId: myId, // при isSelf это тот же userId
             targetId: userId,
             io
         });
-
-        room.lastMessage = {
-            sender: myId,
-            createdAt: systemMessage.createdAt,
-            type: 'system',
-            systemAction: 'participant_removed',
-            systemActorUsername: systemMessage.sender.username,
-            systemTargetUsername: systemMessage.systemData.target.username,
-        };
 
         io.to(roomId).emit('message:new', buildMessageNewPayload(systemMessage, room));
 
@@ -344,21 +326,13 @@ exports.updateParticipantRole = async (req, res) => {
 
         // системное сообщение "X повысил(а)/понизил(а) Y"
         const systemMessage = await createSystemMessage({
-            roomId,
+            room,
             action: role === 'admin' ? 'participant_promoted' : 'participant_demoted',
             actorId: myId,
             targetId: userId,
             io
         });
 
-        room.lastMessage = {
-            sender: myId,
-            createdAt: systemMessage.createdAt,
-            type: 'system',
-            systemAction: role === 'admin' ? 'participant_promoted' : 'participant_demoted',
-            systemActorUsername: systemMessage.sender.username,
-            systemTargetUsername: systemMessage.systemData.target.username,
-        };
         io.to(roomId).emit('message:new', buildMessageNewPayload(systemMessage, room));
 
         // уведомляем всех участников об изменении роли
@@ -393,28 +367,19 @@ exports.leaveRoom = async (req, res) => {
             return res.json({ message: 'Комната удалена' });
         }
 
+        await room.save();
+        await room.populate('participants.user', 'username avatarUrl status lastSeen');
+
         // системное сообщение — пока сокет ещё в комнате, чтобы оставшиеся увидели
         const systemMessage = await createSystemMessage({
-            roomId,
+            room,
             action: 'participant_left',
             actorId: myId,
             targetId: myId,
             io
         });
 
-        room.lastMessage = {
-            sender: myId,
-            createdAt: systemMessage.createdAt,
-            type: 'system',
-            systemAction: 'participant_left',
-            systemActorUsername: systemMessage.sender.username,
-            systemTargetUsername: systemMessage.systemData.target.username,
-        };
-
         io.to(roomId).emit('message:new', buildMessageNewPayload(systemMessage, room));
-
-        await room.save();
-        await room.populate('participants.user', 'username avatarUrl status lastSeen');
 
         // себе (другим устройствам) — комнаты больше нет в списке
         io.to(`user:${myId}`).emit('room:deleted', { roomId });

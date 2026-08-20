@@ -172,14 +172,30 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     required List<RoomListItemEntity> rooms,
     required Map<String, Map<String, String>> typingByRoom,
   }) {
+    final sortedRooms = _sortByLastMessage(rooms);
+
     state.mapOrNull(
       loaded: (_) =>
-          emit(RoomListState.loaded(rooms, typingByRoom: typingByRoom)),
+          emit(RoomListState.loaded(sortedRooms, typingByRoom: typingByRoom)),
       refreshing: (_) =>
-          emit(RoomListState.refreshing(rooms, typingByRoom: typingByRoom)),
+          emit(RoomListState.refreshing(sortedRooms, typingByRoom: typingByRoom)),
     );
 
-    _updateUnreadCounter(rooms);
+    _updateUnreadCounter(sortedRooms);
+  }
+
+  List<RoomListItemEntity> _sortByLastMessage(List<RoomListItemEntity> rooms) {
+    final sorted = [...rooms]; // копия списка
+    sorted.sort((a, b) { // сравнение элементов попарно
+      // даты последнего сообщения, либо если сообщения нет, то просто дата создания комнаты
+      final aDate = a.lastMessage?.createdAt ?? a.createdAt; 
+      final bDate = b.lastMessage?.createdAt ?? b.createdAt;
+      if (aDate == null && bDate == null) return 0;
+      if (aDate == null) return 1; // если у a нет даты
+      if (bDate == null) return -1; // если у b нет даты
+      return bDate.compareTo(aDate); // сортировка по убыванию
+    });
+    return sorted;
   }
 
   void _updateUnreadCounter(List<RoomListItemEntity> rooms) {
@@ -215,8 +231,9 @@ class RoomListBloc extends Bloc<RoomListEvent, RoomListState> {
     result.fold(
       (failure) => emit(RoomListState.failure(_mapFailureToMessage(failure))),
       (rooms) {
-        emit(RoomListState.loaded(rooms));
-        _updateUnreadCounter(rooms);
+        final sorted = _sortByLastMessage(rooms);
+        emit(RoomListState.loaded(sorted));
+        _updateUnreadCounter(sorted);
       },
     );
   }
