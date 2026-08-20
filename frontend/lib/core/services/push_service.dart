@@ -132,6 +132,7 @@ class PushService {
       );
     });
 
+    await _messageNewSub?.cancel();
     // бэкенд намеренно не шлёт push тем, кто онлайн по сокету
     // поэтому для онлайн-юзеров локальное уведомление рисуем сами по сокет-событию
     _messageNewSub = _socketService.messageNew$.listen((data) {
