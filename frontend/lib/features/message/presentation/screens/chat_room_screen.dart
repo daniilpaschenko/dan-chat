@@ -53,9 +53,7 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
     super.initState();
     getIt<PushService>().enterChatRoom(widget.roomId);
     _scrollController.addListener(_onScroll);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getIt<BottomNavVisibility>().visible.value = false;
-    });
+    getIt<BottomNavVisibility>().push();
   }
 
   @override
@@ -64,9 +62,7 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     _textController.dispose();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getIt<BottomNavVisibility>().visible.value = true;
-    });
+    getIt<BottomNavVisibility>().pop();
     super.dispose();
   }
 
