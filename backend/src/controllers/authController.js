@@ -188,10 +188,10 @@ exports.logout = async (req, res) => {
         const tokenHash = hashToken(rawToken);
 
         // просто отзываем этот конкретный токен, если он есть и ещё не отозван
-        // findOneAndUpdate — не бросает ошибку, если ничего не нашлось, просто вернёт null
         await RefreshToken.findOneAndUpdate(
             { tokenHash, revoked: false },
-            { revoked: true }
+            { revoked: true },
+            { returnDocument: 'after' }
         );
 
         if (isWebClient(req)) {

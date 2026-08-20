@@ -49,19 +49,37 @@ async function createMessage({ roomId, senderId, text, io }) {
         if (offlineRecipients.length > 0) {
             // не блокируем ответ пользователю ожиданием отправки пушей
             sendPushToUsers(offlineRecipients, {
-                title: message.sender.username,
+                title: room.type == 'direct' ? message.sender.username : room.name,
                 body: message.text,
                 data: { type: 'message', roomId },
             }).catch((err) => console.error('push send error:', err));
         }
     }
 
-    return { ok: true, message };
+    return { ok: true, message, room };
+}
+
+// аналог client-side systemMessageText
+function buildSystemMessageBody({ action, actorUsername, targetUsername }) {
+    switch (action) {
+        case 'participant_added':
+            return `${actorUsername} добавил(а) ${targetUsername}`;
+        case 'participant_removed':
+            return `${actorUsername} удалил(а) ${targetUsername}`;
+        case 'participant_left':
+            return `${actorUsername} вышел(а) из группы`;
+        case 'participant_promoted':
+            return `${actorUsername} назначил(а) ${targetUsername} администратором`;
+        case 'participant_demoted':
+            return `${actorUsername} понизил(а) ${targetUsername} до участника`;
+        default:
+            return '';
+    }
 }
 
 // actorId — кто выполнил действие (для 'participant_left' совпадает с targetId)
 // targetId — над кем выполнено действие
-async function createSystemMessage({ roomId, action, actorId, targetId }) {
+async function createSystemMessage({ roomId, action, actorId, targetId, io }) {
     const message = await Message.create({
         room: roomId,
         sender: actorId,
@@ -73,16 +91,43 @@ async function createSystemMessage({ roomId, action, actorId, targetId }) {
     await message.populate('systemData.target', SENDER_PUBLIC_FIELDS);
 
     // обновляем превью комнаты
-    await Room.findByIdAndUpdate(roomId, {
-        lastMessage: {
-            sender: actorId,
-            createdAt: message.createdAt,
-            type: 'system',
-            systemAction: action,
-            systemActorUsername: message.sender.username,
-            systemTargetUsername: message.systemData.target.username,
+    const room = await Room.findByIdAndUpdate(
+        roomId,
+        {
+            lastMessage: {
+                sender: actorId,
+                createdAt: message.createdAt,
+                type: 'system',
+                systemAction: action,
+                systemActorUsername: message.sender.username,
+                systemTargetUsername: message.systemData.target.username,
+            },
         },
-    });
+        { new: true }, // нужен свежий room.participants ниже
+    );
+
+    // пуши шлём только оффлайн-участникам, кроме самого actor'а
+    if (io) {
+        const offlineRecipients = room.participants
+            .map((p) => p.user.toString())
+            .filter((id) => id !== actorId && !isUserOnline(io, id));
+
+        if (offlineRecipients.length > 0) {
+            const body = buildSystemMessageBody({
+                action,
+                actorUsername: message.sender.username,
+                targetUsername: message.systemData.target.username,
+            });
+
+            if (body) {
+                sendPushToUsers(offlineRecipients, {
+                    title: room.type === 'direct' ? message.sender.username : room.name,
+                    body,
+                    data: { type: 'message', roomId },
+                }).catch((err) => console.error('push send error:', err));
+            }
+        }
+    }
 
     return message;
 }
@@ -94,4 +139,12 @@ async function markMessagesAsRead({ roomId, userId }) {
     );
 }
 
-module.exports = { createMessage, createSystemMessage, markMessagesAsRead, SENDER_PUBLIC_FIELDS };
+function buildMessageNewPayload(message, room) {
+    return {
+        ...message.toJSON(),
+        roomType: room.type,
+        roomName: room.type === 'group' ? room.name : undefined,
+    };
+}
+
+module.exports = { createMessage, createSystemMessage, markMessagesAsRead, buildMessageNewPayload, SENDER_PUBLIC_FIELDS };

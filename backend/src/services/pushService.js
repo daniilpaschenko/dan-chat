@@ -31,10 +31,20 @@ async function sendPushToUsers(userIds, { title, body, data = {} }) {
         Object.entries(data).map(([k, v]) => [k, String(v)])
     );
 
+    // data-only пуш: намеренно НЕ используем поле "notification" для клиентских настроек уведомлений
     const message = {
-        notification: { title, body }, // что показывает система (заголовок + текст)
-        data: stringData, // кастомные данные для приложения
+        data: {
+            ...stringData,
+            title: String(title),
+            body: String(body),
+        },
         tokens, // массив FCM токенов
+        // поднимаем приоритет до high, чтобы система не откладывала доставку при экономии батареи
+        android: {
+            priority: 'high',
+        },
+        // на iOS data-only пуш без notification и без content-available не разбудит
+        // приложение в background
     };
 
     // возвращает результат по каждому токену отдельно (успех/ошибка)

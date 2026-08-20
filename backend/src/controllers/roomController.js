@@ -1,7 +1,7 @@
 const Room = require('../models/Room');
 const { createRoomSchema, addParticipantSchema, updateParticipantRoleSchema } = require('../validators/roomValidator');
 const { findRoomIfMember, getParticipant, formatRoomForUser } = require('../services/roomService');
-const { createSystemMessage } = require('../services/messageService');
+const { createSystemMessage, buildMessageNewPayload } = require('../services/messageService');
 
 // POST /rooms
 // body: { type: 'direct'|'group', participantIds: string[], name?, avatarUrl? }
@@ -191,6 +191,7 @@ exports.addParticipant = async (req, res) => {
             action: 'participant_added',
             actorId: myId,
             targetId: userId,
+            io
         });
 
         room.lastMessage = {
@@ -214,7 +215,7 @@ exports.addParticipant = async (req, res) => {
         });
 
         // эмитим сообщение ПОСЛЕ socketsJoin — чтобы сокет нового участника уже был в комнате
-        io.to(roomId).emit('message:new', systemMessage.toJSON());
+        io.to(roomId).emit('message:new', buildMessageNewPayload(systemMessage, room));
 
         return res.json(room);
     } catch (err) {
@@ -258,6 +259,7 @@ exports.removeParticipant = async (req, res) => {
             action: isSelf ? 'participant_left' : 'participant_removed',
             actorId: myId, // при isSelf это тот же userId
             targetId: userId,
+            io
         });
 
         room.lastMessage = {
@@ -269,7 +271,7 @@ exports.removeParticipant = async (req, res) => {
             systemTargetUsername: systemMessage.systemData.target.username,
         };
 
-        io.to(roomId).emit('message:new', systemMessage.toJSON());
+        io.to(roomId).emit('message:new', buildMessageNewPayload(systemMessage, room));
 
         // кикнутому — комната пропадает из списка
         // отключаем его сокеты от комнаты, которой для него больше не существует
@@ -346,6 +348,7 @@ exports.updateParticipantRole = async (req, res) => {
             action: role === 'admin' ? 'participant_promoted' : 'participant_demoted',
             actorId: myId,
             targetId: userId,
+            io
         });
 
         room.lastMessage = {
@@ -356,7 +359,7 @@ exports.updateParticipantRole = async (req, res) => {
             systemActorUsername: systemMessage.sender.username,
             systemTargetUsername: systemMessage.systemData.target.username,
         };
-        io.to(roomId).emit('message:new', systemMessage.toJSON());
+        io.to(roomId).emit('message:new', buildMessageNewPayload(systemMessage, room));
 
         // уведомляем всех участников об изменении роли
         room.participants.forEach((p) => {
@@ -396,6 +399,7 @@ exports.leaveRoom = async (req, res) => {
             action: 'participant_left',
             actorId: myId,
             targetId: myId,
+            io
         });
 
         room.lastMessage = {
@@ -407,7 +411,7 @@ exports.leaveRoom = async (req, res) => {
             systemTargetUsername: systemMessage.systemData.target.username,
         };
 
-        io.to(roomId).emit('message:new', systemMessage.toJSON());
+        io.to(roomId).emit('message:new', buildMessageNewPayload(systemMessage, room));
 
         await room.save();
         await room.populate('participants.user', 'username avatarUrl status lastSeen');

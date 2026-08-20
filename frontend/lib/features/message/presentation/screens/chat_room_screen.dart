@@ -8,6 +8,7 @@ import '../../../../core/navigation/bottom_nav_visibility.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/small_loader.dart';
+import '../../../../core/services/push_service.dart';
 import '../../../room/domain/entities/room_entity.dart';
 import '../blocs/chat_room_bloc.dart';
 import '../blocs/chat_room_event.dart';
@@ -29,14 +30,15 @@ class ChatRoomScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<ChatRoomBloc>()..add(ChatRoomEvent.started(roomId, room: room)),
-      child: const _ChatRoomView(),
+      child: _ChatRoomView(roomId: roomId),
     );
   }
 }
 
 class _ChatRoomView extends StatefulWidget {
+  final String roomId;
 
-  const _ChatRoomView();
+  const _ChatRoomView({required this.roomId});
 
   @override
   State<_ChatRoomView> createState() => _ChatRoomViewState();
@@ -49,6 +51,7 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
   @override
   void initState() {
     super.initState();
+    getIt<PushService>().enterChatRoom(widget.roomId);
     _scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getIt<BottomNavVisibility>().visible.value = false;
@@ -57,6 +60,7 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
 
   @override
   void dispose() {
+    getIt<PushService>().leaveChatRoom(widget.roomId);
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     _textController.dispose();

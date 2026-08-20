@@ -1,5 +1,5 @@
 const { findRoomIfMember, getParticipantsStatus } = require('../services/roomService');
-const { createMessage, markMessagesAsRead } = require('../services/messageService');
+const { createMessage, markMessagesAsRead, buildMessageNewPayload } = require('../services/messageService');
 
 // io.emit() — событие получат все подключённые клиенты, независимо от комнат
 // io.to(roomId).emit() — событие получат все пользователи roomId
@@ -45,9 +45,10 @@ module.exports = function registerChatHandlers(io, socket) {
                 return callback?.({ ok: false, message: result.error });
             }
 
+            const payload = buildMessageNewPayload(result.message, result.room);
+
             // эмиттим событие 'message:new' всем пользователям комнаты
-            // тот же формат, что отдаёт REST POST /rooms/:roomId/messages
-            io.to(roomId).emit('message:new', result.message.toJSON());
+            io.to(roomId).emit('message:new', payload);
             callback?.({ ok: true, message: result.message.toJSON() });
         } catch (err) {
             console.error('message:send error:', err);

@@ -118,6 +118,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     );
 
     _socketService.joinRoom(event.roomId, onAck: (ack) {
+      if (isClosed) return;
       if (ack['ok'] != true) return;
       final list = (ack['participantsStatus'] as List?) ?? [];
 
@@ -137,6 +138,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     });
 
     _messageSub = _socketService.messageNew$.listen((data) {
+      if (isClosed) return;
       final entity = _parseSocketMessageUseCase(data);
       if (entity.room == event.roomId) {
         add(ChatRoomEvent.socketMessageReceived(entity));
@@ -144,18 +146,21 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     });
 
     _typingStartSub = _socketService.typingStart$.listen((data) {
+      if (isClosed) return;
       if (data['roomId'] == event.roomId && data['userId'] != _currentUserId) {
         add(ChatRoomEvent.typingStarted(data['userId'] as String, data['username'] as String));
       }
     });
 
     _typingStopSub = _socketService.typingStop$.listen((data) {
+      if (isClosed) return;
       if (data['roomId'] == event.roomId) {
         add(ChatRoomEvent.typingStopped(data['userId'] as String));
       }
     });
 
     _presenceSub = _socketService.presenceUpdate$.listen((data) {
+      if (isClosed) return;
       add(ChatRoomEvent.presenceUpdated(
         data['userId'] as String,
         data['status'] == 'online' ? UserStatus.online : UserStatus.offline,
@@ -168,18 +173,21 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     _socketService.markRead(event.roomId);
 
     _messageReadSub = _socketService.messageRead$.listen((data) {
+      if (isClosed) return;
       if (data['roomId'] == event.roomId) {
         add(ChatRoomEvent.socketMessageRead(data['userId'] as String));
       }
     });
 
     _roomDeletedSub = _socketService.roomDeleted$.listen((data) {
+      if (isClosed) return;
       if (data['roomId'] == event.roomId) {
         add(const ChatRoomEvent.roomRemovedRemotely());
       }
     });
 
     _reconnectSub = _socketService.connect$.listen((_) {
+      if (isClosed) return;
       add(const ChatRoomEvent.reconnected());
     });
   }
@@ -246,7 +254,10 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     _socketService.sendMessage(
       roomId: state.roomId,
       text: text,
-      onAck: (ack) => add(ChatRoomEvent.socketAckReceived(tempId, ack)),
+      onAck: (ack) {
+        if (isClosed) return;
+        add(ChatRoomEvent.socketAckReceived(tempId, ack));
+      },
     );
   }
 
@@ -444,15 +455,18 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   }
 
   @override
-  Future<void> close() {
-    _messageSub?.cancel();
-    _typingStartSub?.cancel();
-    _typingStopSub?.cancel();
-    _presenceSub?.cancel();
+  Future<void> close() async {
+    // дожидаемся реальной отмены подписок, а не просто "запроса на отмену"
+    await Future.wait([
+      if (_messageSub != null) _messageSub!.cancel(),
+      if (_typingStartSub != null) _typingStartSub!.cancel(),
+      if (_typingStopSub != null) _typingStopSub!.cancel(),
+      if (_presenceSub != null) _presenceSub!.cancel(),
+      if (_messageReadSub != null) _messageReadSub!.cancel(),
+      if (_roomDeletedSub != null) _roomDeletedSub!.cancel(),
+      if (_reconnectSub != null) _reconnectSub!.cancel(),
+    ]);
     _typingStopTimer?.cancel();
-    _messageReadSub?.cancel();
-    _roomDeletedSub?.cancel();
-    _reconnectSub?.cancel();
     return super.close();
   }
 }
