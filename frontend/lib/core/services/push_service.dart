@@ -198,7 +198,10 @@ class PushService {
       // достаём контекст из корневого навигатора напрямую, без DI на GoRouter
       final context = AppRouter.rootNavigatorKey.currentContext;
       if (context != null) {
-        GoRouter.of(context).push(RoutePaths.chatRoomPath(roomId));
+        final router = GoRouter.of(context);
+        // сбрасываем стек до списка, чтобы не накапливать старые экраны
+        router.go(RoutePaths.chatList);
+        router.push(RoutePaths.chatRoomPath(roomId));
       }
     }
   }
