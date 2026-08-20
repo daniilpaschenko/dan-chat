@@ -1,5 +1,4 @@
 const Message = require('../models/Message');
-const Room = require('../models/Room');
 const { findRoomIfMember } = require('./roomService');
 const { isUserOnline } = require('../sockets/presenceHelper');
 const { sendPushToUsers } = require('./pushService');
@@ -79,9 +78,9 @@ function buildSystemMessageBody({ action, actorUsername, targetUsername }) {
 
 // actorId — кто выполнил действие (для 'participant_left' совпадает с targetId)
 // targetId — над кем выполнено действие
-async function createSystemMessage({ roomId, action, actorId, targetId, io }) {
+async function createSystemMessage({ room, action, actorId, targetId, io }) {
     const message = await Message.create({
-        room: roomId,
+        room: room._id,
         sender: actorId,
         type: 'system',
         systemData: { action, target: targetId },
@@ -90,26 +89,28 @@ async function createSystemMessage({ roomId, action, actorId, targetId, io }) {
     await message.populate('sender', SENDER_PUBLIC_FIELDS);
     await message.populate('systemData.target', SENDER_PUBLIC_FIELDS);
 
-    // обновляем превью комнаты
-    const room = await Room.findByIdAndUpdate(
-        roomId,
-        {
-            lastMessage: {
-                sender: actorId,
-                createdAt: message.createdAt,
-                type: 'system',
-                systemAction: action,
-                systemActorUsername: message.sender.username,
-                systemTargetUsername: message.systemData.target.username,
-            },
-        },
-        { new: true }, // нужен свежий room.participants ниже
-    );
+    room.lastMessage = {
+        sender: actorId,
+        createdAt: message.createdAt,
+        type: 'system',
+        systemAction: action,
+        systemActorUsername: message.sender.username,
+        systemTargetUsername: message.systemData.target.username,
+    };
 
-    // пуши шлём только оффлайн-участникам, кроме самого actor'а
+    // инкремент unreadCount всем, кроме того, кто совершил действие
+    room.participants.forEach((p) => {
+        const participantId = (p.user._id || p.user).toString();
+        if (participantId === actorId) return;
+        const current = room.unreadCount.get(participantId) || 0;
+        room.unreadCount.set(participantId, current + 1);
+    });
+
+    await room.save();
+
     if (io) {
         const offlineRecipients = room.participants
-            .map((p) => p.user.toString())
+            .map((p) => (p.user._id || p.user).toString())
             .filter((id) => id !== actorId && !isUserOnline(io, id));
 
         if (offlineRecipients.length > 0) {
@@ -123,7 +124,7 @@ async function createSystemMessage({ roomId, action, actorId, targetId, io }) {
                 sendPushToUsers(offlineRecipients, {
                     title: room.type === 'direct' ? message.sender.username : room.name,
                     body,
-                    data: { type: 'message', roomId },
+                    data: { type: 'message', roomId: room._id.toString() },
                 }).catch((err) => console.error('push send error:', err));
             }
         }
