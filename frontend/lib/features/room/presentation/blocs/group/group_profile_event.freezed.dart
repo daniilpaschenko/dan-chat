@@ -26,6 +26,7 @@ mixin _$GroupProfileEvent {
     required TResult Function(RoomEntity room) participantsAdded,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function(File file) avatarUploadRequested,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -36,6 +37,7 @@ mixin _$GroupProfileEvent {
     TResult? Function(RoomEntity room)? participantsAdded,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function(File file)? avatarUploadRequested,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -46,6 +48,7 @@ mixin _$GroupProfileEvent {
     TResult Function(RoomEntity room)? participantsAdded,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
+    TResult Function(File file)? avatarUploadRequested,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -61,6 +64,8 @@ mixin _$GroupProfileEvent {
     roomUpdatedRemotely,
     required TResult Function(GroupProfileRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(GroupProfileAvatarUploadRequested value)
+    avatarUploadRequested,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -74,6 +79,8 @@ mixin _$GroupProfileEvent {
     roomUpdatedRemotely,
     TResult? Function(GroupProfileRoomRemovedRemotely value)?
     roomRemovedRemotely,
+    TResult? Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -87,6 +94,8 @@ mixin _$GroupProfileEvent {
     roomUpdatedRemotely,
     TResult Function(GroupProfileRoomRemovedRemotely value)?
     roomRemovedRemotely,
+    TResult Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -164,6 +173,7 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
     required TResult Function(RoomEntity room) participantsAdded,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function(File file) avatarUploadRequested,
   }) {
     return started();
   }
@@ -178,6 +188,7 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
     TResult? Function(RoomEntity room)? participantsAdded,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function(File file)? avatarUploadRequested,
   }) {
     return started?.call();
   }
@@ -192,6 +203,7 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
     TResult Function(RoomEntity room)? participantsAdded,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
+    TResult Function(File file)? avatarUploadRequested,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -214,6 +226,8 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
     roomUpdatedRemotely,
     required TResult Function(GroupProfileRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(GroupProfileAvatarUploadRequested value)
+    avatarUploadRequested,
   }) {
     return started(this);
   }
@@ -231,6 +245,8 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
     roomUpdatedRemotely,
     TResult? Function(GroupProfileRoomRemovedRemotely value)?
     roomRemovedRemotely,
+    TResult? Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
   }) {
     return started?.call(this);
   }
@@ -248,6 +264,8 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
     roomUpdatedRemotely,
     TResult Function(GroupProfileRoomRemovedRemotely value)?
     roomRemovedRemotely,
+    TResult Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -348,6 +366,7 @@ class _$GroupProfileParticipantRemoveRequestedImpl
     required TResult Function(RoomEntity room) participantsAdded,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function(File file) avatarUploadRequested,
   }) {
     return participantRemoveRequested(userId);
   }
@@ -362,6 +381,7 @@ class _$GroupProfileParticipantRemoveRequestedImpl
     TResult? Function(RoomEntity room)? participantsAdded,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function(File file)? avatarUploadRequested,
   }) {
     return participantRemoveRequested?.call(userId);
   }
@@ -376,6 +396,7 @@ class _$GroupProfileParticipantRemoveRequestedImpl
     TResult Function(RoomEntity room)? participantsAdded,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
+    TResult Function(File file)? avatarUploadRequested,
     required TResult orElse(),
   }) {
     if (participantRemoveRequested != null) {
@@ -398,6 +419,8 @@ class _$GroupProfileParticipantRemoveRequestedImpl
     roomUpdatedRemotely,
     required TResult Function(GroupProfileRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(GroupProfileAvatarUploadRequested value)
+    avatarUploadRequested,
   }) {
     return participantRemoveRequested(this);
   }
@@ -415,6 +438,8 @@ class _$GroupProfileParticipantRemoveRequestedImpl
     roomUpdatedRemotely,
     TResult? Function(GroupProfileRoomRemovedRemotely value)?
     roomRemovedRemotely,
+    TResult? Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
   }) {
     return participantRemoveRequested?.call(this);
   }
@@ -432,6 +457,8 @@ class _$GroupProfileParticipantRemoveRequestedImpl
     roomUpdatedRemotely,
     TResult Function(GroupProfileRoomRemovedRemotely value)?
     roomRemovedRemotely,
+    TResult Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
     required TResult orElse(),
   }) {
     if (participantRemoveRequested != null) {
@@ -554,6 +581,7 @@ class _$GroupProfileParticipantRoleChangeRequestedImpl
     required TResult Function(RoomEntity room) participantsAdded,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function(File file) avatarUploadRequested,
   }) {
     return participantRoleChangeRequested(userId, role);
   }
@@ -568,6 +596,7 @@ class _$GroupProfileParticipantRoleChangeRequestedImpl
     TResult? Function(RoomEntity room)? participantsAdded,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function(File file)? avatarUploadRequested,
   }) {
     return participantRoleChangeRequested?.call(userId, role);
   }
@@ -582,6 +611,7 @@ class _$GroupProfileParticipantRoleChangeRequestedImpl
     TResult Function(RoomEntity room)? participantsAdded,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
+    TResult Function(File file)? avatarUploadRequested,
     required TResult orElse(),
   }) {
     if (participantRoleChangeRequested != null) {
@@ -604,6 +634,8 @@ class _$GroupProfileParticipantRoleChangeRequestedImpl
     roomUpdatedRemotely,
     required TResult Function(GroupProfileRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(GroupProfileAvatarUploadRequested value)
+    avatarUploadRequested,
   }) {
     return participantRoleChangeRequested(this);
   }
@@ -621,6 +653,8 @@ class _$GroupProfileParticipantRoleChangeRequestedImpl
     roomUpdatedRemotely,
     TResult? Function(GroupProfileRoomRemovedRemotely value)?
     roomRemovedRemotely,
+    TResult? Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
   }) {
     return participantRoleChangeRequested?.call(this);
   }
@@ -638,6 +672,8 @@ class _$GroupProfileParticipantRoleChangeRequestedImpl
     roomUpdatedRemotely,
     TResult Function(GroupProfileRoomRemovedRemotely value)?
     roomRemovedRemotely,
+    TResult Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
     required TResult orElse(),
   }) {
     if (participantRoleChangeRequested != null) {
@@ -765,6 +801,7 @@ class _$GroupProfileParticipantsAddedImpl
     required TResult Function(RoomEntity room) participantsAdded,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function(File file) avatarUploadRequested,
   }) {
     return participantsAdded(room);
   }
@@ -779,6 +816,7 @@ class _$GroupProfileParticipantsAddedImpl
     TResult? Function(RoomEntity room)? participantsAdded,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function(File file)? avatarUploadRequested,
   }) {
     return participantsAdded?.call(room);
   }
@@ -793,6 +831,7 @@ class _$GroupProfileParticipantsAddedImpl
     TResult Function(RoomEntity room)? participantsAdded,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
+    TResult Function(File file)? avatarUploadRequested,
     required TResult orElse(),
   }) {
     if (participantsAdded != null) {
@@ -815,6 +854,8 @@ class _$GroupProfileParticipantsAddedImpl
     roomUpdatedRemotely,
     required TResult Function(GroupProfileRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(GroupProfileAvatarUploadRequested value)
+    avatarUploadRequested,
   }) {
     return participantsAdded(this);
   }
@@ -832,6 +873,8 @@ class _$GroupProfileParticipantsAddedImpl
     roomUpdatedRemotely,
     TResult? Function(GroupProfileRoomRemovedRemotely value)?
     roomRemovedRemotely,
+    TResult? Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
   }) {
     return participantsAdded?.call(this);
   }
@@ -849,6 +892,8 @@ class _$GroupProfileParticipantsAddedImpl
     roomUpdatedRemotely,
     TResult Function(GroupProfileRoomRemovedRemotely value)?
     roomRemovedRemotely,
+    TResult Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
     required TResult orElse(),
   }) {
     if (participantsAdded != null) {
@@ -929,6 +974,7 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
     required TResult Function(RoomEntity room) participantsAdded,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function(File file) avatarUploadRequested,
   }) {
     return roomUpdatedRemotely();
   }
@@ -943,6 +989,7 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
     TResult? Function(RoomEntity room)? participantsAdded,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function(File file)? avatarUploadRequested,
   }) {
     return roomUpdatedRemotely?.call();
   }
@@ -957,6 +1004,7 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
     TResult Function(RoomEntity room)? participantsAdded,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
+    TResult Function(File file)? avatarUploadRequested,
     required TResult orElse(),
   }) {
     if (roomUpdatedRemotely != null) {
@@ -979,6 +1027,8 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
     roomUpdatedRemotely,
     required TResult Function(GroupProfileRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(GroupProfileAvatarUploadRequested value)
+    avatarUploadRequested,
   }) {
     return roomUpdatedRemotely(this);
   }
@@ -996,6 +1046,8 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
     roomUpdatedRemotely,
     TResult? Function(GroupProfileRoomRemovedRemotely value)?
     roomRemovedRemotely,
+    TResult? Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
   }) {
     return roomUpdatedRemotely?.call(this);
   }
@@ -1013,6 +1065,8 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
     roomUpdatedRemotely,
     TResult Function(GroupProfileRoomRemovedRemotely value)?
     roomRemovedRemotely,
+    TResult Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
     required TResult orElse(),
   }) {
     if (roomUpdatedRemotely != null) {
@@ -1083,6 +1137,7 @@ class _$GroupProfileRoomRemovedRemotelyImpl
     required TResult Function(RoomEntity room) participantsAdded,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
+    required TResult Function(File file) avatarUploadRequested,
   }) {
     return roomRemovedRemotely();
   }
@@ -1097,6 +1152,7 @@ class _$GroupProfileRoomRemovedRemotelyImpl
     TResult? Function(RoomEntity room)? participantsAdded,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
+    TResult? Function(File file)? avatarUploadRequested,
   }) {
     return roomRemovedRemotely?.call();
   }
@@ -1111,6 +1167,7 @@ class _$GroupProfileRoomRemovedRemotelyImpl
     TResult Function(RoomEntity room)? participantsAdded,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
+    TResult Function(File file)? avatarUploadRequested,
     required TResult orElse(),
   }) {
     if (roomRemovedRemotely != null) {
@@ -1133,6 +1190,8 @@ class _$GroupProfileRoomRemovedRemotelyImpl
     roomUpdatedRemotely,
     required TResult Function(GroupProfileRoomRemovedRemotely value)
     roomRemovedRemotely,
+    required TResult Function(GroupProfileAvatarUploadRequested value)
+    avatarUploadRequested,
   }) {
     return roomRemovedRemotely(this);
   }
@@ -1150,6 +1209,8 @@ class _$GroupProfileRoomRemovedRemotelyImpl
     roomUpdatedRemotely,
     TResult? Function(GroupProfileRoomRemovedRemotely value)?
     roomRemovedRemotely,
+    TResult? Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
   }) {
     return roomRemovedRemotely?.call(this);
   }
@@ -1167,6 +1228,8 @@ class _$GroupProfileRoomRemovedRemotelyImpl
     roomUpdatedRemotely,
     TResult Function(GroupProfileRoomRemovedRemotely value)?
     roomRemovedRemotely,
+    TResult Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
     required TResult orElse(),
   }) {
     if (roomRemovedRemotely != null) {
@@ -1179,4 +1242,208 @@ class _$GroupProfileRoomRemovedRemotelyImpl
 abstract class GroupProfileRoomRemovedRemotely implements GroupProfileEvent {
   const factory GroupProfileRoomRemovedRemotely() =
       _$GroupProfileRoomRemovedRemotelyImpl;
+}
+
+/// @nodoc
+abstract class _$$GroupProfileAvatarUploadRequestedImplCopyWith<$Res> {
+  factory _$$GroupProfileAvatarUploadRequestedImplCopyWith(
+    _$GroupProfileAvatarUploadRequestedImpl value,
+    $Res Function(_$GroupProfileAvatarUploadRequestedImpl) then,
+  ) = __$$GroupProfileAvatarUploadRequestedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({File file});
+}
+
+/// @nodoc
+class __$$GroupProfileAvatarUploadRequestedImplCopyWithImpl<$Res>
+    extends
+        _$GroupProfileEventCopyWithImpl<
+          $Res,
+          _$GroupProfileAvatarUploadRequestedImpl
+        >
+    implements _$$GroupProfileAvatarUploadRequestedImplCopyWith<$Res> {
+  __$$GroupProfileAvatarUploadRequestedImplCopyWithImpl(
+    _$GroupProfileAvatarUploadRequestedImpl _value,
+    $Res Function(_$GroupProfileAvatarUploadRequestedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of GroupProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? file = null}) {
+    return _then(
+      _$GroupProfileAvatarUploadRequestedImpl(
+        null == file
+            ? _value.file
+            : file // ignore: cast_nullable_to_non_nullable
+                  as File,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$GroupProfileAvatarUploadRequestedImpl
+    implements GroupProfileAvatarUploadRequested {
+  const _$GroupProfileAvatarUploadRequestedImpl(this.file);
+
+  @override
+  final File file;
+
+  @override
+  String toString() {
+    return 'GroupProfileEvent.avatarUploadRequested(file: $file)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GroupProfileAvatarUploadRequestedImpl &&
+            (identical(other.file, file) || other.file == file));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, file);
+
+  /// Create a copy of GroupProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GroupProfileAvatarUploadRequestedImplCopyWith<
+    _$GroupProfileAvatarUploadRequestedImpl
+  >
+  get copyWith =>
+      __$$GroupProfileAvatarUploadRequestedImplCopyWithImpl<
+        _$GroupProfileAvatarUploadRequestedImpl
+      >(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(String userId) participantRemoveRequested,
+    required TResult Function(String userId, ParticipantRole role)
+    participantRoleChangeRequested,
+    required TResult Function(RoomEntity room) participantsAdded,
+    required TResult Function() roomUpdatedRemotely,
+    required TResult Function() roomRemovedRemotely,
+    required TResult Function(File file) avatarUploadRequested,
+  }) {
+    return avatarUploadRequested(file);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(String userId)? participantRemoveRequested,
+    TResult? Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
+    TResult? Function(RoomEntity room)? participantsAdded,
+    TResult? Function()? roomUpdatedRemotely,
+    TResult? Function()? roomRemovedRemotely,
+    TResult? Function(File file)? avatarUploadRequested,
+  }) {
+    return avatarUploadRequested?.call(file);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(String userId)? participantRemoveRequested,
+    TResult Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
+    TResult Function(RoomEntity room)? participantsAdded,
+    TResult Function()? roomUpdatedRemotely,
+    TResult Function()? roomRemovedRemotely,
+    TResult Function(File file)? avatarUploadRequested,
+    required TResult orElse(),
+  }) {
+    if (avatarUploadRequested != null) {
+      return avatarUploadRequested(file);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GroupProfileStarted value) started,
+    required TResult Function(GroupProfileParticipantRemoveRequested value)
+    participantRemoveRequested,
+    required TResult Function(GroupProfileParticipantRoleChangeRequested value)
+    participantRoleChangeRequested,
+    required TResult Function(GroupProfileParticipantsAdded value)
+    participantsAdded,
+    required TResult Function(GroupProfileRoomUpdatedRemotely value)
+    roomUpdatedRemotely,
+    required TResult Function(GroupProfileRoomRemovedRemotely value)
+    roomRemovedRemotely,
+    required TResult Function(GroupProfileAvatarUploadRequested value)
+    avatarUploadRequested,
+  }) {
+    return avatarUploadRequested(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GroupProfileStarted value)? started,
+    TResult? Function(GroupProfileParticipantRemoveRequested value)?
+    participantRemoveRequested,
+    TResult? Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
+    TResult? Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult? Function(GroupProfileRoomUpdatedRemotely value)?
+    roomUpdatedRemotely,
+    TResult? Function(GroupProfileRoomRemovedRemotely value)?
+    roomRemovedRemotely,
+    TResult? Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
+  }) {
+    return avatarUploadRequested?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GroupProfileStarted value)? started,
+    TResult Function(GroupProfileParticipantRemoveRequested value)?
+    participantRemoveRequested,
+    TResult Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
+    TResult Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult Function(GroupProfileRoomUpdatedRemotely value)?
+    roomUpdatedRemotely,
+    TResult Function(GroupProfileRoomRemovedRemotely value)?
+    roomRemovedRemotely,
+    TResult Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
+    required TResult orElse(),
+  }) {
+    if (avatarUploadRequested != null) {
+      return avatarUploadRequested(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GroupProfileAvatarUploadRequested implements GroupProfileEvent {
+  const factory GroupProfileAvatarUploadRequested(final File file) =
+      _$GroupProfileAvatarUploadRequestedImpl;
+
+  File get file;
+
+  /// Create a copy of GroupProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GroupProfileAvatarUploadRequestedImplCopyWith<
+    _$GroupProfileAvatarUploadRequestedImpl
+  >
+  get copyWith => throw _privateConstructorUsedError;
 }
