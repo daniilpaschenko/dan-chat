@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'dart:io';
 import '../models/room.dart';
 import '../../../room/domain/entities/room_entity.dart' show RoomType;
 
@@ -92,5 +93,16 @@ class RoomRemoteDatasource {
 
   Future<void> deleteRoom(String roomId) async {
     await _dio.delete('/rooms/$roomId');
+  }
+
+  Future<Room> uploadRoomAvatar(String roomId, File file) async {
+    final formData = FormData.fromMap({
+      'avatar': await MultipartFile.fromFile(
+        file.path,
+        filename: file.path.split('/').last,
+      ),
+    });
+    final response = await _dio.post('/rooms/$roomId/avatar', data: formData);
+    return Room.fromJson(response.data as Map<String, dynamic>);
   }
 }
