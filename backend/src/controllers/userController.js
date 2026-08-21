@@ -1,34 +1,7 @@
-const streamifier = require('streamifier');
-const mongoose = require('mongoose');
 const cloudinary = require('../config/cloudinary');
 const User = require('../models/User');
 const { toPublicUser } = require('../utils/userUtils');
-
-const streamUpload = (buffer, publicId) => {
-    return new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream(
-            {
-                folder: 'avatars',
-                public_id: publicId,
-                overwrite: true,
-                resource_type: 'image',
-                // обрезка на 1000 x 1000, центрировать по лицу
-                transformation: [{
-                    width: 1000,
-                    height: 1000,
-                    crop: 'fill',
-                    gravity: 'face'
-                }]
-            },
-            (error, result) => {
-                if (result) resolve(result);
-                else reject(error);
-            }
-        );
-        // загрузка данных потоком из буффера
-        streamifier.createReadStream(buffer).pipe(stream);
-    });
-};
+const { streamUpload } = require('../utils/cloudinaryUtils');
 
 // экранируем спецсимволы regex, чтобы юзер не мог сломать поиск
 // или устроить ReDoS через специально подобранный паттерн
@@ -54,7 +27,11 @@ exports.uploadAvatar = async (req, res) => {
         }
 
         const publicId = `${req.user.id}_${Date.now()}`;
-        const result = await streamUpload(req.file.buffer, publicId);
+        const result = await streamUpload(req.file.buffer, {
+            folder: 'avatars',
+            publicId,
+            transformation: [{ width: 1000, height: 1000, crop: 'fill', gravity: 'face' }],
+        });
 
         const updatedUser = await User.findByIdAndUpdate(
             req.user._id,
