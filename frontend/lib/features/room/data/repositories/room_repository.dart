@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'dart:io';
+import 'package:cross_file/cross_file.dart';
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/errors/dio_exception_mapper.dart';
@@ -181,7 +181,7 @@ class RoomRepository implements IRoomRepository {
   @override
   Future<Either<Failure, RoomEntity>> uploadRoomAvatar({
     required String roomId,
-    required File file,
+    required XFile file,
   }) async {
     try {
       final room = await _remoteDatasource.uploadRoomAvatar(roomId, file);

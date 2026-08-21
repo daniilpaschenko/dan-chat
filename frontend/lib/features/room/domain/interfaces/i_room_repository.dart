@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:cross_file/cross_file.dart';
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
 import '../entities/room_entity.dart';
@@ -39,7 +39,7 @@ abstract class IRoomRepository {
 
   Future<Either<Failure, RoomEntity>> uploadRoomAvatar({
     required String roomId,
-    required File file,
+    required XFile file,
   });
 
   // синхронный маппинг сырых socket-данных в доменную сущность

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -47,7 +46,7 @@ class _GroupProfileViewState extends State<_GroupProfileView> {
     // если виджет удалён с экрана — не делаем ничего
     if (!context.mounted) return;
     // отправляем событие загрузки аватара с файлом
-    context.read<GroupProfileBloc>().add(GroupProfileEvent.avatarUploadRequested(File(picked.path)));
+    context.read<GroupProfileBloc>().add(GroupProfileEvent.avatarUploadRequested(picked));
   }
 
   @override

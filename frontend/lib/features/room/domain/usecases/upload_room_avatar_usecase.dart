@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:cross_file/cross_file.dart';
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/entities/room_entity.dart';
@@ -10,6 +10,6 @@ class UploadRoomAvatarUseCase {
 
   Future<Either<Failure, RoomEntity>> call({
     required String roomId,
-    required File file,
+    required XFile file,
   }) => _repository.uploadRoomAvatar(roomId: roomId, file: file);
 }
