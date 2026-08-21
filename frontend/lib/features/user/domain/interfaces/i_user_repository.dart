@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:cross_file/cross_file.dart';
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/entities/user_entity.dart';
@@ -10,7 +10,7 @@ abstract class IUserRepository {
 
   Future<Either<Failure, PartialUserEntity>> getUserProfile(String userId);
 
-  Future<Either<Failure, UserEntity>> uploadAvatar(File file);
+  Future<Either<Failure, UserEntity>> uploadAvatar(XFile file);
 
   Future<Either<Failure, Unit>> saveDeviceToken({
     required String token,
