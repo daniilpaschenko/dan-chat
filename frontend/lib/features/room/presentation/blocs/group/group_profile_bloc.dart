@@ -7,6 +7,7 @@ import '../../../../../core/network/socket_service.dart';
 import '../../../domain/usecases/get_room_by_id_usecase.dart';
 import '../../../domain/usecases/remove_participant_usecase.dart';
 import '../../../domain/usecases/update_participant_role_usecase.dart';
+import '../../../domain/usecases/upload_room_avatar_usecase.dart';
 import 'group_profile_event.dart';
 import 'group_profile_state.dart';
 
@@ -15,6 +16,7 @@ class GroupProfileBloc extends Bloc<GroupProfileEvent, GroupProfileState> {
   final GetRoomByIdUseCase _getRoomByIdUseCase;
   final RemoveParticipantUseCase _removeParticipantUseCase;
   final UpdateParticipantRoleUseCase _updateParticipantRoleUseCase;
+  final UploadRoomAvatarUseCase _uploadRoomAvatarUseCase;
   final SocketService _socketService;
 
   StreamSubscription? _roomUpdatedSub;
@@ -25,10 +27,12 @@ class GroupProfileBloc extends Bloc<GroupProfileEvent, GroupProfileState> {
     required GetRoomByIdUseCase getRoomByIdUseCase,
     required RemoveParticipantUseCase removeParticipantUseCase,
     required UpdateParticipantRoleUseCase updateParticipantRoleUseCase,
+    required UploadRoomAvatarUseCase uploadRoomAvatarUseCase,
     required SocketService socketService,
   })  : _getRoomByIdUseCase = getRoomByIdUseCase,
         _removeParticipantUseCase = removeParticipantUseCase,
         _updateParticipantRoleUseCase = updateParticipantRoleUseCase,
+        _uploadRoomAvatarUseCase = uploadRoomAvatarUseCase,
         _socketService = socketService,
         super(const GroupProfileState.initial()) {
     on<GroupProfileStarted>(_onStarted);
@@ -36,6 +40,7 @@ class GroupProfileBloc extends Bloc<GroupProfileEvent, GroupProfileState> {
     on<GroupProfileParticipantRoleChangeRequested>(_onParticipantRoleChangeRequested);
     on<GroupProfileParticipantsAdded>(_onParticipantsAdded);
     on<GroupProfileRoomUpdatedRemotely>(_onRoomUpdatedRemotely);
+    on<GroupProfileAvatarUploadRequested>(_onRoomAvatarUploadRequested);
     on<GroupProfileRoomRemovedRemotely>(
       (event, emit) {
         final current = state;
@@ -134,6 +139,25 @@ class GroupProfileBloc extends Bloc<GroupProfileEvent, GroupProfileState> {
         if (latest is! GroupProfileLoaded) return;
         emit(latest.copyWith(room: room));
       },
+    );
+  }
+
+  Future<void> _onRoomAvatarUploadRequested(
+    GroupProfileAvatarUploadRequested event,
+    Emitter<GroupProfileState> emit,
+  ) async {
+    final current = state;
+    if (current is! GroupProfileLoaded || current.isUploadingAvatar) return;
+
+    emit(current.copyWith(isUploadingAvatar: true, errorMessage: null));
+
+    final result = await _uploadRoomAvatarUseCase(roomId: roomId, file: event.file);
+    result.fold(
+      (failure) => emit(current.copyWith(
+        isUploadingAvatar: false,
+        errorMessage: _mapFailureToMessage(failure),
+      )),
+      (room) => emit(GroupProfileState.loaded(room: room, isUploadingAvatar: false)),
     );
   }
 
