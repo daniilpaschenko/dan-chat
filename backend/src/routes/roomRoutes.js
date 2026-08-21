@@ -6,12 +6,14 @@ const {
     getMyRooms,
     getRoomById,
     markRoomAsRead,
+    deleteRoom,
+} = require('../controllers/roomController');
+const {
     addParticipant,
     removeParticipant,
     updateParticipantRole,
     leaveRoom,
-    deleteRoom,
-} = require('../controllers/roomController');
+} = require('../controllers/roomParticipantController');
 const { getRoomMessages, createMessage } = require('../controllers/messageController');
 
 
