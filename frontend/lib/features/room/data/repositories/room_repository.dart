@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'dart:io';
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/errors/dio_exception_mapper.dart';
@@ -172,6 +173,21 @@ class RoomRepository implements IRoomRepository {
       return const Right(null);
     } on DioException catch (e) {
       return Left(_mapDioException(e));
+    } catch (e) {
+      return Left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, RoomEntity>> uploadRoomAvatar({
+    required String roomId,
+    required File file,
+  }) async {
+    try {
+      final room = await _remoteDatasource.uploadRoomAvatar(roomId, file);
+      return Right(room.toEntity());
+    } on DioException catch (e) {
+      return Left(mapDioExceptionToFailure(e));
     } catch (e) {
       return Left(Failure.unexpected(e.toString()));
     }
