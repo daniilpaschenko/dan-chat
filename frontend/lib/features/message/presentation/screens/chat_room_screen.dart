@@ -14,6 +14,7 @@ import '../blocs/chat_room_bloc.dart';
 import '../blocs/chat_room_event.dart';
 import '../blocs/chat_room_state.dart';
 import '../widgets/chat_app_bar.dart';
+import '../widgets/chat_date_divider.dart';
 import '../widgets/message_bubble.dart';
 import '../widgets/message_input.dart';
 import '../widgets/system_message_bubble.dart';
@@ -33,6 +34,18 @@ class ChatRoomScreen extends StatelessWidget {
       child: _ChatRoomView(roomId: roomId),
     );
   }
+}
+
+// внутренний тип элемента списка: либо сообщение, либо разделитель дня
+class _ListEntry {
+  final MessageEntity? message;
+  final DateTime? chatDividerDate;
+
+  _ListEntry.message(this.message) : chatDividerDate = null;
+
+  _ListEntry.divider(this.chatDividerDate) : message = null;
+
+  bool get isDivider => chatDividerDate != null;
 }
 
 class _ChatRoomView extends StatefulWidget {
@@ -76,6 +89,31 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
       // начинаем загрузку еще сообщений
       context.read<ChatRoomBloc>().add(const ChatRoomEvent.loadMoreRequested());
     }
+  }
+
+  // строим единый список элементов (сообщения + разделители дней) в хронологическом порядке
+  List<_ListEntry> _buildEntries(List<MessageEntity> messages) {
+    final sorted = [...messages]..sort((a, b) {
+        final aTime = a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+        final bTime = b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+        return aTime.compareTo(bTime);
+      });
+
+    final entries = <_ListEntry>[];
+    DateTime? prevDay;
+
+    for (final message in sorted) {
+      final createdAt = (message.createdAt ?? DateTime.now()).toLocal();
+      final day = DateTime(createdAt.year, createdAt.month, createdAt.day);
+
+      if (prevDay == null || day != prevDay) {
+        entries.add(_ListEntry.divider(day));
+      }
+      entries.add(_ListEntry.message(message));
+      prevDay = day;
+    }
+
+    return entries;
   }
 
   // isSending теперь читаем из bloc.state прямо здесь
@@ -125,6 +163,10 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
             }
           },
           builder: (context, state) {
+            final entries = state.isInitialLoading || state.messages.isEmpty
+                ? const <_ListEntry>[]
+                : _buildEntries(state.messages);
+
             Widget column = Column(
               children: [
                 Expanded( // занимает всё свободное место
@@ -139,24 +181,30 @@ class _ChatRoomViewState extends State<_ChatRoomView> {
                                 style: TextStyle(color: AppColors.textSecondary),
                               ),
                             )
-                        // сообщения есть, то
+                          // сообщения есть, то
                           : ListView.builder(
                               controller: _scrollController,
                               // нижний элемент становится первым
                               reverse: true,
                               padding: EdgeInsets.symmetric(horizontal: spacing.form, vertical: spacing.small),
                               // если есть еще сообщения то показываем на 1 больше
-                              itemCount: state.messages.length + (state.hasMore ? 1 : 0),
+                              itemCount: entries.length + (state.hasMore ? 1 : 0),
                               itemBuilder: (context, index) {
                                 // последним элементом будет наш кружок загрузки
-                                if (index == state.messages.length) {
+                                if (index == entries.length) {
                                   return Padding(
                                     padding: EdgeInsets.symmetric(vertical: spacing.small),
                                     child: Center(child: SmallLoader(size: spacing.loaderSize)),
                                   );
                                 }
-                                // получаем сообщение
-                                final message = state.messages[state.messages.length - 1 - index];
+                                // получаем элемент (сообщение или разделитель дня)
+                                final entry = entries[entries.length - 1 - index];
+
+                                if (entry.isDivider) {
+                                  return ChatDateDivider(date: entry.chatDividerDate!, spacing: spacing);
+                                }
+
+                                final message = entry.message!;
 
                                 if (message.type == MessageTypeEntity.system) {
                                   return SystemMessageBubble(
