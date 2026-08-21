@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
+const { getSignedUrl } = require('../utils/cloudinaryUtils');
 
 // схема участника комнаты
 const participantSchema = new Schema(
@@ -72,6 +73,11 @@ const roomSchema = new Schema(
             default: null,
         },
 
+        avatarPublicId: {
+            type: String,
+            default: null,
+        },
+
         participants: {
             type: [participantSchema],
         },
@@ -102,6 +108,13 @@ const roomSchema = new Schema(
                 ret.id = ret._id.toString();
                 delete ret._id;
                 delete ret.__v;
+
+                // для групп с приватным аватаром — подменяем avatarUrl на свежий подписанный URL
+                if (ret.type === 'group' && ret.avatarPublicId) {
+                    ret.avatarUrl = getSignedUrl(ret.avatarPublicId);
+                }
+                delete ret.avatarPublicId; // наружу отдавать незачем, это внутренний идентификатор
+
                 return ret;
             },
         },
