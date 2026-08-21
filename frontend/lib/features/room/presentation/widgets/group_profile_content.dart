@@ -12,17 +12,22 @@ class GroupProfileContent extends StatelessWidget {
   final RoomEntity room;
   final String? currentUserId;
   final bool isRemoving;
+  final bool isUploadingAvatar;
   final ValueChanged<String> onRemoveParticipant;
   final VoidCallback onAddParticipants;
-  final void Function(String userId, ParticipantRole newRole) onChangeParticipantRole;
+  final VoidCallback onPickPhoto;
+  final void Function(String userId, ParticipantRole newRole)
+  onChangeParticipantRole;
 
   const GroupProfileContent({
     super.key,
     required this.room,
     required this.currentUserId,
     required this.isRemoving,
+    required this.isUploadingAvatar,
     required this.onRemoveParticipant,
     required this.onAddParticipants,
+    required this.onPickPhoto,
     required this.onChangeParticipantRole,
   });
 
@@ -35,7 +40,9 @@ class GroupProfileContent extends StatelessWidget {
   }
 
   bool get _canManage =>
-      _me != null && (_me!.role == ParticipantRole.owner || _me!.role == ParticipantRole.admin);
+      _me != null &&
+      (_me!.role == ParticipantRole.owner ||
+          _me!.role == ParticipantRole.admin);
 
   bool get _isOwner => _me != null && _me!.role == ParticipantRole.owner;
 
@@ -49,7 +56,25 @@ class GroupProfileContent extends StatelessWidget {
 
     // переиспользование RoomDisplayInfo: даёт готовые title/avatarUrl/? участников
     final listItem = room.toListItem(currentUserId);
-    final info = RoomDisplayInfo.from(listItem, currentUserId, includeSubtitle: true);
+    final info = RoomDisplayInfo.from(
+      listItem,
+      currentUserId,
+      includeSubtitle: true,
+    );
+
+    void showSnackBar(String text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: AppColors.surfaceVariant,
+          duration: const Duration(seconds: 1),
+          content: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColors.textPrimary),
+          ),
+        ),
+      );
+    }
 
     Widget listContent = ListView(
       padding: EdgeInsets.zero,
@@ -58,46 +83,52 @@ class GroupProfileContent extends StatelessWidget {
           avatarUrl: info.avatarUrl,
           fallbackLetter: info.title,
           height: photoHeight > 0 ? photoHeight : screenH * 0.35,
-          isUploading: false,
+          isUploading: isUploadingAvatar,
           statusText: info.subtitle,
           isDesktop: isDesktop,
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(spacing.pagePadding, spacing.medium / 2, spacing.pagePadding, 0),
+          padding: EdgeInsets.fromLTRB(
+            spacing.pagePadding,
+            spacing.medium / 2,
+            spacing.pagePadding,
+            0,
+          ),
           child: Row(
             children: [
               Expanded(
                 child: ActionButton(
                   icon: Icons.person_add_outlined,
                   label: 'Добавить',
-                  onTap: _canManage ? onAddParticipants : () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        backgroundColor: AppColors.surfaceVariant,
-                        duration: const Duration(seconds: 1),
-                        content: Text(
-                        'Добавлять участников может только Владелец или Админ',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: AppColors.textPrimary),
-                        )
-                      ),
-                    );
-                  },
+                  onTap: _canManage
+                      ? onAddParticipants
+                      : () => showSnackBar(
+                          'Добавлять участников может только Владелец или Админ',
+                        ),
                 ),
               ),
               SizedBox(width: spacing.buttonGap),
               Expanded(
                 child: ActionButton(
-                  icon: Icons.settings_outlined,
-                  label: 'Настройки',
-                  onTap: () {},
+                  icon: Icons.photo_camera_outlined,
+                  label: 'Выбрать фото',
+                  onTap: _canManage
+                      ? onPickPhoto
+                      : () => showSnackBar(
+                          'Изменять аватарку группы может только Владелец или Админ',
+                        ),
                 ),
               ),
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(spacing.pagePadding, spacing.pagePadding, spacing.pagePadding, spacing.small),
+          padding: EdgeInsets.fromLTRB(
+            spacing.pagePadding,
+            spacing.pagePadding,
+            spacing.pagePadding,
+            spacing.small,
+          ),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -140,7 +171,10 @@ class GroupProfileContent extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.pop(),
+        ),
       ),
       body: listContent,
     );
