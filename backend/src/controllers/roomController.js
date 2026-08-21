@@ -1,6 +1,8 @@
 const Room = require('../models/Room');
+const cloudinary = require('../config/cloudinary');
 const { createRoomSchema } = require('../validators/roomValidator');
 const { findRoomIfMember, getParticipant, formatRoomForUser } = require('../services/roomService');
+const { streamUpload } = require('../utils/cloudinaryUtils');
 
 // POST /rooms
 // body: { type: 'direct'|'group', participantIds: string[], name?, avatarUrl? }
@@ -181,6 +183,58 @@ exports.deleteRoom = async (req, res) => {
         return res.json({ message: 'Комната удалена' });
     } catch (err) {
         console.error('deleteRoom error:', err);
+        return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
+    }
+};
+
+// POST /rooms/:roomId/avatar
+exports.uploadRoomAvatar = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'Файл не был загружен' });
+        }
+
+        const myId = req.user.id;
+        const { roomId } = req.params;
+        const io = req.app.get('io');
+
+        const room = await findRoomIfMember(roomId, myId);
+        if (!room) return res.status(403).json({ message: 'Нет доступа к этой комнате' });
+        if (room.type !== 'group') {
+            return res.status(400).json({ message: 'Аватар можно установить только для группового чата' });
+        }
+
+        const me = getParticipant(room, myId);
+        if (!['owner', 'admin'].includes(me.role)) {
+            return res.status(403).json({ message: 'Недостаточно прав' });
+        }
+
+        if (room.avatarPublicId) {
+            await cloudinary.uploader.destroy(room.avatarPublicId, { type: 'authenticated' }).catch((err) => {
+                console.error('Ошибка удаления старого аватара комнаты:', err);
+            });
+        }
+
+        const publicId = `${roomId}_${Date.now()}`;
+        const result = await streamUpload(req.file.buffer, {
+            folder: 'room-avatars',
+            publicId,
+            type: 'authenticated', // приватный ассет
+            transformation: [{ width: 1000, height: 1000, crop: 'fill' }],
+        });
+
+        room.avatarPublicId = result.public_id;
+        await room.save();
+        await room.populate('participants.user', 'username avatarUrl status lastSeen');
+
+        room.participants.forEach((p) => {
+            const pid = p.user._id.toString();
+            io.to(`user:${pid}`).emit('room:updated', formatRoomForUser(room, pid));
+        });
+
+        return res.json(room);
+    } catch (err) {
+        console.error('uploadRoomAvatar error:', err);
         return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
     }
 };
