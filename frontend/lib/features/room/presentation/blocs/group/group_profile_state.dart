@@ -12,6 +12,7 @@ class GroupProfileState with _$GroupProfileState {
     required RoomEntity room,
     @Default(false) bool isRemoving,
     @Default(false) bool isChangingRole,
+    @Default(false) bool isUploadingAvatar,
     String? errorMessage, // одноразовое сообщение об ошибке кика
     // одноразовый сигнал — нас удалили из группы (или её удалили) с другого устройства/владельцем
     @Default(false) bool removedRemotely,

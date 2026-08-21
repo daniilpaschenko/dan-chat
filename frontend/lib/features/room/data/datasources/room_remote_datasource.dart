@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:cross_file/cross_file.dart';
 import '../models/room.dart';
 import '../../../room/domain/entities/room_entity.dart' show RoomType;
 
@@ -92,5 +93,17 @@ class RoomRemoteDatasource {
 
   Future<void> deleteRoom(String roomId) async {
     await _dio.delete('/rooms/$roomId');
+  }
+
+  Future<Room> uploadRoomAvatar(String roomId, XFile file) async {
+    final bytes = await file.readAsBytes(); // работает и на web, и на mobile
+    final formData = FormData.fromMap({
+      'avatar': MultipartFile.fromBytes(
+        bytes,
+        filename: file.name, // XFile.name — кросс-платформенное имя файла
+      ),
+    });
+    final response = await _dio.post('/rooms/$roomId/avatar', data: formData);
+    return Room.fromJson(response.data as Map<String, dynamic>);
   }
 }

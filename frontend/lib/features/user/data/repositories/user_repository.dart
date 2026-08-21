@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:cross_file/cross_file.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -61,7 +61,7 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> uploadAvatar(File file) async {
+  Future<Either<Failure, UserEntity>> uploadAvatar(XFile file) async {
     try {
       final user = await _remoteDatasource.uploadAvatar(file);
       await _localDatasource.cacheMe(user); // кэш сразу актуализируем

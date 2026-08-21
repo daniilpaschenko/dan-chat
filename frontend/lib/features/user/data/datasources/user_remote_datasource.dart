@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
 import '../models/user_model.dart';
 
@@ -33,11 +33,12 @@ class UserRemoteDatasource {
     return PartialUser.fromJson(response.data as Map<String, dynamic>);
   }
 
-  Future<User> uploadAvatar(File file) async {
+  Future<User> uploadAvatar(XFile file) async {
+    final bytes = await file.readAsBytes(); // работает и на web, и на mobile
     final formData = FormData.fromMap({
-      'avatar': await MultipartFile.fromFile(
-        file.path,
-        filename: file.path.split('/').last,
+      'avatar': MultipartFile.fromBytes(
+        bytes,
+        filename: file.name, // XFile.name — кросс-платформенное имя файла
       ),
     });
     final response = await _dio.post('/users/me/avatar', data: formData);

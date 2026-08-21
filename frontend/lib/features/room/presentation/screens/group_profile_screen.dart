@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
+
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/navigation/auth_state_notifier.dart';
 import '../../../../core/navigation/route_paths.dart';
@@ -21,13 +23,31 @@ class GroupProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<GroupProfileBloc>(param1: roomId)..add(const GroupProfileEvent.started()),
-      child: const _GroupProfileView(),
+      child: _GroupProfileView(),
     );
   }
 }
 
-class _GroupProfileView extends StatelessWidget {
+class _GroupProfileView extends StatefulWidget {
   const _GroupProfileView();
+
+  @override
+  State<_GroupProfileView> createState() => _GroupProfileViewState();
+}
+
+class _GroupProfileViewState extends State<_GroupProfileView> {
+
+  Future<void> _pickAndUploadAvatar(BuildContext context) async {
+    final picker = ImagePicker();
+    // выбор из галлери, качество изображения 90%
+    final picked = await picker.pickImage(source: ImageSource.gallery, imageQuality: 90);
+    // если юзер отменил выбор — выходим
+    if (picked == null) return;
+    // если виджет удалён с экрана — не делаем ничего
+    if (!context.mounted) return;
+    // отправляем событие загрузки аватара с файлом
+    context.read<GroupProfileBloc>().add(GroupProfileEvent.avatarUploadRequested(picked));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +85,11 @@ class _GroupProfileView extends StatelessWidget {
               ),
             ),
           ),
-          loaded: (room, isRemoving, isChangingRole, errorMessage, removedRemotely) => GroupProfileContent(
+          loaded: (room, isRemoving, isChangingRole, errorMessage, removedRemotely, isUploadingAvatar) => GroupProfileContent(
             room: room,
             currentUserId: currentUserId,
             isRemoving: isRemoving,
+            isUploadingAvatar: isUploadingAvatar,
             onRemoveParticipant: (userId) =>
                 context.read<GroupProfileBloc>().add(GroupProfileEvent.participantRemoveRequested(userId)),
             onChangeParticipantRole: (userId, newRole) => context
@@ -84,6 +105,7 @@ class _GroupProfileView extends StatelessWidget {
                 context.read<GroupProfileBloc>().add(GroupProfileEvent.participantsAdded(updatedRoom));
               }
             },
+            onPickPhoto: () => _pickAndUploadAvatar(context),
           ),
         );
       },

@@ -1,3 +1,4 @@
+import 'package:cross_file/cross_file.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../domain/entities/room_entity.dart';
 
@@ -18,4 +19,6 @@ class GroupProfileEvent with _$GroupProfileEvent {
   const factory GroupProfileEvent.roomUpdatedRemotely() = GroupProfileRoomUpdatedRemotely;
   // прилетело room:deleted по сокету — нас кикнули или чат удалили
   const factory GroupProfileEvent.roomRemovedRemotely() = GroupProfileRoomRemovedRemotely;
+
+  const factory GroupProfileEvent.avatarUploadRequested(XFile file) = GroupProfileAvatarUploadRequested;
 }

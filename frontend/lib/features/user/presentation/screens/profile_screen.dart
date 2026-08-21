@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,7 +71,7 @@ class _ProfileViewState extends State<_ProfileView> {
     // если виджет удалён с экрана — не делаем ничего
     if (!context.mounted) return;
     // отправляем событие загрузки аватара с файлом
-    context.read<ProfileBloc>().add(ProfileEvent.avatarUploadRequested(File(picked.path)));
+    context.read<ProfileBloc>().add(ProfileEvent.avatarUploadRequested(picked));
   }
 
     @override

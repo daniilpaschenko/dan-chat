@@ -20,7 +20,7 @@ mixin _$ProfileEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(File file) avatarUploadRequested,
+    required TResult Function(XFile file) avatarUploadRequested,
     required TResult Function() chatRequested,
     required TResult Function() chatNavigationHandled,
     required TResult Function() chatErrorHandled,
@@ -30,7 +30,7 @@ mixin _$ProfileEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(File file)? avatarUploadRequested,
+    TResult? Function(XFile file)? avatarUploadRequested,
     TResult? Function()? chatRequested,
     TResult? Function()? chatNavigationHandled,
     TResult? Function()? chatErrorHandled,
@@ -39,7 +39,7 @@ mixin _$ProfileEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(File file)? avatarUploadRequested,
+    TResult Function(XFile file)? avatarUploadRequested,
     TResult Function()? chatRequested,
     TResult Function()? chatNavigationHandled,
     TResult Function()? chatErrorHandled,
@@ -146,7 +146,7 @@ class _$ProfileStartedImpl implements ProfileStarted {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(File file) avatarUploadRequested,
+    required TResult Function(XFile file) avatarUploadRequested,
     required TResult Function() chatRequested,
     required TResult Function() chatNavigationHandled,
     required TResult Function() chatErrorHandled,
@@ -160,7 +160,7 @@ class _$ProfileStartedImpl implements ProfileStarted {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(File file)? avatarUploadRequested,
+    TResult? Function(XFile file)? avatarUploadRequested,
     TResult? Function()? chatRequested,
     TResult? Function()? chatNavigationHandled,
     TResult? Function()? chatErrorHandled,
@@ -173,7 +173,7 @@ class _$ProfileStartedImpl implements ProfileStarted {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(File file)? avatarUploadRequested,
+    TResult Function(XFile file)? avatarUploadRequested,
     TResult Function()? chatRequested,
     TResult Function()? chatNavigationHandled,
     TResult Function()? chatErrorHandled,
@@ -245,7 +245,7 @@ abstract class _$$ProfileAvatarUploadRequestedImplCopyWith<$Res> {
     $Res Function(_$ProfileAvatarUploadRequestedImpl) then,
   ) = __$$ProfileAvatarUploadRequestedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({File file});
+  $Res call({XFile file});
 }
 
 /// @nodoc
@@ -267,7 +267,7 @@ class __$$ProfileAvatarUploadRequestedImplCopyWithImpl<$Res>
         null == file
             ? _value.file
             : file // ignore: cast_nullable_to_non_nullable
-                  as File,
+                  as XFile,
       ),
     );
   }
@@ -280,7 +280,7 @@ class _$ProfileAvatarUploadRequestedImpl
   const _$ProfileAvatarUploadRequestedImpl(this.file);
 
   @override
-  final File file;
+  final XFile file;
 
   @override
   String toString() {
@@ -315,7 +315,7 @@ class _$ProfileAvatarUploadRequestedImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(File file) avatarUploadRequested,
+    required TResult Function(XFile file) avatarUploadRequested,
     required TResult Function() chatRequested,
     required TResult Function() chatNavigationHandled,
     required TResult Function() chatErrorHandled,
@@ -329,7 +329,7 @@ class _$ProfileAvatarUploadRequestedImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(File file)? avatarUploadRequested,
+    TResult? Function(XFile file)? avatarUploadRequested,
     TResult? Function()? chatRequested,
     TResult? Function()? chatNavigationHandled,
     TResult? Function()? chatErrorHandled,
@@ -342,7 +342,7 @@ class _$ProfileAvatarUploadRequestedImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(File file)? avatarUploadRequested,
+    TResult Function(XFile file)? avatarUploadRequested,
     TResult Function()? chatRequested,
     TResult Function()? chatNavigationHandled,
     TResult Function()? chatErrorHandled,
@@ -404,10 +404,10 @@ class _$ProfileAvatarUploadRequestedImpl
 }
 
 abstract class ProfileAvatarUploadRequested implements ProfileEvent {
-  const factory ProfileAvatarUploadRequested(final File file) =
+  const factory ProfileAvatarUploadRequested(final XFile file) =
       _$ProfileAvatarUploadRequestedImpl;
 
-  File get file;
+  XFile get file;
 
   /// Create a copy of ProfileEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -463,7 +463,7 @@ class _$ProfileChatRequestedImpl implements ProfileChatRequested {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(File file) avatarUploadRequested,
+    required TResult Function(XFile file) avatarUploadRequested,
     required TResult Function() chatRequested,
     required TResult Function() chatNavigationHandled,
     required TResult Function() chatErrorHandled,
@@ -477,7 +477,7 @@ class _$ProfileChatRequestedImpl implements ProfileChatRequested {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(File file)? avatarUploadRequested,
+    TResult? Function(XFile file)? avatarUploadRequested,
     TResult? Function()? chatRequested,
     TResult? Function()? chatNavigationHandled,
     TResult? Function()? chatErrorHandled,
@@ -490,7 +490,7 @@ class _$ProfileChatRequestedImpl implements ProfileChatRequested {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(File file)? avatarUploadRequested,
+    TResult Function(XFile file)? avatarUploadRequested,
     TResult Function()? chatRequested,
     TResult Function()? chatNavigationHandled,
     TResult Function()? chatErrorHandled,
@@ -601,7 +601,7 @@ class _$ProfileChatNavigationHandledImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(File file) avatarUploadRequested,
+    required TResult Function(XFile file) avatarUploadRequested,
     required TResult Function() chatRequested,
     required TResult Function() chatNavigationHandled,
     required TResult Function() chatErrorHandled,
@@ -615,7 +615,7 @@ class _$ProfileChatNavigationHandledImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(File file)? avatarUploadRequested,
+    TResult? Function(XFile file)? avatarUploadRequested,
     TResult? Function()? chatRequested,
     TResult? Function()? chatNavigationHandled,
     TResult? Function()? chatErrorHandled,
@@ -628,7 +628,7 @@ class _$ProfileChatNavigationHandledImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(File file)? avatarUploadRequested,
+    TResult Function(XFile file)? avatarUploadRequested,
     TResult Function()? chatRequested,
     TResult Function()? chatNavigationHandled,
     TResult Function()? chatErrorHandled,
@@ -739,7 +739,7 @@ class _$ProfileChatErrorHandledImpl implements ProfileChatErrorHandled {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(File file) avatarUploadRequested,
+    required TResult Function(XFile file) avatarUploadRequested,
     required TResult Function() chatRequested,
     required TResult Function() chatNavigationHandled,
     required TResult Function() chatErrorHandled,
@@ -753,7 +753,7 @@ class _$ProfileChatErrorHandledImpl implements ProfileChatErrorHandled {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(File file)? avatarUploadRequested,
+    TResult? Function(XFile file)? avatarUploadRequested,
     TResult? Function()? chatRequested,
     TResult? Function()? chatNavigationHandled,
     TResult? Function()? chatErrorHandled,
@@ -766,7 +766,7 @@ class _$ProfileChatErrorHandledImpl implements ProfileChatErrorHandled {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(File file)? avatarUploadRequested,
+    TResult Function(XFile file)? avatarUploadRequested,
     TResult Function()? chatRequested,
     TResult Function()? chatNavigationHandled,
     TResult Function()? chatErrorHandled,
@@ -914,7 +914,7 @@ class _$ProfilePresenceUpdatedImpl implements ProfilePresenceUpdated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(File file) avatarUploadRequested,
+    required TResult Function(XFile file) avatarUploadRequested,
     required TResult Function() chatRequested,
     required TResult Function() chatNavigationHandled,
     required TResult Function() chatErrorHandled,
@@ -928,7 +928,7 @@ class _$ProfilePresenceUpdatedImpl implements ProfilePresenceUpdated {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(File file)? avatarUploadRequested,
+    TResult? Function(XFile file)? avatarUploadRequested,
     TResult? Function()? chatRequested,
     TResult? Function()? chatNavigationHandled,
     TResult? Function()? chatErrorHandled,
@@ -941,7 +941,7 @@ class _$ProfilePresenceUpdatedImpl implements ProfilePresenceUpdated {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(File file)? avatarUploadRequested,
+    TResult Function(XFile file)? avatarUploadRequested,
     TResult Function()? chatRequested,
     TResult Function()? chatNavigationHandled,
     TResult Function()? chatErrorHandled,
