@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
 import '../entities/room_entity.dart';
@@ -35,6 +36,11 @@ abstract class IRoomRepository {
   Future<Either<Failure, void>> leaveRoom(String roomId);
 
   Future<Either<Failure, void>> deleteRoom(String roomId);
+
+  Future<Either<Failure, RoomEntity>> uploadRoomAvatar({
+    required String roomId,
+    required File file,
+  });
 
   // синхронный маппинг сырых socket-данных в доменную сущность
   RoomListItemEntity mapSocketRoom(Map<String, dynamic> json);
