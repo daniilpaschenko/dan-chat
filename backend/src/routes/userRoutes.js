@@ -6,6 +6,7 @@ const {
     getUserById,
     saveDeviceToken,
     removeDeviceToken,
+    changeUsername
 } = require('../controllers/userController');
 const authMiddleware = require('../middlewares/auth'); // для защищённых роутов
 const upload = require('../middlewares/upload');
@@ -13,6 +14,7 @@ const upload = require('../middlewares/upload');
 router.get('/me', authMiddleware, getMe);
 // .single() потому что только 1 аватарку можно загрузить
 router.post('/me/avatar', authMiddleware, upload.single('avatar'), uploadAvatar);
+router.post('/me/username', authMiddleware, changeUsername);
 
 router.get('/search', authMiddleware, searchUsers);
 
