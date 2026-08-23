@@ -13,7 +13,9 @@ class GroupProfileState with _$GroupProfileState {
     @Default(false) bool isRemoving,
     @Default(false) bool isChangingRole,
     @Default(false) bool isUploadingAvatar,
+    @Default(false) bool isChangingName,
     String? errorMessage, // одноразовое сообщение об ошибке кика
+    String? nameError,
     // одноразовый сигнал — нас удалили из группы (или её удалили) с другого устройства/владельцем
     @Default(false) bool removedRemotely,
   }) = GroupProfileLoaded;

@@ -26,7 +26,9 @@ mixin _$GroupProfileState {
       bool isRemoving,
       bool isChangingRole,
       bool isUploadingAvatar,
+      bool isChangingName,
       String? errorMessage,
+      String? nameError,
       bool removedRemotely,
     )
     loaded,
@@ -41,7 +43,9 @@ mixin _$GroupProfileState {
       bool isRemoving,
       bool isChangingRole,
       bool isUploadingAvatar,
+      bool isChangingName,
       String? errorMessage,
+      String? nameError,
       bool removedRemotely,
     )?
     loaded,
@@ -56,7 +60,9 @@ mixin _$GroupProfileState {
       bool isRemoving,
       bool isChangingRole,
       bool isUploadingAvatar,
+      bool isChangingName,
       String? errorMessage,
+      String? nameError,
       bool removedRemotely,
     )?
     loaded,
@@ -160,7 +166,9 @@ class _$GroupProfileInitialImpl implements GroupProfileInitial {
       bool isRemoving,
       bool isChangingRole,
       bool isUploadingAvatar,
+      bool isChangingName,
       String? errorMessage,
+      String? nameError,
       bool removedRemotely,
     )
     loaded,
@@ -179,7 +187,9 @@ class _$GroupProfileInitialImpl implements GroupProfileInitial {
       bool isRemoving,
       bool isChangingRole,
       bool isUploadingAvatar,
+      bool isChangingName,
       String? errorMessage,
+      String? nameError,
       bool removedRemotely,
     )?
     loaded,
@@ -198,7 +208,9 @@ class _$GroupProfileInitialImpl implements GroupProfileInitial {
       bool isRemoving,
       bool isChangingRole,
       bool isUploadingAvatar,
+      bool isChangingName,
       String? errorMessage,
+      String? nameError,
       bool removedRemotely,
     )?
     loaded,
@@ -304,7 +316,9 @@ class _$GroupProfileLoadingImpl implements GroupProfileLoading {
       bool isRemoving,
       bool isChangingRole,
       bool isUploadingAvatar,
+      bool isChangingName,
       String? errorMessage,
+      String? nameError,
       bool removedRemotely,
     )
     loaded,
@@ -323,7 +337,9 @@ class _$GroupProfileLoadingImpl implements GroupProfileLoading {
       bool isRemoving,
       bool isChangingRole,
       bool isUploadingAvatar,
+      bool isChangingName,
       String? errorMessage,
+      String? nameError,
       bool removedRemotely,
     )?
     loaded,
@@ -342,7 +358,9 @@ class _$GroupProfileLoadingImpl implements GroupProfileLoading {
       bool isRemoving,
       bool isChangingRole,
       bool isUploadingAvatar,
+      bool isChangingName,
       String? errorMessage,
+      String? nameError,
       bool removedRemotely,
     )?
     loaded,
@@ -409,7 +427,9 @@ abstract class _$$GroupProfileLoadedImplCopyWith<$Res> {
     bool isRemoving,
     bool isChangingRole,
     bool isUploadingAvatar,
+    bool isChangingName,
     String? errorMessage,
+    String? nameError,
     bool removedRemotely,
   });
 
@@ -434,7 +454,9 @@ class __$$GroupProfileLoadedImplCopyWithImpl<$Res>
     Object? isRemoving = null,
     Object? isChangingRole = null,
     Object? isUploadingAvatar = null,
+    Object? isChangingName = null,
     Object? errorMessage = freezed,
+    Object? nameError = freezed,
     Object? removedRemotely = null,
   }) {
     return _then(
@@ -455,9 +477,17 @@ class __$$GroupProfileLoadedImplCopyWithImpl<$Res>
             ? _value.isUploadingAvatar
             : isUploadingAvatar // ignore: cast_nullable_to_non_nullable
                   as bool,
+        isChangingName: null == isChangingName
+            ? _value.isChangingName
+            : isChangingName // ignore: cast_nullable_to_non_nullable
+                  as bool,
         errorMessage: freezed == errorMessage
             ? _value.errorMessage
             : errorMessage // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        nameError: freezed == nameError
+            ? _value.nameError
+            : nameError // ignore: cast_nullable_to_non_nullable
                   as String?,
         removedRemotely: null == removedRemotely
             ? _value.removedRemotely
@@ -486,7 +516,9 @@ class _$GroupProfileLoadedImpl implements GroupProfileLoaded {
     this.isRemoving = false,
     this.isChangingRole = false,
     this.isUploadingAvatar = false,
+    this.isChangingName = false,
     this.errorMessage,
+    this.nameError,
     this.removedRemotely = false,
   });
 
@@ -502,8 +534,13 @@ class _$GroupProfileLoadedImpl implements GroupProfileLoaded {
   @JsonKey()
   final bool isUploadingAvatar;
   @override
+  @JsonKey()
+  final bool isChangingName;
+  @override
   final String? errorMessage;
   // одноразовое сообщение об ошибке кика
+  @override
+  final String? nameError;
   // одноразовый сигнал — нас удалили из группы (или её удалили) с другого устройства/владельцем
   @override
   @JsonKey()
@@ -511,7 +548,7 @@ class _$GroupProfileLoadedImpl implements GroupProfileLoaded {
 
   @override
   String toString() {
-    return 'GroupProfileState.loaded(room: $room, isRemoving: $isRemoving, isChangingRole: $isChangingRole, isUploadingAvatar: $isUploadingAvatar, errorMessage: $errorMessage, removedRemotely: $removedRemotely)';
+    return 'GroupProfileState.loaded(room: $room, isRemoving: $isRemoving, isChangingRole: $isChangingRole, isUploadingAvatar: $isUploadingAvatar, isChangingName: $isChangingName, errorMessage: $errorMessage, nameError: $nameError, removedRemotely: $removedRemotely)';
   }
 
   @override
@@ -526,8 +563,12 @@ class _$GroupProfileLoadedImpl implements GroupProfileLoaded {
                 other.isChangingRole == isChangingRole) &&
             (identical(other.isUploadingAvatar, isUploadingAvatar) ||
                 other.isUploadingAvatar == isUploadingAvatar) &&
+            (identical(other.isChangingName, isChangingName) ||
+                other.isChangingName == isChangingName) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
+            (identical(other.nameError, nameError) ||
+                other.nameError == nameError) &&
             (identical(other.removedRemotely, removedRemotely) ||
                 other.removedRemotely == removedRemotely));
   }
@@ -539,7 +580,9 @@ class _$GroupProfileLoadedImpl implements GroupProfileLoaded {
     isRemoving,
     isChangingRole,
     isUploadingAvatar,
+    isChangingName,
     errorMessage,
+    nameError,
     removedRemotely,
   );
 
@@ -564,7 +607,9 @@ class _$GroupProfileLoadedImpl implements GroupProfileLoaded {
       bool isRemoving,
       bool isChangingRole,
       bool isUploadingAvatar,
+      bool isChangingName,
       String? errorMessage,
+      String? nameError,
       bool removedRemotely,
     )
     loaded,
@@ -575,7 +620,9 @@ class _$GroupProfileLoadedImpl implements GroupProfileLoaded {
       isRemoving,
       isChangingRole,
       isUploadingAvatar,
+      isChangingName,
       errorMessage,
+      nameError,
       removedRemotely,
     );
   }
@@ -590,7 +637,9 @@ class _$GroupProfileLoadedImpl implements GroupProfileLoaded {
       bool isRemoving,
       bool isChangingRole,
       bool isUploadingAvatar,
+      bool isChangingName,
       String? errorMessage,
+      String? nameError,
       bool removedRemotely,
     )?
     loaded,
@@ -601,7 +650,9 @@ class _$GroupProfileLoadedImpl implements GroupProfileLoaded {
       isRemoving,
       isChangingRole,
       isUploadingAvatar,
+      isChangingName,
       errorMessage,
+      nameError,
       removedRemotely,
     );
   }
@@ -616,7 +667,9 @@ class _$GroupProfileLoadedImpl implements GroupProfileLoaded {
       bool isRemoving,
       bool isChangingRole,
       bool isUploadingAvatar,
+      bool isChangingName,
       String? errorMessage,
+      String? nameError,
       bool removedRemotely,
     )?
     loaded,
@@ -629,7 +682,9 @@ class _$GroupProfileLoadedImpl implements GroupProfileLoaded {
         isRemoving,
         isChangingRole,
         isUploadingAvatar,
+        isChangingName,
         errorMessage,
+        nameError,
         removedRemotely,
       );
     }
@@ -680,7 +735,9 @@ abstract class GroupProfileLoaded implements GroupProfileState {
     final bool isRemoving,
     final bool isChangingRole,
     final bool isUploadingAvatar,
+    final bool isChangingName,
     final String? errorMessage,
+    final String? nameError,
     final bool removedRemotely,
   }) = _$GroupProfileLoadedImpl;
 
@@ -688,8 +745,10 @@ abstract class GroupProfileLoaded implements GroupProfileState {
   bool get isRemoving;
   bool get isChangingRole;
   bool get isUploadingAvatar;
+  bool get isChangingName;
   String? get errorMessage; // одноразовое сообщение об ошибке кика
-  // одноразовый сигнал — нас удалили из группы (или её удалили) с другого устройства/владельцем
+  String?
+  get nameError; // одноразовый сигнал — нас удалили из группы (или её удалили) с другого устройства/владельцем
   bool get removedRemotely;
 
   /// Create a copy of GroupProfileState
@@ -779,7 +838,9 @@ class _$GroupProfileFailureImpl implements GroupProfileFailure {
       bool isRemoving,
       bool isChangingRole,
       bool isUploadingAvatar,
+      bool isChangingName,
       String? errorMessage,
+      String? nameError,
       bool removedRemotely,
     )
     loaded,
@@ -798,7 +859,9 @@ class _$GroupProfileFailureImpl implements GroupProfileFailure {
       bool isRemoving,
       bool isChangingRole,
       bool isUploadingAvatar,
+      bool isChangingName,
       String? errorMessage,
+      String? nameError,
       bool removedRemotely,
     )?
     loaded,
@@ -817,7 +880,9 @@ class _$GroupProfileFailureImpl implements GroupProfileFailure {
       bool isRemoving,
       bool isChangingRole,
       bool isUploadingAvatar,
+      bool isChangingName,
       String? errorMessage,
+      String? nameError,
       bool removedRemotely,
     )?
     loaded,
