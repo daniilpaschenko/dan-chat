@@ -194,6 +194,18 @@ class RoomRepository implements IRoomRepository {
   }
 
   @override
+  Future<Either<Failure, RoomEntity>> changeGroupName(String roomId, String name) async {
+    try {
+      final room = await _remoteDatasource.changeGroupName(roomId, name);
+      return Right(room.toEntity());
+    } on DioException catch (e) {
+      return Left(mapDioExceptionToFailure(e));
+    } catch (e) {
+      return Left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
   RoomListItemEntity mapSocketRoom(Map<String, dynamic> json) {
     return RoomListItem.fromJson(json).toEntity();
   }
