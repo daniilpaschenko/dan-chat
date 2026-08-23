@@ -81,7 +81,20 @@ class UserRepository implements IUserRepository {
       await _localDatasource.cacheMe(user); // кэш профиля актуализируем сразу
       return Right(user.toEntity());
     } on DioException catch (e) {
-      return Left(mapDioExceptionToFailure(e));
+      return Left(
+        mapDioExceptionToFailure(
+          e,
+          statusOverride: (statusCode, message) {
+            if (statusCode == 409) {
+              return const Failure.validation(
+                'Это имя пользователя уже занято',
+              );
+            }
+
+            return null;
+          },
+        ),
+      );
     } catch (e) {
       return Left(Failure.unexpected(e.toString()));
     }
