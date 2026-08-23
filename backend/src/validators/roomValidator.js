@@ -9,7 +9,7 @@ const createRoomSchema = Joi.object({
     participantIds: Joi.array().items(objectId).min(1).required(),
 
     // название обязательно только для группы, для direct вообще не передаём
-    name: Joi.string().trim().min(1).max(24).when('type', {
+    name: Joi.string().trim().min(3).max(24).when('type', {
         is: 'group',
         then: Joi.required(),
         otherwise: Joi.forbidden(),
@@ -26,4 +26,12 @@ const updateParticipantRoleSchema = Joi.object({
     role: Joi.string().valid('admin', 'member').required(),
 });
 
-module.exports = { createRoomSchema, addParticipantSchema, updateParticipantRoleSchema };
+const groupNameSchema = Joi.object({
+    name: Joi.string()
+        .trim()
+        .min(3) // минимум 3
+        .max(24) // максимум 24
+        .required(),
+});
+
+module.exports = { createRoomSchema, addParticipantSchema, updateParticipantRoleSchema, groupNameSchema };
