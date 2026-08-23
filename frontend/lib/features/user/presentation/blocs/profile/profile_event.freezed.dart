@@ -24,6 +24,8 @@ mixin _$ProfileEvent {
     required TResult Function() chatRequested,
     required TResult Function() chatNavigationHandled,
     required TResult Function() chatErrorHandled,
+    required TResult Function(String name) changeUsernameRequested,
+    required TResult Function() usernameErrorHandled,
     required TResult Function(UserStatus status, DateTime? lastSeen)
     presenceUpdated,
   }) => throw _privateConstructorUsedError;
@@ -34,6 +36,8 @@ mixin _$ProfileEvent {
     TResult? Function()? chatRequested,
     TResult? Function()? chatNavigationHandled,
     TResult? Function()? chatErrorHandled,
+    TResult? Function(String name)? changeUsernameRequested,
+    TResult? Function()? usernameErrorHandled,
     TResult? Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -43,6 +47,8 @@ mixin _$ProfileEvent {
     TResult Function()? chatRequested,
     TResult Function()? chatNavigationHandled,
     TResult Function()? chatErrorHandled,
+    TResult Function(String name)? changeUsernameRequested,
+    TResult Function()? usernameErrorHandled,
     TResult Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -55,6 +61,10 @@ mixin _$ProfileEvent {
     required TResult Function(ProfileChatNavigationHandled value)
     chatNavigationHandled,
     required TResult Function(ProfileChatErrorHandled value) chatErrorHandled,
+    required TResult Function(ProfileChangeUsernameRequested value)
+    changeUsernameRequested,
+    required TResult Function(ProfileUsernameErrorHandled value)
+    usernameErrorHandled,
     required TResult Function(ProfilePresenceUpdated value) presenceUpdated,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -66,6 +76,9 @@ mixin _$ProfileEvent {
     TResult? Function(ProfileChatNavigationHandled value)?
     chatNavigationHandled,
     TResult? Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult? Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult? Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
     TResult? Function(ProfilePresenceUpdated value)? presenceUpdated,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -75,6 +88,9 @@ mixin _$ProfileEvent {
     TResult Function(ProfileChatRequested value)? chatRequested,
     TResult Function(ProfileChatNavigationHandled value)? chatNavigationHandled,
     TResult Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
     TResult Function(ProfilePresenceUpdated value)? presenceUpdated,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -150,6 +166,8 @@ class _$ProfileStartedImpl implements ProfileStarted {
     required TResult Function() chatRequested,
     required TResult Function() chatNavigationHandled,
     required TResult Function() chatErrorHandled,
+    required TResult Function(String name) changeUsernameRequested,
+    required TResult Function() usernameErrorHandled,
     required TResult Function(UserStatus status, DateTime? lastSeen)
     presenceUpdated,
   }) {
@@ -164,6 +182,8 @@ class _$ProfileStartedImpl implements ProfileStarted {
     TResult? Function()? chatRequested,
     TResult? Function()? chatNavigationHandled,
     TResult? Function()? chatErrorHandled,
+    TResult? Function(String name)? changeUsernameRequested,
+    TResult? Function()? usernameErrorHandled,
     TResult? Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
   }) {
     return started?.call();
@@ -177,6 +197,8 @@ class _$ProfileStartedImpl implements ProfileStarted {
     TResult Function()? chatRequested,
     TResult Function()? chatNavigationHandled,
     TResult Function()? chatErrorHandled,
+    TResult Function(String name)? changeUsernameRequested,
+    TResult Function()? usernameErrorHandled,
     TResult Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
     required TResult orElse(),
   }) {
@@ -196,6 +218,10 @@ class _$ProfileStartedImpl implements ProfileStarted {
     required TResult Function(ProfileChatNavigationHandled value)
     chatNavigationHandled,
     required TResult Function(ProfileChatErrorHandled value) chatErrorHandled,
+    required TResult Function(ProfileChangeUsernameRequested value)
+    changeUsernameRequested,
+    required TResult Function(ProfileUsernameErrorHandled value)
+    usernameErrorHandled,
     required TResult Function(ProfilePresenceUpdated value) presenceUpdated,
   }) {
     return started(this);
@@ -211,6 +237,9 @@ class _$ProfileStartedImpl implements ProfileStarted {
     TResult? Function(ProfileChatNavigationHandled value)?
     chatNavigationHandled,
     TResult? Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult? Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult? Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
     TResult? Function(ProfilePresenceUpdated value)? presenceUpdated,
   }) {
     return started?.call(this);
@@ -224,6 +253,9 @@ class _$ProfileStartedImpl implements ProfileStarted {
     TResult Function(ProfileChatRequested value)? chatRequested,
     TResult Function(ProfileChatNavigationHandled value)? chatNavigationHandled,
     TResult Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
     TResult Function(ProfilePresenceUpdated value)? presenceUpdated,
     required TResult orElse(),
   }) {
@@ -319,6 +351,8 @@ class _$ProfileAvatarUploadRequestedImpl
     required TResult Function() chatRequested,
     required TResult Function() chatNavigationHandled,
     required TResult Function() chatErrorHandled,
+    required TResult Function(String name) changeUsernameRequested,
+    required TResult Function() usernameErrorHandled,
     required TResult Function(UserStatus status, DateTime? lastSeen)
     presenceUpdated,
   }) {
@@ -333,6 +367,8 @@ class _$ProfileAvatarUploadRequestedImpl
     TResult? Function()? chatRequested,
     TResult? Function()? chatNavigationHandled,
     TResult? Function()? chatErrorHandled,
+    TResult? Function(String name)? changeUsernameRequested,
+    TResult? Function()? usernameErrorHandled,
     TResult? Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
   }) {
     return avatarUploadRequested?.call(file);
@@ -346,6 +382,8 @@ class _$ProfileAvatarUploadRequestedImpl
     TResult Function()? chatRequested,
     TResult Function()? chatNavigationHandled,
     TResult Function()? chatErrorHandled,
+    TResult Function(String name)? changeUsernameRequested,
+    TResult Function()? usernameErrorHandled,
     TResult Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
     required TResult orElse(),
   }) {
@@ -365,6 +403,10 @@ class _$ProfileAvatarUploadRequestedImpl
     required TResult Function(ProfileChatNavigationHandled value)
     chatNavigationHandled,
     required TResult Function(ProfileChatErrorHandled value) chatErrorHandled,
+    required TResult Function(ProfileChangeUsernameRequested value)
+    changeUsernameRequested,
+    required TResult Function(ProfileUsernameErrorHandled value)
+    usernameErrorHandled,
     required TResult Function(ProfilePresenceUpdated value) presenceUpdated,
   }) {
     return avatarUploadRequested(this);
@@ -380,6 +422,9 @@ class _$ProfileAvatarUploadRequestedImpl
     TResult? Function(ProfileChatNavigationHandled value)?
     chatNavigationHandled,
     TResult? Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult? Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult? Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
     TResult? Function(ProfilePresenceUpdated value)? presenceUpdated,
   }) {
     return avatarUploadRequested?.call(this);
@@ -393,6 +438,9 @@ class _$ProfileAvatarUploadRequestedImpl
     TResult Function(ProfileChatRequested value)? chatRequested,
     TResult Function(ProfileChatNavigationHandled value)? chatNavigationHandled,
     TResult Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
     TResult Function(ProfilePresenceUpdated value)? presenceUpdated,
     required TResult orElse(),
   }) {
@@ -467,6 +515,8 @@ class _$ProfileChatRequestedImpl implements ProfileChatRequested {
     required TResult Function() chatRequested,
     required TResult Function() chatNavigationHandled,
     required TResult Function() chatErrorHandled,
+    required TResult Function(String name) changeUsernameRequested,
+    required TResult Function() usernameErrorHandled,
     required TResult Function(UserStatus status, DateTime? lastSeen)
     presenceUpdated,
   }) {
@@ -481,6 +531,8 @@ class _$ProfileChatRequestedImpl implements ProfileChatRequested {
     TResult? Function()? chatRequested,
     TResult? Function()? chatNavigationHandled,
     TResult? Function()? chatErrorHandled,
+    TResult? Function(String name)? changeUsernameRequested,
+    TResult? Function()? usernameErrorHandled,
     TResult? Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
   }) {
     return chatRequested?.call();
@@ -494,6 +546,8 @@ class _$ProfileChatRequestedImpl implements ProfileChatRequested {
     TResult Function()? chatRequested,
     TResult Function()? chatNavigationHandled,
     TResult Function()? chatErrorHandled,
+    TResult Function(String name)? changeUsernameRequested,
+    TResult Function()? usernameErrorHandled,
     TResult Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
     required TResult orElse(),
   }) {
@@ -513,6 +567,10 @@ class _$ProfileChatRequestedImpl implements ProfileChatRequested {
     required TResult Function(ProfileChatNavigationHandled value)
     chatNavigationHandled,
     required TResult Function(ProfileChatErrorHandled value) chatErrorHandled,
+    required TResult Function(ProfileChangeUsernameRequested value)
+    changeUsernameRequested,
+    required TResult Function(ProfileUsernameErrorHandled value)
+    usernameErrorHandled,
     required TResult Function(ProfilePresenceUpdated value) presenceUpdated,
   }) {
     return chatRequested(this);
@@ -528,6 +586,9 @@ class _$ProfileChatRequestedImpl implements ProfileChatRequested {
     TResult? Function(ProfileChatNavigationHandled value)?
     chatNavigationHandled,
     TResult? Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult? Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult? Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
     TResult? Function(ProfilePresenceUpdated value)? presenceUpdated,
   }) {
     return chatRequested?.call(this);
@@ -541,6 +602,9 @@ class _$ProfileChatRequestedImpl implements ProfileChatRequested {
     TResult Function(ProfileChatRequested value)? chatRequested,
     TResult Function(ProfileChatNavigationHandled value)? chatNavigationHandled,
     TResult Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
     TResult Function(ProfilePresenceUpdated value)? presenceUpdated,
     required TResult orElse(),
   }) {
@@ -605,6 +669,8 @@ class _$ProfileChatNavigationHandledImpl
     required TResult Function() chatRequested,
     required TResult Function() chatNavigationHandled,
     required TResult Function() chatErrorHandled,
+    required TResult Function(String name) changeUsernameRequested,
+    required TResult Function() usernameErrorHandled,
     required TResult Function(UserStatus status, DateTime? lastSeen)
     presenceUpdated,
   }) {
@@ -619,6 +685,8 @@ class _$ProfileChatNavigationHandledImpl
     TResult? Function()? chatRequested,
     TResult? Function()? chatNavigationHandled,
     TResult? Function()? chatErrorHandled,
+    TResult? Function(String name)? changeUsernameRequested,
+    TResult? Function()? usernameErrorHandled,
     TResult? Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
   }) {
     return chatNavigationHandled?.call();
@@ -632,6 +700,8 @@ class _$ProfileChatNavigationHandledImpl
     TResult Function()? chatRequested,
     TResult Function()? chatNavigationHandled,
     TResult Function()? chatErrorHandled,
+    TResult Function(String name)? changeUsernameRequested,
+    TResult Function()? usernameErrorHandled,
     TResult Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
     required TResult orElse(),
   }) {
@@ -651,6 +721,10 @@ class _$ProfileChatNavigationHandledImpl
     required TResult Function(ProfileChatNavigationHandled value)
     chatNavigationHandled,
     required TResult Function(ProfileChatErrorHandled value) chatErrorHandled,
+    required TResult Function(ProfileChangeUsernameRequested value)
+    changeUsernameRequested,
+    required TResult Function(ProfileUsernameErrorHandled value)
+    usernameErrorHandled,
     required TResult Function(ProfilePresenceUpdated value) presenceUpdated,
   }) {
     return chatNavigationHandled(this);
@@ -666,6 +740,9 @@ class _$ProfileChatNavigationHandledImpl
     TResult? Function(ProfileChatNavigationHandled value)?
     chatNavigationHandled,
     TResult? Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult? Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult? Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
     TResult? Function(ProfilePresenceUpdated value)? presenceUpdated,
   }) {
     return chatNavigationHandled?.call(this);
@@ -679,6 +756,9 @@ class _$ProfileChatNavigationHandledImpl
     TResult Function(ProfileChatRequested value)? chatRequested,
     TResult Function(ProfileChatNavigationHandled value)? chatNavigationHandled,
     TResult Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
     TResult Function(ProfilePresenceUpdated value)? presenceUpdated,
     required TResult orElse(),
   }) {
@@ -743,6 +823,8 @@ class _$ProfileChatErrorHandledImpl implements ProfileChatErrorHandled {
     required TResult Function() chatRequested,
     required TResult Function() chatNavigationHandled,
     required TResult Function() chatErrorHandled,
+    required TResult Function(String name) changeUsernameRequested,
+    required TResult Function() usernameErrorHandled,
     required TResult Function(UserStatus status, DateTime? lastSeen)
     presenceUpdated,
   }) {
@@ -757,6 +839,8 @@ class _$ProfileChatErrorHandledImpl implements ProfileChatErrorHandled {
     TResult? Function()? chatRequested,
     TResult? Function()? chatNavigationHandled,
     TResult? Function()? chatErrorHandled,
+    TResult? Function(String name)? changeUsernameRequested,
+    TResult? Function()? usernameErrorHandled,
     TResult? Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
   }) {
     return chatErrorHandled?.call();
@@ -770,6 +854,8 @@ class _$ProfileChatErrorHandledImpl implements ProfileChatErrorHandled {
     TResult Function()? chatRequested,
     TResult Function()? chatNavigationHandled,
     TResult Function()? chatErrorHandled,
+    TResult Function(String name)? changeUsernameRequested,
+    TResult Function()? usernameErrorHandled,
     TResult Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
     required TResult orElse(),
   }) {
@@ -789,6 +875,10 @@ class _$ProfileChatErrorHandledImpl implements ProfileChatErrorHandled {
     required TResult Function(ProfileChatNavigationHandled value)
     chatNavigationHandled,
     required TResult Function(ProfileChatErrorHandled value) chatErrorHandled,
+    required TResult Function(ProfileChangeUsernameRequested value)
+    changeUsernameRequested,
+    required TResult Function(ProfileUsernameErrorHandled value)
+    usernameErrorHandled,
     required TResult Function(ProfilePresenceUpdated value) presenceUpdated,
   }) {
     return chatErrorHandled(this);
@@ -804,6 +894,9 @@ class _$ProfileChatErrorHandledImpl implements ProfileChatErrorHandled {
     TResult? Function(ProfileChatNavigationHandled value)?
     chatNavigationHandled,
     TResult? Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult? Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult? Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
     TResult? Function(ProfilePresenceUpdated value)? presenceUpdated,
   }) {
     return chatErrorHandled?.call(this);
@@ -817,6 +910,9 @@ class _$ProfileChatErrorHandledImpl implements ProfileChatErrorHandled {
     TResult Function(ProfileChatRequested value)? chatRequested,
     TResult Function(ProfileChatNavigationHandled value)? chatNavigationHandled,
     TResult Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
     TResult Function(ProfilePresenceUpdated value)? presenceUpdated,
     required TResult orElse(),
   }) {
@@ -829,6 +925,357 @@ class _$ProfileChatErrorHandledImpl implements ProfileChatErrorHandled {
 
 abstract class ProfileChatErrorHandled implements ProfileEvent {
   const factory ProfileChatErrorHandled() = _$ProfileChatErrorHandledImpl;
+}
+
+/// @nodoc
+abstract class _$$ProfileChangeUsernameRequestedImplCopyWith<$Res> {
+  factory _$$ProfileChangeUsernameRequestedImplCopyWith(
+    _$ProfileChangeUsernameRequestedImpl value,
+    $Res Function(_$ProfileChangeUsernameRequestedImpl) then,
+  ) = __$$ProfileChangeUsernameRequestedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String name});
+}
+
+/// @nodoc
+class __$$ProfileChangeUsernameRequestedImplCopyWithImpl<$Res>
+    extends
+        _$ProfileEventCopyWithImpl<$Res, _$ProfileChangeUsernameRequestedImpl>
+    implements _$$ProfileChangeUsernameRequestedImplCopyWith<$Res> {
+  __$$ProfileChangeUsernameRequestedImplCopyWithImpl(
+    _$ProfileChangeUsernameRequestedImpl _value,
+    $Res Function(_$ProfileChangeUsernameRequestedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of ProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? name = null}) {
+    return _then(
+      _$ProfileChangeUsernameRequestedImpl(
+        null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$ProfileChangeUsernameRequestedImpl
+    implements ProfileChangeUsernameRequested {
+  const _$ProfileChangeUsernameRequestedImpl(this.name);
+
+  @override
+  final String name;
+
+  @override
+  String toString() {
+    return 'ProfileEvent.changeUsernameRequested(name: $name)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ProfileChangeUsernameRequestedImpl &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, name);
+
+  /// Create a copy of ProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ProfileChangeUsernameRequestedImplCopyWith<
+    _$ProfileChangeUsernameRequestedImpl
+  >
+  get copyWith =>
+      __$$ProfileChangeUsernameRequestedImplCopyWithImpl<
+        _$ProfileChangeUsernameRequestedImpl
+      >(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(XFile file) avatarUploadRequested,
+    required TResult Function() chatRequested,
+    required TResult Function() chatNavigationHandled,
+    required TResult Function() chatErrorHandled,
+    required TResult Function(String name) changeUsernameRequested,
+    required TResult Function() usernameErrorHandled,
+    required TResult Function(UserStatus status, DateTime? lastSeen)
+    presenceUpdated,
+  }) {
+    return changeUsernameRequested(name);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(XFile file)? avatarUploadRequested,
+    TResult? Function()? chatRequested,
+    TResult? Function()? chatNavigationHandled,
+    TResult? Function()? chatErrorHandled,
+    TResult? Function(String name)? changeUsernameRequested,
+    TResult? Function()? usernameErrorHandled,
+    TResult? Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
+  }) {
+    return changeUsernameRequested?.call(name);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(XFile file)? avatarUploadRequested,
+    TResult Function()? chatRequested,
+    TResult Function()? chatNavigationHandled,
+    TResult Function()? chatErrorHandled,
+    TResult Function(String name)? changeUsernameRequested,
+    TResult Function()? usernameErrorHandled,
+    TResult Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
+    required TResult orElse(),
+  }) {
+    if (changeUsernameRequested != null) {
+      return changeUsernameRequested(name);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ProfileStarted value) started,
+    required TResult Function(ProfileAvatarUploadRequested value)
+    avatarUploadRequested,
+    required TResult Function(ProfileChatRequested value) chatRequested,
+    required TResult Function(ProfileChatNavigationHandled value)
+    chatNavigationHandled,
+    required TResult Function(ProfileChatErrorHandled value) chatErrorHandled,
+    required TResult Function(ProfileChangeUsernameRequested value)
+    changeUsernameRequested,
+    required TResult Function(ProfileUsernameErrorHandled value)
+    usernameErrorHandled,
+    required TResult Function(ProfilePresenceUpdated value) presenceUpdated,
+  }) {
+    return changeUsernameRequested(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ProfileStarted value)? started,
+    TResult? Function(ProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
+    TResult? Function(ProfileChatRequested value)? chatRequested,
+    TResult? Function(ProfileChatNavigationHandled value)?
+    chatNavigationHandled,
+    TResult? Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult? Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult? Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
+    TResult? Function(ProfilePresenceUpdated value)? presenceUpdated,
+  }) {
+    return changeUsernameRequested?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ProfileStarted value)? started,
+    TResult Function(ProfileAvatarUploadRequested value)? avatarUploadRequested,
+    TResult Function(ProfileChatRequested value)? chatRequested,
+    TResult Function(ProfileChatNavigationHandled value)? chatNavigationHandled,
+    TResult Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
+    TResult Function(ProfilePresenceUpdated value)? presenceUpdated,
+    required TResult orElse(),
+  }) {
+    if (changeUsernameRequested != null) {
+      return changeUsernameRequested(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ProfileChangeUsernameRequested implements ProfileEvent {
+  const factory ProfileChangeUsernameRequested(final String name) =
+      _$ProfileChangeUsernameRequestedImpl;
+
+  String get name;
+
+  /// Create a copy of ProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ProfileChangeUsernameRequestedImplCopyWith<
+    _$ProfileChangeUsernameRequestedImpl
+  >
+  get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ProfileUsernameErrorHandledImplCopyWith<$Res> {
+  factory _$$ProfileUsernameErrorHandledImplCopyWith(
+    _$ProfileUsernameErrorHandledImpl value,
+    $Res Function(_$ProfileUsernameErrorHandledImpl) then,
+  ) = __$$ProfileUsernameErrorHandledImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ProfileUsernameErrorHandledImplCopyWithImpl<$Res>
+    extends _$ProfileEventCopyWithImpl<$Res, _$ProfileUsernameErrorHandledImpl>
+    implements _$$ProfileUsernameErrorHandledImplCopyWith<$Res> {
+  __$$ProfileUsernameErrorHandledImplCopyWithImpl(
+    _$ProfileUsernameErrorHandledImpl _value,
+    $Res Function(_$ProfileUsernameErrorHandledImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of ProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$ProfileUsernameErrorHandledImpl implements ProfileUsernameErrorHandled {
+  const _$ProfileUsernameErrorHandledImpl();
+
+  @override
+  String toString() {
+    return 'ProfileEvent.usernameErrorHandled()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ProfileUsernameErrorHandledImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(XFile file) avatarUploadRequested,
+    required TResult Function() chatRequested,
+    required TResult Function() chatNavigationHandled,
+    required TResult Function() chatErrorHandled,
+    required TResult Function(String name) changeUsernameRequested,
+    required TResult Function() usernameErrorHandled,
+    required TResult Function(UserStatus status, DateTime? lastSeen)
+    presenceUpdated,
+  }) {
+    return usernameErrorHandled();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(XFile file)? avatarUploadRequested,
+    TResult? Function()? chatRequested,
+    TResult? Function()? chatNavigationHandled,
+    TResult? Function()? chatErrorHandled,
+    TResult? Function(String name)? changeUsernameRequested,
+    TResult? Function()? usernameErrorHandled,
+    TResult? Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
+  }) {
+    return usernameErrorHandled?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(XFile file)? avatarUploadRequested,
+    TResult Function()? chatRequested,
+    TResult Function()? chatNavigationHandled,
+    TResult Function()? chatErrorHandled,
+    TResult Function(String name)? changeUsernameRequested,
+    TResult Function()? usernameErrorHandled,
+    TResult Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
+    required TResult orElse(),
+  }) {
+    if (usernameErrorHandled != null) {
+      return usernameErrorHandled();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ProfileStarted value) started,
+    required TResult Function(ProfileAvatarUploadRequested value)
+    avatarUploadRequested,
+    required TResult Function(ProfileChatRequested value) chatRequested,
+    required TResult Function(ProfileChatNavigationHandled value)
+    chatNavigationHandled,
+    required TResult Function(ProfileChatErrorHandled value) chatErrorHandled,
+    required TResult Function(ProfileChangeUsernameRequested value)
+    changeUsernameRequested,
+    required TResult Function(ProfileUsernameErrorHandled value)
+    usernameErrorHandled,
+    required TResult Function(ProfilePresenceUpdated value) presenceUpdated,
+  }) {
+    return usernameErrorHandled(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ProfileStarted value)? started,
+    TResult? Function(ProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
+    TResult? Function(ProfileChatRequested value)? chatRequested,
+    TResult? Function(ProfileChatNavigationHandled value)?
+    chatNavigationHandled,
+    TResult? Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult? Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult? Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
+    TResult? Function(ProfilePresenceUpdated value)? presenceUpdated,
+  }) {
+    return usernameErrorHandled?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ProfileStarted value)? started,
+    TResult Function(ProfileAvatarUploadRequested value)? avatarUploadRequested,
+    TResult Function(ProfileChatRequested value)? chatRequested,
+    TResult Function(ProfileChatNavigationHandled value)? chatNavigationHandled,
+    TResult Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
+    TResult Function(ProfilePresenceUpdated value)? presenceUpdated,
+    required TResult orElse(),
+  }) {
+    if (usernameErrorHandled != null) {
+      return usernameErrorHandled(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ProfileUsernameErrorHandled implements ProfileEvent {
+  const factory ProfileUsernameErrorHandled() =
+      _$ProfileUsernameErrorHandledImpl;
 }
 
 /// @nodoc
@@ -918,6 +1365,8 @@ class _$ProfilePresenceUpdatedImpl implements ProfilePresenceUpdated {
     required TResult Function() chatRequested,
     required TResult Function() chatNavigationHandled,
     required TResult Function() chatErrorHandled,
+    required TResult Function(String name) changeUsernameRequested,
+    required TResult Function() usernameErrorHandled,
     required TResult Function(UserStatus status, DateTime? lastSeen)
     presenceUpdated,
   }) {
@@ -932,6 +1381,8 @@ class _$ProfilePresenceUpdatedImpl implements ProfilePresenceUpdated {
     TResult? Function()? chatRequested,
     TResult? Function()? chatNavigationHandled,
     TResult? Function()? chatErrorHandled,
+    TResult? Function(String name)? changeUsernameRequested,
+    TResult? Function()? usernameErrorHandled,
     TResult? Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
   }) {
     return presenceUpdated?.call(status, lastSeen);
@@ -945,6 +1396,8 @@ class _$ProfilePresenceUpdatedImpl implements ProfilePresenceUpdated {
     TResult Function()? chatRequested,
     TResult Function()? chatNavigationHandled,
     TResult Function()? chatErrorHandled,
+    TResult Function(String name)? changeUsernameRequested,
+    TResult Function()? usernameErrorHandled,
     TResult Function(UserStatus status, DateTime? lastSeen)? presenceUpdated,
     required TResult orElse(),
   }) {
@@ -964,6 +1417,10 @@ class _$ProfilePresenceUpdatedImpl implements ProfilePresenceUpdated {
     required TResult Function(ProfileChatNavigationHandled value)
     chatNavigationHandled,
     required TResult Function(ProfileChatErrorHandled value) chatErrorHandled,
+    required TResult Function(ProfileChangeUsernameRequested value)
+    changeUsernameRequested,
+    required TResult Function(ProfileUsernameErrorHandled value)
+    usernameErrorHandled,
     required TResult Function(ProfilePresenceUpdated value) presenceUpdated,
   }) {
     return presenceUpdated(this);
@@ -979,6 +1436,9 @@ class _$ProfilePresenceUpdatedImpl implements ProfilePresenceUpdated {
     TResult? Function(ProfileChatNavigationHandled value)?
     chatNavigationHandled,
     TResult? Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult? Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult? Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
     TResult? Function(ProfilePresenceUpdated value)? presenceUpdated,
   }) {
     return presenceUpdated?.call(this);
@@ -992,6 +1452,9 @@ class _$ProfilePresenceUpdatedImpl implements ProfilePresenceUpdated {
     TResult Function(ProfileChatRequested value)? chatRequested,
     TResult Function(ProfileChatNavigationHandled value)? chatNavigationHandled,
     TResult Function(ProfileChatErrorHandled value)? chatErrorHandled,
+    TResult Function(ProfileChangeUsernameRequested value)?
+    changeUsernameRequested,
+    TResult Function(ProfileUsernameErrorHandled value)? usernameErrorHandled,
     TResult Function(ProfilePresenceUpdated value)? presenceUpdated,
     required TResult orElse(),
   }) {

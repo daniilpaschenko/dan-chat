@@ -12,6 +12,9 @@ class ProfileEvent with _$ProfileEvent {
   const factory ProfileEvent.chatNavigationHandled() = ProfileChatNavigationHandled;
   const factory ProfileEvent.chatErrorHandled() = ProfileChatErrorHandled;
 
+  const factory ProfileEvent.changeUsernameRequested(String name) = ProfileChangeUsernameRequested;
+  const factory ProfileEvent.usernameErrorHandled() = ProfileUsernameErrorHandled;
+
   const factory ProfileEvent.presenceUpdated({
     required UserStatus status,
     DateTime? lastSeen,
