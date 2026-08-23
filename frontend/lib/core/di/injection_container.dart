@@ -61,6 +61,7 @@ import '../../features/user/domain/usecases/get_user_profile_usecase.dart';
 import '../../features/user/domain/usecases/upload_avatar_usecase.dart';
 import '../../features/user/domain/usecases/save_device_token_usecase.dart';
 import '../../features/user/domain/usecases/remove_device_token_usecase.dart';
+import '../../features/user/domain/usecases/change_username_usecase.dart';
 import '../../features/user/presentation/blocs/search/search_bloc.dart';
 import '../../features/user/presentation/blocs/profile/profile_bloc.dart';
 
@@ -281,6 +282,9 @@ Future<void> setupDependencies() async {
   getIt.registerLazySingleton<UploadAvatarUseCase>(
     () => UploadAvatarUseCase(getIt<IUserRepository>()),
   );
+  getIt.registerLazySingleton<ChangeUsernameUsecase>(
+    () => ChangeUsernameUsecase(getIt<IUserRepository>()),
+  );
 
   // features/user/presentation - ProfileBloc
   getIt.registerFactoryParam<ProfileBloc, String?, void>(
@@ -290,6 +294,7 @@ Future<void> setupDependencies() async {
       getUserProfileUseCase: getIt<GetUserProfileUseCase>(),
       uploadAvatarUseCase: getIt<UploadAvatarUseCase>(),
       createRoomUseCase: getIt<CreateRoomUseCase>(),
+      changeUsernameUsecase: getIt<ChangeUsernameUsecase>(),
       socketService: getIt<SocketService>(),
     ),
   );
