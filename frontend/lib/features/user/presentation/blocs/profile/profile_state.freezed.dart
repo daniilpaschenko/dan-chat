@@ -27,8 +27,10 @@ mixin _$ProfileState {
       PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
+      bool isChangingUsername,
       RoomEntity? navigateToRoom,
       String? chatError,
+      String? usernameError,
     )
     loaded,
     required TResult Function(String message) failure,
@@ -43,8 +45,10 @@ mixin _$ProfileState {
       PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
+      bool isChangingUsername,
       RoomEntity? navigateToRoom,
       String? chatError,
+      String? usernameError,
     )?
     loaded,
     TResult? Function(String message)? failure,
@@ -59,8 +63,10 @@ mixin _$ProfileState {
       PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
+      bool isChangingUsername,
       RoomEntity? navigateToRoom,
       String? chatError,
+      String? usernameError,
     )?
     loaded,
     TResult Function(String message)? failure,
@@ -163,8 +169,10 @@ class _$ProfileInitialImpl implements ProfileInitial {
       PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
+      bool isChangingUsername,
       RoomEntity? navigateToRoom,
       String? chatError,
+      String? usernameError,
     )
     loaded,
     required TResult Function(String message) failure,
@@ -183,8 +191,10 @@ class _$ProfileInitialImpl implements ProfileInitial {
       PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
+      bool isChangingUsername,
       RoomEntity? navigateToRoom,
       String? chatError,
+      String? usernameError,
     )?
     loaded,
     TResult? Function(String message)? failure,
@@ -203,8 +213,10 @@ class _$ProfileInitialImpl implements ProfileInitial {
       PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
+      bool isChangingUsername,
       RoomEntity? navigateToRoom,
       String? chatError,
+      String? usernameError,
     )?
     loaded,
     TResult Function(String message)? failure,
@@ -309,8 +321,10 @@ class _$ProfileLoadingImpl implements ProfileLoading {
       PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
+      bool isChangingUsername,
       RoomEntity? navigateToRoom,
       String? chatError,
+      String? usernameError,
     )
     loaded,
     required TResult Function(String message) failure,
@@ -329,8 +343,10 @@ class _$ProfileLoadingImpl implements ProfileLoading {
       PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
+      bool isChangingUsername,
       RoomEntity? navigateToRoom,
       String? chatError,
+      String? usernameError,
     )?
     loaded,
     TResult? Function(String message)? failure,
@@ -349,8 +365,10 @@ class _$ProfileLoadingImpl implements ProfileLoading {
       PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
+      bool isChangingUsername,
       RoomEntity? navigateToRoom,
       String? chatError,
+      String? usernameError,
     )?
     loaded,
     TResult Function(String message)? failure,
@@ -417,8 +435,10 @@ abstract class _$$ProfileLoadedImplCopyWith<$Res> {
     PartialUserEntity? otherUser,
     bool isUploadingAvatar,
     bool isCreatingChat,
+    bool isChangingUsername,
     RoomEntity? navigateToRoom,
     String? chatError,
+    String? usernameError,
   });
 
   $UserEntityCopyWith<$Res>? get ownUser;
@@ -445,8 +465,10 @@ class __$$ProfileLoadedImplCopyWithImpl<$Res>
     Object? otherUser = freezed,
     Object? isUploadingAvatar = null,
     Object? isCreatingChat = null,
+    Object? isChangingUsername = null,
     Object? navigateToRoom = freezed,
     Object? chatError = freezed,
+    Object? usernameError = freezed,
   }) {
     return _then(
       _$ProfileLoadedImpl(
@@ -470,6 +492,10 @@ class __$$ProfileLoadedImplCopyWithImpl<$Res>
             ? _value.isCreatingChat
             : isCreatingChat // ignore: cast_nullable_to_non_nullable
                   as bool,
+        isChangingUsername: null == isChangingUsername
+            ? _value.isChangingUsername
+            : isChangingUsername // ignore: cast_nullable_to_non_nullable
+                  as bool,
         navigateToRoom: freezed == navigateToRoom
             ? _value.navigateToRoom
             : navigateToRoom // ignore: cast_nullable_to_non_nullable
@@ -477,6 +503,10 @@ class __$$ProfileLoadedImplCopyWithImpl<$Res>
         chatError: freezed == chatError
             ? _value.chatError
             : chatError // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        usernameError: freezed == usernameError
+            ? _value.usernameError
+            : usernameError // ignore: cast_nullable_to_non_nullable
                   as String?,
       ),
     );
@@ -534,8 +564,10 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
     this.otherUser,
     this.isUploadingAvatar = false,
     this.isCreatingChat = false,
+    this.isChangingUsername = false,
     this.navigateToRoom,
     this.chatError,
+    this.usernameError,
   });
 
   @override
@@ -553,14 +585,20 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
   @JsonKey()
   final bool isCreatingChat;
   @override
+  @JsonKey()
+  final bool isChangingUsername;
+  @override
   final RoomEntity? navigateToRoom;
   // одноразовый сигнал для навигации с полными данными
   @override
   final String? chatError;
+  // одноразовое сообщение об ошибке создания чата
+  @override
+  final String? usernameError;
 
   @override
   String toString() {
-    return 'ProfileState.loaded(isOwnProfile: $isOwnProfile, ownUser: $ownUser, otherUser: $otherUser, isUploadingAvatar: $isUploadingAvatar, isCreatingChat: $isCreatingChat, navigateToRoom: $navigateToRoom, chatError: $chatError)';
+    return 'ProfileState.loaded(isOwnProfile: $isOwnProfile, ownUser: $ownUser, otherUser: $otherUser, isUploadingAvatar: $isUploadingAvatar, isCreatingChat: $isCreatingChat, isChangingUsername: $isChangingUsername, navigateToRoom: $navigateToRoom, chatError: $chatError, usernameError: $usernameError)';
   }
 
   @override
@@ -577,10 +615,14 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
                 other.isUploadingAvatar == isUploadingAvatar) &&
             (identical(other.isCreatingChat, isCreatingChat) ||
                 other.isCreatingChat == isCreatingChat) &&
+            (identical(other.isChangingUsername, isChangingUsername) ||
+                other.isChangingUsername == isChangingUsername) &&
             (identical(other.navigateToRoom, navigateToRoom) ||
                 other.navigateToRoom == navigateToRoom) &&
             (identical(other.chatError, chatError) ||
-                other.chatError == chatError));
+                other.chatError == chatError) &&
+            (identical(other.usernameError, usernameError) ||
+                other.usernameError == usernameError));
   }
 
   @override
@@ -591,8 +633,10 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
     otherUser,
     isUploadingAvatar,
     isCreatingChat,
+    isChangingUsername,
     navigateToRoom,
     chatError,
+    usernameError,
   );
 
   /// Create a copy of ProfileState
@@ -614,8 +658,10 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
       PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
+      bool isChangingUsername,
       RoomEntity? navigateToRoom,
       String? chatError,
+      String? usernameError,
     )
     loaded,
     required TResult Function(String message) failure,
@@ -626,8 +672,10 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
       otherUser,
       isUploadingAvatar,
       isCreatingChat,
+      isChangingUsername,
       navigateToRoom,
       chatError,
+      usernameError,
     );
   }
 
@@ -642,8 +690,10 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
       PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
+      bool isChangingUsername,
       RoomEntity? navigateToRoom,
       String? chatError,
+      String? usernameError,
     )?
     loaded,
     TResult? Function(String message)? failure,
@@ -654,8 +704,10 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
       otherUser,
       isUploadingAvatar,
       isCreatingChat,
+      isChangingUsername,
       navigateToRoom,
       chatError,
+      usernameError,
     );
   }
 
@@ -670,8 +722,10 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
       PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
+      bool isChangingUsername,
       RoomEntity? navigateToRoom,
       String? chatError,
+      String? usernameError,
     )?
     loaded,
     TResult Function(String message)? failure,
@@ -684,8 +738,10 @@ class _$ProfileLoadedImpl implements ProfileLoaded {
         otherUser,
         isUploadingAvatar,
         isCreatingChat,
+        isChangingUsername,
         navigateToRoom,
         chatError,
+        usernameError,
       );
     }
     return orElse();
@@ -736,8 +792,10 @@ abstract class ProfileLoaded implements ProfileState {
     final PartialUserEntity? otherUser,
     final bool isUploadingAvatar,
     final bool isCreatingChat,
+    final bool isChangingUsername,
     final RoomEntity? navigateToRoom,
     final String? chatError,
+    final String? usernameError,
   }) = _$ProfileLoadedImpl;
 
   bool get isOwnProfile;
@@ -745,9 +803,11 @@ abstract class ProfileLoaded implements ProfileState {
   PartialUserEntity? get otherUser; // если isOwnProfile == false
   bool get isUploadingAvatar;
   bool get isCreatingChat;
+  bool get isChangingUsername;
   RoomEntity?
   get navigateToRoom; // одноразовый сигнал для навигации с полными данными
-  String? get chatError;
+  String? get chatError; // одноразовое сообщение об ошибке создания чата
+  String? get usernameError;
 
   /// Create a copy of ProfileState
   /// with the given fields replaced by the non-null parameter values.
@@ -837,8 +897,10 @@ class _$ProfileFailureImpl implements ProfileFailure {
       PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
+      bool isChangingUsername,
       RoomEntity? navigateToRoom,
       String? chatError,
+      String? usernameError,
     )
     loaded,
     required TResult Function(String message) failure,
@@ -857,8 +919,10 @@ class _$ProfileFailureImpl implements ProfileFailure {
       PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
+      bool isChangingUsername,
       RoomEntity? navigateToRoom,
       String? chatError,
+      String? usernameError,
     )?
     loaded,
     TResult? Function(String message)? failure,
@@ -877,8 +941,10 @@ class _$ProfileFailureImpl implements ProfileFailure {
       PartialUserEntity? otherUser,
       bool isUploadingAvatar,
       bool isCreatingChat,
+      bool isChangingUsername,
       RoomEntity? navigateToRoom,
       String? chatError,
+      String? usernameError,
     )?
     loaded,
     TResult Function(String message)? failure,

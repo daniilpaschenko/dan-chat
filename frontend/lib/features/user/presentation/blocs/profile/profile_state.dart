@@ -15,8 +15,10 @@ class ProfileState with _$ProfileState {
     PartialUserEntity? otherUser, // если isOwnProfile == false
     @Default(false) bool isUploadingAvatar,
     @Default(false) bool isCreatingChat,
+    @Default(false) bool isChangingUsername,
     RoomEntity? navigateToRoom, // одноразовый сигнал для навигации с полными данными
     String? chatError, // одноразовое сообщение об ошибке создания чата
+    String? usernameError, // одноразовое сообщение об ошибке смены имени
   }) = ProfileLoaded;
 
   const factory ProfileState.failure(String message) = ProfileFailure;
