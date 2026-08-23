@@ -10,6 +10,7 @@ import '../../../domain/entities/user_entity.dart';
 import '../../../domain/usecases/get_my_profile_usecase.dart';
 import '../../../domain/usecases/get_user_profile_usecase.dart';
 import '../../../domain/usecases/upload_avatar_usecase.dart';
+import '../../../domain/usecases/change_username_usecase.dart';
 import 'profile_event.dart';
 import 'profile_state.dart';
 
@@ -18,6 +19,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final GetUserProfileUseCase _getUserProfileUseCase;
   final UploadAvatarUseCase _uploadAvatarUseCase;
   final CreateRoomUseCase _createRoomUseCase;
+  final ChangeUsernameUsecase _changeUsernameUsecase;
   final SocketService _socketService;
 
   /// null -> свой профиль, иначе id чужого
@@ -31,16 +33,20 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     required GetUserProfileUseCase getUserProfileUseCase,
     required UploadAvatarUseCase uploadAvatarUseCase,
     required CreateRoomUseCase createRoomUseCase,
+    required ChangeUsernameUsecase changeUsernameUsecase,
     required SocketService socketService,
   })  : _getMyProfileUseCase = getMyProfileUseCase,
         _getUserProfileUseCase = getUserProfileUseCase,
         _uploadAvatarUseCase = uploadAvatarUseCase,
         _createRoomUseCase = createRoomUseCase,
+        _changeUsernameUsecase = changeUsernameUsecase,
         _socketService = socketService,
         super(const ProfileState.initial()) {
     on<ProfileStarted>(_onStarted);
     on<ProfileAvatarUploadRequested>(_onAvatarUploadRequested);
     on<ProfileChatRequested>(_onChatRequested);
+    on<ProfileChangeUsernameRequested>(_onChangeUsernameRequested);
+    on<ProfileUsernameErrorHandled>(_onUsernameErrorHandled);
     on<ProfileChatNavigationHandled>(_onChatNavigationHandled);
     on<ProfileChatErrorHandled>(_onChatErrorHandled);
     on<ProfilePresenceUpdated>(_onPresenceUpdated);
@@ -142,6 +148,31 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     );
   }
 
+  Future<void> _onChangeUsernameRequested(
+    ProfileChangeUsernameRequested event,
+    Emitter<ProfileState> emit,
+  ) async {
+    final current = state;
+    // менять имя можно только у себя
+    if (!_isOwnProfile || current is! ProfileLoaded || current.isChangingUsername) return;
+
+    emit(current.copyWith(isChangingUsername: true));
+
+    final result = await _changeUsernameUsecase(event.name);
+
+    result.fold(
+      (failure) => emit(current.copyWith(
+        isChangingUsername: false,
+        usernameError: _mapFailureToMessage(failure),
+      )),
+      (user) => emit(current.copyWith(
+        isChangingUsername: false,
+        ownUser: user,
+        usernameError: null,
+      )),
+    );
+  }
+
   void _onChatNavigationHandled(
     ProfileChatNavigationHandled event,
     Emitter<ProfileState> emit,
@@ -159,6 +190,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final current = state;
     if (current is ProfileLoaded) {
       emit(current.copyWith(chatError: null));
+    }
+  }
+
+  void _onUsernameErrorHandled(
+    ProfileUsernameErrorHandled event,
+    Emitter<ProfileState> emit,
+  ) {
+    final current = state;
+    if (current is ProfileLoaded) {
+      emit(current.copyWith(usernameError: null));
     }
   }
 
