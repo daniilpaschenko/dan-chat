@@ -8,6 +8,7 @@ import '../../../domain/usecases/get_room_by_id_usecase.dart';
 import '../../../domain/usecases/remove_participant_usecase.dart';
 import '../../../domain/usecases/update_participant_role_usecase.dart';
 import '../../../domain/usecases/upload_room_avatar_usecase.dart';
+import '../../../domain/usecases/change_group_name_usecase.dart';
 import 'group_profile_event.dart';
 import 'group_profile_state.dart';
 
@@ -17,6 +18,7 @@ class GroupProfileBloc extends Bloc<GroupProfileEvent, GroupProfileState> {
   final RemoveParticipantUseCase _removeParticipantUseCase;
   final UpdateParticipantRoleUseCase _updateParticipantRoleUseCase;
   final UploadRoomAvatarUseCase _uploadRoomAvatarUseCase;
+  final ChangeGroupNameUsecase _changeGroupNameUsecase;
   final SocketService _socketService;
 
   StreamSubscription? _roomUpdatedSub;
@@ -28,11 +30,13 @@ class GroupProfileBloc extends Bloc<GroupProfileEvent, GroupProfileState> {
     required RemoveParticipantUseCase removeParticipantUseCase,
     required UpdateParticipantRoleUseCase updateParticipantRoleUseCase,
     required UploadRoomAvatarUseCase uploadRoomAvatarUseCase,
+    required ChangeGroupNameUsecase changeGroupNameUsecase,
     required SocketService socketService,
   })  : _getRoomByIdUseCase = getRoomByIdUseCase,
         _removeParticipantUseCase = removeParticipantUseCase,
         _updateParticipantRoleUseCase = updateParticipantRoleUseCase,
         _uploadRoomAvatarUseCase = uploadRoomAvatarUseCase,
+        _changeGroupNameUsecase = changeGroupNameUsecase,
         _socketService = socketService,
         super(const GroupProfileState.initial()) {
     on<GroupProfileStarted>(_onStarted);
@@ -41,6 +45,7 @@ class GroupProfileBloc extends Bloc<GroupProfileEvent, GroupProfileState> {
     on<GroupProfileParticipantsAdded>(_onParticipantsAdded);
     on<GroupProfileRoomUpdatedRemotely>(_onRoomUpdatedRemotely);
     on<GroupProfileAvatarUploadRequested>(_onRoomAvatarUploadRequested);
+    on<GroupProfileChangeNameRequested>(_onGroupProfileChangeNameRequested);
     on<GroupProfileRoomRemovedRemotely>(
       (event, emit) {
         final current = state;
@@ -158,6 +163,31 @@ class GroupProfileBloc extends Bloc<GroupProfileEvent, GroupProfileState> {
         errorMessage: _mapFailureToMessage(failure),
       )),
       (room) => emit(GroupProfileState.loaded(room: room, isUploadingAvatar: false)),
+    );
+  }
+
+  Future<void> _onGroupProfileChangeNameRequested(
+    GroupProfileChangeNameRequested event,
+    Emitter<GroupProfileState> emit,
+  ) async {
+    final current = state;
+
+    if (current is! GroupProfileLoaded || current.isChangingName) return;
+
+    emit(current.copyWith(isChangingName: true, nameError: null));
+
+    final result = await _changeGroupNameUsecase(event.roomId, event.name);
+
+    result.fold(
+      (failure) => emit(current.copyWith(
+        isChangingName: false,
+        nameError: _mapFailureToMessage(failure),
+      )),
+      (room) => emit(current.copyWith(
+        isChangingName: false,
+        room: room,
+        nameError: null,
+      )),
     );
   }
 
