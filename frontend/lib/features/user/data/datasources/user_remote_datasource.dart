@@ -46,7 +46,7 @@ class UserRemoteDatasource {
   }
 
   Future<User> changeUsername(String name) async {
-    final response = await _dio.post(
+    final response = await _dio.patch(
       '/users/me/username',
       data: {'username': name},
     );

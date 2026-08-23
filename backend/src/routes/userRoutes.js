@@ -14,7 +14,7 @@ const upload = require('../middlewares/upload');
 router.get('/me', authMiddleware, getMe);
 // .single() потому что только 1 аватарку можно загрузить
 router.post('/me/avatar', authMiddleware, upload.single('avatar'), uploadAvatar);
-router.post('/me/username', authMiddleware, changeUsername);
+router.patch('/me/username', authMiddleware, changeUsername);
 
 router.get('/search', authMiddleware, searchUsers);
 
