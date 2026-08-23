@@ -1,6 +1,6 @@
 const Room = require('../models/Room');
 const cloudinary = require('../config/cloudinary');
-const { createRoomSchema } = require('../validators/roomValidator');
+const { createRoomSchema, groupNameSchema } = require('../validators/roomValidator');
 const { findRoomIfMember, getParticipant, formatRoomForUser } = require('../services/roomService');
 const { streamUpload } = require('../utils/cloudinaryUtils');
 
@@ -235,6 +235,46 @@ exports.uploadRoomAvatar = async (req, res) => {
         return res.json(room);
     } catch (err) {
         console.error('uploadRoomAvatar error:', err);
+        return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
+    }
+};
+
+exports.changeGroupName = async (req, res) => {
+    try {
+        const { error, value } = groupNameSchema.validate(req.body);
+        if (error) {
+            return res.status(400).json({ message: error.details[0].message });
+        }
+        const { name } = value;
+
+        const myId = req.user.id;
+        const { roomId } = req.params;
+        const io = req.app.get('io');
+
+        const room = await findRoomIfMember(roomId, myId);
+        if (!room) return res.status(403).json({ message: 'Нет доступа к этой комнате' });
+
+        if (room.type !== 'group') {
+            return res.status(400).json({ message: 'Сменить имя чата можно только для группы' });
+        }
+
+        const me = getParticipant(room, myId);
+        if (!['owner', 'admin'].includes(me.role)) {
+            return res.status(403).json({ message: 'Недостаточно прав' });
+        }
+
+        room.name = name;
+        await room.save();
+        await room.populate('participants.user', 'username avatarUrl status lastSeen');
+
+        room.participants.forEach((p) => {
+            const pid = p.user._id.toString();
+            io.to(`user:${pid}`).emit('room:updated', formatRoomForUser(room, pid));
+        });
+
+        return res.json(room);
+    } catch (err) {
+        console.error('changeGroupName error:', err);
         return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
     }
 };
