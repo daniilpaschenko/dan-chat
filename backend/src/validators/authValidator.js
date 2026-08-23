@@ -31,4 +31,13 @@ const loginSchema = Joi.object({
         .required(),
 });
 
-module.exports = { registerSchema, loginSchema };
+const usernameSchema = Joi.object({
+    username: Joi.string()
+        .trim()
+        .min(3) // те же ограничения, что и при регистрации
+        .max(16)
+        .alphanum()
+        .required(),
+});
+
+module.exports = { registerSchema, loginSchema, usernameSchema };

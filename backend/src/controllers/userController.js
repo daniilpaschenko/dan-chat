@@ -1,7 +1,9 @@
 const cloudinary = require('../config/cloudinary');
+const mongoose = require('mongoose');
 const User = require('../models/User');
 const { toPublicUser } = require('../utils/userUtils');
 const { streamUpload } = require('../utils/cloudinaryUtils');
+const { usernameSchema } = require('../validators/authValidator');
 
 // экранируем спецсимволы regex, чтобы юзер не мог сломать поиск
 // или устроить ReDoS через специально подобранный паттерн
@@ -141,6 +143,50 @@ exports.removeDeviceToken = async (req, res) => {
         return res.status(200).json({ message: 'Токен удалён' });
     } catch (err) {
         console.error('removeDeviceToken error:', err);
+        return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
+    }
+};
+
+// POST /users/me/username
+// body: { username: string }
+exports.changeUsername = async (req, res) => {
+    try {
+        const { error, value } = usernameSchema.validate(req.body);
+        if (error) {
+            return res.status(400).json({ message: error.details[0].message });
+        }
+
+        const { username } = value;
+
+        // если юзернейм не изменился — просто возвращаем текущего юзера
+        if (username === req.user.username) {
+            return res.status(200).json({ user: toPublicUser(req.user) });
+        }
+
+        // проверяем занятость (регистронезависимо)
+        const existing = await User.findOne({
+            _id: { $ne: req.user.id },
+            username: new RegExp(`^${username}$`, 'i'),
+        });
+
+        if (existing) {
+            return res.status(409).json({ message: 'Это имя пользователя уже занято' });
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            req.user.id,
+            { username },
+            { returnDocument: 'after',
+            runValidators: true } // проверка по валидаторам в схеме
+        );
+
+        return res.status(200).json({ user: toPublicUser(updatedUser) });
+    } catch (err) {
+        // на случай гонки — уникальный индекс в схеме подстрахует от дублей
+        if (err.code === 11000) {
+            return res.status(409).json({ message: 'Это имя пользователя уже занято' });
+        }
+        console.error('changeUsername error:', err);
         return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
     }
 };

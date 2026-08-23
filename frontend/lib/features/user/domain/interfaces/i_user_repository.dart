@@ -12,6 +12,8 @@ abstract class IUserRepository {
 
   Future<Either<Failure, UserEntity>> uploadAvatar(XFile file);
 
+  Future<Either<Failure, UserEntity>> changeUsername(String name);
+
   Future<Either<Failure, Unit>> saveDeviceToken({
     required String token,
     required String platform,

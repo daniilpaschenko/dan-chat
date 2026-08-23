@@ -75,6 +75,32 @@ class UserRepository implements IUserRepository {
   }
 
   @override
+  Future<Either<Failure, UserEntity>> changeUsername(String name) async {
+    try {
+      final user = await _remoteDatasource.changeUsername(name);
+      await _localDatasource.cacheMe(user); // кэш профиля актуализируем сразу
+      return Right(user.toEntity());
+    } on DioException catch (e) {
+      return Left(
+        mapDioExceptionToFailure(
+          e,
+          statusOverride: (statusCode, message) {
+            if (statusCode == 409) {
+              return const Failure.validation(
+                'Это имя пользователя уже занято',
+              );
+            }
+
+            return null;
+          },
+        ),
+      );
+    } catch (e) {
+      return Left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, Unit>> saveDeviceToken({
     required String token,
     required String platform,

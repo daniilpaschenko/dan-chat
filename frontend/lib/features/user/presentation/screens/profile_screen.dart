@@ -74,6 +74,45 @@ class _ProfileViewState extends State<_ProfileView> {
     context.read<ProfileBloc>().add(ProfileEvent.avatarUploadRequested(picked));
   }
 
+  Future<void> _showChangeUsernameDialog(BuildContext context, String currentUsername) async {
+    final controller = TextEditingController(text: currentUsername);
+    final bloc = context.read<ProfileBloc>();
+
+    final newName = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Изменить имя пользователя'),
+          content: TextField(
+            controller: controller,
+            autofocus: true,
+            maxLength: 16,
+            decoration: const InputDecoration(hintText: 'Новое имя пользователя'),
+            onSubmitted: (value) => Navigator.of(dialogContext).pop(value),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('Отмена'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(controller.text),
+              child: const Text('Сохранить'),
+            ),
+          ],
+        );
+      },
+    );
+
+    controller.dispose();
+
+    final trimmed = newName?.trim();
+    // если юзер отменил или ничего не поменял — не шлём событие
+    if (trimmed == null || trimmed.isEmpty || trimmed == currentUsername) return;
+
+    bloc.add(ProfileEvent.changeUsernameRequested(trimmed));
+  }
+
     @override
     Widget build(BuildContext context) {
     final spacing = AppSpacing.of(context);
@@ -83,7 +122,9 @@ class _ProfileViewState extends State<_ProfileView> {
         child: BlocConsumer<ProfileBloc, ProfileState>(
           listenWhen: (previous, current) =>
               current is ProfileLoaded &&
-              (current.navigateToRoom != null || current.chatError != null),
+              (current.navigateToRoom != null ||
+                  current.chatError != null ||
+                  current.usernameError != null),
           listener: (context, state) {
             if (state is! ProfileLoaded) return;
 
@@ -92,6 +133,13 @@ class _ProfileViewState extends State<_ProfileView> {
                 SnackBar(content: Text(state.chatError!)),
               );
               context.read<ProfileBloc>().add(const ProfileEvent.chatErrorHandled());
+            }
+
+            if (state.usernameError != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.usernameError!)),
+              );
+              context.read<ProfileBloc>().add(const ProfileEvent.usernameErrorHandled());
             }
 
             if (state.navigateToRoom != null) {
@@ -128,21 +176,25 @@ class _ProfileViewState extends State<_ProfileView> {
                   ),
                 ),
               ),
-              loaded: (isOwn, ownUser, otherUser, isUploadingAvatar, isCreatingChat, navigateToRoom, chatError) =>
-                  ProfileContent(
-                isOwnProfile: widget.isOwnProfile,
-                avatarUrl: isOwn ? ownUser?.avatarUrl : otherUser?.avatarUrl,
-                username: (isOwn ? ownUser?.username : otherUser?.username) ?? '',
-                email: ownUser?.email, // есть только у своего профиля
-                isUploadingAvatar: isUploadingAvatar,
-                isCreatingChat: isCreatingChat,
-                // статус нужен только для чужого профиля
-                statusText: !isOwn && otherUser != null
-                    ? RoomDisplayInfo.presenceText(otherUser.status, otherUser.lastSeen)
-                    : null,
-                onPickPhoto: () => _pickAndUploadAvatar(context),
-                onChatTap: () => context.read<ProfileBloc>().add(const ProfileEvent.chatRequested()),
-              ),
+              loaded: (isOwn, ownUser, otherUser, isUploadingAvatar, isCreatingChat, isChangingUsername, navigateToRoom, chatError, usernameError) {
+                final currentUsername = (isOwn ? ownUser?.username : otherUser?.username) ?? '';
+                return ProfileContent(
+                  isOwnProfile: widget.isOwnProfile,
+                  avatarUrl: isOwn ? ownUser?.avatarUrl : otherUser?.avatarUrl,
+                  username: currentUsername,
+                  email: ownUser?.email, // есть только у своего профиля
+                  isUploadingAvatar: isUploadingAvatar,
+                  isCreatingChat: isCreatingChat,
+                  isChangingUsername: isChangingUsername,
+                  // статус нужен только для чужого профиля
+                  statusText: !isOwn && otherUser != null
+                      ? RoomDisplayInfo.presenceText(otherUser.status, otherUser.lastSeen)
+                      : null,
+                  onPickPhoto: () => _pickAndUploadAvatar(context),
+                  onChatTap: () => context.read<ProfileBloc>().add(const ProfileEvent.chatRequested()),
+                  onChangeUsername: () => _showChangeUsernameDialog(context, currentUsername),
+                );
+              },
             );
           },
         ),

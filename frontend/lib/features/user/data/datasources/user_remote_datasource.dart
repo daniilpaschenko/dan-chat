@@ -45,6 +45,15 @@ class UserRemoteDatasource {
     return User.fromJson(response.data['user'] as Map<String, dynamic>);
   }
 
+  Future<User> changeUsername(String name) async {
+    final response = await _dio.post(
+      '/users/me/username',
+      data: {'username': name},
+    );
+    // бэк оборачивает в { user: ... }, как и getMe/uploadAvatar
+    return User.fromJson(response.data['user'] as Map<String, dynamic>);
+  }
+
   Future<void> saveDeviceToken({
     required String token,
     required String platform,
