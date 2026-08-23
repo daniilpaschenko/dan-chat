@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import '../entities/room_entity.dart';
 import '../../../../core/errors/failures.dart';
 import '../interfaces/i_room_repository.dart';
 
@@ -7,7 +8,7 @@ class ChangeGroupNameUsecase {
 
   const ChangeGroupNameUsecase(this._repository);
 
-  Future<Either<Failure, void>> call(String roomId, String name) {
+  Future<Either<Failure, RoomEntity>> call(String roomId, String name) {
     return _repository.changeGroupName(roomId, name);
   }
 }
