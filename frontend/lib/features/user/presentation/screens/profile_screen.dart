@@ -77,29 +77,49 @@ class _ProfileViewState extends State<_ProfileView> {
   Future<void> _showChangeUsernameDialog(BuildContext context, String currentUsername) async {
     final controller = TextEditingController(text: currentUsername);
     final bloc = context.read<ProfileBloc>();
+    // только буквы и цифры — как alphanum() на бэке
+    final alphanumRegex = RegExp(r'^[a-zA-Z0-9]+$');
+
+    bool isValid(String value) => value.length >= 3 && alphanumRegex.hasMatch(value);
 
     final newName = await showDialog<String>(
       context: context,
       builder: (dialogContext) {
-        return AlertDialog(
-          title: const Text('Изменить имя пользователя'),
-          content: TextField(
-            controller: controller,
-            autofocus: true,
-            maxLength: 16,
-            decoration: const InputDecoration(hintText: 'Новое имя пользователя'),
-            onSubmitted: (value) => Navigator.of(dialogContext).pop(value),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('Отмена'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(controller.text),
-              child: const Text('Сохранить'),
-            ),
-          ],
+        return StatefulBuilder(
+          builder: (dialogContext, setDialogState) {
+            final value = controller.text;
+            final valid = isValid(value);
+            final showError = value.isNotEmpty && !valid;
+
+            return AlertDialog(
+              title: const Text('Изменить имя пользователя'),
+              content: TextField(
+                controller: controller,
+                autofocus: true,
+                maxLength: 16,
+                decoration: InputDecoration(
+                  hintText: 'Новое имя пользователя',
+                  errorText: showError
+                      ? (value.length < 3
+                          ? 'Минимум 3 символа'
+                          : 'Только латинские буквы и цифры')
+                      : null,
+                ),
+                onChanged: (_) => setDialogState(() {}),
+                onSubmitted: (v) => isValid(v) ? Navigator.of(dialogContext).pop(v) : null,
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(),
+                  child: const Text('Отмена'),
+                ),
+                TextButton(
+                  onPressed: valid ? () => Navigator.of(dialogContext).pop(controller.text) : null,
+                  child: const Text('Сохранить'),
+                ),
+              ],
+            );
+          },
         );
       },
     );
