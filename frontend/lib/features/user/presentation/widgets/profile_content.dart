@@ -13,9 +13,11 @@ class ProfileContent extends StatelessWidget {
   final String? email;
   final bool isUploadingAvatar;
   final bool isCreatingChat;
+  final bool isChangingUsername;
   final String? statusText;
   final VoidCallback onPickPhoto;
   final VoidCallback onChatTap;
+  final VoidCallback onChangeUsername;
 
   const ProfileContent({
     super.key,
@@ -25,9 +27,11 @@ class ProfileContent extends StatelessWidget {
     required this.email,
     required this.isUploadingAvatar,
     required this.isCreatingChat,
+    required this.isChangingUsername,
     this.statusText,
     required this.onPickPhoto,
     required this.onChatTap,
+    required this.onChangeUsername,
   });
 
   @override
@@ -74,8 +78,8 @@ class ProfileContent extends StatelessWidget {
                     Expanded(
                       child: ActionButton(
                         icon: Icons.edit_outlined,
-                        label: 'Изменить',
-                        onTap: () {},
+                        label: 'Изменить имя',
+                        onTap: isChangingUsername ? () {} : onChangeUsername,
                       ),
                     ),
                     SizedBox(width: spacing.buttonGap),
