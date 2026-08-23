@@ -110,7 +110,7 @@ class RoomRemoteDatasource {
   Future<Room> changeGroupName(String roomId, String name) async {
     final response = await _dio.patch(
       '/rooms/$roomId/group-name',
-      data: {'group-name': name},
+      data: {'name': name},
     );
     return Room.fromJson(response.data as Map<String, dynamic>);
   }
