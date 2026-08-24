@@ -49,6 +49,58 @@ class _GroupProfileViewState extends State<_GroupProfileView> {
     context.read<GroupProfileBloc>().add(GroupProfileEvent.avatarUploadRequested(picked));
   }
 
+  Future<void> _showChangeNameDialog(BuildContext context, String? currentName) async {
+    final controller = TextEditingController(text: currentName ?? '');
+    final bloc = context.read<GroupProfileBloc>();
+
+    bool isValid(String value) => value.trim().length >= 3 && value.trim().length <= 24;
+
+    final newName = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) {
+        return StatefulBuilder(
+          builder: (dialogContext, setDialogState) {
+            final value = controller.text;
+            final valid = isValid(value);
+            final showError = value.isNotEmpty && !valid;
+
+            return AlertDialog(
+              title: const Text('Изменить название группы'),
+              content: TextField(
+                controller: controller,
+                autofocus: true,
+                maxLength: 24,
+                decoration: InputDecoration(
+                  hintText: 'Новое название группы',
+                  errorText: showError ? 'От 3 до 24 символов' : null,
+                ),
+                onChanged: (_) => setDialogState(() {}),
+                onSubmitted: (v) => isValid(v) ? Navigator.of(dialogContext).pop(v) : null,
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(),
+                  child: const Text('Отмена'),
+                ),
+                TextButton(
+                  onPressed: valid ? () => Navigator.of(dialogContext).pop(controller.text) : null,
+                  child: const Text('Сохранить'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    controller.dispose();
+
+    final trimmed = newName?.trim();
+    if (trimmed == null || trimmed.isEmpty || trimmed == currentName) return;
+
+    bloc.add(GroupProfileEvent.changeNameRequested(roomId: bloc.roomId, name: trimmed));
+  }
+
   @override
   Widget build(BuildContext context) {
     final spacing = AppSpacing.of(context);
@@ -57,7 +109,7 @@ class _GroupProfileViewState extends State<_GroupProfileView> {
     return BlocConsumer<GroupProfileBloc, GroupProfileState>(
       listenWhen: (previous, current) =>
           current is GroupProfileLoaded
-          && (current.errorMessage != null || current.removedRemotely),
+          && (current.errorMessage != null || current.nameError != null || current.removedRemotely),
       listener: (context, state) {
         if (state is! GroupProfileLoaded) return;
         // нас выкинули из группы (или её удалил owner) — уход с экрана
@@ -68,6 +120,11 @@ class _GroupProfileViewState extends State<_GroupProfileView> {
         if (state.errorMessage != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.errorMessage!)),
+          );
+        }
+        if (state.nameError != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.nameError!)),
           );
         }
       },
@@ -85,11 +142,12 @@ class _GroupProfileViewState extends State<_GroupProfileView> {
               ),
             ),
           ),
-          loaded: (room, isRemoving, isChangingRole, errorMessage, removedRemotely, isUploadingAvatar) => GroupProfileContent(
+          loaded: (room, isRemoving, isChangingRole, isUploadingAvatar, isChangingName, errorMessage, nameError, removedRemotely) => GroupProfileContent(
             room: room,
             currentUserId: currentUserId,
             isRemoving: isRemoving,
             isUploadingAvatar: isUploadingAvatar,
+            isChangingName: isChangingName,
             onRemoveParticipant: (userId) =>
                 context.read<GroupProfileBloc>().add(GroupProfileEvent.participantRemoveRequested(userId)),
             onChangeParticipantRole: (userId, newRole) => context
@@ -106,6 +164,7 @@ class _GroupProfileViewState extends State<_GroupProfileView> {
               }
             },
             onPickPhoto: () => _pickAndUploadAvatar(context),
+            onChangeName: () => _showChangeNameDialog(context, room.name),
           ),
         );
       },
