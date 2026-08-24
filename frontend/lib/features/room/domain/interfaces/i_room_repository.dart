@@ -42,6 +42,8 @@ abstract class IRoomRepository {
     required XFile file,
   });
 
+  Future<Either<Failure, RoomEntity>> changeGroupName(String roomId, String name);
+
   // синхронный маппинг сырых socket-данных в доменную сущность
   RoomListItemEntity mapSocketRoom(Map<String, dynamic> json);
 }

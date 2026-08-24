@@ -44,6 +44,7 @@ import '../../features/room/domain/usecases/delete_room_usecase.dart';
 import '../../features/room/domain/usecases/leave_room_usecase.dart';
 import '../../features/room/domain/usecases/parse_socket_room_usecase.dart';
 import '../../features/room/domain/usecases/upload_room_avatar_usecase.dart';
+import '../../features/room/domain/usecases/change_group_name_usecase.dart';
 import '../../features/room/presentation/blocs/room/room_list_bloc.dart';
 
 import '../../features/room/presentation/blocs/group/create_group_bloc.dart';
@@ -224,6 +225,9 @@ Future<void> setupDependencies() async {
   getIt.registerLazySingleton<LeaveRoomUseCase>(
     () => LeaveRoomUseCase(getIt<IRoomRepository>()),
   );
+  getIt.registerLazySingleton<ChangeGroupNameUsecase>(
+    () => ChangeGroupNameUsecase(getIt<IRoomRepository>()),
+  );
   getIt.registerLazySingleton<ParseSocketRoomUseCase>(
     () => ParseSocketRoomUseCase(getIt<IRoomRepository>()),
   );
@@ -256,6 +260,7 @@ Future<void> setupDependencies() async {
       removeParticipantUseCase: getIt<RemoveParticipantUseCase>(),
       updateParticipantRoleUseCase: getIt<UpdateParticipantRoleUseCase>(),
       uploadRoomAvatarUseCase: getIt<UploadRoomAvatarUseCase>(),
+      changeGroupNameUsecase: getIt<ChangeGroupNameUsecase>(),
       socketService: getIt<SocketService>(),
     ),
   );

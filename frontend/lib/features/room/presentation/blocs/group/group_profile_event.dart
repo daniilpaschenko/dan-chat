@@ -15,6 +15,11 @@ class GroupProfileEvent with _$GroupProfileEvent {
   // приходит после успешного возврата с экрана добавления участников
   const factory GroupProfileEvent.participantsAdded(RoomEntity room) =
       GroupProfileParticipantsAdded;
+  // запрос на смену имени группы
+  const factory GroupProfileEvent.changeNameRequested({
+    required String roomId,
+    required String name,
+  }) = GroupProfileChangeNameRequested;
   // прилетело room:updated по сокету для нашей комнаты — тихо перезапрашиваем актуальные данные
   const factory GroupProfileEvent.roomUpdatedRemotely() = GroupProfileRoomUpdatedRemotely;
   // прилетело room:deleted по сокету — нас кикнули или чат удалили

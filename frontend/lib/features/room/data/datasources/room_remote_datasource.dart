@@ -106,4 +106,12 @@ class RoomRemoteDatasource {
     final response = await _dio.post('/rooms/$roomId/avatar', data: formData);
     return Room.fromJson(response.data as Map<String, dynamic>);
   }
+
+  Future<Room> changeGroupName(String roomId, String name) async {
+    final response = await _dio.patch(
+      '/rooms/$roomId/group-name',
+      data: {'name': name},
+    );
+    return Room.fromJson(response.data as Map<String, dynamic>);
+  }
 }

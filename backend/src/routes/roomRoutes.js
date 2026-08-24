@@ -8,7 +8,8 @@ const {
     getRoomById,
     markRoomAsRead,
     deleteRoom,
-    uploadRoomAvatar
+    uploadRoomAvatar,
+    changeGroupName,
 } = require('../controllers/roomController');
 const {
     addParticipant,
@@ -28,6 +29,7 @@ router.post('/:roomId/read', markRoomAsRead);
 router.post('/:roomId/participants', addParticipant);
 router.delete('/:roomId/participants/:userId', removeParticipant);
 router.patch('/:roomId/participants/:userId/role', updateParticipantRole);
+router.patch('/:roomId/group-name', changeGroupName);
 router.post('/:roomId/leave', leaveRoom);
 router.delete('/:roomId', deleteRoom);
 router.post('/:roomId/avatar', authMiddleware, upload.single('avatar'), uploadRoomAvatar);

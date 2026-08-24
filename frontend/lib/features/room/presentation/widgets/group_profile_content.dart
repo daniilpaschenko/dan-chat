@@ -13,9 +13,11 @@ class GroupProfileContent extends StatelessWidget {
   final String? currentUserId;
   final bool isRemoving;
   final bool isUploadingAvatar;
+  final bool isChangingName;
   final ValueChanged<String> onRemoveParticipant;
   final VoidCallback onAddParticipants;
   final VoidCallback onPickPhoto;
+  final VoidCallback onChangeName;
   final void Function(String userId, ParticipantRole newRole)
   onChangeParticipantRole;
 
@@ -25,9 +27,11 @@ class GroupProfileContent extends StatelessWidget {
     required this.currentUserId,
     required this.isRemoving,
     required this.isUploadingAvatar,
+    required this.isChangingName,
     required this.onRemoveParticipant,
     required this.onAddParticipants,
     required this.onPickPhoto,
+    required this.onChangeName,
     required this.onChangeParticipantRole,
   });
 
@@ -87,6 +91,23 @@ class GroupProfileContent extends StatelessWidget {
           statusText: info.subtitle,
           isDesktop: isDesktop,
         ),
+        Center(
+          child: isChangingName
+              ? SizedBox(
+                  height: spacing.captionSize * 1.8,
+                  width: spacing.captionSize * 1.8,
+                  child: const CircularProgressIndicator(strokeWidth: 2),
+                )
+              : Text(
+                  info.title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: spacing.captionSize * 1.8,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+          ),
         Padding(
           padding: EdgeInsets.fromLTRB(
             spacing.pagePadding,
@@ -103,7 +124,7 @@ class GroupProfileContent extends StatelessWidget {
                   onTap: _canManage
                       ? onAddParticipants
                       : () => showSnackBar(
-                          'Добавлять участников может только Владелец или Админ',
+                          'Добавлять участников может только владелец или админ',
                         ),
                 ),
               ),
@@ -115,8 +136,20 @@ class GroupProfileContent extends StatelessWidget {
                   onTap: _canManage
                       ? onPickPhoto
                       : () => showSnackBar(
-                          'Изменять аватарку группы может только Владелец или Админ',
+                          'Изменять аватарку группы может только владелец или админ',
                         ),
+                ),
+              ),
+              SizedBox(width: spacing.buttonGap),
+              Expanded(
+                child: ActionButton(
+                  icon: Icons.edit_outlined,
+                  label: 'Изменить название',
+                  onTap: !_canManage
+                      ? () => showSnackBar(
+                          'Изменять название группы может только владелец или админ',
+                        )
+                      : (isChangingName ? () {} : onChangeName),
                 ),
               ),
             ],

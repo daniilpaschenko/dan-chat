@@ -24,6 +24,7 @@ mixin _$GroupProfileEvent {
     required TResult Function(String userId, ParticipantRole role)
     participantRoleChangeRequested,
     required TResult Function(RoomEntity room) participantsAdded,
+    required TResult Function(String roomId, String name) changeNameRequested,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
     required TResult Function(XFile file) avatarUploadRequested,
@@ -35,6 +36,7 @@ mixin _$GroupProfileEvent {
     TResult? Function(String userId, ParticipantRole role)?
     participantRoleChangeRequested,
     TResult? Function(RoomEntity room)? participantsAdded,
+    TResult? Function(String roomId, String name)? changeNameRequested,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
     TResult? Function(XFile file)? avatarUploadRequested,
@@ -46,6 +48,7 @@ mixin _$GroupProfileEvent {
     TResult Function(String userId, ParticipantRole role)?
     participantRoleChangeRequested,
     TResult Function(RoomEntity room)? participantsAdded,
+    TResult Function(String roomId, String name)? changeNameRequested,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
     TResult Function(XFile file)? avatarUploadRequested,
@@ -60,6 +63,8 @@ mixin _$GroupProfileEvent {
     participantRoleChangeRequested,
     required TResult Function(GroupProfileParticipantsAdded value)
     participantsAdded,
+    required TResult Function(GroupProfileChangeNameRequested value)
+    changeNameRequested,
     required TResult Function(GroupProfileRoomUpdatedRemotely value)
     roomUpdatedRemotely,
     required TResult Function(GroupProfileRoomRemovedRemotely value)
@@ -75,6 +80,8 @@ mixin _$GroupProfileEvent {
     TResult? Function(GroupProfileParticipantRoleChangeRequested value)?
     participantRoleChangeRequested,
     TResult? Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult? Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
     TResult? Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
     TResult? Function(GroupProfileRoomRemovedRemotely value)?
@@ -90,6 +97,8 @@ mixin _$GroupProfileEvent {
     TResult Function(GroupProfileParticipantRoleChangeRequested value)?
     participantRoleChangeRequested,
     TResult Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
     TResult Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
     TResult Function(GroupProfileRoomRemovedRemotely value)?
@@ -171,6 +180,7 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
     required TResult Function(String userId, ParticipantRole role)
     participantRoleChangeRequested,
     required TResult Function(RoomEntity room) participantsAdded,
+    required TResult Function(String roomId, String name) changeNameRequested,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
     required TResult Function(XFile file) avatarUploadRequested,
@@ -186,6 +196,7 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
     TResult? Function(String userId, ParticipantRole role)?
     participantRoleChangeRequested,
     TResult? Function(RoomEntity room)? participantsAdded,
+    TResult? Function(String roomId, String name)? changeNameRequested,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
     TResult? Function(XFile file)? avatarUploadRequested,
@@ -201,6 +212,7 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
     TResult Function(String userId, ParticipantRole role)?
     participantRoleChangeRequested,
     TResult Function(RoomEntity room)? participantsAdded,
+    TResult Function(String roomId, String name)? changeNameRequested,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
     TResult Function(XFile file)? avatarUploadRequested,
@@ -222,6 +234,8 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
     participantRoleChangeRequested,
     required TResult Function(GroupProfileParticipantsAdded value)
     participantsAdded,
+    required TResult Function(GroupProfileChangeNameRequested value)
+    changeNameRequested,
     required TResult Function(GroupProfileRoomUpdatedRemotely value)
     roomUpdatedRemotely,
     required TResult Function(GroupProfileRoomRemovedRemotely value)
@@ -241,6 +255,8 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
     TResult? Function(GroupProfileParticipantRoleChangeRequested value)?
     participantRoleChangeRequested,
     TResult? Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult? Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
     TResult? Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
     TResult? Function(GroupProfileRoomRemovedRemotely value)?
@@ -260,6 +276,8 @@ class _$GroupProfileStartedImpl implements GroupProfileStarted {
     TResult Function(GroupProfileParticipantRoleChangeRequested value)?
     participantRoleChangeRequested,
     TResult Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
     TResult Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
     TResult Function(GroupProfileRoomRemovedRemotely value)?
@@ -364,6 +382,7 @@ class _$GroupProfileParticipantRemoveRequestedImpl
     required TResult Function(String userId, ParticipantRole role)
     participantRoleChangeRequested,
     required TResult Function(RoomEntity room) participantsAdded,
+    required TResult Function(String roomId, String name) changeNameRequested,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
     required TResult Function(XFile file) avatarUploadRequested,
@@ -379,6 +398,7 @@ class _$GroupProfileParticipantRemoveRequestedImpl
     TResult? Function(String userId, ParticipantRole role)?
     participantRoleChangeRequested,
     TResult? Function(RoomEntity room)? participantsAdded,
+    TResult? Function(String roomId, String name)? changeNameRequested,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
     TResult? Function(XFile file)? avatarUploadRequested,
@@ -394,6 +414,7 @@ class _$GroupProfileParticipantRemoveRequestedImpl
     TResult Function(String userId, ParticipantRole role)?
     participantRoleChangeRequested,
     TResult Function(RoomEntity room)? participantsAdded,
+    TResult Function(String roomId, String name)? changeNameRequested,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
     TResult Function(XFile file)? avatarUploadRequested,
@@ -415,6 +436,8 @@ class _$GroupProfileParticipantRemoveRequestedImpl
     participantRoleChangeRequested,
     required TResult Function(GroupProfileParticipantsAdded value)
     participantsAdded,
+    required TResult Function(GroupProfileChangeNameRequested value)
+    changeNameRequested,
     required TResult Function(GroupProfileRoomUpdatedRemotely value)
     roomUpdatedRemotely,
     required TResult Function(GroupProfileRoomRemovedRemotely value)
@@ -434,6 +457,8 @@ class _$GroupProfileParticipantRemoveRequestedImpl
     TResult? Function(GroupProfileParticipantRoleChangeRequested value)?
     participantRoleChangeRequested,
     TResult? Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult? Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
     TResult? Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
     TResult? Function(GroupProfileRoomRemovedRemotely value)?
@@ -453,6 +478,8 @@ class _$GroupProfileParticipantRemoveRequestedImpl
     TResult Function(GroupProfileParticipantRoleChangeRequested value)?
     participantRoleChangeRequested,
     TResult Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
     TResult Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
     TResult Function(GroupProfileRoomRemovedRemotely value)?
@@ -579,6 +606,7 @@ class _$GroupProfileParticipantRoleChangeRequestedImpl
     required TResult Function(String userId, ParticipantRole role)
     participantRoleChangeRequested,
     required TResult Function(RoomEntity room) participantsAdded,
+    required TResult Function(String roomId, String name) changeNameRequested,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
     required TResult Function(XFile file) avatarUploadRequested,
@@ -594,6 +622,7 @@ class _$GroupProfileParticipantRoleChangeRequestedImpl
     TResult? Function(String userId, ParticipantRole role)?
     participantRoleChangeRequested,
     TResult? Function(RoomEntity room)? participantsAdded,
+    TResult? Function(String roomId, String name)? changeNameRequested,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
     TResult? Function(XFile file)? avatarUploadRequested,
@@ -609,6 +638,7 @@ class _$GroupProfileParticipantRoleChangeRequestedImpl
     TResult Function(String userId, ParticipantRole role)?
     participantRoleChangeRequested,
     TResult Function(RoomEntity room)? participantsAdded,
+    TResult Function(String roomId, String name)? changeNameRequested,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
     TResult Function(XFile file)? avatarUploadRequested,
@@ -630,6 +660,8 @@ class _$GroupProfileParticipantRoleChangeRequestedImpl
     participantRoleChangeRequested,
     required TResult Function(GroupProfileParticipantsAdded value)
     participantsAdded,
+    required TResult Function(GroupProfileChangeNameRequested value)
+    changeNameRequested,
     required TResult Function(GroupProfileRoomUpdatedRemotely value)
     roomUpdatedRemotely,
     required TResult Function(GroupProfileRoomRemovedRemotely value)
@@ -649,6 +681,8 @@ class _$GroupProfileParticipantRoleChangeRequestedImpl
     TResult? Function(GroupProfileParticipantRoleChangeRequested value)?
     participantRoleChangeRequested,
     TResult? Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult? Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
     TResult? Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
     TResult? Function(GroupProfileRoomRemovedRemotely value)?
@@ -668,6 +702,8 @@ class _$GroupProfileParticipantRoleChangeRequestedImpl
     TResult Function(GroupProfileParticipantRoleChangeRequested value)?
     participantRoleChangeRequested,
     TResult Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
     TResult Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
     TResult Function(GroupProfileRoomRemovedRemotely value)?
@@ -799,6 +835,7 @@ class _$GroupProfileParticipantsAddedImpl
     required TResult Function(String userId, ParticipantRole role)
     participantRoleChangeRequested,
     required TResult Function(RoomEntity room) participantsAdded,
+    required TResult Function(String roomId, String name) changeNameRequested,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
     required TResult Function(XFile file) avatarUploadRequested,
@@ -814,6 +851,7 @@ class _$GroupProfileParticipantsAddedImpl
     TResult? Function(String userId, ParticipantRole role)?
     participantRoleChangeRequested,
     TResult? Function(RoomEntity room)? participantsAdded,
+    TResult? Function(String roomId, String name)? changeNameRequested,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
     TResult? Function(XFile file)? avatarUploadRequested,
@@ -829,6 +867,7 @@ class _$GroupProfileParticipantsAddedImpl
     TResult Function(String userId, ParticipantRole role)?
     participantRoleChangeRequested,
     TResult Function(RoomEntity room)? participantsAdded,
+    TResult Function(String roomId, String name)? changeNameRequested,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
     TResult Function(XFile file)? avatarUploadRequested,
@@ -850,6 +889,8 @@ class _$GroupProfileParticipantsAddedImpl
     participantRoleChangeRequested,
     required TResult Function(GroupProfileParticipantsAdded value)
     participantsAdded,
+    required TResult Function(GroupProfileChangeNameRequested value)
+    changeNameRequested,
     required TResult Function(GroupProfileRoomUpdatedRemotely value)
     roomUpdatedRemotely,
     required TResult Function(GroupProfileRoomRemovedRemotely value)
@@ -869,6 +910,8 @@ class _$GroupProfileParticipantsAddedImpl
     TResult? Function(GroupProfileParticipantRoleChangeRequested value)?
     participantRoleChangeRequested,
     TResult? Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult? Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
     TResult? Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
     TResult? Function(GroupProfileRoomRemovedRemotely value)?
@@ -888,6 +931,8 @@ class _$GroupProfileParticipantsAddedImpl
     TResult Function(GroupProfileParticipantRoleChangeRequested value)?
     participantRoleChangeRequested,
     TResult Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
     TResult Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
     TResult Function(GroupProfileRoomRemovedRemotely value)?
@@ -914,6 +959,232 @@ abstract class GroupProfileParticipantsAdded implements GroupProfileEvent {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GroupProfileParticipantsAddedImplCopyWith<
     _$GroupProfileParticipantsAddedImpl
+  >
+  get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$GroupProfileChangeNameRequestedImplCopyWith<$Res> {
+  factory _$$GroupProfileChangeNameRequestedImplCopyWith(
+    _$GroupProfileChangeNameRequestedImpl value,
+    $Res Function(_$GroupProfileChangeNameRequestedImpl) then,
+  ) = __$$GroupProfileChangeNameRequestedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String roomId, String name});
+}
+
+/// @nodoc
+class __$$GroupProfileChangeNameRequestedImplCopyWithImpl<$Res>
+    extends
+        _$GroupProfileEventCopyWithImpl<
+          $Res,
+          _$GroupProfileChangeNameRequestedImpl
+        >
+    implements _$$GroupProfileChangeNameRequestedImplCopyWith<$Res> {
+  __$$GroupProfileChangeNameRequestedImplCopyWithImpl(
+    _$GroupProfileChangeNameRequestedImpl _value,
+    $Res Function(_$GroupProfileChangeNameRequestedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of GroupProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? roomId = null, Object? name = null}) {
+    return _then(
+      _$GroupProfileChangeNameRequestedImpl(
+        roomId: null == roomId
+            ? _value.roomId
+            : roomId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$GroupProfileChangeNameRequestedImpl
+    implements GroupProfileChangeNameRequested {
+  const _$GroupProfileChangeNameRequestedImpl({
+    required this.roomId,
+    required this.name,
+  });
+
+  @override
+  final String roomId;
+  @override
+  final String name;
+
+  @override
+  String toString() {
+    return 'GroupProfileEvent.changeNameRequested(roomId: $roomId, name: $name)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GroupProfileChangeNameRequestedImpl &&
+            (identical(other.roomId, roomId) || other.roomId == roomId) &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, roomId, name);
+
+  /// Create a copy of GroupProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GroupProfileChangeNameRequestedImplCopyWith<
+    _$GroupProfileChangeNameRequestedImpl
+  >
+  get copyWith =>
+      __$$GroupProfileChangeNameRequestedImplCopyWithImpl<
+        _$GroupProfileChangeNameRequestedImpl
+      >(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(String userId) participantRemoveRequested,
+    required TResult Function(String userId, ParticipantRole role)
+    participantRoleChangeRequested,
+    required TResult Function(RoomEntity room) participantsAdded,
+    required TResult Function(String roomId, String name) changeNameRequested,
+    required TResult Function() roomUpdatedRemotely,
+    required TResult Function() roomRemovedRemotely,
+    required TResult Function(XFile file) avatarUploadRequested,
+  }) {
+    return changeNameRequested(roomId, name);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(String userId)? participantRemoveRequested,
+    TResult? Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
+    TResult? Function(RoomEntity room)? participantsAdded,
+    TResult? Function(String roomId, String name)? changeNameRequested,
+    TResult? Function()? roomUpdatedRemotely,
+    TResult? Function()? roomRemovedRemotely,
+    TResult? Function(XFile file)? avatarUploadRequested,
+  }) {
+    return changeNameRequested?.call(roomId, name);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(String userId)? participantRemoveRequested,
+    TResult Function(String userId, ParticipantRole role)?
+    participantRoleChangeRequested,
+    TResult Function(RoomEntity room)? participantsAdded,
+    TResult Function(String roomId, String name)? changeNameRequested,
+    TResult Function()? roomUpdatedRemotely,
+    TResult Function()? roomRemovedRemotely,
+    TResult Function(XFile file)? avatarUploadRequested,
+    required TResult orElse(),
+  }) {
+    if (changeNameRequested != null) {
+      return changeNameRequested(roomId, name);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GroupProfileStarted value) started,
+    required TResult Function(GroupProfileParticipantRemoveRequested value)
+    participantRemoveRequested,
+    required TResult Function(GroupProfileParticipantRoleChangeRequested value)
+    participantRoleChangeRequested,
+    required TResult Function(GroupProfileParticipantsAdded value)
+    participantsAdded,
+    required TResult Function(GroupProfileChangeNameRequested value)
+    changeNameRequested,
+    required TResult Function(GroupProfileRoomUpdatedRemotely value)
+    roomUpdatedRemotely,
+    required TResult Function(GroupProfileRoomRemovedRemotely value)
+    roomRemovedRemotely,
+    required TResult Function(GroupProfileAvatarUploadRequested value)
+    avatarUploadRequested,
+  }) {
+    return changeNameRequested(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GroupProfileStarted value)? started,
+    TResult? Function(GroupProfileParticipantRemoveRequested value)?
+    participantRemoveRequested,
+    TResult? Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
+    TResult? Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult? Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
+    TResult? Function(GroupProfileRoomUpdatedRemotely value)?
+    roomUpdatedRemotely,
+    TResult? Function(GroupProfileRoomRemovedRemotely value)?
+    roomRemovedRemotely,
+    TResult? Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
+  }) {
+    return changeNameRequested?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GroupProfileStarted value)? started,
+    TResult Function(GroupProfileParticipantRemoveRequested value)?
+    participantRemoveRequested,
+    TResult Function(GroupProfileParticipantRoleChangeRequested value)?
+    participantRoleChangeRequested,
+    TResult Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
+    TResult Function(GroupProfileRoomUpdatedRemotely value)?
+    roomUpdatedRemotely,
+    TResult Function(GroupProfileRoomRemovedRemotely value)?
+    roomRemovedRemotely,
+    TResult Function(GroupProfileAvatarUploadRequested value)?
+    avatarUploadRequested,
+    required TResult orElse(),
+  }) {
+    if (changeNameRequested != null) {
+      return changeNameRequested(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GroupProfileChangeNameRequested implements GroupProfileEvent {
+  const factory GroupProfileChangeNameRequested({
+    required final String roomId,
+    required final String name,
+  }) = _$GroupProfileChangeNameRequestedImpl;
+
+  String get roomId;
+  String get name;
+
+  /// Create a copy of GroupProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GroupProfileChangeNameRequestedImplCopyWith<
+    _$GroupProfileChangeNameRequestedImpl
   >
   get copyWith => throw _privateConstructorUsedError;
 }
@@ -972,6 +1243,7 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
     required TResult Function(String userId, ParticipantRole role)
     participantRoleChangeRequested,
     required TResult Function(RoomEntity room) participantsAdded,
+    required TResult Function(String roomId, String name) changeNameRequested,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
     required TResult Function(XFile file) avatarUploadRequested,
@@ -987,6 +1259,7 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
     TResult? Function(String userId, ParticipantRole role)?
     participantRoleChangeRequested,
     TResult? Function(RoomEntity room)? participantsAdded,
+    TResult? Function(String roomId, String name)? changeNameRequested,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
     TResult? Function(XFile file)? avatarUploadRequested,
@@ -1002,6 +1275,7 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
     TResult Function(String userId, ParticipantRole role)?
     participantRoleChangeRequested,
     TResult Function(RoomEntity room)? participantsAdded,
+    TResult Function(String roomId, String name)? changeNameRequested,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
     TResult Function(XFile file)? avatarUploadRequested,
@@ -1023,6 +1297,8 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
     participantRoleChangeRequested,
     required TResult Function(GroupProfileParticipantsAdded value)
     participantsAdded,
+    required TResult Function(GroupProfileChangeNameRequested value)
+    changeNameRequested,
     required TResult Function(GroupProfileRoomUpdatedRemotely value)
     roomUpdatedRemotely,
     required TResult Function(GroupProfileRoomRemovedRemotely value)
@@ -1042,6 +1318,8 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
     TResult? Function(GroupProfileParticipantRoleChangeRequested value)?
     participantRoleChangeRequested,
     TResult? Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult? Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
     TResult? Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
     TResult? Function(GroupProfileRoomRemovedRemotely value)?
@@ -1061,6 +1339,8 @@ class _$GroupProfileRoomUpdatedRemotelyImpl
     TResult Function(GroupProfileParticipantRoleChangeRequested value)?
     participantRoleChangeRequested,
     TResult Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
     TResult Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
     TResult Function(GroupProfileRoomRemovedRemotely value)?
@@ -1135,6 +1415,7 @@ class _$GroupProfileRoomRemovedRemotelyImpl
     required TResult Function(String userId, ParticipantRole role)
     participantRoleChangeRequested,
     required TResult Function(RoomEntity room) participantsAdded,
+    required TResult Function(String roomId, String name) changeNameRequested,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
     required TResult Function(XFile file) avatarUploadRequested,
@@ -1150,6 +1431,7 @@ class _$GroupProfileRoomRemovedRemotelyImpl
     TResult? Function(String userId, ParticipantRole role)?
     participantRoleChangeRequested,
     TResult? Function(RoomEntity room)? participantsAdded,
+    TResult? Function(String roomId, String name)? changeNameRequested,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
     TResult? Function(XFile file)? avatarUploadRequested,
@@ -1165,6 +1447,7 @@ class _$GroupProfileRoomRemovedRemotelyImpl
     TResult Function(String userId, ParticipantRole role)?
     participantRoleChangeRequested,
     TResult Function(RoomEntity room)? participantsAdded,
+    TResult Function(String roomId, String name)? changeNameRequested,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
     TResult Function(XFile file)? avatarUploadRequested,
@@ -1186,6 +1469,8 @@ class _$GroupProfileRoomRemovedRemotelyImpl
     participantRoleChangeRequested,
     required TResult Function(GroupProfileParticipantsAdded value)
     participantsAdded,
+    required TResult Function(GroupProfileChangeNameRequested value)
+    changeNameRequested,
     required TResult Function(GroupProfileRoomUpdatedRemotely value)
     roomUpdatedRemotely,
     required TResult Function(GroupProfileRoomRemovedRemotely value)
@@ -1205,6 +1490,8 @@ class _$GroupProfileRoomRemovedRemotelyImpl
     TResult? Function(GroupProfileParticipantRoleChangeRequested value)?
     participantRoleChangeRequested,
     TResult? Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult? Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
     TResult? Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
     TResult? Function(GroupProfileRoomRemovedRemotely value)?
@@ -1224,6 +1511,8 @@ class _$GroupProfileRoomRemovedRemotelyImpl
     TResult Function(GroupProfileParticipantRoleChangeRequested value)?
     participantRoleChangeRequested,
     TResult Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
     TResult Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
     TResult Function(GroupProfileRoomRemovedRemotely value)?
@@ -1329,6 +1618,7 @@ class _$GroupProfileAvatarUploadRequestedImpl
     required TResult Function(String userId, ParticipantRole role)
     participantRoleChangeRequested,
     required TResult Function(RoomEntity room) participantsAdded,
+    required TResult Function(String roomId, String name) changeNameRequested,
     required TResult Function() roomUpdatedRemotely,
     required TResult Function() roomRemovedRemotely,
     required TResult Function(XFile file) avatarUploadRequested,
@@ -1344,6 +1634,7 @@ class _$GroupProfileAvatarUploadRequestedImpl
     TResult? Function(String userId, ParticipantRole role)?
     participantRoleChangeRequested,
     TResult? Function(RoomEntity room)? participantsAdded,
+    TResult? Function(String roomId, String name)? changeNameRequested,
     TResult? Function()? roomUpdatedRemotely,
     TResult? Function()? roomRemovedRemotely,
     TResult? Function(XFile file)? avatarUploadRequested,
@@ -1359,6 +1650,7 @@ class _$GroupProfileAvatarUploadRequestedImpl
     TResult Function(String userId, ParticipantRole role)?
     participantRoleChangeRequested,
     TResult Function(RoomEntity room)? participantsAdded,
+    TResult Function(String roomId, String name)? changeNameRequested,
     TResult Function()? roomUpdatedRemotely,
     TResult Function()? roomRemovedRemotely,
     TResult Function(XFile file)? avatarUploadRequested,
@@ -1380,6 +1672,8 @@ class _$GroupProfileAvatarUploadRequestedImpl
     participantRoleChangeRequested,
     required TResult Function(GroupProfileParticipantsAdded value)
     participantsAdded,
+    required TResult Function(GroupProfileChangeNameRequested value)
+    changeNameRequested,
     required TResult Function(GroupProfileRoomUpdatedRemotely value)
     roomUpdatedRemotely,
     required TResult Function(GroupProfileRoomRemovedRemotely value)
@@ -1399,6 +1693,8 @@ class _$GroupProfileAvatarUploadRequestedImpl
     TResult? Function(GroupProfileParticipantRoleChangeRequested value)?
     participantRoleChangeRequested,
     TResult? Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult? Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
     TResult? Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
     TResult? Function(GroupProfileRoomRemovedRemotely value)?
@@ -1418,6 +1714,8 @@ class _$GroupProfileAvatarUploadRequestedImpl
     TResult Function(GroupProfileParticipantRoleChangeRequested value)?
     participantRoleChangeRequested,
     TResult Function(GroupProfileParticipantsAdded value)? participantsAdded,
+    TResult Function(GroupProfileChangeNameRequested value)?
+    changeNameRequested,
     TResult Function(GroupProfileRoomUpdatedRemotely value)?
     roomUpdatedRemotely,
     TResult Function(GroupProfileRoomRemovedRemotely value)?
