@@ -237,6 +237,7 @@ mixin _$LastMessage {
   String? get sender =>
       throw _privateConstructorUsedError; // ObjectId-строка, не populate'ится нигде
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  List<String> get readBy => throw _privateConstructorUsedError;
   LastMessageTypeDto get type => throw _privateConstructorUsedError;
   LastMessageSystemActionDto? get systemAction =>
       throw _privateConstructorUsedError;
@@ -264,6 +265,7 @@ abstract class $LastMessageCopyWith<$Res> {
     String? text,
     String? sender,
     DateTime? createdAt,
+    List<String> readBy,
     LastMessageTypeDto type,
     LastMessageSystemActionDto? systemAction,
     String? systemActorUsername,
@@ -289,6 +291,7 @@ class _$LastMessageCopyWithImpl<$Res, $Val extends LastMessage>
     Object? text = freezed,
     Object? sender = freezed,
     Object? createdAt = freezed,
+    Object? readBy = null,
     Object? type = null,
     Object? systemAction = freezed,
     Object? systemActorUsername = freezed,
@@ -308,6 +311,10 @@ class _$LastMessageCopyWithImpl<$Res, $Val extends LastMessage>
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
                       as DateTime?,
+            readBy: null == readBy
+                ? _value.readBy
+                : readBy // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
             type: null == type
                 ? _value.type
                 : type // ignore: cast_nullable_to_non_nullable
@@ -343,6 +350,7 @@ abstract class _$$LastMessageImplCopyWith<$Res>
     String? text,
     String? sender,
     DateTime? createdAt,
+    List<String> readBy,
     LastMessageTypeDto type,
     LastMessageSystemActionDto? systemAction,
     String? systemActorUsername,
@@ -367,6 +375,7 @@ class __$$LastMessageImplCopyWithImpl<$Res>
     Object? text = freezed,
     Object? sender = freezed,
     Object? createdAt = freezed,
+    Object? readBy = null,
     Object? type = null,
     Object? systemAction = freezed,
     Object? systemActorUsername = freezed,
@@ -386,6 +395,10 @@ class __$$LastMessageImplCopyWithImpl<$Res>
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
                   as DateTime?,
+        readBy: null == readBy
+            ? _value._readBy
+            : readBy // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
         type: null == type
             ? _value.type
             : type // ignore: cast_nullable_to_non_nullable
@@ -414,11 +427,12 @@ class _$LastMessageImpl implements _LastMessage {
     this.text,
     this.sender,
     this.createdAt,
+    final List<String> readBy = const [],
     this.type = LastMessageTypeDto.text,
     this.systemAction,
     this.systemActorUsername,
     this.systemTargetUsername,
-  });
+  }) : _readBy = readBy;
 
   factory _$LastMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$LastMessageImplFromJson(json);
@@ -430,6 +444,15 @@ class _$LastMessageImpl implements _LastMessage {
   // ObjectId-строка, не populate'ится нигде
   @override
   final DateTime? createdAt;
+  final List<String> _readBy;
+  @override
+  @JsonKey()
+  List<String> get readBy {
+    if (_readBy is EqualUnmodifiableListView) return _readBy;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_readBy);
+  }
+
   @override
   @JsonKey()
   final LastMessageTypeDto type;
@@ -442,7 +465,7 @@ class _$LastMessageImpl implements _LastMessage {
 
   @override
   String toString() {
-    return 'LastMessage(text: $text, sender: $sender, createdAt: $createdAt, type: $type, systemAction: $systemAction, systemActorUsername: $systemActorUsername, systemTargetUsername: $systemTargetUsername)';
+    return 'LastMessage(text: $text, sender: $sender, createdAt: $createdAt, readBy: $readBy, type: $type, systemAction: $systemAction, systemActorUsername: $systemActorUsername, systemTargetUsername: $systemTargetUsername)';
   }
 
   @override
@@ -454,6 +477,7 @@ class _$LastMessageImpl implements _LastMessage {
             (identical(other.sender, sender) || other.sender == sender) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            const DeepCollectionEquality().equals(other._readBy, _readBy) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.systemAction, systemAction) ||
                 other.systemAction == systemAction) &&
@@ -470,6 +494,7 @@ class _$LastMessageImpl implements _LastMessage {
     text,
     sender,
     createdAt,
+    const DeepCollectionEquality().hash(_readBy),
     type,
     systemAction,
     systemActorUsername,
@@ -495,6 +520,7 @@ abstract class _LastMessage implements LastMessage {
     final String? text,
     final String? sender,
     final DateTime? createdAt,
+    final List<String> readBy,
     final LastMessageTypeDto type,
     final LastMessageSystemActionDto? systemAction,
     final String? systemActorUsername,
@@ -510,6 +536,8 @@ abstract class _LastMessage implements LastMessage {
   String? get sender; // ObjectId-строка, не populate'ится нигде
   @override
   DateTime? get createdAt;
+  @override
+  List<String> get readBy;
   @override
   LastMessageTypeDto get type;
   @override
