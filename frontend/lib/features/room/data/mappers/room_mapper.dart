@@ -48,7 +48,7 @@ extension LastMessageMapper on LastMessage {
       text: text,
       sender: sender,
       createdAt: createdAt,
-      readBy: const [],
+      readBy: readBy,
       type: type.toEntity(),
       systemAction: systemAction?.toEntity(),
       systemActorUsername: systemActorUsername,
