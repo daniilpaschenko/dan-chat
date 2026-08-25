@@ -74,6 +74,9 @@ import '../../features/message/domain/interfaces/i_message_repository.dart';
 import '../../features/message/domain/usecases/get_room_messages_usecase.dart';
 import '../../features/message/domain/usecases/send_message_usecase.dart';
 import '../../features/message/domain/usecases/parse_socket_message_usecase.dart';
+import '../../features/message/domain/usecases/cache_incoming_socket_message_usecase.dart';
+import '../../features/message/domain/usecases/clear_cached_messages_usecase.dart';
+import '../../features/message/domain/usecases/sync_latest_messages_usecase.dart';
 import '../../features/message/presentation/blocs/chat_room_bloc.dart';
 
 final GetIt getIt = GetIt.instance;
@@ -335,6 +338,15 @@ Future<void> setupDependencies() async {
   getIt.registerLazySingleton<ParseSocketMessageUseCase>(
     () => ParseSocketMessageUseCase(getIt<IMessageRepository>()),
   );
+  getIt.registerLazySingleton<CacheIncomingSocketMessageUseCase>(
+    () => CacheIncomingSocketMessageUseCase(getIt<IMessageRepository>()),
+  );
+  getIt.registerLazySingleton<ClearCachedMessagesUseCase>(
+    () => ClearCachedMessagesUseCase(getIt<IMessageRepository>()),
+  );
+  getIt.registerLazySingleton<SyncLatestMessagesUseCase>(
+    () => SyncLatestMessagesUseCase(getIt<IMessageRepository>()),
+  );
 
   // features/message/presentation
   // также нужен чистый Initial при заходе
@@ -347,6 +359,9 @@ Future<void> setupDependencies() async {
       leaveRoomUseCase: getIt<LeaveRoomUseCase>(),
       getRoomByIdUseCase: getIt<GetRoomByIdUseCase>(),
       parseSocketMessageUseCase: getIt<ParseSocketMessageUseCase>(),
+      cacheIncomingSocketMessageUseCase: getIt<CacheIncomingSocketMessageUseCase>(),
+      syncLatestMessagesUseCase: getIt<SyncLatestMessagesUseCase>(),
+      clearCachedMessagesUseCase: getIt<ClearCachedMessagesUseCase>(),
       socketService: getIt<SocketService>(),
       roomSyncService: getIt<RoomSyncService>(),
       currentUserId: getIt<AuthStateNotifier>().currentUserId!,
