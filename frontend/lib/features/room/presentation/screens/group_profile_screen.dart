@@ -13,6 +13,7 @@ import '../blocs/group/group_profile_bloc.dart';
 import '../blocs/group/group_profile_event.dart';
 import '../blocs/group/group_profile_state.dart';
 import '../widgets/group_profile_content.dart';
+import '../widgets/change_group_name_dialog.dart';
 
 class GroupProfileScreen extends StatelessWidget {
   final String roomId;
@@ -50,50 +51,12 @@ class _GroupProfileViewState extends State<_GroupProfileView> {
   }
 
   Future<void> _showChangeNameDialog(BuildContext context, String? currentName) async {
-    final controller = TextEditingController(text: currentName ?? '');
     final bloc = context.read<GroupProfileBloc>();
-
-    bool isValid(String value) => value.trim().length >= 3 && value.trim().length <= 24;
 
     final newName = await showDialog<String>(
       context: context,
-      builder: (dialogContext) {
-        return StatefulBuilder(
-          builder: (dialogContext, setDialogState) {
-            final value = controller.text;
-            final valid = isValid(value);
-            final showError = value.isNotEmpty && !valid;
-
-            return AlertDialog(
-              title: const Text('Изменить название группы'),
-              content: TextField(
-                controller: controller,
-                autofocus: true,
-                maxLength: 24,
-                decoration: InputDecoration(
-                  hintText: 'Новое название группы',
-                  errorText: showError ? 'От 3 до 24 символов' : null,
-                ),
-                onChanged: (_) => setDialogState(() {}),
-                onSubmitted: (v) => isValid(v) ? Navigator.of(dialogContext).pop(v) : null,
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(dialogContext).pop(),
-                  child: const Text('Отмена'),
-                ),
-                TextButton(
-                  onPressed: valid ? () => Navigator.of(dialogContext).pop(controller.text) : null,
-                  child: const Text('Сохранить'),
-                ),
-              ],
-            );
-          },
-        );
-      },
+      builder: (dialogContext) => ChangeGroupNameDialog(currentName: currentName),
     );
-
-    controller.dispose();
 
     final trimmed = newName?.trim();
     if (trimmed == null || trimmed.isEmpty || trimmed == currentName) return;

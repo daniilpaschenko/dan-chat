@@ -21,19 +21,35 @@ class UserAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipOval(
+    return SizedBox(
+      width: size,
+      height: size,
       child: avatarUrl != null
           ? CachedNetworkImage(
               imageUrl: avatarUrl!,
               width: size,
               height: size,
               fit: BoxFit.cover,
+              imageBuilder: (context, imageProvider) => Container(
+                width: size,
+                height: size,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
               placeholder: (context, url) => Container(
                 width: size,
                 height: size,
-                color: AppColors.primary,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                ).copyWith(color: AppColors.primary),
               ),
-              errorWidget: (context, url, error) => _Fallback(letter: _letter, size: size, fontSize: fontSize),
+              errorWidget: (context, url, error) =>
+                  _Fallback(letter: _letter, size: size, fontSize: fontSize),
             )
           : _Fallback(letter: _letter, size: size, fontSize: fontSize),
     );
