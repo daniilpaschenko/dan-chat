@@ -180,7 +180,8 @@ class _ProfileViewState extends State<_ProfileView> {
                 updatedAt: room.updatedAt,
               );
 
-              context.go(RoutePaths.chatRoomPath(room.id), extra: roomListItem);
+              GoRouter.of(context).go(RoutePaths.chatList); // сброс на список
+              context.push(RoutePaths.chatRoomPath(room.id), extra: roomListItem);
             }
           },
           builder: (context, state) {
