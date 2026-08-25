@@ -32,7 +32,7 @@ class MessageLocalDatasource {
   }
 
   // сохранить первую страницу с сервера
-  Future<void>cacheFirstPage({
+  Future<void> cacheFirstPage({
     required String roomId,
     required List<Message> messages,
   }) async {
@@ -58,6 +58,25 @@ class MessageLocalDatasource {
     await saveCachedMessages(
       roomId: roomId,
       messages: current,
+    );
+  }
+
+  // добавить более новые сообщения, не теряя уже подгруженную старую историю
+  // в отличие от cacheFirstPage, которая полностью перезатирает кэш
+  Future<void> mergeNewMessages({
+    required String roomId,
+    required List<Message> newMessages,
+  }) async {
+    final current = await getCachedMessages(roomId);
+
+    final ids = current.map((e) => e.id).toSet();
+
+    final toAdd = newMessages.where((e) => !ids.contains(e.id));
+
+    await saveCachedMessages(
+      roomId: roomId,
+      // новые сообщения свежее, поэтому кладём их в конец списка (от старых к новым)
+      messages: [...current, ...toAdd],
     );
   }
 
