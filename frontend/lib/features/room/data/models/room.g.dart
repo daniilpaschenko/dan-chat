@@ -37,6 +37,11 @@ _$LastMessageImpl _$$LastMessageImplFromJson(Map<String, dynamic> json) =>
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
+      readBy:
+          (json['readBy'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       type:
           $enumDecodeNullable(_$LastMessageTypeDtoEnumMap, json['type']) ??
           LastMessageTypeDto.text,
@@ -54,6 +59,7 @@ Map<String, dynamic> _$$LastMessageImplToJson(
   'text': instance.text,
   'sender': instance.sender,
   'createdAt': instance.createdAt?.toIso8601String(),
+  'readBy': instance.readBy,
   'type': _$LastMessageTypeDtoEnumMap[instance.type]!,
   'systemAction': _$LastMessageSystemActionDtoEnumMap[instance.systemAction],
   'systemActorUsername': instance.systemActorUsername,

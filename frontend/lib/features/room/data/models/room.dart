@@ -44,6 +44,7 @@ class LastMessage with _$LastMessage {
     String? text,
     String? sender, // ObjectId-строка, не populate'ится нигде
     DateTime? createdAt,
+    @Default([]) List<String> readBy,
     @Default(LastMessageTypeDto.text) LastMessageTypeDto type,
     LastMessageSystemActionDto? systemAction,
     String? systemActorUsername,

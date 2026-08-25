@@ -33,6 +33,7 @@ const lastMessageSchema = new Schema(
         text: { type: String },
         sender: { type: Schema.Types.ObjectId, ref: 'User' },
         createdAt: { type: Date },
+        readBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
         type: {
             type: String,
             enum: ['text', 'system'],

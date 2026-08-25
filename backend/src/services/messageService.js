@@ -1,4 +1,5 @@
 const Message = require('../models/Message');
+const Room = require('../models/Room');
 const { findRoomIfMember } = require('./roomService');
 const { isUserOnline } = require('../sockets/presenceHelper');
 const { sendPushToUsers } = require('./pushService');
@@ -26,6 +27,7 @@ async function createMessage({ roomId, senderId, text, io }) {
         text: message.text,
         sender: senderId,
         createdAt: message.createdAt,
+        readBy: [senderId],
     };
 
     room.participants.forEach((p) => {
@@ -96,6 +98,7 @@ async function createSystemMessage({ room, action, actorId, targetId, io }) {
         systemAction: action,
         systemActorUsername: message.sender.username,
         systemTargetUsername: message.systemData.target.username,
+        readBy: [actorId],
     };
 
     // инкремент unreadCount всем, кроме того, кто совершил действие
@@ -137,6 +140,12 @@ async function markMessagesAsRead({ roomId, userId }) {
     await Message.updateMany(
         { room: roomId, readBy: { $ne: userId }, isDeleted: false },
         { $addToSet: { readBy: userId } },
+    );
+    // синхронизируем readBy превью последнего сообщения в самой комнате,
+    // чтобы список чатов тоже видел актуальный статус прочтения
+    await Room.updateOne(
+        { _id: roomId, 'lastMessage.readBy': { $ne: userId } },
+        { $addToSet: { 'lastMessage.readBy': userId } },
     );
 }
 
