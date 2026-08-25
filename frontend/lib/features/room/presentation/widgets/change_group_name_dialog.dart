@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ChangeGroupNameDialog extends StatefulWidget {
   final String? currentName;
 
-  const ChangeGroupNameDialog({required this.currentName});
+  const ChangeGroupNameDialog({super.key, required this.currentName});
 
   @override
   State<ChangeGroupNameDialog> createState() => ChangeGroupNameDialogState();
