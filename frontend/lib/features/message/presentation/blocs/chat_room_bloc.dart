@@ -9,6 +9,9 @@ import '../../../room/domain/usecases/leave_room_usecase.dart';
 import '../../../user/domain/usecases/get_my_profile_usecase.dart';
 import '../../../room/domain/usecases/get_room_by_id_usecase.dart';
 import '../../domain/usecases/parse_socket_message_usecase.dart';
+import '../../domain/usecases/cache_incoming_socket_message_usecase.dart';
+import '../../domain/usecases/sync_latest_messages_usecase.dart';
+import '../../domain/usecases/clear_cached_messages_usecase.dart';
 import '../../domain/entities/message_entity.dart';
 import '../../domain/usecases/get_room_messages_usecase.dart';
 import '../../../room/domain/entities/room_entity.dart';
@@ -23,6 +26,9 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   final LeaveRoomUseCase _leaveRoomUseCase;
   final GetRoomByIdUseCase _getRoomByIdUseCase;
   final ParseSocketMessageUseCase _parseSocketMessageUseCase;
+  final CacheIncomingSocketMessageUseCase _cacheIncomingSocketMessageUseCase;
+  final SyncLatestMessagesUseCase _syncLatestMessagesUseCase;
+  final ClearCachedMessagesUseCase _clearCachedMessagesUseCase;
   final SocketService _socketService;
   final RoomSyncService _roomSyncService;
   final String _currentUserId;
@@ -46,6 +52,9 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     required LeaveRoomUseCase leaveRoomUseCase,
     required GetRoomByIdUseCase getRoomByIdUseCase,
     required ParseSocketMessageUseCase parseSocketMessageUseCase,
+    required CacheIncomingSocketMessageUseCase cacheIncomingSocketMessageUseCase,
+    required SyncLatestMessagesUseCase syncLatestMessagesUseCase,
+    required ClearCachedMessagesUseCase clearCachedMessagesUseCase,
     required SocketService socketService,
     required RoomSyncService roomSyncService,
     required String currentUserId,
@@ -56,6 +65,9 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
         _leaveRoomUseCase = leaveRoomUseCase,
         _getRoomByIdUseCase = getRoomByIdUseCase,
         _parseSocketMessageUseCase = parseSocketMessageUseCase,
+        _cacheIncomingSocketMessageUseCase = cacheIncomingSocketMessageUseCase,
+        _syncLatestMessagesUseCase = syncLatestMessagesUseCase,
+        _clearCachedMessagesUseCase = clearCachedMessagesUseCase,
         _socketService = socketService,
         _roomSyncService = roomSyncService,
         _currentUserId = currentUserId,
@@ -139,6 +151,10 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
 
     _messageSub = _socketService.messageNew$.listen((data) {
       if (isClosed) return;
+
+      // кэшируем сырое сообщение локально, не блокируя основной поток обработки события
+      _cacheIncomingSocketMessageUseCase(roomId: event.roomId, json: data);
+
       final entity = _parseSocketMessageUseCase(data);
       if (entity.room == event.roomId) {
         add(ChatRoomEvent.socketMessageReceived(entity));
@@ -403,10 +419,12 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     final result = await _deleteRoomUseCase(state.roomId);
     result.fold(
       (failure) => emit(state.copyWith(errorMessage: 'Не удалось удалить чат')),
-      (_) {
+      (_) async {
         // явная отписка от сокета
         _socketService.leaveRoom(state.roomId);
         _roomSyncService.notifyRoomRemoved(state.roomId);
+        // чистим локальный кэш сообщений комнаты — иначе утечка данных на диске
+        await _clearCachedMessagesUseCase(state.roomId);
         emit(state.copyWith(roomRemoved: true));
       },
     );
@@ -419,10 +437,12 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     final result = await _leaveRoomUseCase(state.roomId);
     result.fold(
       (failure) => emit(state.copyWith(errorMessage: 'Не удалось покинуть чат')),
-      (_) {
+      (_) async {
         // явная отписка от сокета
         _socketService.leaveRoom(state.roomId);
         _roomSyncService.notifyRoomRemoved(state.roomId);
+        // чистим локальный кэш сообщений комнаты — иначе утечка данных на диске
+        await _clearCachedMessagesUseCase(state.roomId);
         emit(state.copyWith(roomRemoved: true));
       },
     );
@@ -432,8 +452,8 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     ChatRoomReconnected event,
     Emitter<ChatRoomState> emit,
   ) async {
-    // подтягиваем самую свежую страницу (без before — сервер отдаёт последние N сообщений)
-    final result = await _getRoomMessagesUseCase(roomId: state.roomId);
+    // syncLatestMessages вместо getRoomMessages: подтягивает свежую страницу, но домёрживает её в кэш
+    final result = await _syncLatestMessagesUseCase(roomId: state.roomId);
 
     result.fold(
       (failure) {}, // не критично — просто останемся с тем, что уже есть
