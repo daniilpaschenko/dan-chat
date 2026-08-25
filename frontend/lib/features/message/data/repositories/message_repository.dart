@@ -99,4 +99,49 @@ class MessageRepository implements IMessageRepository {
   MessageEntity mapSocketMessage(Map<String, dynamic> json) {
     return Message.fromJson(json).toEntity();
   }
+
+  @override
+  Future<void> cacheIncomingSocketMessage({
+    required String roomId,
+    required Map<String, dynamic> json,
+  }) async {
+    final message = Message.fromJson(json);
+    await _localDatasource.addNewMessage(roomId: roomId, message: message);
+  }
+
+  @override
+  Future<Either<Failure, MessagesPageEntity>> syncLatestMessages({
+    required String roomId,
+  }) async {
+    try {
+      // без before — сервер отдаёт самую свежую страницу
+      final page = await _remoteDatasource.getRoomMessages(roomId: roomId);
+      // не cacheFirstPage: она бы затёрла всю ранее подгруженную историю
+      // домёрдживаем только новые сообщения
+      await _localDatasource.mergeNewMessages(
+        roomId: roomId,
+        newMessages: page.messages,
+      );
+      return Right(page.toEntity());
+    } on DioException catch (e) {
+      return Left(mapDioExceptionToFailure(
+        e,
+        statusOverride: (statusCode, message) {
+          switch (statusCode) {
+            case 403:
+              return Failure.validation(message);
+            default:
+              return null;
+          }
+        },
+      ));
+    } catch (e) {
+      return Left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
+  Future<void> clearCachedMessages(String roomId) async {
+    await _localDatasource.clear(roomId);
+  }
 }
