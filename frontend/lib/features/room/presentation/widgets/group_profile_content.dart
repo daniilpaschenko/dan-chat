@@ -91,30 +91,28 @@ class GroupProfileContent extends StatelessWidget {
           statusText: info.subtitle,
           isDesktop: isDesktop,
         ),
-        Center(
-          child: isChangingName
-              ? SizedBox(
-                  height: spacing.captionSize * 1.8,
-                  width: spacing.captionSize * 1.8,
-                  child: const CircularProgressIndicator(strokeWidth: 2),
-                )
-              : Text(
-                  info.title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: spacing.captionSize * 1.8,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-          ),
         Padding(
-          padding: EdgeInsets.fromLTRB(
-            spacing.pagePadding,
-            spacing.medium / 2,
-            spacing.pagePadding,
-            0,
-          ),
+          padding: EdgeInsets.all(spacing.small),
+          child: Center(
+            child: isChangingName
+                ? SizedBox(
+                    height: spacing.captionSize * 1.8,
+                    width: spacing.captionSize * 1.8,
+                    child: const CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : Text(
+                    info.title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: spacing.captionSize * 1.8,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+            ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(spacing.small),
           child: Row(
             children: [
               Expanded(
@@ -144,10 +142,10 @@ class GroupProfileContent extends StatelessWidget {
               Expanded(
                 child: ActionButton(
                   icon: Icons.edit_outlined,
-                  label: 'Изменить название',
+                  label: 'Изменить имя',
                   onTap: !_canManage
                       ? () => showSnackBar(
-                          'Изменять название группы может только владелец или админ',
+                          'Изменять имя группы может только владелец или админ',
                         )
                       : (isChangingName ? () {} : onChangeName),
                 ),
