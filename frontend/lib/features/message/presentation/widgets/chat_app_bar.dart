@@ -6,6 +6,8 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/navigation/route_paths.dart';
 import '../../../../core/widgets/user_avatar.dart';
 import '../../../../core/widgets/confirm_dialog.dart';
+import '../../../../core/di/injection_container.dart';
+import '../../../../core/network/connectivity_service.dart';
 import '../../../room/domain/entities/room_display_info.dart';
 import '../../../room/domain/entities/room_entity.dart';
 import '../../../user/domain/entities/user_entity.dart';
@@ -23,20 +25,27 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
-    // собеседник в личном чате — участник, чей user.id != currentUserId
-    PartialUserEntity? get _otherUser {
-      if (room == null || room!.type != RoomType.direct) return null;
-      try {
-        return room!.participants
-            .firstWhere((p) => p.user.id != currentUserId)
-            .user;
-      } catch (_) {
-        return null;
-      }
+  // собеседник в личном чате — участник, чей user.id != currentUserId
+  PartialUserEntity? get _otherUser {
+    if (room == null || room!.type != RoomType.direct) return null;
+    try {
+      return room!.participants
+          .firstWhere((p) => p.user.id != currentUserId)
+          .user;
+    } catch (_) {
+      return null;
     }
+  }
 
-  // приоритет: печатает -> live-presence -> статика из room
-  String? _liveSubtitle(ChatRoomState state, PartialUserEntity? otherUser, String? staticSubtitle) {
+  // приоритет: офлайн -> печатает -> live-presence -> статика из room
+  String? _liveSubtitle(
+    ChatRoomState state,
+    PartialUserEntity? otherUser,
+    String? staticSubtitle,
+    bool isOnline,
+  ) {
+    if (!isOnline) return 'Соединение...';
+
     if (room != null && room!.type == RoomType.group) {
       if (state.typingUsers.isNotEmpty) {
         final names = state.typingUsers.values.toList();
@@ -67,85 +76,93 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     final info = RoomDisplayInfo.from(room, currentUserId, includeSubtitle: true);
     final otherUser = _otherUser;
+    final connectivityService = getIt<ConnectivityService>();
 
     final chatState = context.watch<ChatRoomBloc>().state;
-    final subtitle = _liveSubtitle(chatState, otherUser, info.subtitle);
-    final isTyping = subtitle == 'печатает...' || (subtitle?.contains('печатают') ?? false);
 
-    Widget titleRow = Row(
-      children: [
-        IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
-        ),
-        SizedBox(width: spacing.small * 0.5),
+    return StreamBuilder<bool>(
+      stream: connectivityService.onStatusChanged,
+      initialData: connectivityService.isOnline,
+      builder: (context, snapshot) {
+        final isOnline = snapshot.data ?? true;
+        final subtitle = _liveSubtitle(chatState, otherUser, info.subtitle, isOnline);
+        final isTyping = isOnline &&
+            (subtitle == 'печатает...' || (subtitle?.contains('печатают') ?? false));
 
-        Expanded(
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              if (room == null) return;
-              if (room!.type == RoomType.group) {
-                context.push(RoutePaths.groupProfilePath(room!.id));
-              } else if (otherUser != null) {
-                context.push(RoutePaths.userProfile.replaceFirst(':userId', otherUser.id));
-              }
-            },
-            child: Row(
-              children: [
-                UserAvatar(
-                  avatarUrl: info.avatarUrl,
-                  fallbackLetter: info.title,
-                  size: avatarSize,
-                  fontSize: spacing.captionSize * 1.7,
-                ),
-                SizedBox(width: spacing.small),
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        info.title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: spacing.captionSize * 1.7, fontWeight: FontWeight.w600),
-                      ),
-                      if (subtitle != null)
-                        Text(
-                          subtitle,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: spacing.captionSize * 1.2,
-                            color: isTyping ? AppColors.primary : AppColors.textSecondary,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ],
+        Widget titleRow = Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () => context.pop(),
             ),
-          ),
-        ),
-        _buildMenu(context),
-      ],
-    );
+            SizedBox(width: spacing.small * 0.5),
+            Expanded(
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  if (room == null) return;
+                  if (room!.type == RoomType.group) {
+                    context.push(RoutePaths.groupProfilePath(room!.id));
+                  } else if (otherUser != null) {
+                    context.push(RoutePaths.userProfile.replaceFirst(':userId', otherUser.id));
+                  }
+                },
+                child: Row(
+                  children: [
+                    UserAvatar(
+                      avatarUrl: info.avatarUrl,
+                      fallbackLetter: info.title,
+                      size: avatarSize,
+                      fontSize: spacing.captionSize * 1.7,
+                    ),
+                    SizedBox(width: spacing.small),
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            info.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontSize: spacing.captionSize * 1.7, fontWeight: FontWeight.w600),
+                          ),
+                          if (subtitle != null)
+                            Text(
+                              subtitle,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: spacing.captionSize * 1.2,
+                                color: isTyping ? AppColors.primary : AppColors.textSecondary,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            _buildMenu(context),
+          ],
+        );
 
-    if (isDesktop) {
-      titleRow = Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 800),
-          child: titleRow,
-        ),
-      );
-    }
+        if (isDesktop) {
+          titleRow = Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 800),
+              child: titleRow,
+            ),
+          );
+        }
 
-    return AppBar(
-      // выключаем стандартную кнопку назад — рисуем всё сами
-      automaticallyImplyLeading: false,
-      titleSpacing: 0,
-      title: titleRow,
+        return AppBar(
+          automaticallyImplyLeading: false,
+          titleSpacing: 0,
+          title: titleRow,
+        );
+      },
     );
   }
 
