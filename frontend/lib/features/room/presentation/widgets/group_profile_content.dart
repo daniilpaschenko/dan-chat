@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/di/injection_container.dart';
+import '../../../../core/network/connectivity_service.dart';
 import '../../domain/entities/room_entity.dart';
 import '../../domain/entities/room_display_info.dart';
 import '../widgets/participant_tile.dart';
@@ -66,6 +68,8 @@ class GroupProfileContent extends StatelessWidget {
       includeSubtitle: true,
     );
 
+    final connectivityService = getIt<ConnectivityService>();
+
     void showSnackBar(String text) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -80,134 +84,143 @@ class GroupProfileContent extends StatelessWidget {
       );
     }
 
-    Widget listContent = ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        HeroPhoto(
-          avatarUrl: info.avatarUrl,
-          fallbackLetter: info.title,
-          height: photoHeight > 0 ? photoHeight : screenH * 0.35,
-          isUploading: isUploadingAvatar,
-          statusText: info.subtitle,
-          isDesktop: isDesktop,
-        ),
-        Padding(
-          padding: EdgeInsets.all(spacing.small),
-          child: Center(
-            child: isChangingName
-                ? SizedBox(
-                    height: spacing.captionSize * 1.8,
-                    width: spacing.captionSize * 1.8,
-                    child: const CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : Text(
-                    info.title,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: spacing.captionSize * 1.8,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textPrimary,
+    return StreamBuilder<bool>(
+      stream: connectivityService.onStatusChanged,
+      initialData: connectivityService.isOnline,
+      builder: (context, snapshot) {
+        final isOnline = snapshot.data ?? true;
+        final subtitle = isOnline ? info.subtitle : 'Соединение...';
+
+        Widget listContent = ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            HeroPhoto(
+              avatarUrl: info.avatarUrl,
+              fallbackLetter: info.title,
+              height: photoHeight > 0 ? photoHeight : screenH * 0.35,
+              isUploading: isUploadingAvatar,
+              statusText: subtitle,
+              isDesktop: isDesktop,
+            ),
+            Padding(
+              padding: EdgeInsets.all(spacing.small),
+              child: Center(
+                child: isChangingName
+                    ? SizedBox(
+                        height: spacing.captionSize * 1.8,
+                        width: spacing.captionSize * 1.8,
+                        child: const CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : Text(
+                        info.title,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: spacing.captionSize * 1.8,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(spacing.small),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ActionButton(
+                      icon: Icons.person_add_outlined,
+                      label: 'Добавить',
+                      onTap: _canManage
+                          ? onAddParticipants
+                          : () => showSnackBar(
+                              'Добавлять участников может только владелец или админ',
+                            ),
                     ),
                   ),
-            ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(spacing.small),
-          child: Row(
-            children: [
-              Expanded(
-                child: ActionButton(
-                  icon: Icons.person_add_outlined,
-                  label: 'Добавить',
-                  onTap: _canManage
-                      ? onAddParticipants
-                      : () => showSnackBar(
-                          'Добавлять участников может только владелец или админ',
-                        ),
-                ),
-              ),
-              SizedBox(width: spacing.buttonGap),
-              Expanded(
-                child: ActionButton(
-                  icon: Icons.photo_camera_outlined,
-                  label: 'Выбрать фото',
-                  onTap: _canManage
-                      ? onPickPhoto
-                      : () => showSnackBar(
-                          'Изменять аватарку группы может только владелец или админ',
-                        ),
-                ),
-              ),
-              SizedBox(width: spacing.buttonGap),
-              Expanded(
-                child: ActionButton(
-                  icon: Icons.edit_outlined,
-                  label: 'Изменить имя',
-                  onTap: !_canManage
-                      ? () => showSnackBar(
-                          'Изменять имя группы может только владелец или админ',
-                        )
-                      : (isChangingName ? () {} : onChangeName),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(
-            spacing.pagePadding,
-            spacing.pagePadding,
-            spacing.pagePadding,
-            spacing.small,
-          ),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Участники',
-              style: TextStyle(
-                fontSize: spacing.captionSize * 1.4,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textSecondary,
+                  SizedBox(width: spacing.buttonGap),
+                  Expanded(
+                    child: ActionButton(
+                      icon: Icons.photo_camera_outlined,
+                      label: 'Выбрать фото',
+                      onTap: _canManage
+                          ? onPickPhoto
+                          : () => showSnackBar(
+                              'Изменять аватарку группы может только владелец или админ',
+                            ),
+                    ),
+                  ),
+                  SizedBox(width: spacing.buttonGap),
+                  Expanded(
+                    child: ActionButton(
+                      icon: Icons.edit_outlined,
+                      label: 'Изменить имя',
+                      onTap: !_canManage
+                          ? () => showSnackBar(
+                              'Изменять имя группы может только владелец или админ',
+                            )
+                          : (isChangingName ? () {} : onChangeName),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-        ),
-        ...room.participants.expand(
-          (p) => [
-            ParticipantTile(
-              participant: p,
-              canManage: _canManage,
-              isOwner: _isOwner,
-              isMe: p.user.id == currentUserId,
-              onRemove: isRemoving ? (_) {} : onRemoveParticipant,
-              onChangeRole: onChangeParticipantRole,
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                spacing.pagePadding,
+                spacing.pagePadding,
+                spacing.pagePadding,
+                spacing.small,
+              ),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Участники',
+                  style: TextStyle(
+                    fontSize: spacing.captionSize * 1.4,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ),
             ),
-            if (isDesktop) SizedBox(height: spacing.small * 0.5),
+            ...room.participants.expand(
+              (p) => [
+                ParticipantTile(
+                  participant: p,
+                  canManage: _canManage,
+                  isOwner: _isOwner,
+                  isMe: p.user.id == currentUserId,
+                  onRemove: isRemoving ? (_) {} : onRemoveParticipant,
+                  onChangeRole: onChangeParticipantRole,
+                ),
+                if (isDesktop) SizedBox(height: spacing.small * 0.5),
+              ],
+            ),
+            SizedBox(height: spacing.pagePadding),
           ],
-        ),
-        SizedBox(height: spacing.pagePadding),
-      ],
-    );
+        );
 
-    if (isDesktop) {
-      listContent = Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 800),
-          child: listContent,
-        ),
-      );
-    }
+        if (isDesktop) {
+          listContent = Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 800),
+              child: listContent,
+            ),
+          );
+        }
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
-        ),
-      ),
-      body: listContent,
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () => context.pop(),
+            ),
+          ),
+          body: listContent,
+        );
+      },
     );
   }
 }
