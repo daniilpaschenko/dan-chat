@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/di/injection_container.dart';
+import '../../../../core/network/connectivity_service.dart';
 import '../../../../core/navigation/route_paths.dart';
 import '../../../../core/navigation/auth_state_notifier.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -199,21 +200,34 @@ class _ProfileViewState extends State<_ProfileView> {
               ),
               loaded: (isOwn, ownUser, otherUser, isUploadingAvatar, isCreatingChat, isChangingUsername, navigateToRoom, chatError, usernameError) {
                 final currentUsername = (isOwn ? ownUser?.username : otherUser?.username) ?? '';
-                return ProfileContent(
-                  isOwnProfile: widget.isOwnProfile,
-                  avatarUrl: isOwn ? ownUser?.avatarUrl : otherUser?.avatarUrl,
-                  username: currentUsername,
-                  email: ownUser?.email, // есть только у своего профиля
-                  isUploadingAvatar: isUploadingAvatar,
-                  isCreatingChat: isCreatingChat,
-                  isChangingUsername: isChangingUsername,
-                  // статус нужен только для чужого профиля
-                  statusText: !isOwn && otherUser != null
-                      ? RoomDisplayInfo.presenceText(otherUser.status, otherUser.lastSeen)
-                      : null,
-                  onPickPhoto: () => _pickAndUploadAvatar(context),
-                  onChatTap: () => context.read<ProfileBloc>().add(const ProfileEvent.chatRequested()),
-                  onChangeUsername: () => _showChangeUsernameDialog(context, currentUsername),
+                final connectivityService = getIt<ConnectivityService>();
+
+                return StreamBuilder<bool>(
+                  stream: connectivityService.onStatusChanged,
+                  initialData: connectivityService.isOnline,
+                  builder: (context, snapshot) {
+                    final isOnline = snapshot.data ?? true;
+
+                    final statusText = !isOwn && otherUser != null
+                        ? (isOnline
+                            ? RoomDisplayInfo.presenceText(otherUser.status, otherUser.lastSeen)
+                            : 'Соединение...')
+                        : null;
+
+                    return ProfileContent(
+                      isOwnProfile: widget.isOwnProfile,
+                      avatarUrl: isOwn ? ownUser?.avatarUrl : otherUser?.avatarUrl,
+                      username: currentUsername,
+                      email: ownUser?.email,
+                      isUploadingAvatar: isUploadingAvatar,
+                      isCreatingChat: isCreatingChat,
+                      isChangingUsername: isChangingUsername,
+                      statusText: statusText,
+                      onPickPhoto: () => _pickAndUploadAvatar(context),
+                      onChatTap: () => context.read<ProfileBloc>().add(const ProfileEvent.chatRequested()),
+                      onChangeUsername: () => _showChangeUsernameDialog(context, currentUsername),
+                    );
+                  },
                 );
               },
             );

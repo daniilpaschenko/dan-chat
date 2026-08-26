@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:connectivity_plus/connectivity_plus.dart';
+import '../../core/di/injection_container.dart';
+import '../network/connectivity_service.dart';
 
-class AppBarWithConnectivity extends StatefulWidget implements PreferredSizeWidget {
+class AppBarWithConnectivity extends StatelessWidget implements PreferredSizeWidget {
   final String onlineTitle;
   final String offlineTitle;
   final bool centerTitle;
@@ -17,61 +17,28 @@ class AppBarWithConnectivity extends StatefulWidget implements PreferredSizeWidg
     this.actions,
     this.leading,
   });
-
-  @override
-  State<AppBarWithConnectivity> createState() => _AppBarWithConnectivityState();
-
+  
   // обязательное поле для PreferredSizeWidget
   // возвращаем стандартную высоту AppBar из темы
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
-class _AppBarWithConnectivityState extends State<AppBarWithConnectivity> {
-  bool _isOnline = true;
-  StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
-
-  @override
-  void initState() {
-    super.initState();
-    _initConnectivity();
-  }
-
-  Future<void> _initConnectivity() async {
-    final results = await Connectivity().checkConnectivity();
-    _updateConnectionStatus(results);
-
-    _connectivitySubscription = Connectivity().onConnectivityChanged.listen(_updateConnectionStatus);
-  }
-
-  void _updateConnectionStatus(List<ConnectivityResult> results) {
-    final hasConnection = results.any((result) => 
-      result == ConnectivityResult.wifi || 
-      result == ConnectivityResult.mobile ||
-      result == ConnectivityResult.ethernet ||
-      result == ConnectivityResult.vpn
-    );
-    
-    if (mounted) {
-      setState(() {
-        _isOnline = hasConnection;
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    _connectivitySubscription?.cancel();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      title: Text(_isOnline ? widget.onlineTitle : widget.offlineTitle),
-      centerTitle: widget.centerTitle,
-      actions: widget.actions,
-      leading: widget.leading,
+    final connectivityService = getIt<ConnectivityService>();
+
+    return StreamBuilder<bool>(
+      stream: connectivityService.onStatusChanged,
+      initialData: connectivityService.isOnline,
+      builder: (context, snapshot) {
+        final isOnline = snapshot.data ?? true;
+        return AppBar(
+          title: Text(isOnline ? onlineTitle : offlineTitle),
+          centerTitle: centerTitle,
+          actions: actions,
+          leading: leading,
+        );
+      },
     );
   }
 }

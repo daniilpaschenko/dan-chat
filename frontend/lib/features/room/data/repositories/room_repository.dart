@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:cross_file/cross_file.dart';
@@ -65,6 +66,7 @@ class RoomRepository implements IRoomRepository {
         avatarUrl: avatarUrl,
         participantIds: participantIds,
       );
+      await _upsertCachedRoomFromRoom(room);
       return Right(room.toEntity());
     } on DioException catch (e) {
       return Left(_mapDioException(e));
@@ -106,6 +108,7 @@ class RoomRepository implements IRoomRepository {
         roomId: roomId,
         userId: userId,
       );
+      await _upsertCachedRoomFromRoom(room);
       return Right(room.toEntity());
     } on DioException catch (e) {
       return Left(_mapDioException(e));
@@ -124,6 +127,12 @@ class RoomRepository implements IRoomRepository {
         roomId: roomId,
         userId: userId,
       );
+      if (room != null) {
+        await _upsertCachedRoomFromRoom(room);
+      } else {
+        // комната удалена целиком (был последний участник)
+        await _localDatasource.clearCachedRoom(roomId);
+      }
       return Right(room?.toEntity()); // room = Room?/null — оба являются валидным успешным случаем
     } on DioException catch (e) {
       return Left(_mapDioException(e));
@@ -144,6 +153,7 @@ class RoomRepository implements IRoomRepository {
         userId: userId,
         role: role.name, // enum = строка 'admin'/'member'
       );
+      await _upsertCachedRoomFromRoom(room);
       return Right(room.toEntity());
     } on DioException catch (e) {
       return Left(_mapDioException(e));
@@ -185,6 +195,7 @@ class RoomRepository implements IRoomRepository {
   }) async {
     try {
       final room = await _remoteDatasource.uploadRoomAvatar(roomId, file);
+      await _upsertCachedRoomFromRoom(room);
       return Right(room.toEntity());
     } on DioException catch (e) {
       return Left(mapDioExceptionToFailure(e));
@@ -197,6 +208,7 @@ class RoomRepository implements IRoomRepository {
   Future<Either<Failure, RoomEntity>> changeGroupName(String roomId, String name) async {
     try {
       final room = await _remoteDatasource.changeGroupName(roomId, name);
+      await _upsertCachedRoomFromRoom(room);
       return Right(room.toEntity());
     } on DioException catch (e) {
       return Left(mapDioExceptionToFailure(e));
@@ -207,7 +219,30 @@ class RoomRepository implements IRoomRepository {
 
   @override
   RoomListItemEntity mapSocketRoom(Map<String, dynamic> json) {
-    return RoomListItem.fromJson(json).toEntity();
+    final room = RoomListItem.fromJson(json);
+    unawaited(_localDatasource.upsertCachedRoom(room)); // не блокируем синхронный вызов
+    return room.toEntity();
+  }
+
+  Future<void> _upsertCachedRoomFromRoom(Room room) async {
+    final cached = _localDatasource.getCachedRooms() ?? [];
+    final existing = cached.where((r) => r.id == room.id);
+    final unreadCount = existing.isNotEmpty ? existing.first.unreadCount : 0;
+
+    final listItem = RoomListItem(
+      id: room.id,
+      type: room.type,
+      name: room.name,
+      avatarUrl: room.avatarUrl,
+      participants: room.participants,
+      createdBy: room.createdBy,
+      lastMessage: room.lastMessage,
+      unreadCount: unreadCount,
+      createdAt: room.createdAt,
+      updatedAt: room.updatedAt,
+    );
+
+    await _localDatasource.upsertCachedRoom(listItem);
   }
 
   Failure _mapDioException(DioException e) {

@@ -10,6 +10,7 @@ import '../navigation/auth_state_notifier.dart';
 import '../navigation/bottom_nav_visibility.dart';
 import '../services/unread_rooms_counter.dart';
 import '../network/dio_client.dart';
+import '../network/connectivity_service.dart';
 import '../network/socket_service.dart';
 import '../storage/hive_service.dart';
 import '../storage/secure_storage_service.dart';
@@ -91,6 +92,8 @@ Future<void> setupDependencies() async {
   );
   getIt.registerLazySingleton<WebTokenHolder>(() => WebTokenHolder());
   getIt.registerLazySingleton<HiveService>(() => HiveService());
+
+  getIt.registerLazySingleton<ConnectivityService>(() => ConnectivityService());
 
   getIt.registerLazySingleton<SocketService>(() => SocketService());
 

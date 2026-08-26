@@ -25,6 +25,21 @@ class RoomLocalDatasource {
     await _box.put(_myRoomsKey, raw);
   }
 
+  // точечно обновляет/добавляет одну комнату в кэше, не трогая остальные
+  Future<void> upsertCachedRoom(RoomListItem room) async {
+    final cached = getCachedRooms() ?? [];
+    final index = cached.indexWhere((r) => r.id == room.id);
+
+    if (index >= 0) {
+      cached[index] = room;
+    } else {
+      // новая комната — кладём в начало списка
+      cached.insert(0, room);
+    }
+
+    await cacheRooms(cached);
+  }
+
   Future<void> clearCachedRoom(String roomId) async {
     final cachedRooms = getCachedRooms() ?? [];
     final updatedRooms = cachedRooms.where((r) => r.id != roomId).toList();
