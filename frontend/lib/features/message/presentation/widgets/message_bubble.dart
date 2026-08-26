@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/navigation/route_paths.dart';
 import '../../../../core/widgets/user_avatar.dart';
 import '../../../room/domain/entities/room_entity.dart';
 import '../../domain/entities/message_entity.dart';
@@ -117,11 +119,19 @@ class MessageBubble extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                UserAvatar(
-                  avatarUrl: message.sender.avatarUrl,
-                  fallbackLetter: message.sender.username,
-                  size: avatarSize,
-                  fontSize: spacing.captionSize * 1.4,
+                InkWell(
+                  onTap: () {
+                    context.push(
+                      // ведём на профиль этого юзера
+                      RoutePaths.userProfile.replaceFirst(':userId', message.sender.id),
+                    );
+                  },
+                  child: UserAvatar(
+                    avatarUrl: message.sender.avatarUrl,
+                    fallbackLetter: message.sender.username,
+                    size: avatarSize,
+                    fontSize: spacing.captionSize * 1.4,
+                  ),
                 ),
                 SizedBox(width: gap * 0.5),
                 Flexible(child: bubble),
