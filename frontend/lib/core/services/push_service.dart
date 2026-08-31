@@ -87,54 +87,70 @@ class PushService {
     }
   }
 
+  // firebase_messaging не имеет реализации под Windows — там пушей просто не будет,
+  // но подписку на сокет-события и локальные уведомления это не должно останавливать
+  bool get _messagingSupported => kIsWeb || Platform.isIOS || Platform.isAndroid;
+
   Future<void> init({
     required Future<void> Function(String token, String platform) onTokenReady,
   }) async {
-    // регистрируем background handler до requestPermission()
-    if (!kIsWeb) {
-      FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+    if (_messagingSupported) {
+      // регистрируем background handler до requestPermission()
+      if (!kIsWeb) {
+        FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+      }
+
+      final settings = await _messaging.requestPermission();
+      if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+        final token = kIsWeb
+            ? await _messaging.getToken(
+                vapidKey:
+                    'BODa1Hp83ONdgK-hhQ2VB1yWZz8-EzMnPwLZnihHCNND7RVZ1zDEQGGAPBfZm_tcMTnnq5gNmPkzQomv6ePT4pY',
+              )
+            : await _messaging.getToken();
+
+        if (token != null) {
+          await onTokenReady(token, _currentPlatform);
+        }
+
+        // если токен обновится (например, после переустановки) — тоже шлём на бэк
+        _messaging.onTokenRefresh.listen(
+          (newToken) => onTokenReady(newToken, _currentPlatform),
+        );
+      }
+
+      // приложение открыто — сами рисуем баннер через local_notifications
+      FirebaseMessaging.onMessage.listen((message) {
+        // data-only пуш: title/body лежат в data, а не в message.notification
+        final title = message.data['title']?.toString();
+        final body = message.data['body']?.toString();
+        if (title == null && body == null) return;
+
+        final roomId = message.data['roomId']?.toString();
+        // не показываем, если юзер сейчас и так сидит в этом чате
+        if (roomId != null && roomId == _openRoomId) return;
+
+        _localNotificationService.show(
+          title: title ?? '',
+          body: body ?? '',
+          data: message.data,
+        );
+      });
+
+      FirebaseMessaging.onMessageOpenedApp.listen((message) {
+        _handleNavigation(message.data);
+      });
+
+      final initialMessage = await _messaging.getInitialMessage();
+      if (initialMessage != null) {
+        _handleNavigation(initialMessage.data);
+      }
     }
-
-    final settings = await _messaging.requestPermission();
-    if (settings.authorizationStatus != AuthorizationStatus.authorized) return;
-
-    final token = kIsWeb
-        ? await _messaging.getToken(
-            vapidKey:
-                'BODa1Hp83ONdgK-hhQ2VB1yWZz8-EzMnPwLZnihHCNND7RVZ1zDEQGGAPBfZm_tcMTnnq5gNmPkzQomv6ePT4pY',
-          )
-        : await _messaging.getToken();
-
-    if (token != null) {
-      await onTokenReady(token, _currentPlatform);
-    }
-
-    // если токен обновится (например, после переустановки) — тоже шлём на бэк
-    _messaging.onTokenRefresh.listen(
-      (newToken) => onTokenReady(newToken, _currentPlatform),
-    );
-
-    // приложение открыто — сами рисуем баннер через local_notifications
-    FirebaseMessaging.onMessage.listen((message) {
-      // data-only пуш: title/body лежат в data, а не в message.notification
-      final title = message.data['title']?.toString();
-      final body = message.data['body']?.toString();
-      if (title == null && body == null) return;
-
-      final roomId = message.data['roomId']?.toString();
-      // не показываем, если юзер сейчас и так сидит в этом чате
-      if (roomId != null && roomId == _openRoomId) return;
-
-      _localNotificationService.show(
-        title: title ?? '',
-        body: body ?? '',
-        data: message.data,
-      );
-    });
 
     await _messageNewSub?.cancel();
     // бэкенд намеренно не шлёт push тем, кто онлайн по сокету
     // поэтому для онлайн-юзеров локальное уведомление рисуем сами по сокет-событию
+    // (работает независимо от того, поддерживает ли платформа FCM)
     _messageNewSub = _socketService.messageNew$.listen((data) {
       final sender = data['sender'] as Map<String, dynamic>?;
       final senderId = (sender?['_id'] ?? sender?['id'])?.toString();
@@ -179,15 +195,6 @@ class PushService {
       final data = jsonDecode(payload) as Map<String, dynamic>;
       _handleNavigation(data);
     };
-
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      _handleNavigation(message.data);
-    });
-
-    final initialMessage = await _messaging.getInitialMessage();
-    if (initialMessage != null) {
-      _handleNavigation(initialMessage.data);
-    }
   }
 
   void _handleNavigation(Map<String, dynamic> data) {
@@ -212,6 +219,7 @@ class PushService {
   }
 
   Future<String?> getCurrentToken() {
+    if (!_messagingSupported) return Future.value(null);
     return kIsWeb
         ? _messaging.getToken(
             vapidKey:
@@ -220,7 +228,10 @@ class PushService {
         : _messaging.getToken();
   }
 
-  Future<void> deleteToken() => _messaging.deleteToken();
+  Future<void> deleteToken() {
+    if (!_messagingSupported) return Future.value();
+    return _messaging.deleteToken();
+  }
 
   void dispose() {
     _messageNewSub?.cancel();
