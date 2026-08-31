@@ -46,3 +46,8 @@ app.*.map.json
 
 **/firebase_options.dart
 **/google-services.json
+
+# Android signing / keystore
+android/key.properties
+*.jks
+*.keystore
