@@ -29,6 +29,8 @@ class SocketService {
   final _roomDeletedController = StreamController<Map<String, dynamic>>.broadcast();
   
   final _connectController = StreamController<void>.broadcast();
+  final _authFailedController = StreamController<void>.broadcast();
+  
   
   // геттеры для потоков, чтобы подписчики могли слушать события
   // только слушать, не иметь доступа к контроллерам
@@ -41,6 +43,7 @@ class SocketService {
   Stream<Map<String, dynamic>> get roomUpdated$ => _roomUpdatedController.stream;
   Stream<Map<String, dynamic>> get roomDeleted$ => _roomDeletedController.stream;
   Stream<void> get connect$ => _connectController.stream;
+  Stream<void> get authFailed$ => _authFailedController.stream;
 
   // проверка соединения
   bool get isConnected => _socket?.connected ?? false;
@@ -60,7 +63,11 @@ class SocketService {
       <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': false,
-        'reconnection': false,
+        'reconnection': true,
+        'reconnectionAttempts': 10,
+        'reconnectionDelay': 2000,
+        'reconnectionDelayMax': 15000,
+        'randomizationFactor': 0.5,
         'forceNew': true, // принудительно создаём новое соединение, чтобы не было проблем с кэшированным manager'ом (переключение между аккаунтами)
         'auth': {'token': token},
       },
@@ -70,7 +77,17 @@ class SocketService {
     _socket!
       ..onConnect((_) => _connectController.add(null))
       //..onDisconnect((_) => print('[socket] disconnected'))
-      //..onConnectError((err) => print('[socket] connect_error: $err'))
+      ..onConnectError((err) {
+        final message = err.toString();
+        if (message.contains('AUTH_NO_TOKEN') ||
+            message.contains('AUTH_INVALID_TOKEN') ||
+            message.contains('AUTH_USER_NOT_FOUND')) {
+          _socket?.disconnect(); // жёстко глушим встроенный reconnect-loop
+          _authFailedController.add(null);
+        }
+        // остальные connect_error (сеть недоступна, сервер лежит) — 
+        // ничего не делаем, socket.io сам продолжит реконнект по расписанию
+      })
       // реагирует на события, отправленные севрером, и добавляет их в соответствующие стримы
       ..on('message:new', (data) =>
           _messageNewController.add(Map<String, dynamic>.from(data as Map)))
