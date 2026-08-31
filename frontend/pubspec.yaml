@@ -51,6 +51,9 @@ flutter:
 
 flutter_launcher_icons:
   android: true
+  windows:
+    generate: true
+    image_path: "assets/icons/icon.png"
   web:
     generate: true
   image_path: "assets/icons/icon.png"
