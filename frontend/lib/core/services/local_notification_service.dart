@@ -1,6 +1,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive_ce/hive.dart';
 import 'dart:convert';
+import 'dart:io' show Platform;
 
 class LocalNotificationService {
   final _plugin = FlutterLocalNotificationsPlugin();
@@ -15,9 +16,23 @@ class LocalNotificationService {
     importance: Importance.high,
   );
 
+  // GUID должен быть фиксированным и не меняться между сборками —
+  // Windows использует его, чтобы связывать показанные тосты именно с этим приложением.
+  static const _windowsAppUserModelId = 'com.dan_chat.dan_chat';
+  static const _windowsGuid = '5dc3a7af-f1d5-44c1-8d4a-61b88572c949';
+
   Future<void> init() async {
     const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const initSettings = InitializationSettings(android: androidInit);
+    const windowsInit = WindowsInitializationSettings(
+      appName: 'DAN',
+      appUserModelId: _windowsAppUserModelId,
+      guid: _windowsGuid,
+    );
+
+    final initSettings = InitializationSettings(
+      android: Platform.isAndroid ? androidInit : null,
+      windows: Platform.isWindows ? windowsInit : null,
+    );
 
     await _plugin.initialize(
       settings: initSettings,
@@ -27,9 +42,11 @@ class LocalNotificationService {
       },
     );
 
-    await _plugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(_channel);
+    if (Platform.isAndroid) {
+      await _plugin
+          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+          ?.createNotificationChannel(_channel);
+    }
   }
 
   Future<void> show({required String title, required String body, Map<String, dynamic>? data}) async {
@@ -49,11 +66,14 @@ class LocalNotificationService {
       // у которого нет доступа к состоянию основного изолейта
       final lines = await _appendLine(roomId, body);
 
-      style = InboxStyleInformation(
-        lines, // каждое сообщение — отдельная строка в развёрнутом виде
-        contentTitle: title,
-        summaryText: lines.length > 1 ? '${lines.length} новых сообщений' : null,
-      );
+      // для Windows просто копим счётчик в displayBody
+      if (Platform.isAndroid) {
+        style = InboxStyleInformation(
+          lines, // каждое сообщение — отдельная строка в развёрнутом виде
+          contentTitle: title,
+          summaryText: lines.length > 1 ? '${lines.length} новых сообщений' : null,
+        );
+      }
       // в свёрнутом виде показываем последнее сообщение, либо счётчик, если их несколько
       displayBody = lines.length > 1 ? '${lines.length} новых сообщений' : body;
     }
@@ -63,14 +83,17 @@ class LocalNotificationService {
       title: title,
       body: displayBody,
       notificationDetails: NotificationDetails(
-        android: AndroidNotificationDetails(
-          _channel.id,
-          _channel.name,
-          channelDescription: _channel.description,
-          importance: Importance.high,
-          priority: Priority.high,
-          styleInformation: style,
-        ),
+        android: Platform.isAndroid
+            ? AndroidNotificationDetails(
+                _channel.id,
+                _channel.name,
+                channelDescription: _channel.description,
+                importance: Importance.high,
+                priority: Priority.high,
+                styleInformation: style,
+              )
+            : null,
+        windows: Platform.isWindows ? const WindowsNotificationDetails() : null,
       ),
       payload: data != null ? jsonEncode(data) : null,
     );
