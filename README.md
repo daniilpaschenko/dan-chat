@@ -2,7 +2,7 @@
 
 # DAN
 
-A modern real-time messaging application for **Android** and **Web** 💬
+A modern real-time messaging application for **Android**, **Web** and **Windows** 💬
 
 ## 📸 Screenshots
 **Will be here soon...**
@@ -13,9 +13,9 @@ A modern real-time messaging application for **Android** and **Web** 💬
 - Real-time messaging
 - Private (1-on-1) and group chats
 - User/group profiles and user/chat searches
+- User/group profile customization (names & avatars)
 - Group management (creation, member management, admin roles)
 - System messages (e.g. when users join or leave a group)
-- Profile avatar uploads
 - Push notifications
 - Real-time user statuses and typing indicators
 - Responsive UI for mobile and desktop
@@ -59,5 +59,8 @@ A modern real-time messaging application for **Android** and **Web** 💬
 
 ## 🚀 Installation
 
-### 📦 Download APK (Android)
-**Will be here soon...**
+### 📦 Download for Android
+**Go to [Releases](https://github.com/daniilpaschenko/dan-chat/releases) and install apk-file**
+
+## 🪟 Download for Windows
+**Go to [Releases](https://github.com/daniilpaschenko/dan-chat/releases) and install zip-file**
