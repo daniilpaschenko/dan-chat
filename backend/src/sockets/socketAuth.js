@@ -12,23 +12,18 @@ module.exports = async function socketAuth(socket, next) {
         } */
         const token = socket.handshake.auth?.token;
 
-        if (!token) {
-            // next(new Error(...)) — запретить подключение
-            return next(new Error('Токен не предоставлен'));
-        }
+        if (!token) return next(new Error('AUTH_NO_TOKEN'));
 
         let payload;
         try {
             payload = jwt.verify(token, JWT_SECRET);
         } catch (err) {
-            return next(new Error('Невалидный или истёкший токен'));
+            return next(new Error('AUTH_INVALID_TOKEN'));
         }
         // payload.sub - id юзера
         // возвразаем юзера, но без поля passwordHash
         const user = await User.findById(payload.sub).select('-passwordHash');
-        if (!user) {
-            return next(new Error('Пользователь не найден'));
-        }
+        if (!user) return next(new Error('AUTH_USER_NOT_FOUND'));
 
         socket.user = user; // доступен дальше как socket.user
         next(); // разрешаем подключение
