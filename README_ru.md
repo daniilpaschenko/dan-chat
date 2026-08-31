@@ -62,4 +62,4 @@
 Перейдите в [Releases](https://github.com/daniilpaschenko/dan-chat/releases) и установите **apk-файл**
 
 ## 🪟 Скачать для Windows
-Перейдите в [Releases](https://github.com/daniilpaschenko/dan-chat/releases) и установите **zip-файл**
+Перейдите в [Releases](https://github.com/daniilpaschenko/dan-chat/releases) и установите **exe-файл**

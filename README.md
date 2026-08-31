@@ -63,4 +63,4 @@ A modern real-time messaging application for **Android**, **Web** and **Windows*
 **Go to [Releases](https://github.com/daniilpaschenko/dan-chat/releases) and install apk-file**
 
 ## 🪟 Download for Windows
-**Go to [Releases](https://github.com/daniilpaschenko/dan-chat/releases) and install zip-file**
+**Go to [Releases](https://github.com/daniilpaschenko/dan-chat/releases) and install exe-file**
