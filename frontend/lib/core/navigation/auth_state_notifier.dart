@@ -32,7 +32,11 @@ class AuthStateNotifier extends ChangeNotifier {
     this._pushService,
     this._saveDeviceTokenUseCase,
     this._removeDeviceTokenUseCase,
-  );
+  ) {
+    _socketService.authFailed$.listen((_) {
+      logOut();
+    });
+  }
 
   bool _isAuthenticated = false;
   bool _isInitialized = false;
