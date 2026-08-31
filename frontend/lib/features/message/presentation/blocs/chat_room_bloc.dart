@@ -452,6 +452,27 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     ChatRoomReconnected event,
     Emitter<ChatRoomState> emit,
   ) async {
+    // сначала обязательно перезаходим в комнату на сервере —
+    // после реконнекта socket.id новый, старое socket.join(roomId) не сохранилось
+    _socketService.joinRoom(state.roomId, onAck: (ack) {
+      if (isClosed) return;
+      if (ack['ok'] != true) return;
+      final list = (ack['participantsStatus'] as List?) ?? [];
+
+      final statusMap = <String, UserStatus>{};
+      final lastSeenMap = <String, DateTime>{};
+
+      for (final item in list) {
+        final map = Map<String, dynamic>.from(item as Map);
+        final uid = map['userId'] as String;
+        statusMap[uid] = map['status'] == 'online' ? UserStatus.online : UserStatus.offline;
+        if (map['lastSeen'] != null) {
+          lastSeenMap[uid] = DateTime.parse(map['lastSeen'] as String);
+        }
+      }
+
+      add(ChatRoomEvent.participantsStatusSnapshotReceived(statusMap, lastSeenMap));
+    });
     // syncLatestMessages вместо getRoomMessages: подтягивает свежую страницу, но домёрживает её в кэш
     final result = await _syncLatestMessagesUseCase(roomId: state.roomId);
 
