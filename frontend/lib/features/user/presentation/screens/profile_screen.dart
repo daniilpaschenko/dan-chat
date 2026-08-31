@@ -15,6 +15,7 @@ import '../blocs/profile/profile_bloc.dart';
 import '../blocs/profile/profile_event.dart';
 import '../blocs/profile/profile_state.dart';
 import '../widgets/profile_content.dart';
+import '../widgets/change_username_dialog.dart';
 import '../../../room/domain/entities/room_entity.dart';
 import '../../../room/domain/entities/room_display_info.dart';
 
@@ -76,56 +77,13 @@ class _ProfileViewState extends State<_ProfileView> {
   }
 
   Future<void> _showChangeUsernameDialog(BuildContext context, String currentUsername) async {
-    final controller = TextEditingController(text: currentUsername);
+    
     final bloc = context.read<ProfileBloc>();
-    // только буквы и цифры — как alphanum() на бэке
-    final alphanumRegex = RegExp(r'^[a-zA-Z0-9]+$');
-
-    bool isValid(String value) => value.length >= 3 && alphanumRegex.hasMatch(value);
 
     final newName = await showDialog<String>(
       context: context,
-      builder: (dialogContext) {
-        return StatefulBuilder(
-          builder: (dialogContext, setDialogState) {
-            final value = controller.text;
-            final valid = isValid(value);
-            final showError = value.isNotEmpty && !valid;
-
-            return AlertDialog(
-              title: const Text('Изменить имя пользователя'),
-              content: TextField(
-                controller: controller,
-                autofocus: true,
-                maxLength: 16,
-                decoration: InputDecoration(
-                  hintText: 'Новое имя пользователя',
-                  errorText: showError
-                      ? (value.length < 3
-                          ? 'Минимум 3 символа'
-                          : 'Только латинские буквы и цифры')
-                      : null,
-                ),
-                onChanged: (_) => setDialogState(() {}),
-                onSubmitted: (v) => isValid(v) ? Navigator.of(dialogContext).pop(v) : null,
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(dialogContext).pop(),
-                  child: const Text('Отмена'),
-                ),
-                TextButton(
-                  onPressed: valid ? () => Navigator.of(dialogContext).pop(controller.text) : null,
-                  child: const Text('Сохранить'),
-                ),
-              ],
-            );
-          },
-        );
-      },
+      builder: (dialogContext) => ChangeUsernameDialog(currentUsername: currentUsername),
     );
-
-    controller.dispose();
 
     final trimmed = newName?.trim();
     // если юзер отменил или ничего не поменял — не шлём событие
