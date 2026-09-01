@@ -4,7 +4,7 @@ class ApiConstants {
   ApiConstants._();
 
   static const String _apiUrl = String.fromEnvironment(
-    'https://dan-mqz2.onrender.com',
+    'API_URL',
     defaultValue: 'http://localhost:3000',
   );
 
