@@ -1,5 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive_ce/hive.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:convert';
 import 'dart:io' show Platform;
 
@@ -22,6 +23,7 @@ class LocalNotificationService {
   static const _windowsGuid = '5dc3a7af-f1d5-44c1-8d4a-61b88572c949';
 
   Future<void> init() async {
+    if (kIsWeb) return;
     const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
     const windowsInit = WindowsInitializationSettings(
       appName: 'DAN',
@@ -50,6 +52,7 @@ class LocalNotificationService {
   }
 
   Future<void> show({required String title, required String body, Map<String, dynamic>? data}) async {
+    if (kIsWeb) return;
     final roomId = data?['roomId']?.toString();
 
     // если уведомление привязано к комнате — используем детерминированный id (хэш roomId),
@@ -101,6 +104,7 @@ class LocalNotificationService {
 
   // скрыть уведомление, относящееся к комнате roomId, и забыть накопленные строки
   Future<void> cancelForRoom(String roomId) async {
+    if (kIsWeb) return;
     await _plugin.cancel(id: _idForRoom(roomId)); // id — позиционный параметр, не именованный
     await _clearLines(roomId);
   }
