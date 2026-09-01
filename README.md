@@ -57,10 +57,13 @@ A modern real-time messaging application for **Android**, **Web** and **Windows*
 - **dotenv** — environment configuration
 
 
-## 🚀 Installation
+## 🚀 Usage
 
 ### 📦 Download for Android
 **Go to [Releases](https://github.com/daniilpaschenko/dan-chat/releases) and install apk-file**
 
 ## 🪟 Download for Windows
 **Go to [Releases](https://github.com/daniilpaschenko/dan-chat/releases) and install exe-file**
+
+## 🤖 Use the web version
+Go to https://dan-chat.daniil-paschenko.workers.dev/

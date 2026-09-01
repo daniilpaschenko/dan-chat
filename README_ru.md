@@ -56,10 +56,13 @@
 - **dotenv** — конфигурация переменных окружения
 
 
-## 🚀 Установка
+## 🚀 Использование
 
 ### 📦 Скачать для Android
 Перейдите в [Releases](https://github.com/daniilpaschenko/dan-chat/releases) и установите **apk-файл**
 
 ## 🪟 Скачать для Windows
 Перейдите в [Releases](https://github.com/daniilpaschenko/dan-chat/releases) и установите **exe-файл**
+
+## 🤖 Использовать веб-версию
+Перейдите на сайт https://dan-chat.daniil-paschenko.workers.dev/
