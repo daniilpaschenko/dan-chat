@@ -5,7 +5,44 @@
 A modern real-time messaging application for **Android**, **Web** and **Windows** 💬
 
 ## 📸 Screenshots
-**Will be here soon...**
+
+<table>
+  <tr>
+    <td align="center" width="25%">
+      <img src="frontend/assets/screenshots/login.jpg" width="180" alt="Login"><br>
+      <b>Login</b>
+    </td>
+    <td align="center" width="25%">
+      <img src="frontend/assets/screenshots/home.jpg" width="180" alt="Home"><br>
+      <b>Home</b>
+    </td>
+    <td align="center" width="25%">
+      <img src="frontend/assets/screenshots/direct.jpg" width="180" alt="Direct chat"><br>
+      <b>Direct chat</b>
+    </td>
+    <td align="center" width="25%">
+      <img src="frontend/assets/screenshots/group.jpg" width="180" alt="Group chat"><br>
+      <b>Group chat</b>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <img src="frontend/assets/screenshots/search.jpg" width="180" alt="Search"><br>
+      <b>Search</b>
+    </td>
+    <td align="center" width="33%">
+      <img src="frontend/assets/screenshots/me.jpg" width="180" alt="Profile"><br>
+      <b>Profile</b>
+    </td>
+    <td align="center" width="33%">
+      <img src="frontend/assets/screenshots/group-management.jpg" width="180" alt="Group management"><br>
+      <b>Group management</b>
+    </td>
+  </tr>
+</table>
 
 
 ## ✨ Features
