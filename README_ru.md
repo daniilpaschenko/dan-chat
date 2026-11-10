@@ -5,7 +5,44 @@
 Современное приложение для обмена сообщениями в реальном времени для **Android**, **Web** и **Windows** 💬
 
 ## 📸 Скриншоты
-**Скоро будут здесь...**
+
+<table>
+  <tr>
+    <td align="center" width="25%">
+      <img src="frontend/assets/screenshots/login.jpg" width="180" alt="Логин"><br>
+      <b>Логин</b>
+    </td>
+    <td align="center" width="25%">
+      <img src="frontend/assets/screenshots/home.jpg" width="180" alt="Домашняя страница"><br>
+      <b>Домашняя страница</b>
+    </td>
+    <td align="center" width="25%">
+      <img src="frontend/assets/screenshots/direct.jpg" width="180" alt="Директ"><br>
+      <b>Директ</b>
+    </td>
+    <td align="center" width="25%">
+      <img src="frontend/assets/screenshots/group.jpg" width="180" alt="Групповой чат"><br>
+      <b>Групповой чат</b>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <img src="frontend/assets/screenshots/search.jpg" width="180" alt="Поиск"><br>
+      <b>Поиск</b>
+    </td>
+    <td align="center" width="33%">
+      <img src="frontend/assets/screenshots/me.jpg" width="180" alt="Профиль"><br>
+      <b>Профиль</b>
+    </td>
+    <td align="center" width="33%">
+      <img src="frontend/assets/screenshots/group-management.jpg" width="180" alt="Управление группой"><br>
+      <b>Управление группой</b>
+    </td>
+  </tr>
+</table>
 
 
 ## ✨ Возможности
